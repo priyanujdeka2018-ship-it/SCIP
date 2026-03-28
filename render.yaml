@@ -4,11 +4,11 @@ services:
     runtime: python
     rootDir: Backend
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    startCommand: cd /opt/render/project/src/Backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: ANTHROPIC_API_KEY
-        sync: false          # Set manually in Render dashboard — never in this file
+        sync: false
       - key: FRONTEND_URL
-        sync: false          # Set to your Netlify URL in Render dashboard
+        sync: false
     autoDeploy: true
     plan: free
