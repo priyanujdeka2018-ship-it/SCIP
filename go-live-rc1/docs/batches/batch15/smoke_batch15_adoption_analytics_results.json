@@ -1,0 +1,490 @@
+{
+  "contract_version": "adoption_optimization.v1.batch15",
+  "overall_passed": true,
+  "checks_passed": 26,
+  "checks_total": 26,
+  "checks": [
+    {
+      "name": "seed_created_events",
+      "passed": true,
+      "details": {
+        "status": "seeded",
+        "event_count": 456,
+        "recommendation_count": 4
+      }
+    },
+    {
+      "name": "contract_version",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "all_events_have_correlation_id",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "all_actor_ids_hashed",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "no_entity_head_role",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "worlds_only_two_doors",
+      "passed": true,
+      "details": {
+        "live_pulse": 444,
+        "narratives": 12
+      }
+    },
+    {
+      "name": "all_required_metrics_present",
+      "passed": true,
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "name": "sensitive_data_redacted",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "dashboards_not_arrival_door",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "dashboards_are_l5_outputs",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "recommendations_have_guardrails",
+      "passed": true,
+      "details": {
+        "count": 4
+      }
+    },
+    {
+      "name": "recommendations_have_evidence",
+      "passed": true,
+      "details": {
+        "count": 4
+      }
+    },
+    {
+      "name": "action_conversion_server_side",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "workflow_closure_server_side",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "notification_effectiveness_server_side",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "entity_head_event_blocked",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "third_door_world_blocked",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend_fetches_adoption_summary",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend_fetches_adoption_dashboards",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend_fetches_optimization_backlog",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend_has_adoption_panel",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend_declares_not_third_door_guardrail",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend_no_entity_head_literal",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend_no_adoption_business_calculation",
+      "passed": true,
+      "details": {
+        "forbidden": [
+          "action_queue_conversion_rate =",
+          "workflow_closure_rate =",
+          "notification_effectiveness ="
+        ]
+      }
+    },
+    {
+      "name": "main_includes_adoption_router",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "main_root_exposes_adoption_links",
+      "passed": true,
+      "details": {}
+    }
+  ],
+  "summary_sample": {
+    "contract_version": "adoption_optimization.v1.batch15",
+    "status": "ready_adoption_analytics_guarded",
+    "role_filter": "all_roles",
+    "total_events": 456,
+    "active_sessions": 72,
+    "world_usage": {
+      "live_pulse": 444,
+      "narratives": 12
+    },
+    "focus_usage": {
+      "advance": 3,
+      "dues": 4,
+      "month_movement": 77,
+      "risk_action": 367,
+      "story": 5
+    },
+    "depth_usage": {
+      "action": 172,
+      "evidence": 43,
+      "executive": 10,
+      "summary": 231
+    },
+    "role_level_engagement": {
+      "board_cxo": 38,
+      "cco_gm_agm": 118,
+      "collector_rm": 174,
+      "finance": 58,
+      "mis_qcg_admin": 68
+    },
+    "event_usage": {
+      "action_queue_converted": 22,
+      "action_queue_open": 43,
+      "depth_change": 60,
+      "evidence_open": 31,
+      "focus_open": 60,
+      "forecast_review": 16,
+      "notification_acted": 25,
+      "notification_seen": 52,
+      "notification_suppressed": 7,
+      "production_defect_logged": 1,
+      "quickball_blocked": 7,
+      "quickball_explain": 38,
+      "stale_source_impact": 4,
+      "uat_defect_logged": 7,
+      "workflow_closed": 16,
+      "workflow_stale": 7,
+      "world_open": 60
+    },
+    "metrics": {
+      "world_focus_depth_usage": {
+        "worlds": {
+          "live_pulse": 444,
+          "narratives": 12
+        },
+        "focus": {
+          "advance": 3,
+          "dues": 4,
+          "month_movement": 77,
+          "risk_action": 367,
+          "story": 5
+        },
+        "depth": {
+          "action": 172,
+          "evidence": 43,
+          "executive": 10,
+          "summary": 231
+        }
+      },
+      "quickball_explanation_usage": {
+        "explanations": 38,
+        "blocked_answers": 7,
+        "blocked_rate_pct": 15.56
+      },
+      "evidence_path_opens": {
+        "opens": 31,
+        "per_100_sessions": 43.06
+      },
+      "action_queue_conversion_rate": 51.16,
+      "workflow_closure_rate": 69.57,
+      "notification_effectiveness": 48.08,
+      "forecast_review_frequency": {
+        "reviews": 16,
+        "per_session": 0.22
+      },
+      "role_level_engagement": {
+        "board_cxo": 38,
+        "cco_gm_agm": 118,
+        "collector_rm": 174,
+        "finance": 58,
+        "mis_qcg_admin": 68
+      },
+      "stale_source_impact": {
+        "events": 4,
+        "sessions_affected_estimate": 4
+      },
+      "uat_to_production_defect_trends": {
+        "uat_defects": 7,
+        "production_defects": 1,
+        "prod_escape_rate_pct": 12.5
+      }
+    },
+    "guardrails": {
+      "arrival_doors": [
+        "live_pulse",
+        "narratives"
+      ],
+      "third_door_allowed": false,
+      "entity_head_removed": true,
+      "frontend_business_computation_allowed": false,
+      "analytics_surface": "L5 governance evidence/output only"
+    }
+  },
+  "dashboard_sample": {
+    "contract_version": "adoption_optimization.v1.batch15",
+    "dashboards": [
+      {
+        "dashboard_id": "adoption_experience_brief",
+        "title": "Adoption Experience Brief",
+        "surface": "Live Pulse > Risk & Action > L5 governance evidence",
+        "not_arrival_door": true,
+        "cards": [
+          "world_focus_depth_usage",
+          "quickball_explanation_usage",
+          "evidence_path_opens",
+          "forecast_review_frequency"
+        ]
+      },
+      {
+        "dashboard_id": "operational_conversion_brief",
+        "title": "Operational Conversion Brief",
+        "surface": "L5 management review output",
+        "not_arrival_door": true,
+        "cards": [
+          "action_queue_conversion_rate",
+          "workflow_closure_rate",
+          "notification_effectiveness",
+          "role_level_engagement"
+        ]
+      },
+      {
+        "dashboard_id": "rollout_quality_brief",
+        "title": "Rollout Quality Brief",
+        "surface": "MIS/QCG/Admin governance evidence",
+        "not_arrival_door": true,
+        "cards": [
+          "stale_source_impact",
+          "uat_to_production_defect_trends",
+          "blocked_quickball_answers",
+          "source_freshness_impact"
+        ]
+      }
+    ],
+    "sample_summary": {
+      "contract_version": "adoption_optimization.v1.batch15",
+      "status": "ready_adoption_analytics_guarded",
+      "role_filter": "all_roles",
+      "total_events": 456,
+      "active_sessions": 72,
+      "world_usage": {
+        "live_pulse": 444,
+        "narratives": 12
+      },
+      "focus_usage": {
+        "advance": 3,
+        "dues": 4,
+        "month_movement": 77,
+        "risk_action": 367,
+        "story": 5
+      },
+      "depth_usage": {
+        "action": 172,
+        "evidence": 43,
+        "executive": 10,
+        "summary": 231
+      },
+      "role_level_engagement": {
+        "board_cxo": 38,
+        "cco_gm_agm": 118,
+        "collector_rm": 174,
+        "finance": 58,
+        "mis_qcg_admin": 68
+      },
+      "event_usage": {
+        "action_queue_converted": 22,
+        "action_queue_open": 43,
+        "depth_change": 60,
+        "evidence_open": 31,
+        "focus_open": 60,
+        "forecast_review": 16,
+        "notification_acted": 25,
+        "notification_seen": 52,
+        "notification_suppressed": 7,
+        "production_defect_logged": 1,
+        "quickball_blocked": 7,
+        "quickball_explain": 38,
+        "stale_source_impact": 4,
+        "uat_defect_logged": 7,
+        "workflow_closed": 16,
+        "workflow_stale": 7,
+        "world_open": 60
+      },
+      "metrics": {
+        "world_focus_depth_usage": {
+          "worlds": {
+            "live_pulse": 444,
+            "narratives": 12
+          },
+          "focus": {
+            "advance": 3,
+            "dues": 4,
+            "month_movement": 77,
+            "risk_action": 367,
+            "story": 5
+          },
+          "depth": {
+            "action": 172,
+            "evidence": 43,
+            "executive": 10,
+            "summary": 231
+          }
+        },
+        "quickball_explanation_usage": {
+          "explanations": 38,
+          "blocked_answers": 7,
+          "blocked_rate_pct": 15.56
+        },
+        "evidence_path_opens": {
+          "opens": 31,
+          "per_100_sessions": 43.06
+        },
+        "action_queue_conversion_rate": 51.16,
+        "workflow_closure_rate": 69.57,
+        "notification_effectiveness": 48.08,
+        "forecast_review_frequency": {
+          "reviews": 16,
+          "per_session": 0.22
+        },
+        "role_level_engagement": {
+          "board_cxo": 38,
+          "cco_gm_agm": 118,
+          "collector_rm": 174,
+          "finance": 58,
+          "mis_qcg_admin": 68
+        },
+        "stale_source_impact": {
+          "events": 4,
+          "sessions_affected_estimate": 4
+        },
+        "uat_to_production_defect_trends": {
+          "uat_defects": 7,
+          "production_defects": 1,
+          "prod_escape_rate_pct": 12.5
+        }
+      },
+      "guardrails": {
+        "arrival_doors": [
+          "live_pulse",
+          "narratives"
+        ],
+        "third_door_allowed": false,
+        "entity_head_removed": true,
+        "frontend_business_computation_allowed": false,
+        "analytics_surface": "L5 governance evidence/output only"
+      }
+    }
+  },
+  "recommendation_sample": [
+    {
+      "recommendation_id": "opt_29542edcdc4bd5a87dd2b8e1",
+      "created_ts": "2026-05-09T17:25:52.493159Z",
+      "priority": "P1",
+      "theme": "experience",
+      "title": "Improve Narratives entry clarity",
+      "evidence": {
+        "narratives_share_pct": 2.63,
+        "world_usage": {
+          "live_pulse": 444,
+          "narratives": 12
+        }
+      },
+      "recommendation": "Tune Arrival copy and Quickball arrival suggestions so users understand when to choose Narratives. Do not add more entry doors.",
+      "owner_role": "board_cxo",
+      "liquid_glass_guardrail": "Preserve two doors. Do not add dashboard-first navigation or a third Arrival option.",
+      "status": "proposed"
+    },
+    {
+      "recommendation_id": "opt_ef348a68a7a3e4d0602a6672",
+      "created_ts": "2026-05-09T17:25:52.493176Z",
+      "priority": "P0",
+      "theme": "trust",
+      "title": "Reduce Quickball blocked-answer rate",
+      "evidence": {
+        "explanations": 38,
+        "blocked_answers": 7,
+        "blocked_rate_pct": 15.56
+      },
+      "recommendation": "Prioritize missing lineage fixes for the metrics causing blocked Quickball answers. Do not let Quickball answer from unlineaged values.",
+      "owner_role": "mis_qcg_admin",
+      "liquid_glass_guardrail": "Preserve two doors. Do not add dashboard-first navigation or a third Arrival option.",
+      "status": "proposed"
+    },
+    {
+      "recommendation_id": "opt_ce60d5f74b36c2f8d4d56283",
+      "created_ts": "2026-05-09T17:25:52.493184Z",
+      "priority": "P0",
+      "theme": "data_trust",
+      "title": "Reduce stale-source impact",
+      "evidence": {
+        "stale_source_events": 4
+      },
+      "recommendation": "Move impacted R-series refreshes into a daily source-owner checklist. Keep no-silent-fallback warnings visible.",
+      "owner_role": "mis_qcg_admin",
+      "liquid_glass_guardrail": "Preserve two doors. Do not add dashboard-first navigation or a third Arrival option.",
+      "status": "proposed"
+    },
+    {
+      "recommendation_id": "opt_82a3ffdf56709adc4120b2df",
+      "created_ts": "2026-05-09T17:25:52.493192Z",
+      "priority": "P0",
+      "theme": "rollout_quality",
+      "title": "Tighten UAT regression before production",
+      "evidence": {
+        "uat_defects": 7,
+        "production_defects": 1,
+        "prod_escape_rate_pct": 12.5
+      },
+      "recommendation": "Add defect classes that escaped UAT into the production smoke manifest and UAT role scripts.",
+      "owner_role": "mis_qcg_admin",
+      "liquid_glass_guardrail": "Preserve two doors. Do not add dashboard-first navigation or a third Arrival option.",
+      "status": "proposed"
+    }
+  ]
+}

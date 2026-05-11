@@ -1,0 +1,69 @@
+{
+  "contract_version": "adoption_optimization.v1.batch15",
+  "recommendations": [
+    {
+      "recommendation_id": "opt_29542edcdc4bd5a87dd2b8e1",
+      "created_ts": "2026-05-09T17:25:52.493159Z",
+      "priority": "P1",
+      "theme": "experience",
+      "title": "Improve Narratives entry clarity",
+      "evidence": {
+        "narratives_share_pct": 2.63,
+        "world_usage": {
+          "live_pulse": 444,
+          "narratives": 12
+        }
+      },
+      "recommendation": "Tune Arrival copy and Quickball arrival suggestions so users understand when to choose Narratives. Do not add more entry doors.",
+      "owner_role": "board_cxo",
+      "liquid_glass_guardrail": "Preserve two doors. Do not add dashboard-first navigation or a third Arrival option.",
+      "status": "proposed"
+    },
+    {
+      "recommendation_id": "opt_ef348a68a7a3e4d0602a6672",
+      "created_ts": "2026-05-09T17:25:52.493176Z",
+      "priority": "P0",
+      "theme": "trust",
+      "title": "Reduce Quickball blocked-answer rate",
+      "evidence": {
+        "explanations": 38,
+        "blocked_answers": 7,
+        "blocked_rate_pct": 15.56
+      },
+      "recommendation": "Prioritize missing lineage fixes for the metrics causing blocked Quickball answers. Do not let Quickball answer from unlineaged values.",
+      "owner_role": "mis_qcg_admin",
+      "liquid_glass_guardrail": "Preserve two doors. Do not add dashboard-first navigation or a third Arrival option.",
+      "status": "proposed"
+    },
+    {
+      "recommendation_id": "opt_ce60d5f74b36c2f8d4d56283",
+      "created_ts": "2026-05-09T17:25:52.493184Z",
+      "priority": "P0",
+      "theme": "data_trust",
+      "title": "Reduce stale-source impact",
+      "evidence": {
+        "stale_source_events": 4
+      },
+      "recommendation": "Move impacted R-series refreshes into a daily source-owner checklist. Keep no-silent-fallback warnings visible.",
+      "owner_role": "mis_qcg_admin",
+      "liquid_glass_guardrail": "Preserve two doors. Do not add dashboard-first navigation or a third Arrival option.",
+      "status": "proposed"
+    },
+    {
+      "recommendation_id": "opt_82a3ffdf56709adc4120b2df",
+      "created_ts": "2026-05-09T17:25:52.493192Z",
+      "priority": "P0",
+      "theme": "rollout_quality",
+      "title": "Tighten UAT regression before production",
+      "evidence": {
+        "uat_defects": 7,
+        "production_defects": 1,
+        "prod_escape_rate_pct": 12.5
+      },
+      "recommendation": "Add defect classes that escaped UAT into the production smoke manifest and UAT role scripts.",
+      "owner_role": "mis_qcg_admin",
+      "liquid_glass_guardrail": "Preserve two doors. Do not add dashboard-first navigation or a third Arrival option.",
+      "status": "proposed"
+    }
+  ]
+}
