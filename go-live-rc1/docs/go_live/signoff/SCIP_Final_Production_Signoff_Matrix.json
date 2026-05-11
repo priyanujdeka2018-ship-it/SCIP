@@ -1,0 +1,155 @@
+[
+  {
+    "Gate": "Repo merge",
+    "Owner": "Engineering lead",
+    "Required evidence": "Release branch commit SHA and conflict log",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Backend tests",
+    "Owner": "Engineering lead",
+    "Required evidence": "Compile/unit/smoke results",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Frontend build",
+    "Owner": "Frontend lead",
+    "Required evidence": "npm install/build/dev logs",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Migrations staging",
+    "Owner": "Data/platform lead",
+    "Required evidence": "Migration logs and table verification",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "SSO/JWT",
+    "Owner": "IT/security lead",
+    "Required evidence": "/identity/me and invalid-token tests",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Source refresh",
+    "Owner": "MIS/source owners",
+    "Required evidence": "R-series source checklist and adapter smoke",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Board/CXO UAT",
+    "Owner": "Business sponsor",
+    "Required evidence": "Role UAT script passed",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "CCO/GM/AGM UAT",
+    "Owner": "Collections leadership",
+    "Required evidence": "Role UAT script passed",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Finance UAT",
+    "Owner": "Finance lead",
+    "Required evidence": "Role UAT script passed",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "MIS/QCG/Admin UAT",
+    "Owner": "MIS/QCG lead",
+    "Required evidence": "Role UAT script passed",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Collector/RM UAT",
+    "Owner": "Collections ops lead",
+    "Required evidence": "Role UAT script passed",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "RBAC row-level",
+    "Owner": "Security/data owner",
+    "Required evidence": "Role JWT endpoint matrix",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Audit export",
+    "Owner": "Audit/compliance owner",
+    "Required evidence": "CSV/JSON export sample",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Notification dedupe",
+    "Owner": "Ops/platform owner",
+    "Required evidence": "Suppression/dedupe smoke result",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "No-silent-fallback",
+    "Owner": "Data owner",
+    "Required evidence": "Critical KPI missing-lineage block test",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Rollback/break-glass",
+    "Owner": "Release manager",
+    "Required evidence": "Rollback runbook and owner confirmation",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  },
+  {
+    "Gate": "Production go/no-go",
+    "Owner": "Executive sponsor",
+    "Required evidence": "All prior gates complete or waived",
+    "Status": "Pending",
+    "Signoff name": "",
+    "Date": "",
+    "Comments": ""
+  }
+]

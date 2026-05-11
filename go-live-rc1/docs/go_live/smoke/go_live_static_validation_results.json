@@ -1,0 +1,81 @@
+{
+  "created_on": "2026-05-09",
+  "checks": [
+    {
+      "check": "batch13_exists",
+      "passed": true
+    },
+    {
+      "check": "batch14_exists",
+      "passed": true
+    },
+    {
+      "check": "batch17_exists",
+      "passed": true
+    },
+    {
+      "check": "batch13_main_py",
+      "passed": true
+    },
+    {
+      "check": "batch13_auth_py",
+      "passed": true
+    },
+    {
+      "check": "batch13_identity_py",
+      "passed": true
+    },
+    {
+      "check": "batch13_app_jsx",
+      "passed": true
+    },
+    {
+      "check": "batch13_liquid_tokens",
+      "passed": true
+    },
+    {
+      "check": "batch14_deployment_smoke_runner",
+      "passed": true
+    },
+    {
+      "check": "batch14_uat_scripts",
+      "passed": true
+    },
+    {
+      "check": "batch14_signoff_matrix",
+      "passed": true
+    },
+    {
+      "check": "batch17_roadmap",
+      "passed": true
+    },
+    {
+      "check": "batch17_steering_pack",
+      "passed": true
+    },
+    {
+      "check": "generated_readme",
+      "passed": true
+    },
+    {
+      "check": "generated_command_sequence",
+      "passed": true
+    },
+    {
+      "check": "generated_env_template",
+      "passed": true
+    },
+    {
+      "check": "generated_blockers_register",
+      "passed": true
+    },
+    {
+      "check": "generated_signoff_matrix",
+      "passed": true
+    }
+  ],
+  "overall_passed": true,
+  "validation_type": "static_artifact_consolidation",
+  "live_environment_tests_executed": false,
+  "live_environment_tests_required_before_production": true
+}
