@@ -1,0 +1,144 @@
+{
+  "contract": "rollout_uat_signoff.v1.batch14",
+  "status": "passed",
+  "passed": true,
+  "checks_passed": 25,
+  "checks_total": 25,
+  "checks": [
+    {
+      "name": "required file exists: SCIP_Batch14_Implementation_Report.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: rollout/SCIP_Batch14_Staged_Rollout_Plan.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: uat/SCIP_Batch14_UAT_Scripts_By_Role.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: checklists/SCIP_Batch14_Production_Readiness_Checklist.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: checklists/SCIP_Batch14_Data_Cutover_Checklist.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: checklists/SCIP_Batch14_Source_Refresh_Checklist.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: checklists/SCIP_Batch14_Identity_Provisioning_Checklist.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: checklists/SCIP_Batch14_RBAC_Verification_Checklist.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: checklists/SCIP_Batch14_Dashboard_Alert_Signoff.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: signoff/SCIP_Batch14_Executive_Acceptance_Criteria.md",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: signoff/SCIP_Batch14_Signoff_Matrix.json",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: smoke/final_deployment_smoke_manifest_batch14.json",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: rollout_uat.py",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "required file exists: main.py",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "Liquid Glass two-door labels present",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "no entity_head technical role in frontend",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "no silent fallback warning present",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "frontend uses bearer Authorization",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "main includes rollout router",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "main version bumped to batch14",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "final smoke manifest covers mandatory gates",
+      "passed": true,
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "name": "signoff matrix has approved roles only",
+      "passed": true,
+      "detail": {
+        "roles": [
+          "Board/CXO",
+          "CCO/GM/AGM",
+          "Collector/RM",
+          "Finance",
+          "MIS/QCG/Admin"
+        ]
+      }
+    },
+    {
+      "name": "signoff matrix excludes Entity Head",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "python compile: rollout_uat.py",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "name": "python compile: main.py",
+      "passed": true,
+      "detail": {}
+    }
+  ]
+}

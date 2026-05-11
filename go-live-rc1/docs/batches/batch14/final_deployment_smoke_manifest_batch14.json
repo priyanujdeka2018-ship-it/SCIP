@@ -1,0 +1,73 @@
+{
+  "contract": "final_deployment_smoke.v1.batch14",
+  "status": "ready_to_run_per_environment",
+  "requires_live_base_url": true,
+  "checks": [
+    {
+      "id": "LG-001",
+      "name": "Liquid Glass two-door Arrival",
+      "method": "frontend_route",
+      "expected": "Only Live Pulse and Narratives primary choices; no third door"
+    },
+    {
+      "id": "NSF-001",
+      "name": "No silent fallback",
+      "method": "api_and_ui",
+      "expected": "Unavailable/stale is labelled; no fallback is rendered as live"
+    },
+    {
+      "id": "ID-001",
+      "name": "JWT required",
+      "method": "api",
+      "expected": "Missing/invalid/expired tokens rejected outside local_dev"
+    },
+    {
+      "id": "RBAC-001",
+      "name": "Board/CXO blocked from account queues",
+      "method": "api",
+      "expected": "403 with denied-attempt audit"
+    },
+    {
+      "id": "RBAC-002",
+      "name": "Collector/RM own-row visibility",
+      "method": "api",
+      "expected": "Only rows scoped to collector mapping are returned"
+    },
+    {
+      "id": "AUD-001",
+      "name": "Audit export",
+      "method": "api",
+      "expected": "CSV/JSON exports include source/workflow/notification lineage and actor details"
+    },
+    {
+      "id": "WF-001",
+      "name": "Workflow closure",
+      "method": "api",
+      "expected": "Closure requires reason and immutable lineage hash"
+    },
+    {
+      "id": "NOTIF-001",
+      "name": "Notification dedupe",
+      "method": "api",
+      "expected": "Duplicate candidate suppresses emission with dedupe key"
+    },
+    {
+      "id": "OBS-001",
+      "name": "Correlation IDs",
+      "method": "api",
+      "expected": "Every response/event includes correlation ID"
+    },
+    {
+      "id": "DATA-001",
+      "name": "Critical lineage",
+      "method": "api",
+      "expected": "Critical metrics/action cards have lineage; missing lineage blocks output"
+    },
+    {
+      "id": "ROLE-001",
+      "name": "Entity Head rejected",
+      "method": "api",
+      "expected": "Entity Head claim is denied"
+    }
+  ]
+}

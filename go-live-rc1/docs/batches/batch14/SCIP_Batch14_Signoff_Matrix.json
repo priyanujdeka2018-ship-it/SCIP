@@ -1,0 +1,55 @@
+{
+  "contract": "rollout_uat_signoff.v1.batch14",
+  "status": "ready_for_signoff_collection",
+  "roles": [
+    "Board/CXO",
+    "CCO/GM/AGM",
+    "Finance",
+    "MIS/QCG/Admin",
+    "Collector/RM"
+  ],
+  "signoff_items": [
+    {
+      "area": "Product / Liquid Glass",
+      "owner_role": "Board/CXO",
+      "required_evidence": "Arrival two-door screenshot; Narratives journey; Present/summary output",
+      "status": "pending"
+    },
+    {
+      "area": "Operational Management",
+      "owner_role": "CCO/GM/AGM",
+      "required_evidence": "Risk & Action queue; assignment event; notification escalation",
+      "status": "pending"
+    },
+    {
+      "area": "Finance",
+      "owner_role": "Finance",
+      "required_evidence": "Finance exception queue; PR/TAT nudge; audit export scope",
+      "status": "pending"
+    },
+    {
+      "area": "Governance / Data Ops",
+      "owner_role": "MIS/QCG/Admin",
+      "required_evidence": "Source refresh, migration, backup, alert, denied-attempt logs",
+      "status": "pending"
+    },
+    {
+      "area": "Collector workflow",
+      "owner_role": "Collector/RM",
+      "required_evidence": "Own-row action queue, disposition update, no cross-owner visibility",
+      "status": "pending"
+    },
+    {
+      "area": "Security",
+      "owner_role": "MIS/QCG/Admin",
+      "required_evidence": "JWT invalid/expired rejection; RBAC denied attempt audit",
+      "status": "pending"
+    },
+    {
+      "area": "Executive go-live",
+      "owner_role": "Board/CXO",
+      "required_evidence": "All prior signoffs complete; rollback and break-glass rehearsed",
+      "status": "pending"
+    }
+  ]
+}
