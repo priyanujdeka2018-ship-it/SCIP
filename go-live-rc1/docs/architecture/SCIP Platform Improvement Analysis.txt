@@ -1,0 +1,777 @@
+Below is a single copy-paste handoff block for a new conversation.
+
+---
+
+```text id="ve928i"
+SCIP PROJECT HANDOFF — FULL CONTINUITY BLOCK
+
+Project: SCIP — Sobha Collections Intelligence Platform
+Purpose: Build SCIP into a trusted, role-aware, lineage-backed, Liquid Glass intelligence platform for Sobha collections, operating from executive briefing down to account-level action and closure tracking.
+
+Current project status:
+- SCIP is NOT yet production-live.
+- SCIP is ready as a staging / pilot / UAT release candidate once patches are merged into the actual repo and live environment gates pass.
+- A go-live consolidation pack has been produced.
+- Production go-live should happen only after real repo merge, builds, migrations, SSO/JWT, source refresh, deployment smoke, role-wise UAT, RBAC, audit, notification, fallback, rollback, and break-glass gates pass.
+
+CORE VISION
+
+SCIP must feel less like a dashboard and more like an intelligent boardroom instrument:
+- Calm on arrival.
+- Fluid in navigation.
+- Precise in evidence.
+- Powerful only when the user asks for depth.
+
+The platform must serve internal org users across hierarchy without overwhelming them:
+- Board/CXO: board-safe story, risk, decision, confidence.
+- CCO/GM/AGM: intervention control, run-rate, action queues, escalations.
+- Finance: reconciliation, PR/SOA issues, audit, target basis.
+- MIS/QCG/Admin: data health, governance, source refresh, process queues.
+- Collector/RM: own action queues, promise follow-up, account drilldowns.
+
+LOCKED LIQUID GLASS STRATEGY
+
+Liquid Glass is not a decorative skin. It is the interaction model.
+
+Locked rules:
+1. L0 Arrival has only two doors:
+   - Live Pulse
+   - Narratives
+2. No third Arrival door.
+3. No dashboard-first home.
+4. No sidebar, filters, KPI grids, Ops/Board toggles, raw section tree, charts, collector names, or definitions at Arrival.
+5. Quickball is a quiet contextual command capsule, not a loud chatbot or third navigation path.
+6. Glass is used for movement/context/reveal:
+   - arrival cards
+   - rails
+   - chips
+   - Quickball capsule
+   - drawers
+   - context island
+7. Solid surfaces are used for financial truth:
+   - KPI cards
+   - charts
+   - dense tables
+   - formulas
+   - audit trails
+   - evidence
+   - collector/action lists
+8. Live Pulse L1 has only:
+   - Current Signal
+   - Month Movement
+   - Risk & Action
+9. Narratives follows:
+   - Story
+   - Portfolio
+   - Dues
+   - Advance
+   - Roadmap
+10. Evidence is shown only on request.
+11. Actions are close to context.
+12. Present is an output action, not a browsing mode.
+13. Primary UI language avoids Ops/Board. Use Summary, Detailed, Executive, Present, Evidence, Source basis, Formula, Ask Quickball.
+
+LOCKED ENTITY HIERARCHY
+
+Group
+  Sobha
+    Sobha Dubai
+    Sobha AUH
+  UAQ
+    Siniya
+    Downtown UAQ
+
+R18 OD mapping:
+- Sub Total A-E = Sobha Dubai
+- Sub Total H = Sobha AUH
+- Sub Total F = Siniya
+- Sub Total G = Downtown UAQ
+- Sobha = Sobha Dubai + Sobha AUH
+- UAQ = Siniya + Downtown UAQ
+- Group / OD Today = Sobha + UAQ = Grand Total
+
+TOLERANCE / TRUST RULES
+
+- General reconciliation tolerance: 0.05%.
+- No silent fallback in Board/CXO or critical views.
+- If source extraction fails or lineage is missing, show blocked/unavailable/fallback-labelled state.
+- No critical metric may be displayed as trusted unless it has:
+  - source file
+  - report code
+  - sheet
+  - cell/range or extraction rule
+  - snapshot date
+  - reporting basis
+  - validation status
+  - confidence state
+  - lineage reference/hash
+- Quickball must refuse/block critical answers without lineage.
+- No frontend business computation.
+- Frontend can render only server-provided metrics, labels, assumptions, lineage, and trust state.
+
+LOCKED ROLE MODEL
+
+Keep:
+- Board/CXO
+- CCO/GM/AGM
+- Finance
+- MIS/QCG/Admin
+- Collector/RM
+
+Remove / block:
+- Entity Head
+
+Entity Head was explicitly removed from the role model. Do not reintroduce unless a future formal product decision changes it.
+
+REPORTING BASIS RULES
+
+- R04 = Finance daily actuals.
+- R02 = MDO targets / MDO actuals where available.
+- R08 = Advance CY/FY/rebate/NPV basis.
+- R18 = OD / overdue / ageing source.
+- R36 = milestone cohort / forward collectible calendar.
+- Finance-vs-MDO labels must remain visible wherever mixed.
+
+CRITICAL R-SERIES SOURCES
+
+Core platform intelligence:
+- R01 — Year-end snapshot
+- R02 — MDO report
+- R04 — Daily collections
+- R08 — Advance summary
+- R18 — Consolidated and overdue
+- R36 — Year-on-year milestone report
+
+Account/action queue layer:
+- R09 — Collections / project collection detail
+- R10 — Dues coverage / allocation / PTP
+- R17 — SPA / pre-registration overdue bifurcation
+- R20 — PR-to-SOA TAT
+- R30 — Monthly collector feedback / performance
+- R31 — PR unit update
+- R32 — RM collectors and PR/receipts
+- R34 — Termination status
+- R38 — Risk analysis
+
+Minimum production go-live source set:
+- R02, R04, R08, R18, R36
+- R09, R10, R17, R20, R30, R31, R32, R34, R38
+
+ARCHITECTURAL UPGRADE DECISIONS
+
+1. Replace generic Excel ingestion with report-specific adapters.
+   Adapters created/planned:
+   - R01YearEndSnapshotAdapter
+   - R02MDOAdapter
+   - R04FinanceDailyAdapter
+   - R08AdvanceSummaryAdapter
+   - R18OverdueAdapter
+   - R36MilestoneCohortAdapter
+   - R09ProjectCollectionsAdapter
+   - R10DuesCoverageAdapter
+   - R17SPALegalAdapter
+   - R20PRSOATATAdapter
+   - R30CollectorFeedbackAdapter
+   - R31PRUnitUpdateAdapter
+   - R32RMCollectorsReceiptsAdapter
+   - R34TerminationStatusAdapter
+   - R38RiskAnalysisAdapter
+
+2. Every adapter must output lineaged facts, not just dashboard values.
+
+3. Semantic model should separate facts/dimensions:
+   Facts:
+   - fact_collections_daily
+   - fact_targets_monthly
+   - fact_advance_cyfy
+   - fact_overdue_snapshot
+   - fact_overdue_ageing
+   - fact_milestone_cohort
+   - fact_future_collectibles
+   - fact_project_collections
+   - fact_account_actions
+   - fact_workflows
+   - fact_notifications
+   - fact_audit_exports
+   - fact_adoption_events
+   - fact_observability_events
+
+   Dimensions:
+   - dim_date
+   - dim_entity
+   - dim_project
+   - dim_customer
+   - dim_unit
+   - dim_collector
+   - dim_team
+   - dim_source_report
+   - dim_metric_definition
+   - dim_org_hierarchy
+   - dim_role
+   - dim_actor
+   - dim_workflow_state
+
+4. Quickball is a lineage explainer and curiosity bridge.
+   It must answer:
+   - “Explain this number”
+   - “Where did this come from?”
+   - “Why did it change?”
+   - “Show source basis”
+   - “Show formula”
+   - “Prepare board explanation”
+   - “Open action list”
+   It must not hallucinate.
+
+5. Command centres are role-aware but hidden under Liquid Glass intent:
+   - Live Pulse / Risk & Action
+   - Narratives / Story or Dues or Advance
+   Not exposed as a dashboard homepage.
+
+6. Forecasting is server-side.
+   Month-end landing uses:
+   - R04 MTD actuals
+   - R02 May MDO targets
+   - working days
+   - remaining working days
+   - current run-rate
+   - required run-rate
+   Forecast must disclose assumptions and basis.
+
+7. Account action queues must be gated.
+   No action is shown without:
+   - account/unit ID
+   - owner/collector/RM
+   - entity mapping
+   - amount or process status
+   - ageing or process status
+   - source lineage
+   - reporting basis
+   - role visibility
+
+8. Workflow tracking states:
+   - queued
+   - assigned
+   - in_progress
+   - promised
+   - escalated
+   - closed
+   - stale
+   - blocked
+
+9. Workflow events are immutable and carry source lineage hash.
+
+10. Notifications are evidence-driven L5 outputs.
+    Notification rules:
+    - overdue_due_date
+    - stale_workflow
+    - broken_ptp_promise
+    - termination_risk
+    - pr_tat_ageing
+    - unassigned_high_risk
+
+11. Durable persistence replaces in-memory stores.
+    Tables:
+    - source_actions
+    - workflow_records
+    - workflow_events
+    - notification_eligibility
+    - notification_emissions
+    - suppression_state
+    - delivery_status
+    - audit_exports
+
+12. RBAC is mandatory.
+    Board/CXO cannot access account-level queues.
+    Collector/RM sees only own rows.
+    Finance sees finance queues and finance audit.
+    MIS/QCG/Admin has governance/admin scope.
+    CCO/GM/AGM sees management and escalation scope.
+
+13. SSO/JWT replaces trusted X-SCIP headers.
+    - Production mode: verified JWT.
+    - Local dev bypass only if explicitly enabled.
+    - Entity Head claims must be rejected.
+    - Denied attempts must be logged with correlation ID and audit lineage.
+
+14. Observability is server-side and redacted.
+    Metrics include:
+    - ingestion latency
+    - adapter success/failure
+    - lineage coverage
+    - forecast generation
+    - Quickball blocked answers
+    - action queue generation
+    - workflow transitions
+    - notification emissions/suppressions
+    - RBAC denials
+    - audit export volume
+    - DB query timings
+    - frontend render timing
+    - API error rates
+    - cache hits/misses/invalidations
+
+15. Caching is allowed only where it cannot break:
+    - no-silent-fallback
+    - lineage freshness
+    - source snapshot date checks
+    - RBAC row-level visibility
+
+16. Governance is continuous.
+    Every improvement item must map to:
+    - evidence
+    - owner
+    - decision state
+    - expected impact
+    - rollout gate
+    - rollback criteria
+    - Liquid Glass guardrail
+    - priority score
+
+BATCH HISTORY / OUTPUTS CREATED
+
+Batch 0:
+- SystemMap v2
+- hierarchy/governance pack
+- pipeline_config_v8
+- lineage contract
+- semantic model v2
+- source adapter skeletons
+- smoke checkpoints
+
+Batch 1:
+- R18 OD adapter
+- locked hierarchy
+- OD lineage
+- R18 smoke test
+
+Batch 2:
+- R04 Finance daily adapter
+- R02 MDO adapter
+- Finance-vs-MDO labelling
+- R04/R02 smoke tests
+
+Batch 3:
+- R08 Advance adapter
+- R36 Milestone adapter
+- CY/FY/rebate/forward calendar lineage
+
+Batch 4:
+- Quickball lineage explanations
+- role-specific command centre contracts
+- blocked-answer guard
+
+Batch 5:
+- UI cards and forecasting
+- trust bar
+- lineage drawer
+- forecast panel
+
+Batch 5.1:
+- Liquid Glass UI alignment
+- two-door Arrival
+- Live Pulse / Narratives model
+- glass tokens
+- solid evidence surfaces
+
+Batch 6:
+- first action queue layer
+- discovered R18 alone could not support true account/collector queues
+- project-risk queues only, collector queue blocked until account sources arrived
+
+Batch 7:
+- onboarded R09/R10/R17/R20/R30/R31/R32/R34/R38
+- account-level action queues unlocked
+- collector, management, finance, MIS/QCG queues
+
+Batch 8:
+- workflow assignment and closure tracking
+- workflow states
+- immutable event log
+
+Batch 9:
+- notification/escalation automation
+- dedupe/suppression
+- daily/weekly digest payloads
+
+Batch 10:
+- durable database persistence
+- audit export
+- migration-ready SQL
+
+Batch 11:
+- RBAC and deployment hardening
+- role policy matrix
+- CORS/secrets/backup/migration checks
+
+Batch 12:
+- observability and performance
+- structured logging
+- correlation IDs
+- dashboard/alert spec
+- cache guards
+
+Batch 13:
+- SSO/JWT and user provisioning
+- claim-to-role mapping
+- entity/collector scope provisioning
+- deactivation
+
+Batch 14:
+- rollout and UAT signoff
+- role-wise UAT scripts
+- production readiness, source refresh, identity, RBAC, dashboard/alert checklists
+- rollback and break-glass runbook
+
+Batch 15:
+- post-launch adoption analytics
+- adoption dashboards as L5 governance output
+- optimization backlog
+
+Batch 16:
+- continuous improvement governance
+- monthly review workflow
+- change-control board
+- metric-definition change log
+- source-owner SLA review
+- Quickball review
+- UX simplification review
+- release-note governance
+
+Batch 17:
+- long-term roadmap and executive operating rhythm
+- 12-month roadmap
+- quarterly executive operating rhythm
+- monthly review calendar
+- KPI/OKR tree
+- ownership map
+- release train model
+- benefits tracking
+- executive steering committee pack
+
+Go-Live Readiness Consolidation:
+- Merged Batch 13 production code baseline + Batch 14 rollout/UAT governance + Batch 17 roadmap into one release-candidate checklist.
+- Staging-ready after applying patches to real repo.
+- Production-ready only after live gates pass.
+
+LATEST IMPORTANT ARTIFACT PACKS
+
+Use these as baselines in the new conversation:
+- /mnt/data/scip_batch13_sso_jwt_provisioning.zip
+- /mnt/data/scip_batch14_rollout_uat_signoff.zip
+- /mnt/data/scip_batch17_long_term_roadmap_exec_rhythm.zip
+- /mnt/data/scip_go_live_readiness_consolidation.zip
+
+Recommended current release-candidate source of truth:
+1. Code/security baseline: Batch 13
+2. Rollout/UAT/go-live governance: Batch 14
+3. Roadmap/executive rhythm: Batch 17
+4. Final go-live control checklist: Go-Live Readiness Consolidation pack
+
+MIGRATION ORDER
+
+Apply in this order:
+
+001_batch10_persistence.sql
+002_batch11_rbac_hardening.sql
+003_batch12_observability.sql
+004_batch13_identity_provisioning.sql
+005_batch15_adoption_analytics.sql
+006_batch16_continuous_improvement.sql
+007_batch17_roadmap_exec_rhythm.sql
+
+PROPOSED FINAL FILE / FOLDER HIERARCHY
+
+repo/
+  backend/
+    main.py
+    constants.py
+    file_resolver.py
+    data_loader.py
+    source_adapters.py
+
+    quickball.py
+    command_centres.py
+    forecast.py
+    account_action_queues.py
+    workflow.py
+    notifications.py
+    persistence.py
+    auth.py
+    identity.py
+    deployment.py
+    observability.py
+    adoption.py
+    governance.py
+    roadmap.py
+    rollout_uat.py
+
+    migrations/
+      001_batch10_persistence.sql
+      002_batch11_rbac_hardening.sql
+      003_batch12_observability.sql
+      004_batch13_identity_provisioning.sql
+      005_batch15_adoption_analytics.sql
+      006_batch16_continuous_improvement.sql
+      007_batch17_roadmap_exec_rhythm.sql
+
+    tests/
+      smoke_ingestion/
+      smoke_quickball/
+      smoke_action_queues/
+      smoke_workflow/
+      smoke_notifications/
+      smoke_persistence_audit/
+      smoke_rbac/
+      smoke_identity/
+      smoke_observability/
+      smoke_rollout/
+      smoke_adoption/
+      smoke_governance/
+      smoke_roadmap/
+
+  frontend/
+    src/
+      App.jsx
+      main.jsx
+      liquidGlassTokens.css
+      frontend_contracts/
+        frontend_contracts_batch13.ts
+        frontend_contracts_batch14.ts
+        frontend_contracts_batch15.ts
+
+  config/
+    pipeline_config.json
+    lineage_contract_v1.json
+    semantic_model_v2.json
+    observability_config_batch12.json
+    rbac_policy_matrix_batch11.json
+
+  data/
+    incoming/
+      R01/
+      R02/
+      R04/
+      R08/
+      R09/
+      R10/
+      R17/
+      R18/
+      R20/
+      R30/
+      R31/
+      R32/
+      R34/
+      R36/
+      R38/
+    processed/
+    audit_exports/
+
+  docs/
+    architecture/
+      FINAL_ARCHITECTURE.md
+      MASTER_ARCHITECTURE_v9.1.md
+      Sobha_Platform_Architecture_Blueprint_v1.md
+      Sobha_Platform_Engineering_Structure_v1.md
+
+    liquid_glass/
+      SCIP_Liquid_Glass_UI_Strategy_Final_Unified.docx
+
+    rollout/
+      SCIP_Batch14_Staged_Rollout_Plan.md
+      SCIP_Batch14_Rollback_BreakGlass_Runbook.md
+
+    uat/
+      SCIP_Batch14_UAT_Scripts_By_Role.md
+
+    governance/
+      SCIP_Batch16_Backlog_Scoring_Model.md
+      monthly_review_templates/
+
+    roadmap/
+      SCIP_Batch17_12_Month_Roadmap.md
+      SCIP_Batch17_Quarterly_Executive_Operating_Rhythm.md
+      SCIP_Batch17_Monthly_Review_Calendar.md
+      SCIP_Batch17_KPI_OKR_Tree.md
+      SCIP_Batch17_Ownership_Map.md
+      SCIP_Batch17_Release_Train_Model.md
+      SCIP_Batch17_Benefits_Realization_Tracking.md
+      SCIP_Batch17_Executive_Steering_Committee_Pack.md
+
+    go_live/
+      SCIP_Final_GoLive_Command_Sequence.md
+      SCIP_Release_Candidate_Checklist.md
+      SCIP_Merge_Order_and_File_Map.md
+      SCIP_Migration_Order.md
+      SCIP_Blockers_Assumptions_Register.md
+      SCIP_Final_Production_Readiness_Checklist.md
+
+  smoke/
+    deployment_smoke_runner.py
+    final_deployment_smoke_manifest_batch14.json
+    go_live_static_validation_results.json
+
+  package.json
+  vite.config.js
+  netlify.toml
+  README.md
+
+REDUNDANCY ELIMINATION STEPS
+
+Eliminate or prevent:
+1. Generic Excel flat-header ingestion for complex R-series files.
+2. Silent fallback values in critical or executive views.
+3. Duplicate health endpoints; keep one canonical health/deployment health structure.
+4. Inconsistent pipeline config names; use one production pipeline_config.json.
+5. Entity Head role.
+6. Top-level Ops/Board language.
+7. Third Arrival door.
+8. Homepage dashboard/KPI clutter.
+9. Persistent sidebar at L0.
+10. Quickball as a workaround for unclear UI.
+11. Frontend financial/business computation.
+12. Trusted X-SCIP headers in production.
+13. Unlineaged Quickball answers.
+14. Unlineaged action queues.
+15. Notifications without dedupe/suppression keys.
+16. Workflow events without immutable source lineage.
+17. Audit exports without actor/timestamp/role/lineage.
+18. Observability logs containing sensitive raw bodies, tokens, account/customer PII, or unredacted claims.
+19. Caching that ignores snapshot date, lineage freshness, RBAC, or fallback state.
+20. Governance/backlog dashboards as new product surfaces.
+
+SUCCESS METRICS
+
+Data trust:
+- 100% critical KPI lineage coverage.
+- 0 silent fallback incidents in Board/CXO views.
+- 0 unlineaged Quickball critical answers.
+- 0 account actions without owner/entity/amount-or-status/ageing-or-process-status/source lineage.
+- Source freshness SLA met for all critical R files.
+- Reconciliation checks pass within 0.05% tolerance.
+
+Ingestion:
+- Adapter success rate ≥ 99% for required R-series files.
+- Critical source extraction failure alert within same refresh cycle.
+- Smoke tests pass for R02/R04/R08/R18/R36 and R09/R10/R17/R20/R30/R31/R32/R34/R38.
+
+Operational:
+- Collector/RM action queue conversion rate improves month-on-month.
+- Workflow closure rate increases.
+- Stale workflow count decreases.
+- Broken PTP follow-ups become visible and decrease over time.
+- PR/TAT ageing exceptions reduce.
+- Termination-risk actions are assigned and tracked.
+
+Executive:
+- Board/CXO can answer:
+  - Are we on track?
+  - What changed?
+  - Why?
+  - What is the risk?
+  - What action is needed?
+- Board narrative generation uses trusted lineage.
+- Forecast assumptions are always disclosed.
+
+Security/governance:
+- 100% JWT/SSO enforcement in production.
+- 0 production use of local-dev header bypass.
+- RBAC row-level tests pass by role.
+- Denied attempts are logged with correlation ID.
+- Audit export passes.
+- Backup/restore checks pass.
+- Notification dedupe survives restart.
+- Migration history recorded.
+
+UX/Liquid Glass:
+- Arrival has only Live Pulse and Narratives.
+- Live Pulse L1 has only Current Signal, Month Movement, Risk & Action.
+- Narratives remains Story → Portfolio → Dues → Advance → Roadmap.
+- No dense evidence before explicit depth request.
+- Glass only for context/movement/reveal.
+- Solid surfaces for truth/evidence.
+
+Adoption:
+- Role-level engagement tracked.
+- Quickball explanation usage tracked.
+- Evidence path opens tracked.
+- Forecast review frequency tracked.
+- Workflow/action conversion tracked.
+- UAT-to-production defect trends tracked.
+- Optimization backlog items map to evidence and owner.
+
+GO-LIVE COMMAND SEQUENCE SUMMARY
+
+1. Create release branch.
+2. Apply code patches from Batch 13 baseline.
+3. Apply rollout/UAT docs from Batch 14.
+4. Apply roadmap/governance docs from Batch 17.
+5. Ensure final go-live consolidation files are included under docs/go_live.
+6. Install backend dependencies.
+7. Install frontend dependencies.
+8. Run backend compile/tests.
+9. Run frontend build:
+   - npm install
+   - npm run build
+   - npm run dev
+10. Configure staging env vars:
+   - SCIP_ENV=staging
+   - SCIP_AUTH_MODE=jwt
+   - SCIP_LOCAL_DEV_BYPASS=false
+   - SCIP_JWT_ISSUER
+   - SCIP_JWT_AUDIENCE
+   - SCIP_JWKS_URL or signing key config
+   - DATABASE_URL
+   - SCIP_ALLOWED_ORIGINS
+   - SCIP_BACKUP_TARGET
+   - SCIP_OBSERVABILITY_ENABLED=true
+   - source directory paths
+11. Apply migrations in locked order.
+12. Provision users/groups/roles/scopes.
+13. Load latest production R-series files into staging.
+14. Run ingestion smoke tests.
+15. Run deployment smoke runner:
+   SCIP_BASE_URL=<staging-url> SCIP_JWT=<role-token> python smoke/deployment_smoke_runner.py
+16. Verify:
+   - Liquid Glass two-door navigation
+   - no-silent-fallback
+   - identity enforcement
+   - row-level visibility
+   - audit export
+   - workflow closure
+   - notification dedupe
+   - observability correlation IDs
+17. Complete role-wise UAT.
+18. Confirm rollback and break-glass.
+19. Approve production signoff.
+20. Promote to production with same gates repeated.
+
+CURRENT PRODUCTION BLOCKERS / ASSUMPTIONS
+
+Blockers until resolved:
+1. Patches are not yet merged into actual production repo.
+2. Full frontend build has not been executed in the real repo.
+3. Backend tests have not been run against deployed services.
+4. Real SSO/JWT issuer/audience/JWKS/claims are not configured here.
+5. Production database URL/secrets/backups are not configured here.
+6. Production CORS origin not confirmed.
+7. Latest production R-series files must be loaded in target environment.
+8. Real base URL and role-specific JWTs are needed for live smoke.
+9. Role-wise UAT signoff is pending.
+10. Rollback and break-glass owners need final confirmation.
+
+Assumptions:
+- Enterprise IdP can provide JWT claims for role, group, entity scope, and collector mapping.
+- Production environment supports durable DB migrations.
+- R-series source file naming remains sufficiently consistent for resolver/adapters.
+- Finance/MDO distinction remains required in UI.
+- Sobha AUH child split is not always available in all sources; disclose rather than invent.
+- Liquid Glass source document remains locked unless formally superseded.
+
+NEXT BEST ACTION
+
+Apply the Go-Live Readiness Consolidation pack to the actual repo and execute staging deployment.
+
+Recommended prompt to continue:
+
+“Use this handoff block as the project source of truth. Continue from Go-Live Readiness Consolidation. Help me apply the release candidate to the real SCIP repo step by step: first produce the exact repo merge checklist and file replacement order, then the staging environment variable checklist, then the commands for backend tests, frontend build, migrations, source refresh, smoke tests, role-wise UAT, rollback, break-glass, and production signoff. Do not introduce new product scope unless a blocker requires it.”
+```

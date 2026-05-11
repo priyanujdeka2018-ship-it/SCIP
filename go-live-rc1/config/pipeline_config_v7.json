@@ -1,0 +1,1115 @@
+{
+  "_meta": {
+    "file": "pipeline_config.json",
+    "platform": "Sobha Collections Intelligence Platform",
+    "version": "v7",
+    "authority": "MASTER_ARCHITECTURE_v9_1.md",
+    "purpose": "Column mappings and aggregation rules per R-series source. This is the ONLY file edited when pipeline sources change. data_loader.py reads this file. No submodule is ever edited to reflect source changes.",
+    "edit_rule": "Only Priyanuj or Claude edits this file. One entry per R-series report. Add/remove entries here when new reports are onboarded or retired. Never touch data_loader.py for a column rename.",
+    "format_rule": "All source files are xlsx. openpyxl reads them. Multi-sheet files use sheet_name param. No xlsb, PDF, or Word accepted.",
+    "unit_rule": "All monetary output from data_loader is in AED base units (not millions). utils.fmt_aed_millions() handles display conversion.",
+    "naming_convention": "snake_case throughout. _aed suffix = AED base units. _pct suffix = 0-100 scale. _m suffix FORBIDDEN in this config — all values are base AED.",
+    "changelog": {
+      "v7": "R18 entry fully rebuilt. Reflects actual file structure: multi-sheet workbook, active sheet = Overdue-1, positional column reads (not header-name reads), Grand Total row for OD_TODAY and ageing buckets, Sub Total rows (A-E/F/G) for entity OD. SNAPSHOT_DATE read from header cell. Flat column_map removed — replaced with positional_read spec."
+    }
+  },
+
+  "sources": {
+
+    "R01": {
+      "id": "R01",
+      "label": "Year-End Collections Snapshot 2021–2025",
+      "file": "R01_year_end_snap.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "annual",
+      "data_date": "2026-03",
+      "sections_used": ["S01"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Year":                  "year",
+        "Entity":                "entity",
+        "Dues":                  "dues_aed",
+        "Advance":               "advance_aed",
+        "New Sales":             "new_sales_aed",
+        "D+A":                   "total_da_aed",
+        "Total Collections":     "total_collections_aed",
+        "LP Charges":            "lp_charges_aed"
+      },
+      "column_types": {
+        "year":                  "int",
+        "entity":                "str",
+        "dues_aed":              "float",
+        "advance_aed":           "float",
+        "new_sales_aed":         "float",
+        "total_da_aed":          "float",
+        "total_collections_aed": "float",
+        "lp_charges_aed":        "float"
+      },
+      "aggregations": {
+        "da_cagr_anchor_2021":   { "op": "filter_sum", "col": "total_da_aed",  "filter": {"year": 2021, "entity": "Group"} },
+        "da_cagr_anchor_2025":   { "op": "filter_sum", "col": "total_da_aed",  "filter": {"year": 2025, "entity": "Group"} },
+        "total_2025_group":      { "op": "filter_sum", "col": "total_collections_aed", "filter": {"year": 2025, "entity": "Group"} },
+        "lp_growth_2021":        { "op": "filter_sum", "col": "lp_charges_aed","filter": {"year": 2021, "entity": "Group"} },
+        "lp_growth_2025":        { "op": "filter_sum", "col": "lp_charges_aed","filter": {"year": 2025, "entity": "Group"} }
+      },
+      "notes": "R01 is a PDF source — manual extraction required before first load. Once extracted to xlsx, treated identically to other R-series."
+    },
+
+    "R02": {
+      "id": "R02",
+      "label": "MDO Monthly Targets vs Actuals 2026",
+      "file": "R02_mdo_targets.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "monthly",
+      "data_date_col": "month",
+      "sections_used": ["S02", "S03"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Month":              "month",
+        "Entity":             "entity",
+        "Target Type":        "target_type",
+        "Dues Target":        "dues_target_aed",
+        "Dues Actual":        "dues_actual_aed",
+        "Advance Target":     "advance_target_aed",
+        "Advance Actual":     "advance_actual_aed",
+        "D+A Target":         "da_target_aed",
+        "D+A Actual":         "da_actual_aed",
+        "Achievement%":       "achievement_pct"
+      },
+      "column_types": {
+        "month":              "datetime",
+        "entity":             "str",
+        "target_type":        "str",
+        "dues_target_aed":    "float",
+        "dues_actual_aed":    "float",
+        "advance_target_aed": "float",
+        "advance_actual_aed": "float",
+        "da_target_aed":      "float",
+        "da_actual_aed":      "float",
+        "achievement_pct":    "float"
+      },
+      "aggregations": {
+        "fy_dues_target_group":    { "op": "filter_sum", "col": "dues_target_aed",    "filter": {"entity": "Group"} },
+        "fy_advance_target_group": { "op": "filter_sum", "col": "advance_target_aed", "filter": {"entity": "Group"} },
+        "q1_dues_actual_group":    { "op": "filter_sum", "col": "dues_actual_aed",    "filter": {"entity": "Group", "month_in": ["2026-01","2026-02","2026-03"]} },
+        "q1_advance_actual_group": { "op": "filter_sum", "col": "advance_actual_aed", "filter": {"entity": "Group", "month_in": ["2026-01","2026-02","2026-03"]} }
+      },
+      "disambiguation_note": "MDO Dues = Dues-only target. Finance Dues (R04) = D+A combined. Never conflate. Both must be labelled on-screen."
+    },
+
+    "R03": {
+      "id": "R03",
+      "label": "Entity Portfolio Snapshot — Qualified Units",
+      "file": "R03_entity_portfolio_snapshot.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "entity_project",
+      "sections_used": ["S01"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Entity":              "entity",
+        "Project":             "project",
+        "Qualified Units":     "qualified_units",
+        "Sale Value ITD":      "sale_value_itd_aed",
+        "Collected ITD":       "collected_itd_aed",
+        "Paid%":               "paid_pct",
+        "Paid Band":           "paid_band"
+      },
+      "column_types": {
+        "entity":              "str",
+        "project":             "str",
+        "qualified_units":     "int",
+        "sale_value_itd_aed":  "float",
+        "collected_itd_aed":   "float",
+        "paid_pct":            "float",
+        "paid_band":           "str"
+      },
+      "aggregations": {
+        "total_active_excl_pcc":    { "op": "count_filter", "col": "qualified_units", "filter": {"paid_band_ne": "PCC"} },
+        "total_qualified_itd":      { "op": "sum", "col": "qualified_units" }
+      },
+      "units_rule": "active_excl_pcc (30,044) = app adoption / coverage denominator. all_qualified_itd (34,731) = portfolio count. Label explicitly on every render."
+    },
+
+    "R04": {
+      "id": "R04",
+      "label": "Total Daily Collections — All Entities (Finance Target = D+A)",
+      "file": "R04_total_daily.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "daily",
+      "data_date_col": "collection_date",
+      "sections_used": ["S02", "S03"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Date":              "collection_date",
+        "Working Day":       "working_day_no",
+        "Dues":              "dues_aed",
+        "Advance":           "advance_aed",
+        "D+A":               "da_aed",
+        "New Sales":         "new_sales_aed",
+        "DLD":               "dld_aed",
+        "D+A MTD":           "da_mtd_aed",
+        "Finance Target":    "finance_target_aed"
+      },
+      "column_types": {
+        "collection_date":   "datetime",
+        "working_day_no":    "int",
+        "dues_aed":          "float",
+        "advance_aed":       "float",
+        "da_aed":            "float",
+        "new_sales_aed":     "float",
+        "dld_aed":           "float",
+        "da_mtd_aed":        "float",
+        "finance_target_aed":"float"
+      },
+      "aggregations": {
+        "DAILY_DAYS":        { "op": "extract_list", "col": "collection_date", "format": "DD MMM" },
+        "mtd_da_total":      { "op": "sum", "col": "da_aed" },
+        "mtd_dues_total":    { "op": "sum", "col": "dues_aed" },
+        "mtd_advance_total": { "op": "sum", "col": "advance_aed" },
+        "mtd_ns_total":      { "op": "sum", "col": "new_sales_aed" }
+      },
+      "special": {
+        "DAILY_DAYS_rule": "Extract DAILY_DAYS[] from this source ONCE. Used by all entity daily bar charts (S03). Replaces 4 duplicate days[] declarations from v5.",
+        "finance_target_rule": "finance_target_aed = D+A combined monthly target. Different from MDO dues-only target in R02. Both must be labelled on-screen."
+      }
+    },
+
+    "R05": {
+      "id": "R05",
+      "label": "Sobha Daily Collections — March 2026",
+      "file": "R05_sobha_daily.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "daily",
+      "data_date_col": "collection_date",
+      "fixed_entity": "Sobha",
+      "sections_used": ["S03"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Date":           "collection_date",
+        "Dues":           "dues_aed",
+        "Advance":        "advance_aed",
+        "New Sales":      "new_sales_aed",
+        "D+A MTD":        "da_mtd_aed"
+      },
+      "column_types": {
+        "collection_date": "datetime",
+        "dues_aed":         "float",
+        "advance_aed":      "float",
+        "new_sales_aed":    "float",
+        "da_mtd_aed":       "float"
+      },
+      "post_load": {
+        "add_column": { "entity": "Sobha" }
+      }
+    },
+
+    "R06": {
+      "id": "R06",
+      "label": "Siniya Daily Collections — March 2026",
+      "file": "R06_siniya_daily.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "daily",
+      "data_date_col": "collection_date",
+      "fixed_entity": "Siniya",
+      "sections_used": ["S03"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Date":           "collection_date",
+        "Dues":           "dues_aed",
+        "Advance":        "advance_aed",
+        "New Sales":      "new_sales_aed",
+        "D+A MTD":        "da_mtd_aed"
+      },
+      "column_types": {
+        "collection_date": "datetime",
+        "dues_aed":         "float",
+        "advance_aed":      "float",
+        "new_sales_aed":    "float",
+        "da_mtd_aed":       "float"
+      },
+      "post_load": {
+        "add_column": { "entity": "Siniya" }
+      }
+    },
+
+    "R07": {
+      "id": "R07",
+      "label": "Downtown UAQ Daily Collections — March 2026",
+      "file": "R07_dt_daily.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "daily",
+      "data_date_col": "collection_date",
+      "fixed_entity": "DT",
+      "sections_used": ["S03"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Date":           "collection_date",
+        "Dues":           "dues_aed",
+        "Advance":        "advance_aed",
+        "New Sales":      "new_sales_aed",
+        "D+A MTD":        "da_mtd_aed"
+      },
+      "column_types": {
+        "collection_date": "datetime",
+        "dues_aed":         "float",
+        "advance_aed":      "float",
+        "new_sales_aed":    "float",
+        "da_mtd_aed":       "float"
+      },
+      "post_load": {
+        "add_column": { "entity": "DT" }
+      }
+    },
+
+    "R08": {
+      "id": "R08",
+      "label": "Advance Collections Summary — CY/FY Splits, Rebate, NPV",
+      "file": "R08_advance_summary.xlsx",
+      "sheet_name": "Summary",
+      "file_type": "xlsx",
+      "granularity": "monthly",
+      "data_date_col": "month",
+      "sections_used": ["S01", "S05"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Month":                  "month",
+        "Year":                   "year",
+        "Entity":                 "entity",
+        "CY Advance":             "cy_advance_aed",
+        "FY Advance":             "fy_advance_aed",
+        "Total Advance":          "total_advance_aed",
+        "CY Mix%":                "cy_mix_pct",
+        "Rebate":                 "rebate_aed",
+        "Rebate Rate%":           "rebate_rate_pct",
+        "Avg Lead Days":          "avg_advance_lead_days",
+        "NPV Rate%":              "npv_rate_pct"
+      },
+      "column_types": {
+        "month":                  "datetime",
+        "year":                   "int",
+        "entity":                 "str",
+        "cy_advance_aed":         "float",
+        "fy_advance_aed":         "float",
+        "total_advance_aed":      "float",
+        "cy_mix_pct":             "float",
+        "rebate_aed":             "float",
+        "rebate_rate_pct":        "float",
+        "avg_advance_lead_days":  "float",
+        "npv_rate_pct":           "float"
+      },
+      "aggregations": {
+        "CY_ADV_MIX_YTD": {
+          "op": "weighted_avg",
+          "numerator": "cy_advance_aed",
+          "denominator": "total_advance_aed",
+          "filter": {"year": 2026, "entity": "Group"},
+          "multiply_100": true,
+          "note": "Compute ONCE. Result = 81.1%. Referenced in S01/S03/S05. NEVER recompute per-submodule."
+        },
+        "AVG_ADVANCE_LEAD_DAYS": {
+          "op": "mean",
+          "col": "avg_advance_lead_days",
+          "filter": {"entity": "Group"},
+          "note": "Historical average = 248 days. Used in NPV calculation."
+        },
+        "advance_2025_total": {
+          "op": "filter_sum", "col": "total_advance_aed",
+          "filter": {"year": 2025, "entity": "Group"}
+        },
+        "ytd_2026_rebate": {
+          "op": "filter_sum", "col": "rebate_aed",
+          "filter": {"year": 2026, "entity": "Group"}
+        },
+        "ytd_2026_advance": {
+          "op": "filter_sum", "col": "total_advance_aed",
+          "filter": {"year": 2026, "entity": "Group"}
+        }
+      },
+      "cy_fy_rule": "CY = advance on milestones due in current calendar year. FY = advance on future-year milestones. Jan 2025 CY = 70.1% (FY = 29.9%). Prior error swapped these — corrected v4+.",
+      "npv_label_rule": "NPV scenario figures (652M / 21M / 31M) are PROJECTED. Always label [PROJECTED]. Never label Actual."
+    },
+
+    "R10": {
+      "id": "R10",
+      "label": "Agent Coverage Report — Bucket × Unit × Contact Status",
+      "file": "R10_coverage.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "bucket_unit",
+      "sections_used": ["S03"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Bucket":             "bucket",
+        "Allocated Units":    "allocated_units",
+        "Contacted Units":    "contacted_units",
+        "Coverage%":          "coverage_pct",
+        "Unworked Units":     "unworked_units",
+        "OD Pool":            "od_pool_aed"
+      },
+      "column_types": {
+        "bucket":             "str",
+        "allocated_units":    "int",
+        "contacted_units":    "int",
+        "coverage_pct":       "float",
+        "unworked_units":     "int",
+        "od_pool_aed":        "float"
+      },
+      "aggregations": {
+        "siniya_unworked_pool_aed": {
+          "op": "filter_sum", "col": "od_pool_aed",
+          "filter": {"bucket": "Siniya"}
+        }
+      }
+    },
+
+    "R12": {
+      "id": "R12",
+      "label": "Monthly Trend — Booksize BOM & 30-Day Collection Efficiency",
+      "file": "R12_trend_monthly.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "monthly",
+      "data_date_col": "month",
+      "sections_used": ["S04"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Month":               "month",
+        "Entity":              "entity",
+        "Booksize BOM":        "booksize_bom_aed",
+        "Dues Collected":      "dues_collected_aed",
+        "30d Efficiency%":     "efficiency_30d_pct"
+      },
+      "column_types": {
+        "month":               "datetime",
+        "entity":              "str",
+        "booksize_bom_aed":    "float",
+        "dues_collected_aed":  "float",
+        "efficiency_30d_pct":  "float"
+      },
+      "formula_note": "efficiency_30d_pct = dues_collected_aed / booksize_bom_aed * 100. 2025 avg = 34.8%. Deprecated value of 18% from v3 is WRONG — never use."
+    },
+
+    "R13": {
+      "id": "R13",
+      "label": "Portfolio ITD Summary — Sale Value, Collected ITD by Entity",
+      "file": "R13_portfolio_itd.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "entity",
+      "sections_used": ["S02"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Entity":              "entity",
+        "Sale Value ITD":      "sale_value_itd_aed",
+        "Collected ITD":       "collected_itd_aed",
+        "Collected ITD%":      "collected_itd_pct"
+      },
+      "column_types": {
+        "entity":              "str",
+        "sale_value_itd_aed":  "float",
+        "collected_itd_aed":   "float",
+        "collected_itd_pct":   "float"
+      },
+      "aggregations": {
+        "group_sale_value_itd":  { "op": "filter_sum", "col": "sale_value_itd_aed", "filter": {"entity": "Group"} },
+        "group_collected_itd":   { "op": "filter_sum", "col": "collected_itd_aed",  "filter": {"entity": "Group"} }
+      }
+    },
+
+    "R16": {
+      "id": "R16",
+      "label": "Nationality & CIV OD Analysis",
+      "file": "R16_nationality_civ_od.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "nationality_civ",
+      "sections_used": ["S01"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Nationality":       "nationality",
+        "CIV Band":          "civ_band",
+        "Portfolio":         "portfolio_aed",
+        "MS Due ITD":        "ms_due_itd_aed",
+        "OD":                "od_aed",
+        "OD%":               "od_pct"
+      },
+      "column_types": {
+        "nationality":       "str",
+        "civ_band":          "str",
+        "portfolio_aed":     "float",
+        "ms_due_itd_aed":    "float",
+        "od_aed":            "float",
+        "od_pct":            "float"
+      },
+      "formula_rule": "od_pct = od_aed / ms_due_itd_aed * 100. NEVER divide by portfolio_aed. Boundary: this analysis LIVES IN S01. Not reproduced in S04.",
+      "aggregations": {
+        "civ_total_od":      { "op": "sum", "col": "od_aed" },
+        "civ_total_ms_due":  { "op": "sum", "col": "ms_due_itd_aed" }
+      }
+    },
+
+    "R17": {
+      "id": "R17",
+      "label": "SPA Legal Status Report",
+      "file": "R17_spa_status.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "unit",
+      "sections_used": ["S04"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Unit ID":      "unit_id",
+        "Entity":       "entity",
+        "SPA Status":   "spa_status",
+        "OD":           "od_aed"
+      },
+      "column_types": {
+        "unit_id":      "str",
+        "entity":       "str",
+        "spa_status":   "str",
+        "od_aed":       "float"
+      }
+    },
+
+    "R18": {
+      "id": "R18",
+      "label": "Consolidated & Overdue — Master OD Report (SINGLE SOURCE OF TRUTH)",
+      "file": "R18_consolidated_overdue.xlsx",
+      "sheet_name": "Overdue-1",
+      "file_type": "xlsx",
+      "granularity": "positional_rows",
+      "sections_used": ["S02", "S04", "S08"],
+      "graceful_degradation": "show_last_known",
+      "authority": "Single source of truth for all OD figures. Feeds OD_TODAY, OD_SOBHA, OD_SINIYA, OD_DT global constants.",
+
+      "_read_strategy": "POSITIONAL — do NOT use header-name column_map. This sheet uses merged cells, sub-total rows, and a Grand Total row. data_loader reads by scanning row labels in col[0]. openpyxl data_only=True.",
+
+      "sheet_structure": {
+        "active_sheet": "Overdue-1",
+        "total_sheets_in_workbook": 27,
+        "read_mode": "positional_row_scan",
+        "header_date_cell": "Read snapshot date from a header cell (row 0 or 1) — exact cell confirmed on first file inspection. Store as SNAPSHOT_DATE. Never hardcode.",
+        "col_index_note": "Column indices are 0-based as returned by openpyxl iter_rows(values_only=True)."
+      },
+
+      "positional_columns": {
+        "col_0":  "row_label — used to identify Grand Total and Sub Total rows",
+        "col_8":  "ageing_0_30_aed",
+        "col_9":  "ageing_31_60_aed",
+        "col_10": "ageing_61_90_aed",
+        "col_11": "ageing_91_120_aed",
+        "col_12": "ageing_121_180_aed",
+        "col_13": "ageing_180plus_aed",
+        "col_14": "total_od_aed"
+      },
+
+      "row_identification": {
+        "grand_total_row": {
+          "match_col": 0,
+          "match_value": "Grand Total",
+          "match_strategy": "str_contains_case_insensitive",
+          "reads": ["col_8","col_9","col_10","col_11","col_12","col_13","col_14"],
+          "produces": ["OD_TODAY", "ageing_0_30", "ageing_31_60", "ageing_61_90", "ageing_91_120", "ageing_121_180", "ageing_180plus"]
+        },
+        "sobha_subtotals": {
+          "match_col": 0,
+          "match_values": ["Sub Total (A)","Sub Total (B)","Sub Total (C)","Sub Total (D)","Sub Total (E)"],
+          "match_strategy": "str_exact_case_insensitive",
+          "reads": ["col_14"],
+          "aggregation": "sum",
+          "produces": "OD_SOBHA",
+          "note": "Sections A through E = Sobha entity. Sum col[14] across all five Sub Total rows."
+        },
+        "siniya_subtotal": {
+          "match_col": 0,
+          "match_value": "Sub Total (F)",
+          "match_strategy": "str_exact_case_insensitive",
+          "reads": ["col_14"],
+          "produces": "OD_SINIYA",
+          "note": "Section F = Siniya entity. Single Sub Total row."
+        },
+        "dt_subtotal": {
+          "match_col": 0,
+          "match_value": "Sub Total (G)",
+          "match_strategy": "str_exact_case_insensitive",
+          "reads": ["col_14"],
+          "produces": "OD_DT",
+          "note": "Section G = Downtown UAQ entity. Single Sub Total row."
+        }
+      },
+
+      "aggregations": {
+        "OD_TODAY": {
+          "source_row": "grand_total_row",
+          "source_col": "col_14",
+          "validated_value": 1650100000,
+          "validated_as_of": "2026-03-15",
+          "note": "= 1,650.1M as of 15 Mar 2026. Never hardcode — read live from file on every request. Falls back to last known value with 'data pending refresh' label if R18 is missing."
+        },
+        "OD_SOBHA": {
+          "source_rows": "sobha_subtotals",
+          "source_col": "col_14",
+          "aggregation": "sum",
+          "validated_value": 1472700000,
+          "validated_as_of": "2026-03-15",
+          "note": "= 1,472.7M. Sum of Sub Total rows A–E. NEVER use strategy doc narrative estimate of 1.57B."
+        },
+        "OD_SINIYA": {
+          "source_row": "siniya_subtotal",
+          "source_col": "col_14",
+          "validated_value": 166400000,
+          "validated_as_of": "2026-03-15",
+          "note": "= 166.4M. Sub Total row F."
+        },
+        "OD_DT": {
+          "source_row": "dt_subtotal",
+          "source_col": "col_14",
+          "validated_value": 11000000,
+          "validated_as_of": "2026-03-15",
+          "note": "= 11.0M. Sub Total row G."
+        },
+        "SNAPSHOT_DATE": {
+          "op": "read_header_cell",
+          "sheet": "Overdue-1",
+          "strategy": "scan_first_2_rows_for_date",
+          "note": "Read from file header cell — never hardcoded. Used in all data currency labels across S02, S04, S08."
+        },
+        "ageing_0_30": {
+          "source_row": "grand_total_row",
+          "source_col": "col_8",
+          "validated_value": 830000000,
+          "note": "= 830M as of 15 Mar 2026."
+        },
+        "ageing_31_60": {
+          "source_row": "grand_total_row",
+          "source_col": "col_9",
+          "validated_value": 445000000,
+          "note": "= 445M."
+        },
+        "ageing_61_90": {
+          "source_row": "grand_total_row",
+          "source_col": "col_10",
+          "validated_value": 166000000,
+          "note": "= 166M."
+        },
+        "ageing_91_120": {
+          "source_row": "grand_total_row",
+          "source_col": "col_11",
+          "validated_value": 79000000,
+          "note": "= 79M."
+        },
+        "ageing_121_180": {
+          "source_row": "grand_total_row",
+          "source_col": "col_12",
+          "validated_value": 47000000,
+          "note": "= 47M."
+        },
+        "ageing_180plus": {
+          "source_row": "grand_total_row",
+          "source_col": "col_13",
+          "validated_value": 225000000,
+          "note": "= 225M."
+        }
+      },
+
+      "validation_check": {
+        "rule": "OD_SOBHA + OD_SINIYA + OD_DT must equal OD_TODAY ± 0.1M rounding tolerance",
+        "formula": "1,472.7M + 166.4M + 11.0M = 1,650.1M",
+        "on_fail": "Log warning. Surface 'OD reconciliation gap' label in S02/S04. Do not crash."
+      },
+
+      "data_loader_implementation_note": "data_loader.py must NOT attempt to read R18 as a flat DataFrame with pd.read_excel(). Use openpyxl directly: wb = load_workbook(path, data_only=True); ws = wb['Overdue-1']; then scan rows using iter_rows(values_only=True) matching col[0] against row_identification patterns. Extract col[14] and cols[8-13] from matched rows only."
+    },
+
+    "R20": {
+      "id": "R20",
+      "label": "PR-to-SOA Turnaround Time Report",
+      "file": "R20_pr_soa_tat.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "monthly_tat_band",
+      "data_date_col": "month",
+      "sections_used": ["S06"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Month":       "month",
+        "TAT Band":    "tat_band",
+        "PR Count":    "pr_count",
+        "PR%":         "pr_pct"
+      },
+      "column_types": {
+        "month":       "datetime",
+        "tat_band":    "str",
+        "pr_count":    "int",
+        "pr_pct":      "float"
+      },
+      "aggregations": {
+        "tat_0_2d_ytd_2026": {
+          "op": "filter_mean", "col": "pr_pct",
+          "filter": {"year": 2026, "tat_band": "0-2d"},
+          "note": "2024=25%, 2025=35%, 2026 YTD=51%. Improvement trajectory for S06."
+        }
+      }
+    },
+
+    "R25": {
+      "id": "R25",
+      "label": "Payment Channel Mix — COUNT Basis (NOT AED value)",
+      "file": "R25_payment_channels.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "monthly_channel",
+      "data_date_col": "month",
+      "sections_used": ["S03", "S06"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Month":         "month",
+        "Year":          "year",
+        "Channel":       "channel",
+        "Txn Count":     "txn_count",
+        "Channel%":      "channel_pct"
+      },
+      "column_types": {
+        "month":         "datetime",
+        "year":          "int",
+        "channel":       "str",
+        "txn_count":     "int",
+        "channel_pct":   "float"
+      },
+      "formula_rule": "channel_pct = txn_count / total_da_txn_count * 100. COUNT basis only. NEVER use txn_value_aed for channel share. Chart title must include 'Transaction Count basis'.",
+      "aggregations": {
+        "app_share_2026_ytd": {
+          "op": "filter_mean", "col": "channel_pct",
+          "filter": {"year": 2026, "channel": "App"},
+          "note": "2024=0.1%, 2025=6%, 2026 YTD=25.9%. Trend for S03 doughnut and S06 bar."
+        }
+      }
+    },
+
+    "R26": {
+      "id": "R26",
+      "label": "Other Charges — LP, DLD Forfeiture, IC Forfeiture, NOC & Admin",
+      "file": "R26_other_charges.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "annual_charge_type",
+      "sections_used": ["S01", "S06"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Year":              "year",
+        "Entity":            "entity",
+        "LP Charges":        "lp_charges_aed",
+        "DLD Forfeiture":    "dld_forfeiture_aed",
+        "IC Forfeiture":     "ic_forfeiture_aed",
+        "NOC Admin":         "noc_admin_aed"
+      },
+      "column_types": {
+        "year":              "int",
+        "entity":            "str",
+        "lp_charges_aed":    "float",
+        "dld_forfeiture_aed":"float",
+        "ic_forfeiture_aed": "float",
+        "noc_admin_aed":     "float"
+      },
+      "aggregations": {
+        "lp_2021":           { "op": "filter_sum", "col": "lp_charges_aed", "filter": {"year": 2021, "entity": "Group"} },
+        "lp_2025":           { "op": "filter_sum", "col": "lp_charges_aed", "filter": {"year": 2025, "entity": "Group"} },
+        "dld_2026_ytd":      { "op": "filter_sum", "col": "dld_forfeiture_aed", "filter": {"year": 2026, "entity": "Group"} }
+      }
+    },
+
+    "R29": {
+      "id": "R29",
+      "label": "Helpdesk Monthly Cases — Volume & TAT Compliance",
+      "file": "R29_helpdesk.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "monthly",
+      "data_date_col": "month",
+      "sections_used": ["S06"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Month":           "month",
+        "Cases Closed":    "cases_closed",
+        "Within TAT%":     "within_tat_pct"
+      },
+      "column_types": {
+        "month":           "datetime",
+        "cases_closed":    "int",
+        "within_tat_pct":  "float"
+      },
+      "aggregations": {
+        "ytd_cases_closed_2026": {
+          "op": "filter_sum", "col": "cases_closed", "filter": {"year": 2026}
+        },
+        "ytd_within_tat_2026": {
+          "op": "filter_mean", "col": "within_tat_pct", "filter": {"year": 2026}
+        }
+      }
+    },
+
+    "R30": {
+      "id": "R30",
+      "label": "Collector Performance — 24 Collectors (Mar 2026 MTD Snapshot)",
+      "file": "R30_collector_performance.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "monthly_collector",
+      "sections_used": ["S03"],
+      "graceful_degradation": "show_last_known",
+      "data_currency_label": "Snapshot: Mar 2026 MTD",
+      "column_map": {
+        "Collector Name":   "collector_name",
+        "Target":           "target_aed",
+        "Actual":           "actual_aed",
+        "Achievement%":     "achievement_pct",
+        "Units Allocated":  "units_allocated",
+        "Units Paid":       "units_paid"
+      },
+      "column_types": {
+        "collector_name":   "str",
+        "target_aed":       "float",
+        "actual_aed":       "float",
+        "achievement_pct":  "float",
+        "units_allocated":  "int",
+        "units_paid":       "int"
+      },
+      "post_load": {
+        "sort": { "col": "achievement_pct", "order": "desc" },
+        "sort_note": "ALWAYS sort descending by achievement_pct before serving. v5 bug: chart was unsorted. Fixed in v6."
+      },
+      "aggregations": {
+        "team_avg_achievement": { "op": "mean", "col": "achievement_pct" },
+        "total_actual":         { "op": "sum",  "col": "actual_aed" },
+        "total_target":         { "op": "sum",  "col": "target_aed" }
+      }
+    },
+
+    "R31": {
+      "id": "R31",
+      "label": "Payment Receipt Quality Report",
+      "file": "R31_pr_quality.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "monthly",
+      "data_date_col": "month",
+      "sections_used": ["S06"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Month":                     "month",
+        "PR Submitted":              "pr_submitted",
+        "PR Approved":               "pr_approved",
+        "Doc Gap Rejections":        "pr_doc_gap_rejections",
+        "Manual Error Rejections":   "pr_manual_error_rejections",
+        "Approval Rate%":            "approval_rate_pct",
+        "Doc Gap Rate%":             "doc_gap_rate_pct",
+        "Manual Error Rate%":        "manual_error_rate_pct"
+      },
+      "column_types": {
+        "month":                     "datetime",
+        "pr_submitted":              "int",
+        "pr_approved":               "int",
+        "pr_doc_gap_rejections":     "int",
+        "pr_manual_error_rejections":"int",
+        "approval_rate_pct":         "float",
+        "doc_gap_rate_pct":          "float",
+        "manual_error_rate_pct":     "float"
+      },
+      "aggregations": {
+        "latest_approval_rate": {
+          "op": "last", "col": "approval_rate_pct",
+          "note": "Dec 2025 sample n=1,818: 51% approved / 27% doc gaps / 23% manual errors."
+        }
+      }
+    },
+
+    "R32": {
+      "id": "R32",
+      "label": "Collector PTP (Promise-to-Pay) Pipeline",
+      "file": "R32_collector_ptp.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "collector_unit",
+      "sections_used": ["S03"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Collector Name":  "collector_name",
+        "Unit ID":         "unit_id",
+        "PTP Amount":      "ptp_amount_aed",
+        "PTP Date":        "ptp_date"
+      },
+      "column_types": {
+        "collector_name":  "str",
+        "unit_id":         "str",
+        "ptp_amount_aed":  "float",
+        "ptp_date":        "datetime"
+      },
+      "aggregations": {
+        "total_ptp_pipeline": { "op": "sum", "col": "ptp_amount_aed" }
+      }
+    },
+
+    "R34": {
+      "id": "R34",
+      "label": "Termination Status Report — Eligible, In-System, Gap",
+      "file": "R34_termination_status.xlsx",
+      "sheet_name": 0,
+      "file_type": "xlsx",
+      "granularity": "monthly_unit",
+      "data_date_col": "month",
+      "sections_used": ["S04", "S08"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Month":               "month",
+        "Eligible Units":      "eligible_units",
+        "In System":           "in_system_units",
+        "Not In System":       "not_in_system_units",
+        "Dev Notice Sent":     "dev_notice_sent",
+        "Resolved":            "resolved_units",
+        "Avg Monthly Volume":  "avg_monthly_volume",
+        "Gap Exposure":        "gap_exposure_aed"
+      },
+      "column_types": {
+        "month":               "datetime",
+        "eligible_units":      "int",
+        "in_system_units":     "int",
+        "not_in_system_units": "int",
+        "dev_notice_sent":     "int",
+        "resolved_units":      "int",
+        "avg_monthly_volume":  "float",
+        "gap_exposure_aed":    "float"
+      },
+      "aggregations": {
+        "latest_not_in_system": {
+          "op": "last", "col": "not_in_system_units",
+          "note": "412 units not yet in system = 134.6M exposure. Advisory reference in S08."
+        },
+        "latest_gap_exposure":  { "op": "last", "col": "gap_exposure_aed" }
+      }
+    },
+
+    "R35": {
+      "id": "R35",
+      "label": "YoY Receipt Cohort — Booking Year × Collection Year Matrix",
+      "file": "R35_yoy_receipt_cohort.xlsx",
+      "sheet_name": "Dues",
+      "file_type": "xlsx",
+      "granularity": "booking_cohort_collection_year",
+      "sections_used": ["S01", "S05"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Booking Year Cohort":  "booking_year_cohort",
+        "Collection Year":      "collection_year",
+        "Category":             "category",
+        "Sales":                "sales_aed",
+        "Active Sales":         "active_sales_aed",
+        "Cancelled Sales":      "cancelled_sales_aed",
+        "Collected":            "collected_aed"
+      },
+      "column_types": {
+        "booking_year_cohort":  "str",
+        "collection_year":      "int",
+        "category":             "str",
+        "sales_aed":            "float",
+        "active_sales_aed":     "float",
+        "cancelled_sales_aed":  "float",
+        "collected_aed":        "float"
+      },
+      "multi_sheet_note": "R35 has 6 sheets: New_sale, Dues, Advance, Advance_CY, Advance_FY, Check_List. Default reads 'Dues' sheet. Endpoint functions specify sheet_name as needed."
+    },
+
+    "R36": {
+      "id": "R36",
+      "label": "YoY Milestone Cohort — Forward Obligation (PIPELINE_GROSS source)",
+      "file": "R36_yoy_milestone_cohort.xlsx",
+      "sheet_name": "Active",
+      "file_type": "xlsx",
+      "granularity": "booking_cohort_collection_year",
+      "sections_used": ["S02", "S05", "S08"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Booking Year Cohort":      "booking_year_cohort",
+        "Collection Year":          "collection_year",
+        "Entity":                   "entity",
+        "Purchase Price":           "purchase_price_aed",
+        "Milestone Collected":      "milestone_collected_aed",
+        "Forward Obligation":       "forward_obligation_aed"
+      },
+      "column_types": {
+        "booking_year_cohort":      "str",
+        "collection_year":          "int",
+        "entity":                   "str",
+        "purchase_price_aed":       "float",
+        "milestone_collected_aed":  "float",
+        "forward_obligation_aed":   "float"
+      },
+      "aggregations": {
+        "PIPELINE_GROSS": {
+          "op": "sum", "col": "forward_obligation_aed",
+          "note": "= 43.5B. Label: 'Total Forward Pipeline (R36)'. Used in S02, S04."
+        },
+        "PIPELINE_ADV_DENOM": {
+          "op": "derived",
+          "formula": "PIPELINE_GROSS - 5_700_000_000",
+          "note": "= 37.8B = 43.5B − 5.7B prior advances. Label: '2026 Advance Penetration Denominator'. Used in S05 and S08 ONLY."
+        }
+      },
+      "pipeline_rule": "PIPELINE_GROSS (43.5B) ≠ PIPELINE_FORWARD_BOOK (~40B) ≠ PIPELINE_ADV_DENOM (37.8B). Three distinct figures. Always display with inline label. Never show unlabelled pipeline figure.",
+      "xlsb_note": "Source is XLSB. Must be resaved as xlsx by team before push. Graceful degradation if missing."
+    },
+
+    "R37": {
+      "id": "R37",
+      "label": "Milestone ACD Report — Construction Schedule by Month/Year",
+      "file": "R37_milestone_acd.xlsx",
+      "sheet_name": "Total_Milestone",
+      "file_type": "xlsx",
+      "granularity": "acd_month_year",
+      "sections_used": ["S05"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "ACD Month":          "acd_month",
+        "ACD Year":           "acd_year",
+        "Entity":             "entity",
+        "Milestone Type":     "milestone_type",
+        "Milestone AED":      "milestone_aed",
+        "Completed AED":      "completed_aed",
+        "Completion Rate%":   "completion_rate_pct",
+        "Booking Amount":     "booking_amount_aed",
+        "Net MS ex Booking":  "net_ms_ex_booking_aed"
+      },
+      "column_types": {
+        "acd_month":          "str",
+        "acd_year":           "int",
+        "entity":             "str",
+        "milestone_type":     "str",
+        "milestone_aed":      "float",
+        "completed_aed":      "float",
+        "completion_rate_pct":"float",
+        "booking_amount_aed": "float",
+        "net_ms_ex_booking_aed":"float"
+      },
+      "aggregations": {
+        "ACD_DEC_2026": {
+          "op": "filter_sum", "col": "milestone_aed",
+          "filter": {"acd_month": "Dec", "acd_year": 2026, "entity": "Group"},
+          "note": "= 5.62B. Largest single ACD month. Used in S05 forward pipeline context."
+        }
+      },
+      "xlsb_note": "Source is XLSB. Must be resaved as xlsx. Graceful degradation if missing."
+    },
+
+    "R38": {
+      "id": "R38",
+      "label": "Risk Analysis — Portfolio by Paid% Band × CIV Investment Tier",
+      "file": "R38_risk_analysis.xlsx",
+      "sheet_name": "projectwise_total",
+      "file_type": "xlsx",
+      "granularity": "project_tower_paid_band_civ",
+      "sections_used": ["S04", "S08"],
+      "graceful_degradation": "show_last_known",
+      "column_map": {
+        "Entity":                         "entity",
+        "Project":                        "project",
+        "Tower":                          "tower",
+        "Paid Band":                      "paid_band",
+        "CIV Band":                       "civ_band",
+        "Units":                          "units",
+        "Sale Value":                     "sale_value_aed",
+        "Paid to Date":                   "paid_to_date_aed",
+        "Balance Collectible":            "balance_collectible_aed",
+        "Dues":                           "dues_aed",
+        "Future Collectible 2026":        "future_collectible_2026_aed",
+        "Future Collectible 2027":        "future_collectible_2027_aed",
+        "Future Collectible 2028":        "future_collectible_2028_aed",
+        "Future Collectible 2029":        "future_collectible_2029_aed",
+        "Future Collectible 2030":        "future_collectible_2030_aed",
+        "Future Collectible 2031":        "future_collectible_2031_aed",
+        "IC Threshold Eligible":          "ic_threshold_eligible"
+      },
+      "column_types": {
+        "entity":                         "str",
+        "project":                        "str",
+        "tower":                          "str",
+        "paid_band":                      "str",
+        "civ_band":                       "str",
+        "units":                          "int",
+        "sale_value_aed":                 "float",
+        "paid_to_date_aed":               "float",
+        "balance_collectible_aed":        "float",
+        "dues_aed":                       "float",
+        "future_collectible_2026_aed":    "float",
+        "future_collectible_2027_aed":    "float",
+        "future_collectible_2028_aed":    "float",
+        "future_collectible_2029_aed":    "float",
+        "future_collectible_2030_aed":    "float",
+        "future_collectible_2031_aed":    "float",
+        "ic_threshold_eligible":          "bool"
+      },
+      "aggregations": {
+        "ic_band_0_10_units": {
+          "op": "filter_count", "col": "units",
+          "filter": {"paid_band": "0-10%"},
+          "note": "= 251 units / 907.7M exposure. IC threshold policy decision is a standalone business case — not made in platform."
+        },
+        "ic_band_0_10_exposure": {
+          "op": "filter_sum", "col": "sale_value_aed",
+          "filter": {"paid_band": "0-10%"}
+        }
+      },
+      "multi_sheet_note": "R38 has 10 sheets. Default reads 'projectwise_total'. CIV-band analysis reads 'investment_total'. Endpoint functions specify sheet_name as needed.",
+      "governance_note": "IC threshold policy change = standalone board business case. NOT in platform. Data read-only reference in S04/S08."
+    }
+
+  },
+
+  "computed_constants_order": [
+    "OD_TODAY from R18 (positional: Grand Total row, col[14])",
+    "OD_SOBHA from R18 (sum Sub Total A-E rows, col[14])",
+    "OD_SINIYA from R18 (Sub Total F row, col[14])",
+    "OD_DT from R18 (Sub Total G row, col[14])",
+    "SNAPSHOT_DATE from R18 header cell (scan first 2 rows)",
+    "ageing_0_30 from R18 (Grand Total row, col[8])",
+    "ageing_31_60 from R18 (Grand Total row, col[9])",
+    "ageing_61_90 from R18 (Grand Total row, col[10])",
+    "ageing_91_120 from R18 (Grand Total row, col[11])",
+    "ageing_121_180 from R18 (Grand Total row, col[12])",
+    "ageing_180plus from R18 (Grand Total row, col[13])",
+    "PIPELINE_GROSS from R36 (sum forward_obligation_aed)",
+    "PIPELINE_ADV_DENOM from R36 (PIPELINE_GROSS - 5.7B offset)",
+    "CY_ADV_MIX_YTD from R08 (weighted_avg cy/total, year=2026, entity=Group)",
+    "AVG_ADVANCE_LEAD_DAYS from R08 (mean avg_advance_lead_days)",
+    "DAILY_DAYS from R04 (extract collection_date list)"
+  ],
+
+  "load_priority": {
+    "1_critical": ["R18", "R04", "R02"],
+    "2_high":     ["R08", "R36", "R30", "R13"],
+    "3_standard": ["R01", "R03", "R05", "R06", "R07", "R10", "R12", "R16", "R20", "R25", "R26"],
+    "4_advisory": ["R17", "R29", "R31", "R32", "R34", "R35", "R37", "R38"],
+    "note": "Critical sources load first. If R18 fails, OD_TODAY falls back to last known value with 'data pending refresh' label. Platform never crashes on missing source."
+  },
+
+  "excluded_sources": {
+    "R09": "Project-level collections detail — loaded on-demand by S04 endpoint only, not pre-aggregated.",
+    "R11": "Receipt status summary — on-demand only.",
+    "R14": "Monthwise milestone by project — on-demand only.",
+    "R15": "Overdue constraints — on-demand only.",
+    "R17": "SPA status — on-demand for S04 chart only.",
+    "R19": "Not in active use in v7.",
+    "R21": "Not in active use in v7.",
+    "R22": "Not in active use in v7.",
+    "R23": "Net OD ex-booking — on-demand only.",
+    "R24": "Not in active use in v7.",
+    "R27": "Sobha Dec 2025 summary — on-demand only.",
+    "R28": "Siniya Dec 2025 summary — on-demand only.",
+    "R33": "Not in active use in v7."
+  }
+}

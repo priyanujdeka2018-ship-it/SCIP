@@ -1,0 +1,36 @@
+# SCIP release/go-live-rc1 exclusions
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite
+*.db
+.pytest_cache/
+.venv/
+venv/
+
+# Node/Vite
+node_modules/
+dist/
+.vite/
+
+# Environment/secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Source workbooks must not be committed to the public repo
+*.xlsx
+*.xls
+*.xlsm
+~$*
+
+# Local/runtime outputs
+Backend/audit_exports/*
+!Backend/audit_exports/.gitkeep
+data/*
+!data/.gitkeep

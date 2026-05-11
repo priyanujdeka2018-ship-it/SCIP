@@ -1,0 +1,1293 @@
+{
+  "schema_version": "1.0",
+  "document": "Sobha Collections Platform — Validation + Final Structure",
+  "build_target": "v6",
+  "reviewed_against": ["schema_core.json", "metrics.json", "section_mapping.json", "Engineering_Structure_v1.md", "Architecture_Blueprint_v1.md", "SystemMap_v1.docx"],
+
+  "validation": {
+
+    "section_size_issues": [
+      {
+        "section": "S01",
+        "issue": "OVERSIZED — 15 charts across 4 submodules",
+        "detail": "Growth Trajectory submodule alone carries 8 charts covering 5 distinct analytical themes: annual entity bars, % mix trend, monthly composition stacked, LP charges, and units by year. These are 5 independent questions bundled into one submodule.",
+        "recommended_split": "Split Growth Trajectory into two submodules: (1) Annual Collections Story — entity annual bars + growth KPIs; (2) Collections Composition — mix % trend + LP + units. Reduce S01 from 15 charts to 12 by consolidating entity-toggled variants."
+      },
+      {
+        "section": "S06",
+        "issue": "OVER-SCOPED — 4 domain themes in one section, 9 submodules in blueprint",
+        "detail": "S06 combines: QCG receipt quality (R31), payment channel technology (R25), PR-SOA process (R20), financial charges (R26), and helpdesk operations (R29). These are owned by different teams with different KPI cadences and different audiences.",
+        "recommended_split": "Formalise as 3 named submodules with distinct domain ownership: (1) Receipt Quality — QCG/Garima; (2) Payment Infrastructure — Technology track; (3) Charges & Support — Finance/Operations. Already aligned with blueprint but must be enforced as hard boundaries in rendering."
+      }
+    ],
+
+    "submodule_overload_issues": [
+      {
+        "submodule": "S04 / OD Analysis",
+        "issue": "OVERLOADED — snapshot doughnut + trend chart + project ranking + SPA legal status + 16 KPIs in one submodule",
+        "detail": "OD Analysis currently mixes four distinct questions: What is the ageing position now? (doughnut), How has ageing evolved? (monthly trend), Which projects are worst? (bar), What is the legal status of OD? (SPA chart). These require separate visual contexts and scroll positions.",
+        "recommended_split": "Split into: (1) OD Position — KPI strip only; (2) OD Snapshot — doughnut + projects + SPA; (3) OD Progression — monthly trend TREND_PANEL. The blueprint already separates 4.2 from 4.3 but KPIs are still bundled with 4.2."
+      },
+      {
+        "submodule": "S03 / Coverage & Channel",
+        "issue": "MIXED OWNERSHIP — agent coverage (R10, operational) and payment channel doughnut (R25, transactional) have different owners and different update frequencies",
+        "detail": "Coverage is a daily operational metric tracking RM activity. Channel mix is a structural trend tracking customer payment behaviour. Combining them in one submodule obscures both signals.",
+        "recommended_split": "Split into: (1) Coverage — 5-bucket bars + coverage KPIs (stays in S03 as pulse metric); (2) Payment Channel Snapshot — current-period doughnut only (stays in S03). The longitudinal channel shift (c-paych 3yr grouped bar) moves exclusively to S06 Payment Infrastructure."
+      },
+      {
+        "submodule": "S01 / Growth Trajectory",
+        "issue": "OVERLOADED — 8 charts covering annual collections, % mix evolution, monthly stacked, LP charges, and units by year",
+        "detail": "A reader cannot consume 8 charts with 5 different questions under one submodule heading without losing the thread. Each chart pair answers a different executive question.",
+        "recommended_split": "Annual Collections Story (entity annual bars + CAGR KPIs) is one narrative unit. Collections Composition (% mix trend + LP charges + units by year) is a second narrative unit. Split into two submodules."
+      }
+    ],
+
+    "metrics_duplication": [
+      {
+        "metric": "CY Advance Mix %",
+        "sections_affected": ["S01 (Advance Deep Dive)", "S03 (YTD Performance)", "S05 (2026 Progress)"],
+        "issue": "Computed from R08 independently in all three sections. Shadow risk if source data updates.",
+        "resolution": "Compute once as global derived constant CY_ADV_MIX_YTD = 81.1%. Reference in S01, S03, S05 — never recompute."
+      },
+      {
+        "metric": "Q1 MDO Achievement (Dues 91%, Advance 73%, NS 31%)",
+        "sections_affected": ["S02 Target Achievement Summary", "S03 YTD Achievement KPI Strip"],
+        "issue": "Near-identical KPI blocks. S02 frames it as a strategic summary; S03 frames it as a live operational pulse. The values are identical.",
+        "resolution": "Keep in both sections but with explicit purpose labels. S02 = 'Year-to-Date Summary (Strategic)'. S03 = 'Q1 Actuals vs MDO (Operational Pulse)'. Mark as cross-referenced, not duplicated. Same source R02."
+      },
+      {
+        "metric": "Entity 2025 Totals (Sobha 14.06B, Siniya 2.51B, DT 0.25B)",
+        "sections_affected": ["S01 Growth Headlines KPI_STRIP", "S02 Portfolio Cards KPI_STRIP"],
+        "issue": "Same values rendered in two KPI strips with no differentiation in framing.",
+        "resolution": "S01 context = historical growth story (2021→2025 trajectory). S02 context = current stock position. Values are identical but framing justifies both. Add context labels. Source R01 for both."
+      },
+      {
+        "metric": "Advance 3-Year Monthly Comparison",
+        "sections_affected": ["S01 Advance Deep Dive (c-adv-3yr)", "S05 Historical Performance (c-adv-hist)"],
+        "issue": "SAME CHART rendered in two sections. c-adv-3yr in S01 and c-adv-hist in S05 are the same 3-year monthly overlay. Duplication of rendering logic and data arrays.",
+        "resolution": "REMOVE from S01. Single authoritative render in S05 as TREND_PANEL (c-adv-hist). S01 Advance Narrative becomes a KPI_STRIP only — references 3yr context via headline numbers (3,260M, +125%, +238%) without re-rendering the chart."
+      },
+      {
+        "metric": "NPV Scenario Figures (652M, 21M, 31M)",
+        "sections_affected": ["S01 NPV Rebate Panel (KPI_STRIP)", "S05 Rebate Strategy (INSIGHT_BLOCK)"],
+        "issue": "Figures appear in both sections. S01 shows them as KPIs; S05 shows them again as advisory context.",
+        "resolution": "S01 owns the financial model KPIs — 652M, 21M, 31M clearly labelled PROJECTED. S05 Rebate Strategy INSIGHT_BLOCK references the S01 finding by name only ('see NPV Rebate Analysis in Strategic Narrative'). No re-display of the numbers in S05."
+      },
+      {
+        "metric": "Book Penetration Denominator Definition",
+        "sections_affected": ["S05 Book Penetration submodule (chart + KPI)", "S05 Advance Definitions DEFINITION_BLOCK"],
+        "issue": "The PIPELINE_ADV_DENOM = 37.8B definition is explained twice within the same section: once inline with the chart and again in the DEFINITION_BLOCK.",
+        "resolution": "State denominator definition ONCE in DEFINITION_BLOCK only. Chart tooltip and KPI annotations reference the constant by name (PIPELINE_ADV_DENOM = 37.8B) — not re-explained."
+      }
+    ],
+
+    "unclear_boundaries": [
+      {
+        "boundary": "S01 Advance Deep Dive vs S05 Advance Collections",
+        "issue": "Both sections show advance data in overlapping depth. S01 has 3 charts + 6 KPIs on advance. S05 has 6 charts + 9 KPIs on advance. The division between 'narrative summary' and 'management detail' is not enforced in v5.",
+        "resolution": "S01 RULE: advance data in S01 is KPI-only (totals, growth %, NPV KPIs). No charts that are also in S05. The single exception — advance quarterly (c-adv-qtr) — stays in S01 as it shows the narrative acceleration story not shown elsewhere. S05 owns all monthly/CY/FY/penetration charts."
+      },
+      {
+        "boundary": "S04 IC Threshold Risk Flags vs S08 Risk Exposure Summary",
+        "issue": "251 units / 907.7M appears as an INSIGHT_BLOCK in S04 and as a KPI_STRIP in S08. The S08 strip re-displays S04 data without differentiation.",
+        "resolution": "S04 = Operational flag (what is the current risk in the portfolio today). S08 = Strategic advisory (what should the board decide about this risk). S08 KPI_STRIP carries a link label 'Source: S04 Risk Flags' and adds the policy context. Data not re-fetched — S08 reads from S04 constants."
+      },
+      {
+        "boundary": "S03 Payment Channel Doughnut vs S06 Payment Channel Grouped Bar",
+        "issue": "S03 shows c-channel (current period units paid by channel — doughnut). S06 shows c-paych (3-year grouped bar — longitudinal shift). In v5 these are in the same S06 section, creating confusion between pulse and trend.",
+        "resolution": "MOVE c-channel to S03 Coverage & Channel submodule — it is a current-period operational metric (what channel did customers use THIS month). KEEP c-paych in S06 Payment Infrastructure — it is a longitudinal transformation story (how channel mix has shifted over 3 years). These are now explicitly different chart types in different sections."
+      },
+      {
+        "boundary": "S02 Portfolio Cards entity OD vs S04 OD Position KPI_STRIP",
+        "issue": "Both show entity OD values. S02 shows Sobha 1.47B / Siniya 166M / DT 11M. S04 shows Group OD 1.65B. All source from R18. No clear rule on which is authoritative for entity-level OD.",
+        "resolution": "S02 = Entity-level OD (entity toggle context, part of portfolio snapshot). S04 = Group-level OD analysis (ageing, composition, trend). Both use OD_TODAY constant from R18. No conflict — different granularity of the same signal."
+      }
+    ],
+
+    "hardcoded_staleness_risks": [
+      { "value": "OD Today 1.65B", "locations": 3, "resolution": "Single OD_TODAY constant from R18 — three hardcoded instances removed" },
+      { "value": "days[] array", "locations": 4, "resolution": "Single DAILY_DAYS[] constant — four duplicate declarations removed" },
+      { "value": "Working days = 22", "locations": 1, "resolution": "Replace with WORKING_DAYS_MONTH variable; March = 21 actual" },
+      { "value": "NPV figures labelled 'Actual'", "locations": 2, "resolution": "Relabelled 'Projected' in S01 and S05" },
+      { "value": "c-mdo2 (unknown purpose)", "locations": 1, "resolution": "REMOVED — not carried to v6" },
+      { "value": "Collector arrays (static Mar 2026)", "locations": 1, "resolution": "Label 'Snapshot: Mar 2026 MTD' with refresh_date field" }
+    ]
+  },
+
+  "final_structure": {
+
+    "global_constants": {
+      "OD_TODAY":             { "value": 1650100000, "source": "R18", "note": "Refreshed on load — never hardcode" },
+      "PIPELINE_GROSS":       { "value": 43500000000, "source": "R36", "label": "Total Forward Pipeline" },
+      "PIPELINE_FORWARD_BOOK":{ "value": 40000000000, "source": "Narrative approx", "label": "~Opening 2025 Book" },
+      "PIPELINE_ADV_DENOM":   { "value": 37800000000, "source": "R36 derived", "label": "2026 Advance Penetration Denominator = 43.5B − 5.7B" },
+      "CY_ADV_MIX_YTD":       { "value": 81.1, "source": "R08", "note": "Computed once — referenced in S01, S03, S05" },
+      "DAILY_DAYS":           { "source": "R04", "note": "Single shared array — replaces 4 duplicate days[] declarations" },
+      "WORKING_DAYS_MONTH":   { "value": 21, "source": "Calendar", "note": "March 2026 actual = 21. Replace hardcoded 22." }
+    },
+
+    "sections": [
+
+      {
+        "id": "S01",
+        "slug": "sec-story",
+        "label": "Strategic Narrative",
+        "purpose": "Executive-layer story of portfolio growth, value composition, advance evolution, and risk profile. Audience: C-suite, board, investor review.",
+        "chart_count": 12,
+        "submodules": [
+
+          {
+            "id": "S01_SM1",
+            "label": "Annual Collections Story",
+            "type": "KPI_STRIP + CHART_PANEL",
+            "purpose": "Answer: How much have we grown, and which entity drove it?",
+            "features": [
+              {
+                "id": "F_S01_01",
+                "name": "entity_annual_bars",
+                "chart_id": "c-annual-entity",
+                "purpose": "Show annual Dues + Advance + New Sales stacked per entity 2021–2025, entity-toggled",
+                "inputs": {
+                  "data_fields": ["year", "entity", "dues_aed", "advance_aed", "new_sales_aed"],
+                  "sources": ["R01"],
+                  "toggle": "etog (Group / Sobha / Siniya / DT)"
+                },
+                "outputs": {
+                  "type": "Stacked bar chart",
+                  "charts": ["c-annual-entity", "c-ann-sob", "c-ann-sin"],
+                  "user_sees": "Annual stacked bars 2021–2025 by entity; toggle switches entity view"
+                }
+              },
+              {
+                "id": "F_S01_02",
+                "name": "growth_headline_kpis",
+                "purpose": "Surface the headline numbers that frame the growth story for executive audiences",
+                "inputs": {
+                  "metrics": ["da_cagr (M010)", "da_growth_multiple (M011)", "total_collections (M009)"],
+                  "sources": ["R01"]
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "user_sees": "D+A CAGR 97% | 15× growth (867M→12,966M) | Sobha 14.06B | Siniya 2.51B | DT 0.25B"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S01_SM2",
+            "label": "Collections Composition",
+            "type": "TREND_PANEL",
+            "purpose": "Answer: How has the mix between Dues, Advance, and New Sales shifted over time? What does LP acceleration signal?",
+            "features": [
+              {
+                "id": "F_S01_03",
+                "name": "mix_evolution_trend",
+                "chart_id": "c-mix-year-grp",
+                "purpose": "Show structural shift in Dues% / Advance% / NS% of total from 2021–2025",
+                "inputs": {
+                  "data_fields": ["year", "entity", "dues_aed", "advance_aed", "new_sales_aed", "total_collections_aed"],
+                  "metrics": ["mix_pct_dues (M012)", "mix_pct_advance (M013)", "mix_pct_new_sales (M014)"],
+                  "sources": ["R01"]
+                },
+                "outputs": {
+                  "type": "Line/area trend chart",
+                  "charts": ["c-mix-year-grp", "c-mix-year-sob"],
+                  "user_sees": "% split trend 2021–2025 showing advance share rising, dues share stabilising"
+                }
+              },
+              {
+                "id": "F_S01_04",
+                "name": "monthly_2025_composition",
+                "chart_id": "c-mix-grp",
+                "purpose": "Show month-by-month collections mix throughout 2025 for intra-year narrative",
+                "inputs": {
+                  "data_fields": ["month", "entity", "dues_aed", "advance_aed", "new_sales_aed"],
+                  "sources": ["R08", "R01"]
+                },
+                "outputs": {
+                  "type": "Monthly stacked bar (entity toggle)",
+                  "charts": ["c-mix-grp", "c-mix-sob", "c-mix-sin"],
+                  "user_sees": "Monthly entity stacked bars Jan–Dec 2025"
+                }
+              },
+              {
+                "id": "F_S01_05",
+                "name": "lp_and_units_context",
+                "chart_id": "c-lp-grp",
+                "purpose": "Show LP charges as a delinquency signal and portfolio unit growth as scale context",
+                "inputs": {
+                  "data_fields": ["year", "entity", "lp_charges_aed", "qualified_units"],
+                  "sources": ["R26", "R03"]
+                },
+                "outputs": {
+                  "type": "Dual bar charts (LP annual + units by year)",
+                  "charts": ["c-lp-grp", "c-port-grp"],
+                  "user_sees": "LP 1.54M→34.82M (22×); qualified units 2021–2026 YTD by entity"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S01_SM3",
+            "label": "Advance Narrative",
+            "type": "KPI_STRIP",
+            "purpose": "Answer: How fast is advance growing and what is the NPV rebate ROI? SUMMARY ONLY — management detail in S05.",
+            "boundary_rule": "No advance charts in S01. The 3-year monthly overlay lives exclusively in S05 as TREND_PANEL. S01 shows advance context via KPIs and quarterly acceleration only.",
+            "features": [
+              {
+                "id": "F_S01_06",
+                "name": "advance_growth_kpis",
+                "purpose": "Frame advance 2025 performance as a headline narrative without re-rendering S05 charts",
+                "inputs": {
+                  "data_fields": ["year", "total_advance_aed", "cy_advance_aed", "fy_advance_aed"],
+                  "metrics": ["da_growth_multiple (M011)", "cy_advance_mix_pct (M033)"],
+                  "sources": ["R08"],
+                  "constant": "CY_ADV_MIX_YTD (read-only from global)"
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "user_sees": "2025 advance 3,260M | +125% vs 2024 | +238% vs 2023 | Dec 406M peak | CY Jan=70.1%→Dec=0%"
+                }
+              },
+              {
+                "id": "F_S01_07",
+                "name": "advance_quarterly_chart",
+                "chart_id": "c-adv-qtr",
+                "purpose": "Show quarterly acceleration within 2025 — unique narrative not shown in S05",
+                "inputs": {
+                  "data_fields": ["total_advance_aed"],
+                  "sources": ["R08"]
+                },
+                "outputs": {
+                  "type": "Quarterly bar chart",
+                  "charts": ["c-adv-qtr"],
+                  "user_sees": "Q1=512M | Q2=857M | Q3=858M | Q4=1,032M — acceleration story"
+                }
+              },
+              {
+                "id": "F_S01_08",
+                "name": "npv_rebate_kpis",
+                "purpose": "Quantify the financial return on the advance rebate program for executive audiences",
+                "inputs": {
+                  "metrics": ["npv_rebate_rate_pct (M037)", "npv_incremental_inflow (M038)", "advance_lead_time_days (M036)"],
+                  "sources": ["R08"]
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "label_rule": "All 3 scenario figures carry [PROJECTED] label — not Actual",
+                  "user_sees": "Incremental inflow 652M [P] | Rebate cost 21M [P] vs bank cost 31M [P] | NPV 3.5%→4.3% proposed | 248d avg lead"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S01_SM4",
+            "label": "Portfolio Risk Profile",
+            "type": "CHART_PANEL",
+            "purpose": "Answer: Which customer segments carry highest delinquency risk? Nationality and investment tier view.",
+            "boundary_rule": "Strategic risk lens. Stays in S01. Not the operational OD list (that is S04).",
+            "features": [
+              {
+                "id": "F_S01_09",
+                "name": "nationality_od_profile",
+                "chart_id": "c-nat",
+                "purpose": "Show portfolio value and OD rate by nationality to identify top-risk customer origins",
+                "inputs": {
+                  "data_fields": ["nationality", "portfolio_aed", "ms_due_itd_aed", "od_aed"],
+                  "metrics": ["nationality_od_pct (M057)"],
+                  "sources": ["R16"],
+                  "formula_note": "OD% = od_aed / ms_due_itd_aed × 100 — NOT / purchase_price"
+                },
+                "outputs": {
+                  "type": "Dual-axis bar + line chart",
+                  "charts": ["c-nat"],
+                  "user_sees": "Top 10 nationalities: portfolio AED bar + OD% rate line | India 272M (4.33%), Iran 9.14%, Netherlands 10.02%"
+                }
+              },
+              {
+                "id": "F_S01_10",
+                "name": "civ_od_profile",
+                "chart_id": "c-civ",
+                "purpose": "Show OD concentration by investment tier — who is most delinquent relative to their milestone obligations",
+                "inputs": {
+                  "data_fields": ["civ_band", "portfolio_aed", "ms_due_itd_aed", "od_aed"],
+                  "metrics": ["civ_od_pct (M058)"],
+                  "sources": ["R16", "R38"]
+                },
+                "outputs": {
+                  "type": "Dual-axis bar + line chart",
+                  "charts": ["c-civ"],
+                  "user_sees": "CIV bands: portfolio bar + OD% line | Group total 3.88% | 60–100M band = 31.58% peak"
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "S02",
+        "slug": "sec-overview",
+        "label": "Portfolio Overview",
+        "purpose": "Single-screen portfolio entry point — stock position, targets (MDO vs Finance), market context.",
+        "chart_count": 5,
+        "removed": ["c-mdo2 — purpose unclear, not carried to v6"],
+        "submodules": [
+
+          {
+            "id": "S02_SM1",
+            "label": "Portfolio Snapshot",
+            "type": "KPI_STRIP + JOURNEY_PANEL",
+            "purpose": "Answer: What is the macro portfolio position and how does the customer payment journey flow?",
+            "features": [
+              {
+                "id": "F_S02_01",
+                "name": "entity_portfolio_cards",
+                "purpose": "Give the instant portfolio position — total value, collected, remaining, and OD — entity-toggled",
+                "inputs": {
+                  "data_fields": ["sale_value_itd_aed", "collected_itd_aed", "forward_obligation_aed", "od_today_aed"],
+                  "metrics": ["sale_value_itd (M001)", "collected_itd (M003)", "collected_itd_pct (M004)", "future_milestone_pipeline (M005)", "od_today (M021)"],
+                  "sources": ["R13", "R18", "R36"],
+                  "constants": ["OD_TODAY", "PIPELINE_GROSS"]
+                },
+                "outputs": {
+                  "type": "Entity stat cards (toggle: Group / Sobha / Siniya+DT)",
+                  "user_sees": "86.0B sale value | 43.3B collected (50.3%) | 43.5B pipeline | OD 1,650.1M"
+                }
+              },
+              {
+                "id": "F_S02_02",
+                "name": "customer_payment_journey",
+                "purpose": "Visualise the 6-stage payment lifecycle to orient all stakeholders on process flow",
+                "inputs": {
+                  "data_fields": ["avg_advance_lead_days", "pcc_tat_days"],
+                  "sources": ["R08", "R20", "strategy_doc"]
+                },
+                "outputs": {
+                  "type": "6-node swimlane (JOURNEY_PANEL)",
+                  "user_sees": "Booking 2%→10% → FE 55d window → Advance lead 248d → LP 1%/15d → PCC TAT 3–5d → Title Deed"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S02_SM2",
+            "label": "MDO Target Performance",
+            "type": "CHART_PANEL + KPI_STRIP",
+            "purpose": "Answer: Are we on track against the MDO plan (Dues-only definition)?",
+            "features": [
+              {
+                "id": "F_S02_03",
+                "name": "mdo_monthly_bars",
+                "purpose": "Show MDO Dues + Advance target vs actual by entity across the year",
+                "inputs": {
+                  "data_fields": ["month", "entity", "dues_target_aed", "dues_actual_aed", "advance_target_aed", "advance_actual_aed"],
+                  "metrics": ["mdo_dues_target (M017)", "mdo_advance_target (M019)", "achievement_pct (M016)"],
+                  "sources": ["R02"],
+                  "label_rule": "Header must display 'MDO Dues Target' (Dues only — NOT Finance definition)"
+                },
+                "outputs": {
+                  "type": "Grouped bar chart (entity toggle: Group / Sobha / Siniya / DT)",
+                  "charts": ["c-mdo-tot", "c-mdo-sob", "c-mdo-sin", "c-mdo-dt"],
+                  "user_sees": "9-month target outline vs solid actual bars | Jan 112%, Feb 99%, Q1 91%"
+                }
+              },
+              {
+                "id": "F_S02_04",
+                "name": "mdo_achievement_kpis",
+                "purpose": "Surface FY target context and Q1 achievement summary",
+                "inputs": {
+                  "metrics": ["mdo_dues_target (M017)", "mdo_advance_target (M019)", "achievement_pct (M016)"],
+                  "sources": ["R02"]
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "user_sees": "FY Dues 11.5B | FY Advance 4.0B | Q1 Dues 91% | Q1 Advance 73% | Q1 NS 31% ⚠"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S02_SM3",
+            "label": "Finance Target Performance",
+            "type": "CHART_PANEL",
+            "purpose": "Answer: How does performance look against the Finance combined D+A target (different definition from MDO)?",
+            "boundary_rule": "Finance target = D+A combined. MDO target = Dues only. Both panels must carry their definition label on-screen.",
+            "features": [
+              {
+                "id": "F_S02_05",
+                "name": "finance_monthly_bars",
+                "purpose": "Show Finance D+A+NS target vs actual to capture unidentified receipts gap",
+                "inputs": {
+                  "data_fields": ["month", "finance_dues_target_aed", "da_actual_aed", "new_sales_aed"],
+                  "metrics": ["finance_da_target (M018)", "achievement_pct (M016)"],
+                  "sources": ["R04"],
+                  "toggle_fix": "Migrate from inline onclick to etog/ev pattern"
+                },
+                "outputs": {
+                  "type": "Grouped bar chart",
+                  "charts": ["c-fin-tot", "c-fin-sin"],
+                  "user_sees": "Finance D+A+NS target vs actual | Jan target 909M, actual 1,069M (118%) | NS Jan 231M (46%)"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S02_SM4",
+            "label": "Market Context",
+            "type": "INSIGHT_BLOCK",
+            "purpose": "Provide Dubai real estate market backdrop for investor and board audiences",
+            "features": [
+              {
+                "id": "F_S02_06",
+                "name": "uae_market_editorial",
+                "purpose": "Contextualise Sobha's performance within the wider UAE market",
+                "inputs": {
+                  "data_fields": [],
+                  "sources": ["External — web research, no source file"],
+                  "staleness_note": "No update mechanism. Must be manually refreshed. Label 'External Data — [Date]'."
+                },
+                "outputs": {
+                  "type": "Static editorial panel",
+                  "user_sees": "214,912 transactions | 682.5B value | 65–72% off-plan | Sobha #4 ~10% market share | 15% prime price appreciation"
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "S03",
+        "slug": "sec-pulse",
+        "label": "Live Pulse",
+        "purpose": "Real-time collection performance — MTD, YTD, collector productivity, coverage, and current payment channel.",
+        "chart_count": 10,
+        "toggle_note": "Single etog controls ALL panels simultaneously. Daily panels use class='daily-ent' — not class='ev'.",
+        "submodules": [
+
+          {
+            "id": "S03_SM1",
+            "label": "Daily MTD Performance",
+            "type": "KPI_STRIP + CHART_PANEL",
+            "purpose": "Answer: What has been collected this month and are we on daily run-rate?",
+            "features": [
+              {
+                "id": "F_S03_01",
+                "name": "daily_entity_bars",
+                "purpose": "Show day-by-day collection progress vs MDO daily average target line",
+                "inputs": {
+                  "data_fields": ["collection_date", "working_day_no", "dues_aed", "new_sales_aed", "finance_target_aed"],
+                  "metrics": ["daily_average_collections (M015)"],
+                  "sources": ["R04", "R05", "R06", "R07"],
+                  "constants": ["DAILY_DAYS", "WORKING_DAYS_MONTH"],
+                  "bug_fix": "Centralise to single DAILY_DAYS[] constant — remove 4 duplicate declarations"
+                },
+                "outputs": {
+                  "type": "Stacked bar chart + dotted avg line (entity-switched panels)",
+                  "charts": ["c-daily", "c-daily-sob", "c-daily-sin", "c-daily-dt"],
+                  "user_sees": "Daily Dues (gold) + NS (slate) stacked bars + MDO avg dotted line | 18 days Mar 1–18"
+                }
+              },
+              {
+                "id": "F_S03_02",
+                "name": "mtd_kpis",
+                "purpose": "Give instant MTD position across all three collection categories",
+                "inputs": {
+                  "data_fields": ["da_mtd_aed", "new_sales_aed", "finance_target_aed"],
+                  "sources": ["R04"]
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "user_sees": "Dues MTD 547M (62.7%) | Advance MTD 124M (38.8%) | NS MTD 20M ⚠ (4%)"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S03_SM2",
+            "label": "YTD Achievement",
+            "type": "KPI_STRIP + CHART_PANEL",
+            "purpose": "Answer: How has Q1 2026 tracked against MDO targets month by month?",
+            "features": [
+              {
+                "id": "F_S03_03",
+                "name": "ytd_monthly_bars",
+                "purpose": "Show monthly MDO Dues target vs actual and Advance CY/FY entity split",
+                "inputs": {
+                  "data_fields": ["month", "dues_target_aed", "dues_actual_aed", "cy_advance_aed", "fy_advance_aed"],
+                  "sources": ["R02", "R08"]
+                },
+                "outputs": {
+                  "type": "Grouped bar chart",
+                  "charts": ["c-ytd-dues", "c-ytd-adv", "c-ytd-adv-ent"],
+                  "user_sees": "Monthly MDO target outline vs solid actual; Advance CY/FY stacked vs target line"
+                }
+              },
+              {
+                "id": "F_S03_04",
+                "name": "ytd_achievement_kpis",
+                "purpose": "Surface Q1 operational achievement — labelled as operational pulse (distinct from S02 strategic summary)",
+                "inputs": {
+                  "metrics": ["achievement_pct (M016)", "cy_advance_mix_pct (M033)"],
+                  "sources": ["R02", "R08"],
+                  "constant": "CY_ADV_MIX_YTD (read-only reference)"
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "label": "Q1 Actuals vs MDO — Operational Pulse",
+                  "user_sees": "Q1 Dues 1.92B / 2.11B (91%) | Q1 Advance 702M / 960M (73%) | Q1 NS 473M / 1.52B (31%) ⚠ | CY mix 81.1%"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S03_SM3",
+            "label": "Collector Performance",
+            "type": "CHART_PANEL",
+            "purpose": "Answer: Which collectors are performing and what is the PTP pipeline?",
+            "features": [
+              {
+                "id": "F_S03_05",
+                "name": "collector_achievement_bars",
+                "chart_id": "c-coll",
+                "purpose": "Rank all 24 collectors by achievement% to identify top performers and at-risk outliers",
+                "inputs": {
+                  "data_fields": ["collector_name", "actual_collected_aed", "target_aed", "achievement_pct"],
+                  "metrics": ["collector_achievement_pct (M039)", "bucket_productivity_pct (M043)"],
+                  "sources": ["R30", "R32"],
+                  "bug_fix": "Sort descending by achievement_pct before chart build — current name-order rendering is a bug",
+                  "staleness_label": "Snapshot: Mar 2026 MTD — add refresh_date field"
+                },
+                "outputs": {
+                  "type": "Horizontal bar chart (color-coded by achievement%)",
+                  "user_sees": "24 collectors sorted: Walid 56% → Ainur 29.5% | Top/bottom table | Bucket: FE 44.1%, OD 35.4%, Term 27.2%"
+                }
+              },
+              {
+                "id": "F_S03_06",
+                "name": "ptp_pipeline",
+                "chart_id": "c-ptp",
+                "purpose": "Show the committed Promise-to-Pay pipeline as a leading indicator of near-term collections",
+                "inputs": {
+                  "data_fields": ["ptp_amount_aed", "collector_name"],
+                  "metrics": ["ptp_amount (M042)", "attempt_intensity (M040)", "contact_intensity (M041)"],
+                  "sources": ["R30", "R32"]
+                },
+                "outputs": {
+                  "type": "PTP pipeline chart + intensity KPIs",
+                  "user_sees": "PTP committed AED | Attempt intensity | Contact intensity per collector"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S03_SM4",
+            "label": "Coverage",
+            "type": "CHART_PANEL",
+            "purpose": "Answer: Which buckets have unworked units, and what OD pool is at risk of zero contact?",
+            "features": [
+              {
+                "id": "F_S03_07",
+                "name": "coverage_bars",
+                "purpose": "Show coverage depth per operational bucket with OD pool context",
+                "inputs": {
+                  "data_fields": ["bucket", "units_allocated", "units_covered", "od_pool_aed"],
+                  "metrics": ["agent_coverage_pct (M044)"],
+                  "sources": ["R10"]
+                },
+                "outputs": {
+                  "type": "Inline progress bars (5 buckets)",
+                  "user_sees": "FE 99.7% (834M pool) | OD 99.9% (1.04B) | Term 100% | Siniya 86.2% ⚠ (198 unworked, 319M) | Total 97.1%"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S03_SM5",
+            "label": "Payment Channel Snapshot",
+            "type": "CHART_PANEL",
+            "purpose": "Answer: How did customers pay this period? (Current-period snapshot — longitudinal trend is in S06.)",
+            "boundary_rule": "This is the CURRENT PERIOD doughnut only. The 3-year channel shift grouped bar lives exclusively in S06 Payment Infrastructure.",
+            "features": [
+              {
+                "id": "F_S03_08",
+                "name": "channel_current_doughnut",
+                "chart_id": "c-channel",
+                "purpose": "Show payment channel distribution for current period by unit count",
+                "inputs": {
+                  "data_fields": ["channel", "txn_count", "count_pct"],
+                  "sources": ["R25", "R30"],
+                  "basis_note": "COUNT basis — not AED value"
+                },
+                "outputs": {
+                  "type": "Doughnut chart",
+                  "user_sees": "Email 37% | Call 34% | Self-cured 25% | WhatsApp 2.7%"
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "S04",
+        "slug": "sec-dues",
+        "label": "Dues Collections",
+        "purpose": "OD stock analysis, delinquency risk, collection efficiency, and bucket governance.",
+        "chart_count": 7,
+        "submodules": [
+
+          {
+            "id": "S04_SM1",
+            "label": "OD Position",
+            "type": "KPI_STRIP",
+            "purpose": "Answer: What is the total overdue exposure and what is immediately actionable?",
+            "features": [
+              {
+                "id": "F_S04_01",
+                "name": "od_position_kpis",
+                "purpose": "Give the OD stock position and actionable window in a single strip",
+                "inputs": {
+                  "data_fields": ["od_today_aed", "eom_od_aed", "march_ms_due_aed", "not_in_system_units", "gap_exposure_aed"],
+                  "metrics": ["od_today (M021)", "eom_od (M023)", "march_collectible_window (M020)", "termination_gap_exposure (M032)"],
+                  "sources": ["R18", "R02", "R34"],
+                  "constants": ["OD_TODAY"]
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "user_sees": "OD Today 1,650.1M | EOM OD 2.17B | Collectible Window 2.56B | Term gap 134.6M (412 units)"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S04_SM2",
+            "label": "OD Snapshot",
+            "type": "CHART_PANEL",
+            "purpose": "Answer: How is OD distributed across ageing bands, projects, and legal status — right now?",
+            "boundary_rule": "Snapshot only. Monthly ageing progression lives in S04_SM3 TREND_PANEL.",
+            "features": [
+              {
+                "id": "F_S04_02",
+                "name": "od_ageing_doughnut",
+                "chart_id": "c-od-ageing",
+                "purpose": "Show current OD split across 6 ageing bands to identify recovery timeline",
+                "inputs": {
+                  "data_fields": ["od_0_30_aed", "od_31_60_aed", "od_61_90_aed", "od_91_120_aed", "od_121_180_aed", "od_180plus_aed"],
+                  "metrics": ["od_ageing_0_30d through od_ageing_180d_plus (M024–M029)"],
+                  "sources": ["R18"]
+                },
+                "outputs": {
+                  "type": "Doughnut chart (6 bands, distinct colours)",
+                  "user_sees": "0–30d 830M | 31–60d 445M | 61–90d 166M | 91–120d 79M | 121–180d 47M | 180+ 225M"
+                }
+              },
+              {
+                "id": "F_S04_03",
+                "name": "top_od_projects_bar",
+                "chart_id": "c-od-proj",
+                "purpose": "Rank projects by OD value to direct collection effort",
+                "inputs": {
+                  "data_fields": ["project", "od_today_aed"],
+                  "sources": ["R18"]
+                },
+                "outputs": {
+                  "type": "Horizontal bar chart (top 10 projects, AED M tooltip)",
+                  "user_sees": "Riverside Crescent 237.4M at top"
+                }
+              },
+              {
+                "id": "F_S04_04",
+                "name": "spa_legal_status",
+                "chart_id": "c-spa",
+                "purpose": "Show OD split by SPA/pre-registration legal status for enforcement prioritisation",
+                "inputs": {
+                  "data_fields": ["legal_status", "od_aed", "od_pct_of_total"],
+                  "sources": ["R17"]
+                },
+                "outputs": {
+                  "type": "Bar/donut chart",
+                  "user_sees": "Pre-reg 77% (1.28B) | SPA not pre-reg 15% | SPA signed 2.2% (36.4M) | Not sent 0.7%"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S04_SM3",
+            "label": "OD Ageing Progression",
+            "type": "TREND_PANEL",
+            "purpose": "Answer: How has the ageing profile shifted month-by-month through 2025?",
+            "features": [
+              {
+                "id": "F_S04_05",
+                "name": "od_monthly_trend",
+                "chart_id": "c-od-trend",
+                "purpose": "Show longitudinal evolution of OD by ageing bucket Jan–Dec 2025",
+                "inputs": {
+                  "data_fields": ["month", "od_0_30_aed", "od_31_60_aed", "od_61_90_aed", "od_91_120_aed", "od_121_180_aed", "od_180plus_aed"],
+                  "sources": ["R12"]
+                },
+                "outputs": {
+                  "type": "Monthly stacked bar chart",
+                  "user_sees": "Jan–Dec 2025 ageing evolution | 180+ grew 490M (Jan) → 575M (Dec)"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S04_SM4",
+            "label": "Collection Efficiency",
+            "type": "CHART_PANEL + KPI_STRIP",
+            "purpose": "Answer: How efficiently are we collecting from the opening book, and how many units are entering termination?",
+            "features": [
+              {
+                "id": "F_S04_06",
+                "name": "booksize_efficiency_chart",
+                "chart_id": "c-dues-book",
+                "purpose": "Show monthly opening booksize vs dues collected to track 30-day efficiency",
+                "inputs": {
+                  "data_fields": ["month", "booksize_bom_aed", "dues_collected_aed"],
+                  "metrics": ["dues_efficiency_30d (M030)"],
+                  "sources": ["R12"]
+                },
+                "outputs": {
+                  "type": "Bar (booksize) + line (dues) combo chart",
+                  "user_sees": "Monthly booksize BOM vs dues collected | 34.8% avg efficiency annotation"
+                }
+              },
+              {
+                "id": "F_S04_07",
+                "name": "termination_volume_chart",
+                "chart_id": "c-term",
+                "purpose": "Show monthly termination pipeline volume and dev notice conversion",
+                "inputs": {
+                  "data_fields": ["month", "eligible_units", "in_system_units", "not_in_system_units"],
+                  "metrics": ["termination_volume_monthly (M031)", "termination_gap_exposure (M032)"],
+                  "sources": ["R34"]
+                },
+                "outputs": {
+                  "type": "Bar chart (monthly units)",
+                  "user_sees": "427 units/month avg | 1,314 eligible / 700.7M | 412 not-in-system = 134.6M ⚠"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S04_SM5",
+            "label": "Bucket Governance",
+            "type": "DEFINITION_BLOCK + INSIGHT_BLOCK",
+            "purpose": "Define the operating rules of the collections engine and flag IC threshold risk.",
+            "features": [
+              {
+                "id": "F_S04_08",
+                "name": "bucket_architecture",
+                "purpose": "Communicate the structural rules governing how units move through FE, OD, and Termination buckets",
+                "inputs": {
+                  "sources": ["R34", "strategy_doc"]
+                },
+                "outputs": {
+                  "type": "Static definition cards",
+                  "user_sees": "FE 35% | Other OD 55% | Term 10% | FE accountability rule | 55d window | Termination exit: 100% OD, no partials"
+                }
+              },
+              {
+                "id": "F_S04_09",
+                "name": "ic_threshold_risk_flag",
+                "purpose": "Surface IC threshold risk as an advisory flag — links to S08 for policy decision",
+                "inputs": {
+                  "data_fields": ["paid_band", "units", "sale_value_aed", "balance_collectible_aed"],
+                  "metrics": ["ic_threshold_eligible_units (M047)", "paid_band_distribution (M045)"],
+                  "sources": ["R38"],
+                  "link": "S08 Strategic Context — policy decision lives there"
+                },
+                "outputs": {
+                  "type": "INSIGHT_BLOCK advisory flag",
+                  "user_sees": "251 units at 0–10% paid = 907.7M IC-eligible | Skyvue 535 units / 1.27B at 10–20% | [→ See Roadmap for board case]"
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "S05",
+        "slug": "sec-advance",
+        "label": "Advance Collections",
+        "purpose": "Advance payment performance management — CY/FY mix, historical trend, 2026 vs target, book penetration.",
+        "chart_count": 7,
+        "submodules": [
+
+          {
+            "id": "S05_SM1",
+            "label": "2025 Advance Performance",
+            "type": "KPI_STRIP + CHART_PANEL",
+            "purpose": "Answer: How did advance perform in 2025 and what was the CY/FY composition?",
+            "features": [
+              {
+                "id": "F_S05_01",
+                "name": "advance_2025_kpis",
+                "purpose": "Headline 2025 advance achievement",
+                "inputs": {
+                  "metrics": ["da_growth_multiple (M011)"],
+                  "sources": ["R08"]
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "user_sees": "3,260M total | +125% vs 2024 | +238% vs 2023 | Dec 406M peak single month"
+                }
+              },
+              {
+                "id": "F_S05_02",
+                "name": "advance_2025_cy_fy_monthly",
+                "chart_id": "c-adv-main",
+                "purpose": "Show monthly CY/FY stacked advance through 2025 to show the maturation pattern",
+                "inputs": {
+                  "data_fields": ["month", "cy_advance_aed", "fy_advance_aed"],
+                  "metrics": ["cy_advance_mix_pct (M033)", "fy_advance_mix_pct (M034)"],
+                  "sources": ["R08"]
+                },
+                "outputs": {
+                  "type": "Monthly stacked bar",
+                  "user_sees": "CY+FY stacked Jan–Dec 2025 | Dec CY=0% annotated"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S05_SM2",
+            "label": "Historical Advance Trend",
+            "type": "TREND_PANEL",
+            "purpose": "Answer: How has advance grown year-over-year? AUTHORITATIVE 3-year trend location.",
+            "boundary_rule": "c-adv-hist is the single render of the 3-year comparison. S01 references this as headline KPIs only — chart not duplicated in S01.",
+            "features": [
+              {
+                "id": "F_S05_03",
+                "name": "advance_3yr_overlay",
+                "chart_id": "c-adv-hist",
+                "purpose": "Show monthly advance 2023, 2024, 2025 side-by-side to visualise acceleration",
+                "inputs": {
+                  "data_fields": ["month", "total_advance_aed", "year"],
+                  "sources": ["R08"]
+                },
+                "outputs": {
+                  "type": "Multi-line overlay chart",
+                  "user_sees": "2023 / 2024 / 2025 monthly advance overlay | 2025=3.26B (+125% vs 2024, +238% vs 2023)"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S05_SM3",
+            "label": "2026 Advance vs Target",
+            "type": "CHART_PANEL + KPI_STRIP",
+            "purpose": "Answer: Is 2026 advance on track against the MDO target?",
+            "features": [
+              {
+                "id": "F_S05_04",
+                "name": "advance_2026_monthly_bar",
+                "chart_id": "c-adv-2026",
+                "purpose": "Show 2026 monthly CY/FY with 320M/month target reference line",
+                "inputs": {
+                  "data_fields": ["month", "cy_advance_aed", "fy_advance_aed", "advance_target_aed"],
+                  "sources": ["R08", "R02"]
+                },
+                "outputs": {
+                  "type": "Monthly bar + target line chart",
+                  "user_sees": "Jan 295.7M | Feb 288.6M | Mar 56.6M (partial) vs 320M/month target line"
+                }
+              },
+              {
+                "id": "F_S05_05",
+                "name": "advance_2026_kpis",
+                "purpose": "Surface 2026 YTD position and CY mix quality",
+                "inputs": {
+                  "metrics": ["cy_advance_mix_pct (M033)", "achievement_pct (M016)"],
+                  "sources": ["R08"],
+                  "constant": "CY_ADV_MIX_YTD (read-only)"
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "user_sees": "YTD 640.9M | Q1 73% (640.9/960M) | CY mix 81.1% | Jan 84%, Feb 77%, Mar 86%"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S05_SM4",
+            "label": "Book Penetration",
+            "type": "CHART_PANEL + DEFINITION_BLOCK",
+            "purpose": "Answer: What % of the forward book are we capturing as advance, and what is the 2026 target?",
+            "features": [
+              {
+                "id": "F_S05_06",
+                "name": "penetration_chart",
+                "chart_id": "c-adv-pen",
+                "purpose": "Show book penetration % by year with 2026 target benchmark",
+                "inputs": {
+                  "data_fields": ["year", "total_advance_aed", "forward_obligation_aed"],
+                  "metrics": ["book_penetration_pct (M035)"],
+                  "sources": ["R08", "R36"],
+                  "constants": ["PIPELINE_ADV_DENOM"],
+                  "denominator_rule": "2026 denominator = PIPELINE_ADV_DENOM (37.8B) — NOT static 40B"
+                },
+                "outputs": {
+                  "type": "Bar/line chart by year",
+                  "user_sees": "2025: 8.15% | 2026 target: 10.6% | denominator 37.8B labelled inline"
+                }
+              },
+              {
+                "id": "F_S05_07",
+                "name": "penetration_and_rebate_definitions",
+                "purpose": "Define the penetration denominator and NPV methodology — single authoritative location",
+                "inputs": {
+                  "sources": ["R08", "R36"],
+                  "constants": ["PIPELINE_ADV_DENOM"]
+                },
+                "outputs": {
+                  "type": "DEFINITION_BLOCK",
+                  "user_sees": "CY vs FY definition | PIPELINE_ADV_DENOM = 43.5B − 5.7B = 37.8B (NOT static 40B) | NPV bank equivalent = 4.75% × 248/365"
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "S06",
+        "slug": "sec-ops",
+        "label": "Operations & QCG",
+        "purpose": "Process quality, payment infrastructure transformation, and operational charges/helpdesk.",
+        "chart_count": 6,
+        "submodules": [
+
+          {
+            "id": "S06_SM1",
+            "label": "Receipt Quality (QCG)",
+            "type": "KPI_STRIP + CHART_PANEL",
+            "purpose": "Answer: How is payment receipt quality performing and what is the PCC turnaround?",
+            "owner": "QCG — Garima",
+            "features": [
+              {
+                "id": "F_S06_01",
+                "name": "pr_quality_doughnut",
+                "chart_id": "c-prq",
+                "purpose": "Show first-pass PR outcome split to identify root causes of rejection",
+                "inputs": {
+                  "data_fields": ["pr_submitted", "pr_approved", "pr_doc_gap", "pr_manual_error"],
+                  "metrics": ["pr_approval_rate_pct (M048)", "pr_doc_gap_rate_pct (M049)", "pr_manual_error_rate_pct (M050)"],
+                  "sources": ["R31"]
+                },
+                "outputs": {
+                  "type": "Doughnut chart",
+                  "user_sees": "Approved 51% | Doc gaps 27% | Manual errors 23% (Dec 2025, n=1,818)"
+                }
+              },
+              {
+                "id": "F_S06_02",
+                "name": "pcc_tat_bars",
+                "chart_id": "c-pcc",
+                "purpose": "Show PCC turnaround time trend Jan 2025–Feb 2026 to validate initiative impact",
+                "inputs": {
+                  "data_fields": ["month", "pcc_tat_days"],
+                  "metrics": ["pcc_tat_days (M051)"],
+                  "sources": ["R31", "strategy_doc"]
+                },
+                "outputs": {
+                  "type": "Monthly bar chart",
+                  "user_sees": "Pre-initiative avg 20d → post 3–5d | Target 2d | Jan 2025–Feb 2026"
+                }
+              },
+              {
+                "id": "F_S06_03",
+                "name": "qcg_kpis",
+                "purpose": "Surface key QCG health metrics in one strip",
+                "inputs": {
+                  "metrics": ["pr_approval_rate_pct (M048)", "pcc_tat_days (M051)", "call_audit_coverage_pct (M055)", "sla_tat_compliance_pct (M056)"]
+                },
+                "outputs": {
+                  "type": "KPI strip",
+                  "user_sees": "1st-pass 51% | Doc gap 27% | Manual error 23% | PR visibility gap 250–300M | Call audit 30%→100% target | SLA 87%→90% target"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S06_SM2",
+            "label": "Payment Infrastructure",
+            "type": "CHART_PANEL + KPI_STRIP",
+            "purpose": "Answer: How is the channel mix shifting over 3 years and is the app adoption trajectory on track?",
+            "boundary_rule": "Longitudinal 3-year channel grouped bar ONLY. Current-period channel doughnut lives in S03.",
+            "owner": "Technology track",
+            "features": [
+              {
+                "id": "F_S06_04",
+                "name": "channel_shift_trend",
+                "chart_id": "c-paych",
+                "purpose": "Show 3-year structural shift in payment channels by COUNT to track digital migration",
+                "inputs": {
+                  "data_fields": ["year", "channel", "count_pct"],
+                  "metrics": ["app_payment_share_pct (M053)"],
+                  "sources": ["R25"],
+                  "basis_note": "COUNT basis — not AED value"
+                },
+                "outputs": {
+                  "type": "Grouped bar chart (9 channels × 3 years)",
+                  "user_sees": "App: 0.1%(2024) → 6%(2025) → 25.9%(2026 YTD) | Wire 43.5% | Payment Link declining"
+                }
+              },
+              {
+                "id": "F_S06_05",
+                "name": "pr_soa_tat_trend",
+                "chart_id": "c-prtat",
+                "purpose": "Show PR-to-SOA TAT band progression across years to validate processing improvement",
+                "inputs": {
+                  "data_fields": ["year", "tat_band", "pct_of_total"],
+                  "metrics": ["pr_to_soa_tat_0_2d_pct (M052)"],
+                  "sources": ["R20"]
+                },
+                "outputs": {
+                  "type": "Stacked bar by year (TAT bands)",
+                  "user_sees": "0–2d band: 25%(2024) → 35%(2025) → 51%(2026 YTD)"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S06_SM3",
+            "label": "Charges & Support Operations",
+            "type": "CHART_PANEL + KPI_STRIP",
+            "purpose": "Answer: What are the charge revenues and how is helpdesk performance tracking?",
+            "features": [
+              {
+                "id": "F_S06_06",
+                "name": "other_charges_bar",
+                "chart_id": "c-ochg",
+                "purpose": "Show annual other charges composition to track LP, DLD forfeiture, and IC trends",
+                "inputs": {
+                  "data_fields": ["year", "entity", "charge_type", "amount_aed"],
+                  "sources": ["R26"]
+                },
+                "outputs": {
+                  "type": "Annual stacked bar chart",
+                  "user_sees": "LP / DLD Forfeiture / IC Forfeiture / NOC+Admin by year | 2026 YTD DLD 38.9M ⚠ > full-year 2025 (22.3M)"
+                }
+              },
+              {
+                "id": "F_S06_07",
+                "name": "helpdesk_trend",
+                "chart_id": "c-helpdesk",
+                "purpose": "Track helpdesk case volume and TAT compliance month-by-month",
+                "inputs": {
+                  "data_fields": ["month", "cases_closed", "within_tat_pct"],
+                  "metrics": ["helpdesk_within_tat_pct (M054)"],
+                  "sources": ["R29"]
+                },
+                "outputs": {
+                  "type": "Bar (monthly volume) + line (TAT%) chart",
+                  "user_sees": "YTD 120.7K closed | 85.5% within TAT | Feb 2026 peak 93.4%"
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "S07",
+        "slug": "sec-team",
+        "label": "Team",
+        "purpose": "Accurate organisational structure, headcount, and reporting accountability.",
+        "chart_count": 0,
+        "critical_fix": "v5 org chart is factually incorrect — rebuilt from confirmed reporting lines",
+        "submodules": [
+
+          {
+            "id": "S07_SM1",
+            "label": "Headcount Summary",
+            "type": "KPI_STRIP",
+            "purpose": "Give headcount by discipline with Dubai/India split",
+            "features": [
+              {
+                "id": "F_S07_01",
+                "name": "headcount_kpis",
+                "purpose": "Surface team size by discipline in a scannable format",
+                "inputs": {
+                  "data_fields": ["role", "discipline", "headcount_dubai", "headcount_india", "headcount_total"],
+                  "sources": ["Manual"]
+                },
+                "outputs": {
+                  "type": "KPI cards by discipline",
+                  "user_sees": "QCG 12 (2 Dubai + 10 India) | MIS 15 (6+9, growing) | Ops 38 (15+23, growing) | RMs 46 total"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S07_SM2",
+            "label": "Organisation Structure",
+            "type": "JOURNEY_PANEL",
+            "purpose": "Show the corrected reporting hierarchy — replacing the inaccurate v5 version",
+            "features": [
+              {
+                "id": "F_S07_02",
+                "name": "org_chart_corrected",
+                "purpose": "Accurately represent actual reporting lines as confirmed by Priyanuj",
+                "inputs": {
+                  "data_fields": ["role", "name", "reports_to"],
+                  "sources": ["Manual — confirmed reporting lines"]
+                },
+                "outputs": {
+                  "type": "Org chart visual",
+                  "user_sees": "CCO (Ashish) → GM Advance (Manuraj) | AGM Dues (Priyanuj): QCG/Garima, MIS/Asjad, Ops/Mathews, 12 RMs direct | AGM UAQ (Karan) | AGM Siniya (Akkad) → Rohan → 12 RMs"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S07_SM3",
+            "label": "Reporting Lines",
+            "type": "DEFINITION_BLOCK",
+            "purpose": "Confirm direct report structure and note India team growth trajectory",
+            "features": [
+              {
+                "id": "F_S07_03",
+                "name": "reporting_line_definitions",
+                "purpose": "Provide text-form confirmation of reporting lines for HR and governance use",
+                "inputs": { "sources": ["Manual"] },
+                "outputs": {
+                  "type": "Definition block",
+                  "user_sees": "12 RMs direct to Priyanuj | 12 via Rohan/Akkad | India teams growing (no targets set yet)"
+                }
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "S08",
+        "slug": "sec-roadmap",
+        "label": "Roadmap",
+        "purpose": "Strategic initiative pipeline and risk-linked advisories for C-suite and strategy function.",
+        "chart_count": 1,
+        "submodules": [
+
+          {
+            "id": "S08_SM1",
+            "label": "Risk Exposure Summary",
+            "type": "KPI_STRIP",
+            "purpose": "Surface the three strategic risk flags that require board-level decisions — linked from S04, not duplicated.",
+            "boundary_rule": "KPIs here LINK to S04 source data via constants. No independent data fetch.",
+            "features": [
+              {
+                "id": "F_S08_01",
+                "name": "risk_exposure_kpis",
+                "purpose": "Flag IC threshold, Skyvue concentration, and termination gap at the roadmap entry point",
+                "inputs": {
+                  "data_fields": ["paid_band", "units", "sale_value_aed", "not_in_system_units", "gap_exposure_aed"],
+                  "metrics": ["ic_threshold_eligible_units (M047)", "paid_band_distribution (M045)", "termination_gap_exposure (M032)"],
+                  "sources": ["R38", "R34"],
+                  "constants": ["OD_TODAY"]
+                },
+                "outputs": {
+                  "type": "KPI strip (advisory flags)",
+                  "user_sees": "IC threshold 907.7M (251 units, 0–10% paid) | Skyvue cluster 1.27B (535 units, 10–20%) | Term gap 134.6M (412 unactioned)"
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S08_SM2",
+            "label": "Initiative Pipeline",
+            "type": "CHART_PANEL",
+            "purpose": "Show all 10 strategic initiatives with expandable drill-downs, impact badges, and status",
+            "features": [
+              {
+                "id": "F_S08_02",
+                "name": "initiative_drill_downs",
+                "purpose": "Give an interactive single-pane view of the full 2026–2027 transformation programme",
+                "inputs": {
+                  "sources": ["strategy_doc"]
+                },
+                "outputs": {
+                  "type": "Expandable initiative cards (toggleRd())",
+                  "user_sees": "10 initiatives: 5 Technology (P1→P3) + 5 Commercial | Each: priority, timeline, impact badges",
+                  "initiatives": [
+                    "Interim PR Module — P1, Q1 2026",
+                    "LP Reversal Automation — P1, Q2 2026",
+                    "Salesforce Internal Audit Integration — P2, Q2–Q3 2026",
+                    "SQL Migration + Power BI (84 reports) — P2, Q3–Q4 2026",
+                    "AI-Driven Audit + Auto-Training — P3, Q1 2027",
+                    "IC Threshold 20%→10% — BOARD CASE REQUIRED FIRST",
+                    "Advance Team Expansion + Booking-Stage Embedding — P1, Q1–Q2 2026",
+                    "Off-Plan Mortgage Scale-Up (ADIB MoU) — P2, Q2 2026",
+                    "App Adoption 57%→90% + Payment Link Sunset — P2, Q3–Q4 2026",
+                    "SOP Library + CCO Power BI + CSAT Live — P3, Q4 2026–Q1 2027"
+                  ]
+                }
+              }
+            ]
+          },
+
+          {
+            "id": "S08_SM3",
+            "label": "Strategic Context & Definitions",
+            "type": "INSIGHT_BLOCK + DEFINITION_BLOCK",
+            "purpose": "Frame the forward book opportunity and define governance rules for each initiative",
+            "features": [
+              {
+                "id": "F_S08_03",
+                "name": "forward_book_advisory",
+                "purpose": "Frame advance penetration uplift thesis for C-suite strategic context",
+                "inputs": {
+                  "constants": ["PIPELINE_ADV_DENOM"],
+                  "sources": ["R36"]
+                },
+                "outputs": {
+                  "type": "INSIGHT_BLOCK",
+                  "user_sees": "37.8B forward book (PIPELINE_ADV_DENOM) | 10.6% penetration target | Advance team expansion pathway"
+                }
+              },
+              {
+                "id": "F_S08_04",
+                "name": "initiative_governance_definitions",
+                "purpose": "Define scope, owner, success metric, and timeline per initiative; IC threshold advisory governance note",
+                "inputs": { "sources": ["strategy_doc"] },
+                "outputs": {
+                  "type": "DEFINITION_BLOCK",
+                  "user_sees": "Per-initiative: scope | owner | success metric | timeline | IC threshold: standalone business case — decision not made here"
+                }
+              }
+            ]
+          }
+        ]
+      }
+
+    ]
+  }
+}

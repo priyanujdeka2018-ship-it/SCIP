@@ -1,0 +1,755 @@
+{
+  "schema_version": "1.0",
+  "org": "Sobha Realty — Collections Department",
+  "data_as_of": "2026-03-18",
+  "total_datasets": 38,
+  "datasets": [
+
+    {
+      "id": "R01",
+      "name": "year_end_snap",
+      "label": "Year-End Collections Snapshot 2021–2025",
+      "file_type": "PDF",
+      "data_date": "2026-03",
+      "granularity": "annual",
+      "columns": [
+        { "name": "year",              "type": "number",   "note": "Calendar year 2021–2025" },
+        { "name": "entity",            "type": "string",   "note": "Sobha / Siniya / Downtown / Group" },
+        { "name": "dues_aed",          "type": "number",   "note": "Annual dues collections AED" },
+        { "name": "advance_aed",       "type": "number",   "note": "Annual advance collections AED" },
+        { "name": "new_sales_aed",     "type": "number",   "note": "Annual new sales collections AED" },
+        { "name": "total_da_aed",      "type": "number",   "note": "Dues + Advance combined AED" },
+        { "name": "total_collections_aed", "type": "number", "note": "Total all categories AED" },
+        { "name": "lp_charges_aed",    "type": "number",   "note": "Late payment charges collected AED" }
+      ]
+    },
+
+    {
+      "id": "R02",
+      "name": "mdo_targets",
+      "label": "MDO Monthly Targets vs Actuals 2026",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "monthly",
+      "columns": [
+        { "name": "month",             "type": "datetime", "note": "Calendar month Jan–Dec 2026" },
+        { "name": "entity",            "type": "string",   "note": "Sobha / Siniya / Downtown / Group" },
+        { "name": "target_type",       "type": "string",   "note": "Static or Dynamic" },
+        { "name": "dues_target_aed",   "type": "number",   "note": "MDO dues target AED" },
+        { "name": "dues_actual_aed",   "type": "number",   "note": "MDO dues actual AED" },
+        { "name": "advance_target_aed","type": "number",   "note": "MDO advance target AED" },
+        { "name": "advance_actual_aed","type": "number",   "note": "MDO advance actual AED" },
+        { "name": "da_target_aed",     "type": "number",   "note": "D+A combined target AED" },
+        { "name": "da_actual_aed",     "type": "number",   "note": "D+A combined actual AED" },
+        { "name": "achievement_pct",   "type": "number",   "note": "Actual ÷ Target × 100" }
+      ]
+    },
+
+    {
+      "id": "R03",
+      "name": "entity_portfolio_snapshot",
+      "label": "Entity Portfolio Snapshot — Qualified Units & Collections ITD",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "entity_project",
+      "columns": [
+        { "name": "entity",            "type": "string",   "note": "Sobha / Siniya / Downtown" },
+        { "name": "project",           "type": "string",   "note": "Project name" },
+        { "name": "qualified_units",   "type": "number",   "note": "Active qualified booking units" },
+        { "name": "sale_value_itd_aed","type": "number",   "note": "Total sale value of active bookings AED" },
+        { "name": "collected_itd_aed", "type": "number",   "note": "Total collected ITD AED" },
+        { "name": "paid_pct",          "type": "number",   "note": "Collected ITD ÷ Sale value ITD × 100" },
+        { "name": "paid_band",         "type": "string",   "note": "0-10% / 10-20% / 20-30% / 30-40% / 40-60% / 60%+" }
+      ]
+    },
+
+    {
+      "id": "R04",
+      "name": "total_daily_collections",
+      "label": "Total Daily Collection Report — All Entities",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "daily",
+      "columns": [
+        { "name": "collection_date",   "type": "datetime", "note": "Calendar date" },
+        { "name": "working_day_no",    "type": "number",   "note": "Working day index in month" },
+        { "name": "dues_aed",          "type": "number",   "note": "Dues collected on day AED" },
+        { "name": "advance_aed",       "type": "number",   "note": "Advance collected on day AED" },
+        { "name": "da_aed",            "type": "number",   "note": "D+A combined AED" },
+        { "name": "new_sales_aed",     "type": "number",   "note": "New sales collected AED" },
+        { "name": "dld_aed",           "type": "number",   "note": "DLD fee collected AED" },
+        { "name": "da_mtd_aed",        "type": "number",   "note": "MTD cumulative D+A AED" },
+        { "name": "finance_target_aed","type": "number",   "note": "Finance (not MDO) D+A monthly target AED" }
+      ]
+    },
+
+    {
+      "id": "R05",
+      "name": "sobha_daily_collections",
+      "label": "Sobha Entity — Daily Collections March 2026",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "daily",
+      "columns": [
+        { "name": "collection_date",   "type": "datetime" },
+        { "name": "dues_aed",          "type": "number" },
+        { "name": "advance_aed",       "type": "number" },
+        { "name": "new_sales_aed",     "type": "number" },
+        { "name": "da_mtd_aed",        "type": "number" },
+        { "name": "entity",            "type": "string",   "note": "Fixed: Sobha" }
+      ]
+    },
+
+    {
+      "id": "R06",
+      "name": "siniya_daily_collections",
+      "label": "Siniya Entity — Daily Collections March 2026",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "daily",
+      "columns": [
+        { "name": "collection_date",   "type": "datetime" },
+        { "name": "dues_aed",          "type": "number" },
+        { "name": "advance_aed",       "type": "number" },
+        { "name": "new_sales_aed",     "type": "number" },
+        { "name": "da_mtd_aed",        "type": "number" },
+        { "name": "entity",            "type": "string",   "note": "Fixed: Siniya" }
+      ]
+    },
+
+    {
+      "id": "R07",
+      "name": "downtown_daily_collections",
+      "label": "Downtown UAQ Entity — Daily Collections March 2026",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "daily",
+      "columns": [
+        { "name": "collection_date",   "type": "datetime" },
+        { "name": "dues_aed",          "type": "number" },
+        { "name": "advance_aed",       "type": "number" },
+        { "name": "new_sales_aed",     "type": "number" },
+        { "name": "da_mtd_aed",        "type": "number" },
+        { "name": "entity",            "type": "string",   "note": "Fixed: Downtown UAQ" }
+      ]
+    },
+
+    {
+      "id": "R08",
+      "name": "advance_summary",
+      "label": "Advance Collections Summary — Monthly CY/FY Splits, Rebate, Entity",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "monthly",
+      "sheets": [
+        "Advance2023_CYFY", "Advance2024_CYFY", "Advance2025CYFY",
+        "Advance2026CYFY", "Advance_vs_Rebate", "SiniyaCYFY", "DTCYFY", "Summary"
+      ],
+      "columns": [
+        { "name": "month",             "type": "datetime" },
+        { "name": "year",              "type": "number" },
+        { "name": "entity",            "type": "string",   "note": "Sobha / Siniya / DT / Group" },
+        { "name": "cy_advance_aed",    "type": "number",   "note": "Current-year advance AED" },
+        { "name": "fy_advance_aed",    "type": "number",   "note": "Future-year advance AED" },
+        { "name": "total_advance_aed", "type": "number",   "note": "CY + FY total advance AED" },
+        { "name": "cy_mix_pct",        "type": "number",   "note": "CY ÷ Total advance × 100" },
+        { "name": "rebate_aed",        "type": "number",   "note": "Rebate amount given AED" },
+        { "name": "rebate_rate_pct",   "type": "number",   "note": "Rebate ÷ Advance collected × 100" },
+        { "name": "avg_advance_lead_days", "type": "number", "note": "Avg days advance collected before due date" },
+        { "name": "npv_rate_pct",      "type": "number",   "note": "Effective NPV cost % (current 3.5%, proposed 4.3%)" }
+      ]
+    },
+
+    {
+      "id": "R09",
+      "name": "project_collections_detail",
+      "label": "Project-Level Collection Details & Receipt Summaries",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "project",
+      "columns": [
+        { "name": "entity",            "type": "string" },
+        { "name": "project",           "type": "string" },
+        { "name": "dues_aed",          "type": "number" },
+        { "name": "advance_aed",       "type": "number" },
+        { "name": "new_sales_aed",     "type": "number" },
+        { "name": "total_receipts_aed","type": "number" },
+        { "name": "receipt_count",     "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R10",
+      "name": "dues_coverage_summary",
+      "label": "Dues Coverage Summary — Agent Coverage by Bucket",
+      "file_type": "XLSX",
+      "data_date": "2026-03-19",
+      "granularity": "agent_bucket",
+      "columns": [
+        { "name": "agent_name",        "type": "string" },
+        { "name": "bucket",            "type": "string",   "note": "FE / OD / Termination / Siniya" },
+        { "name": "units_allocated",   "type": "number" },
+        { "name": "units_covered",     "type": "number" },
+        { "name": "units_unworked",    "type": "number" },
+        { "name": "coverage_pct",      "type": "number",   "note": "Covered ÷ Allocated × 100" },
+        { "name": "od_pool_aed",       "type": "number",   "note": "OD value of allocated pool AED" }
+      ]
+    },
+
+    {
+      "id": "R11",
+      "name": "dues_receipt_summary",
+      "label": "Receipt Status Summary — Dues, Advance, New Sales, Other Charges",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "receipt_category",
+      "columns": [
+        { "name": "receipt_date",      "type": "datetime" },
+        { "name": "category",          "type": "string",   "note": "Dues / Advance / New Sales / Other Charges / Unidentified" },
+        { "name": "receipt_count",     "type": "number" },
+        { "name": "amount_aed",        "type": "number" },
+        { "name": "status",            "type": "string",   "note": "Confirmed / Pending / Unidentified" }
+      ]
+    },
+
+    {
+      "id": "R12",
+      "name": "trend_monthly",
+      "label": "Monthly OD Ageing Buckets, Booksize BOM & Advance Trend",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "monthly",
+      "columns": [
+        { "name": "month",             "type": "datetime" },
+        { "name": "booksize_bom_aed",  "type": "number",   "note": "Opening overdue book at start of month AED" },
+        { "name": "dues_collected_aed","type": "number",   "note": "Dues collected in month AED" },
+        { "name": "efficiency_pct",    "type": "number",   "note": "Dues ÷ Booksize BOM × 100; 34.8% 2025 avg" },
+        { "name": "od_0_30_aed",       "type": "number" },
+        { "name": "od_31_60_aed",      "type": "number" },
+        { "name": "od_61_90_aed",      "type": "number" },
+        { "name": "od_91_120_aed",     "type": "number" },
+        { "name": "od_121_180_aed",    "type": "number" },
+        { "name": "od_180plus_aed",    "type": "number" },
+        { "name": "od_total_aed",      "type": "number" },
+        { "name": "advance_aed",       "type": "number",   "note": "Monthly advance collected AED" }
+      ]
+    },
+
+    {
+      "id": "R13",
+      "name": "portfolio_overview_summary",
+      "label": "Portfolio Overview — Sale Value ITD, Collected ITD, Milestone Due, Overdue",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "entity",
+      "columns": [
+        { "name": "entity",            "type": "string" },
+        { "name": "sale_value_itd_aed","type": "number",   "note": "Total sale value ITD AED; Group = 86.0B" },
+        { "name": "collected_itd_aed", "type": "number",   "note": "Total collected ITD AED; Group = 43.3B" },
+        { "name": "collected_itd_pct", "type": "number",   "note": "50.3% at Group level" },
+        { "name": "ms_due_itd_aed",    "type": "number",   "note": "Milestone due ITD AED" },
+        { "name": "overdue_aed",       "type": "number",   "note": "OD as of report date AED" }
+      ]
+    },
+
+    {
+      "id": "R14",
+      "name": "monthwise_milestone",
+      "label": "Monthwise Milestone Collections by Project",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "project_month",
+      "columns": [
+        { "name": "project",           "type": "string" },
+        { "name": "milestone_month",   "type": "datetime" },
+        { "name": "milestone_due_aed", "type": "number" },
+        { "name": "collected_aed",     "type": "number" },
+        { "name": "outstanding_aed",   "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R15",
+      "name": "overdue_constraints",
+      "label": "Overdue & Constraints — By Type and Ageing Band",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "constraint_type",
+      "columns": [
+        { "name": "constraint_type",   "type": "string",   "note": "0-60d / 61-180d / 180+ / EOM / Dev-DLD / Total" },
+        { "name": "units",             "type": "number" },
+        { "name": "od_aed",            "type": "number" },
+        { "name": "pct_of_total_od",   "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R16",
+      "name": "customer_nationality_portfolio",
+      "label": "Customer & Nationality Portfolio — OD Rates by Nationality / CIV",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "nationality_civ",
+      "columns": [
+        { "name": "nationality",       "type": "string" },
+        { "name": "civ_band",          "type": "string",   "note": "Investment tier band AED" },
+        { "name": "units",             "type": "number" },
+        { "name": "portfolio_aed",     "type": "number",   "note": "Sale value AED" },
+        { "name": "ms_due_itd_aed",    "type": "number",   "note": "Milestone due ITD AED (OD% denominator)" },
+        { "name": "od_aed",            "type": "number",   "note": "OD AED for segment" },
+        { "name": "od_pct",            "type": "number",   "note": "OD ÷ MS Due ITD × 100; NOT ÷ purchase price" }
+      ]
+    },
+
+    {
+      "id": "R17",
+      "name": "od_spa_status",
+      "label": "OD Bifurcation by Pre-Registration & SPA Status",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "legal_status",
+      "columns": [
+        { "name": "legal_status",      "type": "string",   "note": "Pre-reg / SPA not pre-reg / SPA signed / Not sent" },
+        { "name": "units",             "type": "number" },
+        { "name": "od_aed",            "type": "number" },
+        { "name": "od_pct_of_total",   "type": "number",   "note": "77% pre-reg / 15% SPA not pre-reg / 2.2% SPA signed / 0.7% not sent" }
+      ]
+    },
+
+    {
+      "id": "R18",
+      "name": "consolidated_overdue_master",
+      "label": "Consolidated & Overdue — Master OD Report by Entity/Project (Source of Truth)",
+      "file_type": "XLSX",
+      "data_date": "2026-03-15",
+      "granularity": "project",
+      "columns": [
+        { "name": "entity_group",      "type": "string",   "note": "A-E = Sobha / F = Siniya / G = DT" },
+        { "name": "entity",            "type": "string" },
+        { "name": "project",           "type": "string" },
+        { "name": "sale_value_aed",    "type": "number" },
+        { "name": "ms_due_itd_aed",    "type": "number",   "note": "Total milestone due ITD; Group = 42,505M" },
+        { "name": "collected_itd_aed", "type": "number" },
+        { "name": "od_today_aed",      "type": "number",   "note": "OD as of 15 Mar 2026; Grand Total = 1,650.1M" },
+        { "name": "eom_od_aed",        "type": "number",   "note": "Projected EOM OD if zero collection" },
+        { "name": "od_0_30_aed",       "type": "number" },
+        { "name": "od_31_60_aed",      "type": "number" },
+        { "name": "od_61_90_aed",      "type": "number" },
+        { "name": "od_91_120_aed",     "type": "number" },
+        { "name": "od_121_180_aed",    "type": "number" },
+        { "name": "od_180plus_aed",    "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R19",
+      "name": "payment_plan_unitwise",
+      "label": "Payment Plan Unit-Wise — Off-Plan by Entity",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "unit",
+      "columns": [
+        { "name": "unit_id",           "type": "string" },
+        { "name": "entity",            "type": "string" },
+        { "name": "project",           "type": "string" },
+        { "name": "total_sale_value_aed", "type": "number" },
+        { "name": "payment_plan_type", "type": "string",   "note": "Off-plan / Completed / Other" },
+        { "name": "milestone_schedule","type": "string",   "note": "Payment schedule descriptor" },
+        { "name": "collected_aed",     "type": "number" },
+        { "name": "balance_aed",       "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R20",
+      "name": "pr_soa_tat",
+      "label": "PR-to-SOA Turnaround Time Report",
+      "file_type": "XLSX",
+      "data_date": "2026-03-13",
+      "granularity": "yearly_band",
+      "columns": [
+        { "name": "year",              "type": "number" },
+        { "name": "tat_band",          "type": "string",   "note": "0-2d / 3-5d / 6-8d / 9-15d / 15+d" },
+        { "name": "pr_count",          "type": "number" },
+        { "name": "pct_of_total",      "type": "number",   "note": "2024=25% / 2025=35% / 2026 YTD=51% in 0-2d band" }
+      ]
+    },
+
+    {
+      "id": "R21",
+      "name": "constraints_detail",
+      "label": "Constraints Detail — Ageing, Dev-DLD, Legal, RFC, PTP-Mortgage",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "constraint_subtype",
+      "columns": [
+        { "name": "constraint_category","type": "string",  "note": "Ageing / Dev-DLD / Legal Termination / RFC / PTP-Mortgage" },
+        { "name": "sub_type",          "type": "string" },
+        { "name": "units",             "type": "number" },
+        { "name": "od_aed",            "type": "number" },
+        { "name": "ageing_band",       "type": "string" }
+      ]
+    },
+
+    {
+      "id": "R22",
+      "name": "mdo_exec_nationality",
+      "label": "MDO Executive Summary — Nationality-wise Payment Plan & Collection Trends",
+      "file_type": "XLSX",
+      "data_date": "2026-02",
+      "granularity": "nationality_month",
+      "columns": [
+        { "name": "nationality",       "type": "string" },
+        { "name": "month",             "type": "datetime" },
+        { "name": "units_in_plan",     "type": "number" },
+        { "name": "collected_aed",     "type": "number" },
+        { "name": "payment_mode",      "type": "string",   "note": "Wire / Cheque / Card / Online / Other" },
+        { "name": "collection_trend",  "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R23",
+      "name": "net_od_ex_booking",
+      "label": "Consolidated Net OD Excluding Booking Amount by Project",
+      "file_type": "XLSX",
+      "data_date": "2026-03-16",
+      "granularity": "project",
+      "columns": [
+        { "name": "project",           "type": "string" },
+        { "name": "gross_od_aed",      "type": "number" },
+        { "name": "booking_amount_aed","type": "number" },
+        { "name": "net_od_ex_booking_aed","type": "number","note": "Gross OD minus booking AED" }
+      ]
+    },
+
+    {
+      "id": "R25",
+      "name": "mode_of_payment",
+      "label": "Payment Channel Mix — Count and Value by Channel/Year",
+      "file_type": "XLSX",
+      "data_date": "2026-03-17",
+      "granularity": "channel_year",
+      "columns": [
+        { "name": "year",              "type": "number",   "note": "2023 / 2024 / 2025 / 2026 YTD" },
+        { "name": "category",          "type": "string",   "note": "Dues+Advance / New Sales / Other" },
+        { "name": "channel",           "type": "string",   "note": "Wire / Cheque / App / Bank Transfer / Cash / Card / POS / GIRO / Other" },
+        { "name": "txn_count",         "type": "number",   "note": "Primary basis for % calculation (not value)" },
+        { "name": "txn_value_aed",     "type": "number" },
+        { "name": "count_pct",         "type": "number",   "note": "Channel share % by count; App: 0.1%(2024)→6%(2025)→25.9%(2026 YTD)" }
+      ]
+    },
+
+    {
+      "id": "R26",
+      "name": "other_charges",
+      "label": "Other Charges — LP, DLD Forfeiture, IC Forfeiture, NOC/Admin by Year",
+      "file_type": "XLSX",
+      "data_date": "2026-03-17",
+      "granularity": "charge_category_year",
+      "columns": [
+        { "name": "year",              "type": "number",   "note": "2023 / 2024 / 2025 / 2026 YTD" },
+        { "name": "entity",            "type": "string" },
+        { "name": "charge_type",       "type": "string",   "note": "LP / DLD Forfeiture / IC Forfeiture / NOC / Admin" },
+        { "name": "amount_aed",        "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R27",
+      "name": "sobha_summary_dec25",
+      "label": "Sobha Entity Detailed Summary — December 2025",
+      "file_type": "XLSX",
+      "data_date": "2025-12",
+      "granularity": "project",
+      "columns": [
+        { "name": "project",           "type": "string" },
+        { "name": "unit_count",        "type": "number" },
+        { "name": "purchase_price_aed","type": "number" },
+        { "name": "collected_aed",     "type": "number" },
+        { "name": "advance_od_aed",    "type": "number" },
+        { "name": "milestone_due_aed", "type": "number" },
+        { "name": "paid_pct",          "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R28",
+      "name": "siniya_summary_dec25",
+      "label": "Siniya Entity Detailed Summary — December 2025",
+      "file_type": "XLSX",
+      "data_date": "2025-12",
+      "granularity": "project",
+      "columns": [
+        { "name": "project",           "type": "string" },
+        { "name": "unit_count",        "type": "number" },
+        { "name": "purchase_price_aed","type": "number" },
+        { "name": "collected_aed",     "type": "number" },
+        { "name": "advance_od_aed",    "type": "number" },
+        { "name": "milestone_due_aed", "type": "number" },
+        { "name": "paid_pct",          "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R29",
+      "name": "helpdesk_cases",
+      "label": "Help Desk Cases — Open/Closed, YTD, DNC List",
+      "file_type": "XLSX",
+      "data_date": "2026-03-20",
+      "granularity": "case_monthly",
+      "columns": [
+        { "name": "month",             "type": "datetime" },
+        { "name": "cases_opened",      "type": "number" },
+        { "name": "cases_closed",      "type": "number" },
+        { "name": "cases_within_tat",  "type": "number" },
+        { "name": "within_tat_pct",    "type": "number",   "note": "YTD 85.5%; Feb 2026 = 93.4%" },
+        { "name": "ytd_closed_total",  "type": "number",   "note": "120,700 YTD" },
+        { "name": "dnc_flag",          "type": "boolean",  "note": "Do Not Contact list flag" }
+      ]
+    },
+
+    {
+      "id": "R30",
+      "name": "monthly_feedback_collector",
+      "label": "Monthly Feedback Report — Collector-Level Performance (24 Agents)",
+      "file_type": "XLSX",
+      "data_date": "2026-03-20",
+      "granularity": "collector",
+      "columns": [
+        { "name": "collector_name",    "type": "string" },
+        { "name": "units_allocated",   "type": "number" },
+        { "name": "od_pool_aed",       "type": "number" },
+        { "name": "target_aed",        "type": "number" },
+        { "name": "actual_collected_aed","type": "number"},
+        { "name": "achievement_pct",   "type": "number",   "note": "Actual ÷ Target × 100; Top: Walid 56%, Bottom: Ainur 29.5%" },
+        { "name": "call_attempts",     "type": "number" },
+        { "name": "contacts_made",     "type": "number" },
+        { "name": "attempt_intensity", "type": "number",   "note": "Attempts ÷ Units allocated" },
+        { "name": "contact_intensity", "type": "number",   "note": "Contacts ÷ Units allocated" },
+        { "name": "units_paid_email",  "type": "number" },
+        { "name": "units_paid_call",   "type": "number" },
+        { "name": "units_paid_self_cured","type": "number"},
+        { "name": "units_paid_whatsapp","type": "number" },
+        { "name": "units_paid_total",  "type": "number" },
+        { "name": "ptp_amount_aed",    "type": "number",   "note": "Promise-to-pay commitments AED" }
+      ]
+    },
+
+    {
+      "id": "R31",
+      "name": "pr_unit_update",
+      "label": "PR Unit Update — PR Status, Entity-wise PR Report, Daily Collection",
+      "file_type": "XLSX",
+      "data_date": "2026-03-19",
+      "granularity": "pr_weekly",
+      "columns": [
+        { "name": "week_date",         "type": "datetime" },
+        { "name": "entity",            "type": "string" },
+        { "name": "pr_submitted",      "type": "number" },
+        { "name": "pr_approved",       "type": "number" },
+        { "name": "pr_doc_gap",        "type": "number",   "note": "Doc gap rejections; 27% of Dec 2025 sample" },
+        { "name": "pr_manual_error",   "type": "number",   "note": "Manual error rejections; 23% of Dec 2025 sample" },
+        { "name": "approval_rate_pct", "type": "number",   "note": "51% approved in Dec 2025 n=1818 sample" }
+      ]
+    },
+
+    {
+      "id": "R32",
+      "name": "rm_collector_receipts",
+      "label": "RM Collectors & PR Receipts Report — MTD Target/Actual",
+      "file_type": "XLSX",
+      "data_date": "2026-03-18",
+      "granularity": "rm_collector",
+      "columns": [
+        { "name": "rm_name",           "type": "string" },
+        { "name": "collector_name",    "type": "string" },
+        { "name": "entity",            "type": "string" },
+        { "name": "mtd_target_aed",    "type": "number" },
+        { "name": "mtd_actual_aed",    "type": "number" },
+        { "name": "achievement_pct",   "type": "number" },
+        { "name": "pr_count",          "type": "number" },
+        { "name": "receipt_count",     "type": "number" }
+      ]
+    },
+
+    {
+      "id": "R33",
+      "name": "daily_summary_scores",
+      "label": "Daily Dues/Advance Scores, Collector Comments & Performance Summary",
+      "file_type": "XLSX",
+      "data_date": "2026-03",
+      "granularity": "daily_collector",
+      "columns": [
+        { "name": "date",              "type": "datetime" },
+        { "name": "collector_name",    "type": "string" },
+        { "name": "dues_score",        "type": "number" },
+        { "name": "advance_score",     "type": "number" },
+        { "name": "collector_comment", "type": "string" },
+        { "name": "performance_flag",  "type": "string",   "note": "On-track / At-risk / Below-target" }
+      ]
+    },
+
+    {
+      "id": "R34",
+      "name": "termination_status",
+      "label": "Termination Status Report — Eligible Universe, In-System, Dev Notice, Resolved",
+      "file_type": "XLSX",
+      "data_date": "2026-03-20",
+      "granularity": "monthly_unit",
+      "columns": [
+        { "name": "month",             "type": "datetime" },
+        { "name": "eligible_units",    "type": "number",   "note": "Units meeting termination criteria" },
+        { "name": "in_system_units",   "type": "number" },
+        { "name": "not_in_system_units","type": "number",  "note": "412 units = 134.6M unactioned gap" },
+        { "name": "dev_notice_sent",   "type": "number" },
+        { "name": "resolved_units",    "type": "number" },
+        { "name": "avg_monthly_volume","type": "number",   "note": "Avg 427 units/month entering termination" },
+        { "name": "gap_exposure_aed",  "type": "number",   "note": "Not-in-system OD AED" }
+      ]
+    },
+
+    {
+      "id": "R35",
+      "name": "yoy_receipt_cohort",
+      "label": "Year-on-Year Receipt Cohort — Booking Year × Collection Year Matrix",
+      "file_type": "XLSB",
+      "data_date": "2026-03-16",
+      "granularity": "booking_cohort_collection_year",
+      "sheets": ["New_sale", "Dues", "Advance", "Advance_CY", "Advance_FY", "Check_List"],
+      "columns": [
+        { "name": "booking_year_cohort","type": "string",  "note": "Before 2021 / 2021 / 2022 / 2023 / 2024 / 2025 / 2026" },
+        { "name": "collection_year",   "type": "number",   "note": "2021 through 2026+" },
+        { "name": "category",          "type": "string",   "note": "New Sales / Dues / Advance / Advance CY / Advance FY" },
+        { "name": "sales_aed",         "type": "number",   "note": "Total sale value for cohort" },
+        { "name": "active_sales_aed",  "type": "number",   "note": "Sale value excl. cancellations; ITD = 86.7B" },
+        { "name": "cancelled_sales_aed","type": "number",  "note": "Cancellation value; ITD = 16.7B" },
+        { "name": "collected_aed",     "type": "number",   "note": "Collections by cohort × year cell" },
+        { "name": "reconcile_flag",    "type": "boolean",  "note": "Checklist zero-balance validation flag" }
+      ]
+    },
+
+    {
+      "id": "R36",
+      "name": "yoy_milestone_cohort",
+      "label": "Year-on-Year Milestone — Purchase Price vs Milestone Collection by Booking Cohort",
+      "file_type": "XLSB",
+      "data_date": "2026-03-16",
+      "granularity": "booking_cohort_collection_year",
+      "sheets": ["Total", "Active", "Sobha", "Siniya", "DT"],
+      "columns": [
+        { "name": "booking_year_cohort","type": "string" },
+        { "name": "collection_year",   "type": "number",   "note": "2022 through 2028" },
+        { "name": "entity",            "type": "string",   "note": "Total / Active / Sobha / Siniya / DT" },
+        { "name": "purchase_price_aed","type": "number",   "note": "Group Active = 86.97B; validates R13" },
+        { "name": "milestone_collected_aed","type": "number" },
+        { "name": "forward_obligation_aed","type": "number","note": "Key denominator for book penetration calc" }
+      ]
+    },
+
+    {
+      "id": "R37",
+      "name": "milestone_acd_report",
+      "label": "Milestone ACD Report — Construction-Linked Milestone Schedule by ACD Month/Year",
+      "file_type": "XLSB",
+      "data_date": "2026-03-09",
+      "granularity": "acd_month_year",
+      "sheets": ["Total_Completion", "Total_Milestone", "Total_MS_Net_Booking", "Sobha", "Sobha_Milestone", "Sobha_MS_Net_Booking"],
+      "columns": [
+        { "name": "acd_month",         "type": "string",   "note": "Jan–Dec construction completion month" },
+        { "name": "acd_year",          "type": "number",   "note": "2020–2033" },
+        { "name": "entity",            "type": "string" },
+        { "name": "milestone_type",    "type": "string",   "note": "Completion / Total / Net of Booking" },
+        { "name": "milestone_aed",     "type": "number",   "note": "Dec 2026 Group = 5.62B; largest single month" },
+        { "name": "completed_aed",     "type": "number" },
+        { "name": "completion_rate_pct","type": "number",  "note": "2025=10% / 2026=62% / 2027=70%" },
+        { "name": "dec_concentration_pct","type": "number","note": "Dec share of annual milestone; Q4 seasonality" },
+        { "name": "booking_amount_aed","type": "number" },
+        { "name": "net_ms_ex_booking_aed","type": "number" }
+      ]
+    },
+
+    {
+      "id": "R38",
+      "name": "risk_analysis",
+      "label": "Risk Analysis — Portfolio Segmentation by Paid% Band × CIV Investment Tier",
+      "file_type": "XLSX",
+      "data_date": "2026-03-09",
+      "granularity": "project_tower_paid_band_civ",
+      "sheets": [
+        "projectwise_total", "investment_total",
+        "less_than_5mil", "5mil_to_10mil", "10mil_to_15mil",
+        "15mil_to_30mil", "30mil_to_60mil", "60mil_to_100mil",
+        "100mil_plus", "Index"
+      ],
+      "columns": [
+        { "name": "entity",            "type": "string" },
+        { "name": "project",           "type": "string" },
+        { "name": "tower",             "type": "string" },
+        { "name": "paid_band",         "type": "string",   "note": "0-10% / 10-20% / 20-30% / 30-40% / 40-60% / 60%+" },
+        { "name": "civ_band",          "type": "string",   "note": "<5M / 5-10M / 10-15M / 15-30M / 30-60M / 60-100M / 100M+" },
+        { "name": "units",             "type": "number",   "note": "0-10% band = 251 units; 10-20% = 3,496 units" },
+        { "name": "sale_value_aed",    "type": "number",   "note": "0-10% = 907.7M; 10-20% = 10.34B" },
+        { "name": "paid_to_date_aed",  "type": "number" },
+        { "name": "balance_collectible_aed","type": "number","note": "0-10% band = 887M; 10-20% = 8.75B" },
+        { "name": "dues_aed",          "type": "number" },
+        { "name": "future_collectible_2026_aed","type": "number" },
+        { "name": "future_collectible_2027_aed","type": "number" },
+        { "name": "future_collectible_2028_aed","type": "number" },
+        { "name": "future_collectible_2029_aed","type": "number" },
+        { "name": "future_collectible_2030_aed","type": "number" },
+        { "name": "future_collectible_2031_aed","type": "number" },
+        { "name": "ic_threshold_eligible","type": "boolean","note": "true if paid<10% and IC policy applies" }
+      ]
+    }
+
+  ],
+
+  "derived_metrics": [
+    {
+      "name": "od_pct",
+      "formula": "od_aed / ms_due_itd_aed * 100",
+      "note": "Correct denominator is MS Due ITD, NOT purchase price. CIV total = 3.88%"
+    },
+    {
+      "name": "efficiency_30d",
+      "formula": "dues_collected_aed / booksize_bom_aed * 100",
+      "note": "2025 avg = 34.8%. Old v3 value of 18% is incorrect."
+    },
+    {
+      "name": "book_penetration_pct",
+      "formula": "annual_advance_aed / opening_forward_book_aed * 100",
+      "note": "2025 = 8.15% (÷40B). 2026 target = 10.6% (÷37.8B from R36)."
+    },
+    {
+      "name": "cy_mix_pct",
+      "formula": "cy_advance_aed / total_advance_aed * 100",
+      "note": "Jan 2025 CY = 70.1% (FY = 29.9%). 2026 YTD = 81.1%."
+    },
+    {
+      "name": "da_cagr",
+      "formula": "( da_2025 / da_2021 ) ^ (1/4) - 1",
+      "note": "2021=867M → 2025=12,966M → CAGR = 97%"
+    },
+    {
+      "name": "achievement_pct",
+      "formula": "actual_collected_aed / target_aed * 100",
+      "note": "Collector-level and entity-level KPI"
+    },
+    {
+      "name": "march_collectible_window_aed",
+      "formula": "od_today_aed + march_ms_due_aed",
+      "note": "1,650.1M OD + ~914M MS = 2,564M ≈ 2.56B"
+    }
+  ],
+
+  "entity_od_reconciliation": {
+    "source": "R18",
+    "date": "2026-03-15",
+    "sobha_aed_m": 1472.7,
+    "siniya_aed_m": 166.4,
+    "downtown_aed_m": 11.0,
+    "grand_total_aed_m": 1650.1,
+    "note": "Single source of truth. Do NOT use narrative strategy doc estimate of 1.57B for Sobha."
+  }
+}

@@ -1,0 +1,866 @@
+{
+  "schema_version": "2.0",
+  "platform": "Sobha Collections Intelligence Platform",
+  "org": "Sobha Realty — Collections Department",
+  "build_target": "v6",
+  "data_as_of": "2026-03-18",
+  "total_metrics": 58,
+
+  "naming_convention": "snake_case. Monetary in AED. Ratios as decimal unless _pct suffix (0–100 scale).",
+
+  "formula_rules": {
+    "od_pct":            "ALWAYS: od_aed ÷ ms_due_itd_aed × 100. NEVER: od_aed ÷ purchase_price_aed × 100.",
+    "channel_share_pct": "ALWAYS: txn_count basis. NEVER: AED value basis.",
+    "npv_scenario":      "ALWAYS label 652M / 21M / 31M as [PROJECTED]. NEVER label as Actual.",
+    "cy_mix":            "CY = advance on milestones due current calendar year. FY = future-year milestones.",
+    "mdo_vs_finance":    "MDO Dues = Dues-only. Finance Dues = D+A combined. Label explicitly in every metric display.",
+    "pipeline":          "PIPELINE_GROSS 43.5B ≠ PIPELINE_FORWARD_BOOK ~40B ≠ PIPELINE_ADV_DENOM 37.8B. Always inline-label the specific constant in use.",
+    "units_count":       "active_excl_pcc = 30,044. all_qualified_itd = 34,731. Always label which is in use."
+  },
+
+  "categories": [
+
+    {
+      "id": "CAT_01",
+      "name": "Portfolio Overview",
+      "metrics": [
+        {
+          "id": "M001",
+          "name": "sale_value_itd",
+          "label": "Group Sale Value ITD",
+          "formula": "SUM(sale_value_aed) across all active + cancelled bookings",
+          "inputs": ["sale_value_aed"],
+          "sources": ["R13","R16","R36"],
+          "description": "Total contracted sale value of all bookings ITD. Includes active and cancelled units. Group = AED 86.0B.",
+          "unit": "AED",
+          "benchmark": 86000000000,
+          "used_in": ["S02_SM1"]
+        },
+        {
+          "id": "M002",
+          "name": "active_sale_value_itd",
+          "label": "Active Portfolio Sale Value ITD",
+          "formula": "SUM(sale_value_aed) WHERE booking_status = 'active'",
+          "inputs": ["sale_value_aed","booking_status"],
+          "sources": ["R35","R36"],
+          "description": "Sale value of non-cancelled active bookings only. Group = AED 86.97B (R36 Active sheet).",
+          "unit": "AED",
+          "benchmark": 86970000000,
+          "used_in": ["S02_SM1"]
+        },
+        {
+          "id": "M003",
+          "name": "collected_itd",
+          "label": "Collected ITD",
+          "formula": "SUM(collected_aed) across all receipt categories ITD",
+          "inputs": ["collected_aed"],
+          "sources": ["R13","R08"],
+          "description": "Total receipts collected ITD across all categories. Group = AED 43.3B.",
+          "unit": "AED",
+          "benchmark": 43300000000,
+          "used_in": ["S02_SM1"]
+        },
+        {
+          "id": "M004",
+          "name": "collected_itd_pct",
+          "label": "% Collected ITD",
+          "formula": "collected_itd / sale_value_itd * 100",
+          "inputs": ["collected_itd","sale_value_itd"],
+          "sources": ["R13"],
+          "description": "Proportion of total sale value collected to date. Group = 50.3%.",
+          "unit": "%",
+          "benchmark": 50.3,
+          "used_in": ["S02_SM1"]
+        },
+        {
+          "id": "M005",
+          "name": "future_milestone_pipeline",
+          "label": "Future Milestone Pipeline",
+          "formula": "SUM(forward_obligation_aed) for all future collection years from R36",
+          "inputs": ["forward_obligation_aed"],
+          "sources": ["R36","R37"],
+          "description": "Total forward receivables from all active bookings. Three variants with distinct scopes — always use named constant with inline label.",
+          "unit": "AED",
+          "variants": {
+            "PIPELINE_GROSS":        { "value_aed_b": 43.5,  "label": "Total Forward Pipeline", "used_in": ["S02","S04"] },
+            "PIPELINE_FORWARD_BOOK": { "value_aed_b": 40,    "label": "~Opening 2025 Book (narrative only)", "used_in": ["S01"] },
+            "PIPELINE_ADV_DENOM":    { "value_aed_b": 37.8,  "label": "2026 Penetration Denominator = 43.5B − 5.7B", "used_in": ["S05","S08"] }
+          },
+          "used_in": ["S02_SM1","S05_SM3","S08_SM3"]
+        },
+        {
+          "id": "M006",
+          "name": "qualified_units",
+          "label": "Qualified Units",
+          "formula": "COUNT(unit_id) WHERE paid_pct >= 9.5% AND pcc_issued = false",
+          "inputs": ["unit_id","paid_pct","pcc_issued"],
+          "sources": ["R03","R25"],
+          "description": "Active booking units with ≥9.5% collected and PCC not yet issued.",
+          "unit": "units",
+          "variants": {
+            "active_excl_pcc":   { "value": 30044, "use": "App adoption, coverage metrics" },
+            "all_qualified_itd": { "value": 34731, "use": "Portfolio count, hero card" }
+          },
+          "rule": "Always label which variant is displayed.",
+          "used_in": ["S01_SM2","S02_SM1"]
+        },
+        {
+          "id": "M007",
+          "name": "cancellation_rate_pct",
+          "label": "Cancellation Rate",
+          "formula": "cancelled_sales_aed / total_sales_itd_aed * 100",
+          "inputs": ["cancelled_sales_aed","total_sales_itd_aed"],
+          "sources": ["R35"],
+          "description": "Portfolio cancellation rate by value. 16.7B cancelled / 103.4B total sold = 16.1%.",
+          "unit": "%",
+          "benchmark": 16.1,
+          "used_in": ["S01_SM4"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_02",
+      "name": "Collections Performance (D+A)",
+      "metrics": [
+        {
+          "id": "M008",
+          "name": "dues_advance_total",
+          "label": "Dues + Advance (D+A)",
+          "formula": "dues_aed + advance_aed",
+          "inputs": ["dues_aed","advance_aed"],
+          "sources": ["R01","R04","R08"],
+          "description": "Core collections KPI. Excludes New Sales, DLD, Other Charges. 2025 Group = AED 12,966M.",
+          "unit": "AED",
+          "benchmark_2025": 12966000000,
+          "disambiguation": "Finance target includes D+A combined. MDO tracks dues and advance separately. Label which definition is in use.",
+          "used_in": ["S01_SM1","S02_SM2","S02_SM3"]
+        },
+        {
+          "id": "M009",
+          "name": "total_collections",
+          "label": "Total Collections",
+          "formula": "dues_aed + advance_aed + new_sales_aed + other_charges_aed + dld_aed",
+          "inputs": ["dues_aed","advance_aed","new_sales_aed","other_charges_aed","dld_aed"],
+          "sources": ["R01","R04"],
+          "description": "All receipts across all categories. 2025 Group = AED 16,820M. Sobha = 14,064M; Siniya = 2,506M; DT = 250M.",
+          "unit": "AED",
+          "benchmark_2025": 16820000000,
+          "used_in": ["S01_SM1","S02_SM1"]
+        },
+        {
+          "id": "M010",
+          "name": "da_cagr",
+          "label": "D+A Collections CAGR 2021–2025",
+          "formula": "(da_2025 / da_2021) ^ (1 / 4) - 1",
+          "inputs": ["da_2021","da_2025"],
+          "sources": ["R01"],
+          "description": "4-year CAGR for Dues+Advance. AED 867M (2021) → AED 12,966M (2025) = 97%.",
+          "unit": "%",
+          "benchmark": 97,
+          "used_in": ["S01_SM1"]
+        },
+        {
+          "id": "M011",
+          "name": "da_growth_multiple",
+          "label": "D+A Growth Multiple",
+          "formula": "da_current_year / da_base_year",
+          "inputs": ["da_current_year","da_base_year"],
+          "sources": ["R01"],
+          "description": "2021→2025 = 15×. Total collections = 10.7×. LP charges = 22×.",
+          "unit": "x",
+          "benchmark": 15,
+          "used_in": ["S01_SM1"]
+        },
+        {
+          "id": "M012",
+          "name": "mix_pct_dues",
+          "label": "Dues Mix % of Total Collections",
+          "formula": "dues_aed / total_collections_aed * 100",
+          "inputs": ["dues_aed","total_collections_aed"],
+          "sources": ["R01","R08"],
+          "description": "Dues share of total collections. Tracks structural shift from dues-heavy to advance-balanced portfolio.",
+          "unit": "%",
+          "used_in": ["S01_SM2"]
+        },
+        {
+          "id": "M013",
+          "name": "mix_pct_advance",
+          "label": "Advance Mix % of Total Collections",
+          "formula": "advance_aed / total_collections_aed * 100",
+          "inputs": ["advance_aed","total_collections_aed"],
+          "sources": ["R01","R08"],
+          "description": "Advance share of total collections. Rising trend 2021–2025.",
+          "unit": "%",
+          "used_in": ["S01_SM2"]
+        },
+        {
+          "id": "M014",
+          "name": "mix_pct_new_sales",
+          "label": "New Sales Mix % of Total Collections",
+          "formula": "new_sales_aed / total_collections_aed * 100",
+          "inputs": ["new_sales_aed","total_collections_aed"],
+          "sources": ["R01"],
+          "description": "New sales share of total collections. 2026 YTD significantly below target (31% achievement).",
+          "unit": "%",
+          "used_in": ["S01_SM2"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_03",
+      "name": "Target Management",
+      "metrics": [
+        {
+          "id": "M015",
+          "name": "mdo_fy_dues_target",
+          "label": "MDO FY Dues Target",
+          "formula": "SUM(dues_target_aed) across 12 months R02",
+          "inputs": ["dues_target_aed"],
+          "sources": ["R02"],
+          "description": "Full-year MDO dues-only target. AED 11.5B.",
+          "unit": "AED",
+          "benchmark": 11500000000,
+          "used_in": ["S02_SM2","S03_SM2"]
+        },
+        {
+          "id": "M016",
+          "name": "achievement_pct",
+          "label": "Achievement % (Actual ÷ Target)",
+          "formula": "actual_collected_aed / target_aed * 100",
+          "inputs": ["actual_collected_aed","target_aed"],
+          "sources": ["R02","R04","R30"],
+          "description": "Universal KPI for collector-level and entity-level performance. Context determines which target definition is used.",
+          "unit": "%",
+          "used_in": ["S02_SM2","S02_SM3","S03_SM2","S03_SM3"]
+        },
+        {
+          "id": "M017",
+          "name": "mdo_dues_target_monthly",
+          "label": "MDO Monthly Dues Target",
+          "formula": "dues_target_aed per month from R02",
+          "inputs": ["dues_target_aed","month"],
+          "sources": ["R02"],
+          "description": "Dynamic MDO dues-only monthly target. Jan = 700.5M. Adjusted mid-year.",
+          "unit": "AED",
+          "key_values": { "jan_aed_m": 700.5, "feb_aed_m": 712.4, "mar_aed_m": 695.4 },
+          "disambiguation": "MDO Dues ≠ Finance Dues. Finance (R04) Jan = 909M. Both must be labelled on-screen.",
+          "used_in": ["S02_SM2","S03_SM1"]
+        },
+        {
+          "id": "M018",
+          "name": "finance_dues_target_monthly",
+          "label": "Finance Monthly Dues Target (D+A Combined)",
+          "formula": "finance_target_aed per month from R04",
+          "inputs": ["finance_target_aed","month"],
+          "sources": ["R04"],
+          "description": "Finance monthly target = Dues + Advance combined (static). Jan = 909M.",
+          "unit": "AED",
+          "key_values": { "jan_aed_m": 909, "jan_actual_aed_m": 1069, "jan_achievement_pct": 118 },
+          "disambiguation": "Finance target ≠ MDO Dues target. Label explicitly: 'Finance Dues (D+A combined)'.",
+          "used_in": ["S02_SM3","S03_SM1"]
+        },
+        {
+          "id": "M019",
+          "name": "mdo_advance_target_fy",
+          "label": "MDO FY Advance Target",
+          "formula": "SUM(advance_target_aed) across 12 months R02",
+          "inputs": ["advance_target_aed"],
+          "sources": ["R02"],
+          "description": "Full-year MDO advance target. AED 4.0B.",
+          "unit": "AED",
+          "benchmark": 4000000000,
+          "used_in": ["S02_SM2","S03_SM2"]
+        },
+        {
+          "id": "M020",
+          "name": "q1_achievement_summary",
+          "label": "Q1 2026 Achievement vs MDO",
+          "formula": "Separate computation per category: actual ÷ MDO target × 100",
+          "sources": ["R02","R04"],
+          "description": "Q1 2026 actuals vs MDO targets. Dues 1.92B/2.11B = 91%. Advance 702M/960M = 73%. NS 473M/1.52B = 31% (critical gap).",
+          "unit": "AED + %",
+          "key_values": {
+            "dues_actual_aed_b": 1.92, "dues_target_aed_b": 2.11, "dues_pct": 91,
+            "advance_actual_aed_m": 702, "advance_target_aed_m": 960, "advance_pct": 73,
+            "ns_actual_aed_m": 473, "ns_target_aed_m": 1520, "ns_pct": 31
+          },
+          "display_rule": "S02 context = 'Year-to-Date Summary (Strategic)'. S03 context = 'Q1 Actuals vs MDO (Operational Pulse)'. Same source — different framing.",
+          "used_in": ["S02_SM2 (strategic)", "S03_SM2 (operational)"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_04",
+      "name": "OD & Delinquency",
+      "metrics": [
+        {
+          "id": "M021",
+          "name": "od_today",
+          "label": "OD Today",
+          "formula": "SUM(od_aed) from R18 at last refresh date",
+          "inputs": ["od_aed"],
+          "sources": ["R18"],
+          "description": "Current overdue balance. Group = 1,650.1M. Sobha=1,472.7M; Siniya=166.4M; DT=11.0M.",
+          "unit": "AED",
+          "constant": "OD_TODAY",
+          "benchmark": 1650100000,
+          "rule": "Always read from OD_TODAY constant. Never hardcode. Changes daily.",
+          "used_in": ["S02_SM1","S04_SM1","S08_SM1"]
+        },
+        {
+          "id": "M022",
+          "name": "od_pct",
+          "label": "OD Rate (Delinquency %)",
+          "formula": "od_aed / ms_due_itd_aed * 100",
+          "inputs": ["od_aed","ms_due_itd_aed"],
+          "sources": ["R16","R18"],
+          "description": "OD as % of milestones due ITD. Group CIV total = 3.88%.",
+          "unit": "%",
+          "benchmark": 3.88,
+          "CRITICAL_rule": "Denominator = ms_due_itd_aed. NEVER purchase_price_aed. Old formula (÷PP) understates delinquency.",
+          "used_in": ["S01_SM4","S04_SM1"]
+        },
+        {
+          "id": "M023",
+          "name": "od_ageing_distribution",
+          "label": "OD Ageing Band Distribution",
+          "formula": "od_aed per ageing_band from R18",
+          "inputs": ["ageing_band","od_aed"],
+          "sources": ["R18"],
+          "description": "OD split across 6 ageing buckets (AED M): 0-30d=830; 31-60d=445; 61-90d=166; 91-120d=79; 121-180d=47; 180+=225.",
+          "unit": "AED",
+          "key_values": {
+            "band_0_30d_aed_m": 830, "band_31_60d_aed_m": 445, "band_61_90d_aed_m": 166,
+            "band_91_120d_aed_m": 79, "band_121_180d_aed_m": 47, "band_180plus_aed_m": 225
+          },
+          "used_in": ["S04_SM2"]
+        },
+        {
+          "id": "M024",
+          "name": "efficiency_30d_pct",
+          "label": "30-Day Collection Efficiency",
+          "formula": "dues_collected_aed / booksize_bom_aed * 100",
+          "inputs": ["dues_collected_aed","booksize_bom_aed"],
+          "sources": ["R12"],
+          "description": "Dues collected in the month as % of opening book. 2025 average = 34.8%. Deprecated value of 18% from v3 is WRONG.",
+          "unit": "%",
+          "benchmark": 34.8,
+          "deprecated_wrong_value": "18% (v1–v3) — do not use",
+          "used_in": ["S04_SM3"]
+        },
+        {
+          "id": "M025",
+          "name": "march_collectible_window",
+          "label": "March Collectible Window",
+          "formula": "OD_TODAY + march_ms_due_aed",
+          "inputs": ["od_today","march_ms_due_aed"],
+          "sources": ["R18","R02"],
+          "description": "Total collectable in March: OD 1,650.1M + ~914M milestones = ~2,564M.",
+          "unit": "AED",
+          "benchmark": 2564000000,
+          "used_in": ["S04_SM1"]
+        },
+        {
+          "id": "M026",
+          "name": "eom_od_projection",
+          "label": "End-of-Month OD Projection",
+          "formula": "OD_TODAY + remaining_current_month_milestones IF zero_collection_assumed",
+          "inputs": ["od_today","remaining_month_milestones"],
+          "sources": ["R18","R02"],
+          "description": "Projected EOM OD if no further collections in current month.",
+          "unit": "AED",
+          "used_in": ["S04_SM1"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_05",
+      "name": "Bucket & Coverage",
+      "metrics": [
+        {
+          "id": "M027",
+          "name": "coverage_pct_by_bucket",
+          "label": "Agent Coverage % by Bucket",
+          "formula": "units_contacted / units_allocated * 100",
+          "inputs": ["units_contacted","units_allocated","bucket"],
+          "sources": ["R10"],
+          "description": "Units contacted out of units allocated per collector bucket.",
+          "unit": "%",
+          "key_values": {
+            "fe_coverage_pct": 99.7,
+            "od_coverage_pct": 99.9,
+            "term_coverage_pct": 100,
+            "siniya_coverage_pct": 86.2,
+            "siniya_unworked_units": 198,
+            "siniya_unworked_pool_aed_m": 319
+          },
+          "used_in": ["S03_SM4"]
+        },
+        {
+          "id": "M028",
+          "name": "siniya_coverage_gap",
+          "label": "Siniya Coverage Gap",
+          "formula": "siniya_allocated_units - siniya_contacted_units",
+          "inputs": ["siniya_allocated_units","siniya_contacted_units"],
+          "sources": ["R10"],
+          "description": "198 units unworked = 319M OD pool uncontacted.",
+          "unit": "units + AED",
+          "key_values": { "unworked_units": 198, "od_pool_aed_m": 319 },
+          "used_in": ["S03_SM5"]
+        },
+        {
+          "id": "M029",
+          "name": "bucket_productivity_pct",
+          "label": "Bucket Productivity %",
+          "formula": "dues_collected_aed / bucket_od_pool_aed * 100",
+          "inputs": ["dues_collected_aed","bucket_od_pool_aed","bucket"],
+          "sources": ["R12","R34"],
+          "description": "Collections yield per bucket. FE=44.1%, OD=35.4%, Term=27.2%. Lives in S03 (pulse metric, not S04 definition).",
+          "unit": "%",
+          "key_values": { "fe_pct": 44.1, "od_pct": 35.4, "term_pct": 27.2 },
+          "section_rule": "S03 only — pulse metric. NOT in S04.",
+          "used_in": ["S03_SM4"]
+        },
+        {
+          "id": "M030",
+          "name": "daily_mdo_avg",
+          "label": "Daily MDO Average (Dues)",
+          "formula": "monthly_dues_target_aed / WORKING_DAYS_MONTH",
+          "inputs": ["monthly_dues_target_aed","WORKING_DAYS_MONTH"],
+          "sources": ["R02"],
+          "description": "Daily MDO run-rate required. Uses WORKING_DAYS_MONTH constant (March=21, not hardcoded 22).",
+          "unit": "AED/day",
+          "rule": "NEVER hardcode working days. Always use WORKING_DAYS_MONTH variable.",
+          "used_in": ["S03_SM1"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_06",
+      "name": "Collector Performance",
+      "metrics": [
+        {
+          "id": "M031",
+          "name": "collector_achievement_pct",
+          "label": "Collector Achievement %",
+          "formula": "ROUND(collector_actual_aed / collector_target_aed * 100)",
+          "inputs": ["collector_actual_aed","collector_target_aed","collector_name"],
+          "sources": ["R30"],
+          "description": "Individual collector performance. Chart sorted descending by achievement%. Top: Walid 56% (39.2M/70M), Abdellatif 54.8%, Sarmad 47.9%. Bottom: Ainur 29.5%, Oksana 32.1%.",
+          "unit": "%",
+          "display_rule": "Chart must be sorted descending by achievement_pct. v5 is UNSORTED — fix in v6.",
+          "data_currency": "Mar 2026 MTD snapshot. Label 'Snapshot: Mar 2026 MTD'. No live refresh.",
+          "used_in": ["S03_SM3"]
+        },
+        {
+          "id": "M032",
+          "name": "termination_gap_exposure",
+          "label": "Termination Unactioned Gap",
+          "formula": "not_in_system_units * avg_od_per_unit",
+          "inputs": ["not_in_system_units","gap_exposure_aed"],
+          "sources": ["R34"],
+          "description": "412 units not actioned in termination system = AED 134.6M OD exposure.",
+          "unit": "units + AED",
+          "key_values": { "units": 412, "exposure_aed_m": 134.6, "avg_monthly_entering": 427 },
+          "used_in": ["S04_SM3","S08_SM1"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_07",
+      "name": "Advance Collections",
+      "metrics": [
+        {
+          "id": "M033",
+          "name": "cy_advance_mix_pct",
+          "label": "CY Advance Mix %",
+          "formula": "cy_advance_aed / total_advance_aed * 100",
+          "inputs": ["cy_advance_aed","total_advance_aed"],
+          "sources": ["R08"],
+          "description": "CY advance as % of total advance per month. Jan 2025 = 70.1% (NOT 30% — that was FY%). 2026 YTD = 81.1%. Computed once as CY_ADV_MIX_YTD constant.",
+          "unit": "%",
+          "constant": "CY_ADV_MIX_YTD",
+          "benchmark_ytd_2026": 81.1,
+          "rule": "Compute ONCE as global constant CY_ADV_MIX_YTD. Reference in S01/S03/S05 — never recompute per-section.",
+          "used_in": ["S01_SM3","S03_SM2","S05_SM2"]
+        },
+        {
+          "id": "M034",
+          "name": "fy_advance_mix_pct",
+          "label": "FY Advance Mix %",
+          "formula": "fy_advance_aed / total_advance_aed * 100",
+          "inputs": ["fy_advance_aed","total_advance_aed"],
+          "sources": ["R08"],
+          "description": "FY advance as % of total advance. Complement of CY mix. Jan 2025 = 29.9%.",
+          "unit": "%",
+          "used_in": ["S01_SM3"]
+        },
+        {
+          "id": "M035",
+          "name": "book_penetration_pct",
+          "label": "Advance Book Penetration %",
+          "formula": "annual_advance_aed / opening_forward_book_aed * 100",
+          "inputs": ["annual_advance_aed","opening_forward_book_aed"],
+          "sources": ["R08","R36"],
+          "description": "Annual advance collected as % of opening forward book. 2025 = 8.15% (÷40B). 2026 target = 10.6% (÷PIPELINE_ADV_DENOM 37.8B).",
+          "unit": "%",
+          "key_values": { "benchmark_2025_pct": 8.15, "target_2026_pct": 10.6 },
+          "denominator_rule": "PIPELINE_ADV_DENOM = 37.8B for 2026. NEVER use 43.5B for this metric. Definition lives once in S05 DEFINITION_BLOCK.",
+          "used_in": ["S05_SM3"]
+        },
+        {
+          "id": "M036",
+          "name": "advance_lead_time_days",
+          "label": "Avg Advance Lead Time (Days)",
+          "formula": "AVG(due_date - advance_collection_date) in calendar days",
+          "inputs": ["due_date","advance_collection_date"],
+          "sources": ["R08"],
+          "description": "Average days advance is collected before milestone due date. Historical average = 248 days.",
+          "unit": "days",
+          "benchmark": 248,
+          "used_in": ["S01_SM3","S02_SM1","S05_SM4"]
+        },
+        {
+          "id": "M037",
+          "name": "npv_rebate_rate_pct",
+          "label": "NPV Rebate Rate %",
+          "formula": "total_rebate_aed / total_advance_aed * 100",
+          "inputs": ["rebate_aed","total_advance_aed","npv_rate_pct"],
+          "sources": ["R08"],
+          "description": "Effective rebate rate on advance collected. Current NPV 3.5%; proposed 4.3%; bank equivalent 4.75%. 2026 YTD effective rate = 1.4% (9.14M on 641M).",
+          "unit": "%",
+          "key_values": {
+            "current_npv_pct": 3.5,
+            "proposed_npv_pct": 4.3,
+            "bank_equivalent_pct": 4.75,
+            "ytd_2026_effective_pct": 1.4
+          },
+          "used_in": ["S01_SM3","S05_SM4"]
+        },
+        {
+          "id": "M038",
+          "name": "npv_incremental_inflow",
+          "label": "NPV Incremental Inflow [PROJECTED]",
+          "formula": "advance_collected_with_rebate - advance_without_rebate",
+          "inputs": ["advance_with_rebate","advance_without_rebate"],
+          "sources": ["R08"],
+          "description": "Incremental advance inflow from rebate programme modelled at proposed 4.3% rate. ~AED 652M.",
+          "unit": "AED",
+          "benchmark": 652000000,
+          "CRITICAL_label_rule": "ALWAYS display as [PROJECTED]. NEVER as Actual. This is a proposal model scenario.",
+          "used_in": ["S01_SM3"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_08",
+      "name": "Risk & Paid Band Analysis",
+      "metrics": [
+        {
+          "id": "M039",
+          "name": "ic_threshold_exposure",
+          "label": "IC Threshold Exposure (0–10% Paid)",
+          "formula": "SUM(sale_value_aed) WHERE paid_band = '0-10%' AND ic_threshold_eligible = true",
+          "inputs": ["paid_band","sale_value_aed","ic_threshold_eligible","units"],
+          "sources": ["R38"],
+          "description": "Portfolio at risk under current IC threshold policy. 251 units / 907.7M sale value at 0–10% paid.",
+          "unit": "AED + units",
+          "key_values": { "units": 251, "sale_value_aed_m": 907.7, "balance_collectible_aed_m": 887 },
+          "governance": "IC threshold change (20%→10%) requires standalone board business case. Platform flags advisory only — policy not decided here.",
+          "used_in": ["S04_SM2","S08_SM1"]
+        },
+        {
+          "id": "M040",
+          "name": "skyvue_concentration_risk",
+          "label": "Skyvue Cluster Concentration Risk",
+          "formula": "SUM(sale_value_aed) WHERE project = 'Skyvue' AND paid_band = '10-20%'",
+          "inputs": ["project","paid_band","sale_value_aed","units"],
+          "sources": ["R38"],
+          "description": "Skyvue project cluster: 535 units / 1.27B at 10–20% paid — high concentration risk.",
+          "unit": "AED + units",
+          "key_values": { "units": 535, "sale_value_aed_b": 1.27 },
+          "used_in": ["S08_SM1"]
+        },
+        {
+          "id": "M041",
+          "name": "paid_band_distribution",
+          "label": "Portfolio Paid Band Distribution",
+          "formula": "COUNT(units) and SUM(sale_value_aed) grouped by paid_band",
+          "inputs": ["paid_band","units","sale_value_aed"],
+          "sources": ["R38","R03"],
+          "description": "Full portfolio segmented by % of purchase price paid. Key IC and risk heat map metric.",
+          "unit": "units + AED",
+          "used_in": ["S04_SM2","S08_SM1"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_09",
+      "name": "MDO Monthly Actuals",
+      "metrics": [
+        {
+          "id": "M042",
+          "name": "entity_monthly_collection",
+          "label": "Entity Monthly Collections vs MDO",
+          "formula": "SUM(actual_aed) per entity per month; achievement_pct = actual ÷ target × 100",
+          "inputs": ["entity","month","dues_actual_aed","advance_actual_aed"],
+          "sources": ["R02"],
+          "description": "Entity-level monthly performance. MDO Q1: Sobha 91%; Siniya 100.3%; DT 133%.",
+          "unit": "AED + %",
+          "key_values": {
+            "sobha_q1_pct": 91, "siniya_q1_pct": 100.3, "dt_q1_pct": 133,
+            "jan_actual_aed_m": 787.4, "jan_achievement_pct": 112,
+            "feb_actual_aed_m": 707.8, "feb_achievement_pct": 99
+          },
+          "used_in": ["S02_SM2","S03_SM2"]
+        },
+        {
+          "id": "M043",
+          "name": "siniya_finance_performance",
+          "label": "Siniya Finance Target Performance",
+          "formula": "siniya_actual_aed / siniya_finance_target_aed * 100",
+          "inputs": ["siniya_actual_aed","siniya_finance_target_aed"],
+          "sources": ["R04"],
+          "description": "Siniya Finance target performance. Jan: target 144.8M, actual 180.9M = 125%.",
+          "unit": "%",
+          "key_values": { "jan_target_aed_m": 144.8, "jan_actual_aed_m": 180.9, "jan_achievement_pct": 125 },
+          "used_in": ["S02_SM3"]
+        },
+        {
+          "id": "M044",
+          "name": "ns_target_gap",
+          "label": "New Sales Collection Gap",
+          "formula": "ns_actual_aed / ns_target_aed * 100",
+          "inputs": ["new_sales_aed","ns_target_aed"],
+          "sources": ["R04"],
+          "description": "New Sales critical underperformance. Q1 actual 473M vs target 1,520M = 31%. Jan actual 231M vs 507M target = 46%.",
+          "unit": "%",
+          "key_values": { "q1_actual_aed_m": 473, "q1_target_aed_m": 1520, "q1_pct": 31 },
+          "alert": "CRITICAL GAP — flag in S03 Performance Flags INSIGHT_BLOCK",
+          "used_in": ["S02_SM3","S03_SM5"]
+        },
+        {
+          "id": "M045",
+          "name": "units_by_year",
+          "label": "Qualified Units by Booking Year",
+          "formula": "COUNT(unit_id) per year from R03",
+          "inputs": ["unit_id","booking_year"],
+          "sources": ["R03"],
+          "description": "Portfolio scale trajectory. Sobha ITD: 2021=1,879; 2022=5,009; 2023=5,211; 2024=6,837; 2025=8,468; 2026 YTD=957.",
+          "unit": "units",
+          "key_values": {
+            "sobha_2021": 1879, "sobha_2022": 5009, "sobha_2023": 5211,
+            "sobha_2024": 6837, "sobha_2025": 8468, "sobha_2026_ytd": 957
+          },
+          "used_in": ["S01_SM2"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_10",
+      "name": "Operations & Quality (QCG)",
+      "metrics": [
+        {
+          "id": "M046",
+          "name": "pr_approval_rate_pct",
+          "label": "PR First-Pass Approval Rate %",
+          "formula": "pr_approved / pr_submitted * 100",
+          "inputs": ["pr_approved","pr_submitted"],
+          "sources": ["R31"],
+          "description": "Payment Receipts approved on first submission without rework. Dec 2025 (n=1,818): 51% approved. Drives AED 250–300M visibility gap from uncommitted PRs.",
+          "unit": "%",
+          "benchmark": 51,
+          "used_in": ["S06_SM1"]
+        },
+        {
+          "id": "M047",
+          "name": "pr_doc_gap_rate_pct",
+          "label": "PR Rejection Rate — Document Gaps",
+          "formula": "pr_doc_gap_rejections / pr_submitted * 100",
+          "inputs": ["pr_doc_gap_rejections","pr_submitted"],
+          "sources": ["R31"],
+          "description": "PRs rejected for missing/incorrect documentation. Dec 2025 = 27%. Target = 0% via Interim PR Module (P1 roadmap).",
+          "unit": "%",
+          "benchmark": 27,
+          "target": 0,
+          "used_in": ["S06_SM1"]
+        },
+        {
+          "id": "M048",
+          "name": "pr_manual_error_rate_pct",
+          "label": "PR Rejection Rate — Manual Errors",
+          "formula": "pr_manual_error_rejections / pr_submitted * 100",
+          "inputs": ["pr_manual_error_rejections","pr_submitted"],
+          "sources": ["R31"],
+          "description": "PRs rejected due to data entry or processing errors. Dec 2025 = 23%.",
+          "unit": "%",
+          "benchmark": 23,
+          "used_in": ["S06_SM1"]
+        },
+        {
+          "id": "M049",
+          "name": "pcc_tat_days",
+          "label": "PCC Turnaround Time (TAT)",
+          "formula": "AVG(pcc_issue_date - payment_completion_date) in calendar days",
+          "inputs": ["pcc_issue_date","payment_completion_date"],
+          "sources": ["R31","R20"],
+          "description": "Calendar days from 100% payment to PCC issuance. Pre-initiative = 20d. Post-initiative (Q4 2025+) = 3–5d. Target = 2d.",
+          "unit": "days",
+          "benchmarks": { "pre_initiative": 20, "post_initiative": "3-5", "target": 2 },
+          "used_in": ["S06_SM2","S06_SM3"]
+        },
+        {
+          "id": "M050",
+          "name": "pr_to_soa_tat_0_2d_pct",
+          "label": "PR-to-SOA Turnaround % in 0–2 Days",
+          "formula": "pr_count_within_2d / total_pr_count * 100",
+          "inputs": ["pr_count_within_2d","total_pr_count"],
+          "sources": ["R20"],
+          "description": "PRs processed with SOA updated within 2 days. 2024=25%; 2025=35%; 2026 YTD=51%.",
+          "unit": "%",
+          "benchmarks": { "2024_pct": 25, "2025_pct": 35, "2026_ytd_pct": 51 },
+          "used_in": ["S06_SM4"]
+        },
+        {
+          "id": "M051",
+          "name": "app_payment_share_pct",
+          "label": "App Payment Channel Share %",
+          "formula": "app_txn_count / total_da_txn_count * 100",
+          "inputs": ["app_txn_count","total_da_txn_count"],
+          "sources": ["R25"],
+          "description": "One Sobha App share of all D+A payment transactions by COUNT. 2024=0.1%; 2025=6%; 2026 YTD=25.9%.",
+          "unit": "%",
+          "benchmarks": { "2024_pct": 0.1, "2025_pct": 6.0, "2026_ytd_pct": 25.9 },
+          "CRITICAL_rule": "COUNT basis only. Do not use AED value for this metric.",
+          "used_in": ["S03_SM4","S06_SM4"]
+        },
+        {
+          "id": "M052",
+          "name": "helpdesk_within_tat_pct",
+          "label": "Helpdesk Cases Resolved Within TAT %",
+          "formula": "cases_closed_within_tat / total_cases_closed * 100",
+          "inputs": ["cases_closed_within_tat","total_cases_closed"],
+          "sources": ["R29"],
+          "description": "Helpdesk cases closed within SLA. 2026 YTD = 85.5% (120,700 cases closed). Feb 2026 peak = 93.4%.",
+          "unit": "%",
+          "key_values": { "ytd_pct": 85.5, "peak_pct": 93.4, "ytd_cases": 120700 },
+          "used_in": ["S06_SM5"]
+        },
+        {
+          "id": "M053",
+          "name": "call_audit_coverage_pct",
+          "label": "Call Audit Coverage %",
+          "formula": "calls_audited / total_calls * 100",
+          "inputs": ["calls_audited","total_calls"],
+          "sources": ["strategy_doc"],
+          "description": "QCG audit coverage of outbound collector calls. Current = 30%. Target = 100% via AI-Driven Audit (P3, Q1 2027).",
+          "unit": "%",
+          "benchmark_current": 30,
+          "target": 100,
+          "used_in": ["S06_SM1"]
+        },
+        {
+          "id": "M054",
+          "name": "sla_tat_compliance_pct",
+          "label": "SLA TAT Compliance %",
+          "formula": "tasks_completed_within_sla / total_tasks * 100",
+          "inputs": ["tasks_completed_within_sla","total_tasks"],
+          "sources": ["strategy_doc"],
+          "description": "All operational tasks completed within defined SLA. Current = 87%. Target = 90%.",
+          "unit": "%",
+          "benchmark_current": 87,
+          "target": 90,
+          "used_in": ["S06_SM1"]
+        },
+        {
+          "id": "M055",
+          "name": "dld_forfeiture_ytd",
+          "label": "2026 YTD DLD Forfeiture",
+          "formula": "SUM(dld_forfeiture_aed) WHERE year = 2026 AND month <= current_month",
+          "inputs": ["dld_forfeiture_aed","year","month"],
+          "sources": ["R26"],
+          "description": "2026 YTD DLD forfeiture = 38.9M already exceeds full-year 2025 (22.3M). Critical acceleration flag.",
+          "unit": "AED",
+          "key_values": { "ytd_2026_aed_m": 38.9, "full_year_2025_aed_m": 22.3 },
+          "alert": "38.9M YTD > full-year 2025 — flag in S06 INSIGHT_BLOCK",
+          "used_in": ["S06_SM5"]
+        }
+      ]
+    },
+
+    {
+      "id": "CAT_11",
+      "name": "Nationality & CIV Delinquency",
+      "metrics": [
+        {
+          "id": "M056",
+          "name": "nationality_od_pct",
+          "label": "OD Rate by Nationality",
+          "formula": "nationality_od_aed / nationality_ms_due_itd_aed * 100",
+          "inputs": ["nationality_od_aed","nationality_ms_due_itd_aed","nationality"],
+          "sources": ["R16"],
+          "description": "OD rate by customer nationality. India = 4.33% (272M OD, highest absolute); Iran = 9.14% (highest rate); Russia = 2.36%; China = 1.73%; Netherlands = 10.02%.",
+          "unit": "%",
+          "key_values": {
+            "india_od_aed_m": 272, "india_pct": 4.33,
+            "iran_pct": 9.14, "russia_pct": 2.36,
+            "china_pct": 1.73, "netherlands_pct": 10.02
+          },
+          "CRITICAL_rule": "OD% = od_aed ÷ ms_due_itd_aed. NEVER ÷ purchase_price.",
+          "used_in": ["S01_SM4"]
+        },
+        {
+          "id": "M057",
+          "name": "civ_od_pct",
+          "label": "OD Rate by CIV Band",
+          "formula": "civ_band_od_aed / civ_band_ms_due_itd_aed * 100",
+          "inputs": ["civ_band_od_aed","civ_band_ms_due_itd_aed","civ_band"],
+          "sources": ["R16","R38"],
+          "description": "OD rate by Customer Investment Value tier. Group total = 3.88% (1,650M / 42,505M MS Due). Peak: 60–100M band = 31.58%.",
+          "unit": "%",
+          "key_values": {
+            "group_total_pct": 3.88,
+            "total_ms_due_itd_aed_m": 42505,
+            "peak_band": "60-100M",
+            "peak_band_pct": 31.58
+          },
+          "CRITICAL_rule": "OD% = od_aed ÷ ms_due_itd_aed. NEVER ÷ purchase_price.",
+          "used_in": ["S01_SM4"]
+        },
+        {
+          "id": "M058",
+          "name": "lp_growth_multiple",
+          "label": "LP Charges Growth Multiple",
+          "formula": "lp_current_year / lp_base_year",
+          "inputs": ["lp_2021","lp_2025"],
+          "sources": ["R26"],
+          "description": "Late payment charges growth 2021→2025. 1.54M → 34.82M = 22× growth. Delinquency proxy signal.",
+          "unit": "x",
+          "benchmark": 22,
+          "key_values": { "lp_2021_aed_m": 1.54, "lp_2025_aed_m": 34.82 },
+          "used_in": ["S01_SM1","S06_SM5"]
+        }
+      ]
+    }
+
+  ],
+
+  "resolved_conflicts": [
+    { "conflict": "M049 (pcc_tat_days) was split across M051 in old schema — merged to single M049",      "resolution": "Single metric M049 with benchmarks: pre=20d / current=3-5d / target=2d" },
+    { "conflict": "M056/M057 labelled as M057/M058 in old metrics.json — renumbered sequentially",         "resolution": "M056=nationality_od_pct; M057=civ_od_pct; M058=lp_growth_multiple (new, from engineering)" },
+    { "conflict": "achievement_pct appeared as both M016 (entity) and runtime calc in engineering",         "resolution": "Single M016 — used at entity, collector, and MDO level with context-appropriate target" },
+    { "conflict": "cy_advance_mix_pct recomputed independently in S01/S03/S05",                            "resolution": "Single CY_ADV_MIX_YTD global constant — computed once, referenced 3× never recalculated" },
+    { "conflict": "qualified_units showed 30,044 (S03) and 34,731 (S02 hero) with no explanation",          "resolution": "M006 defines both variants explicitly; label rule enforced" },
+    { "conflict": "od_pct used purchase_price denominator in v1–v3 metrics",                               "resolution": "Corrected to ms_due_itd_aed throughout; deprecated formula documented" },
+    { "conflict": "Q1 MDO achievement appeared identically in S02 and S03",                                "resolution": "M020 used in both — framing labels differentiate: Strategic (S02) vs Operational Pulse (S03)" }
+  ]
+}
