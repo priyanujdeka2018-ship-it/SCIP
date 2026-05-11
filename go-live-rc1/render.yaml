@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: scip-backend-staging
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn Backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SCIP_ENV
+        value: staging
+      - key: SCIP_AUTH_MODE
+        value: jwt
+      - key: SCIP_LOCAL_DEV_BYPASS
+        value: "false"
+      - key: SCIP_OBSERVABILITY_ENABLED
+        value: "true"
