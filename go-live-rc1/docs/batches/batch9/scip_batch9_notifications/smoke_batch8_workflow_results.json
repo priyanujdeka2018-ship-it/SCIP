@@ -1,0 +1,48 @@
+{
+  "checks": {
+    "workflow_payload_ready": true,
+    "all_required_states_present": true,
+    "records_generated": true,
+    "seed_events_generated": true,
+    "all_records_lineaged": true,
+    "all_events_lineaged": true,
+    "entity_head_removed": true,
+    "collector_workflow_record_found": true,
+    "assign_action_succeeds_for_manager": true,
+    "due_date_update_succeeds": true,
+    "collector_can_update_visible_disposition": true,
+    "evidence_attachment_succeeds": true,
+    "close_action_succeeds_with_reason": true,
+    "source_lineage_hash_immutable_after_workflow": true,
+    "event_log_records_assignment_lifecycle": true,
+    "finance_cannot_assign_collector_action": true,
+    "collector_cannot_self_assign": true,
+    "unlineaged_action_assignment_blocked": true,
+    "closure_reason_required": true,
+    "frontend_fetches_workflows": true,
+    "frontend_has_workflow_drawer": true,
+    "frontend_no_business_computation_keywords": true,
+    "frontend_labels_batch8": true,
+    "main_includes_workflow_router": true,
+    "workflow_contract_routes_present": true
+  },
+  "failures": [],
+  "overall_passed": true,
+  "summary": {
+    "workflow_count": 101,
+    "event_count": 105,
+    "state_counts": {
+      "queued": 82,
+      "assigned": 0,
+      "in_progress": 0,
+      "promised": 0,
+      "escalated": 0,
+      "closed": 1,
+      "stale": 0,
+      "blocked": 18
+    },
+    "lineaged_event_count": 105
+  },
+  "sample_record_count": 80,
+  "sample_event_count": 105
+}

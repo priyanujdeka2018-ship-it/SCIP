@@ -1,0 +1,78 @@
+--- /mnt/data/constants.py	2026-05-09 06:09:42.163798482 +0000
++++ /mnt/data/scip_batch1_ingestion_foundation/constants.py	2026-05-09 06:55:40.188107278 +0000
+@@ -33,7 +33,7 @@
+ SNAPSHOT_LABEL: str = "Snapshot: Mar 2026 MTD"
+ 
+ # Platform data currency label (used in INSIGHT_BLOCK and KPI_STRIP footers).
+-PLATFORM_VERSION: str = "v6"
++PLATFORM_VERSION: str = "v8-batch1"
+ 
+ 
+ # ════════════════════════════════════════════════════════════════
+@@ -42,25 +42,56 @@
+ 
+ # Canonical entity list. Order is fixed — controls display order
+ # in all entity toggles, dropdown filters, and chart legends.
+-ENTITY_LIST: list[str] = ["Group", "Sobha", "Siniya", "DT"]
++# Batch 1 locked hierarchy:
++# Group -> Sobha(Sobha Dubai, Sobha AUH) + UAQ(Siniya, Downtown UAQ).
++ENTITY_LIST: list[str] = [
++    "Group",
++    "Sobha",
++    "Sobha Dubai",
++    "Sobha AUH",
++    "UAQ",
++    "Siniya",
++    "Downtown UAQ",
++]
++
++ENTITY_HIERARCHY: dict[str, dict] = {
++    "group": {"display": "Group", "parent": None, "children": ["sobha", "uaq"]},
++    "sobha": {"display": "Sobha", "parent": "group", "children": ["sobha_dubai", "sobha_auh"]},
++    "sobha_dubai": {"display": "Sobha Dubai", "parent": "sobha", "children": []},
++    "sobha_auh": {"display": "Sobha AUH", "parent": "sobha", "children": []},
++    "uaq": {"display": "UAQ", "parent": "group", "children": ["siniya", "downtown_uaq"]},
++    "siniya": {"display": "Siniya", "parent": "uaq", "children": []},
++    "downtown_uaq": {"display": "Downtown UAQ", "parent": "uaq", "children": []},
++}
+ 
+ # Entity short codes used in pipeline_config.json column mappings.
+ ENTITY_CODES: dict[str, str] = {
+-    "Group":  "group",
+-    "Sobha":  "sobha",
++    "Group": "group",
++    "Sobha": "sobha",
++    "Sobha Dubai": "sobha_dubai",
++    "Sobha AUH": "sobha_auh",
++    "UAQ": "uaq",
+     "Siniya": "siniya",
+-    "DT":     "dt",
++    "Downtown UAQ": "downtown_uaq",
++    "DT": "downtown_uaq",  # backward-compatible alias only
+ }
+ 
++# User-approved general reconciliation tolerance.
++RECONCILIATION_TOLERANCE_PCT: float = 0.0005  # 0.05%
++
+ # Display colours — consistent across all chart panels.
+ # Changing here propagates to every chart that references ENTITY_COLOURS.
+ ENTITY_COLOURS: dict[str, str] = {
+-    "Sobha":  "#1A3C5E",   # Deep navy
+-    "Siniya": "#2E7D9F",   # Teal blue
+-    "DT":     "#5BA3C9",   # Light blue
+-    "Group":  "#0D2B45",   # Dark anchor (used for group-level totals)
+-    "Target": "#E8A030",   # Amber — MDO/Finance target lines
+-    "NS":     "#D94F3A",   # Red — New Sales (warning context)
++    "Group": "#0D2B45",
++    "Sobha": "#1A3C5E",
++    "Sobha Dubai": "#24537A",
++    "Sobha AUH": "#3E6C8F",
++    "UAQ": "#2E7D9F",
++    "Siniya": "#3F94B5",
++    "Downtown UAQ": "#5BA3C9",
++    "DT": "#5BA3C9",  # backward-compatible alias only
++    "Target": "#E8A030",
++    "NS": "#D94F3A",
+ }
+ 
+ 

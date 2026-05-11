@@ -1,0 +1,3 @@
+# Next Prompt for SCIP Batch 2
+
+Proceed with SCIP Batch 2. Implement the R04 daily collections and R02 MDO target adapters using the latest attached samples. Preserve the Batch 1 locked hierarchy and 0.05% reconciliation tolerance. R04 should extract daily/MTD D+A, dues, advance, and new-sales collections from the real workbook structure, not from generic flat headers. R02 should extract FY/monthly MDO targets and actuals with clear Finance-vs-MDO labelling. Generate lineage for every target and collection metric. Add smoke tests proving R04 MTD totals reconcile to source totals and R02 May/FY target values are extracted with lineage. Return patched code/config, validation results, and the next prompt for R08/R36.

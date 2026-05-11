@@ -1,0 +1,12 @@
+{
+  "contract_version": "deployment_hardening.v1.batch11",
+  "check_id": "backup_20260509T165259Z",
+  "status": "passed",
+  "db_path": "scip_batch11_smoke.sqlite",
+  "backup_path": "backups_sample/scip_audit_backup_20260509T165259Z.sqlite",
+  "restore_path": "backups_sample/scip_audit_restore_check_20260509T165259Z.sqlite",
+  "evidence": {
+    "source_table_count": 14,
+    "restored_table_count": 14
+  }
+}

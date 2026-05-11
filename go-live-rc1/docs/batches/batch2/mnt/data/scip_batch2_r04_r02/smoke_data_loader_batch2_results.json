@@ -1,0 +1,59 @@
+{
+  "batch": "SCIP Batch 2",
+  "overall_passed": true,
+  "platform_status": "partial",
+  "source_statuses": {
+    "R18": "ok",
+    "R04": "ok",
+    "R02": "ok",
+    "R08": "ok",
+    "R36": "ok"
+  },
+  "checks": {
+    "load_all_returns_payload": {
+      "passed": true
+    },
+    "R04_loaded_with_finance_basis": {
+      "passed": true
+    },
+    "R02_loaded_with_mdo_basis": {
+      "passed": true
+    },
+    "R04_computed_mtd_values_present": {
+      "passed": true,
+      "values": {
+        "MTD_DA_TOTAL": 285457068.02,
+        "MTD_NS_TOTAL": 45459445.280000016,
+        "MTD_TOTAL_COLLECTIONS": 330916513.3
+      }
+    },
+    "R02_computed_may_fy_targets_present": {
+      "passed": true,
+      "values": {
+        "MAY_DUES_TARGET": 639116739.0814761,
+        "MAY_ADV_TARGET": 216273365.16448888,
+        "MAY_DA_TARGET": 855390104.245965,
+        "FY_DUES_TARGET": 10334860910.807632,
+        "FY_ADV_TARGET": 2761187578.2592382,
+        "FY_DA_TARGET": 13096048489.06687
+      }
+    },
+    "lineage_available_in_summary": {
+      "passed": true
+    },
+    "native_validations_pass": {
+      "passed": true
+    }
+  },
+  "computed_sample": {
+    "MTD_DA_TOTAL": 285457068.02,
+    "MTD_NS_TOTAL": 45459445.280000016,
+    "MTD_TOTAL_COLLECTIONS": 330916513.3,
+    "MAY_DUES_TARGET": 639116739.0814761,
+    "MAY_ADV_TARGET": 216273365.16448888,
+    "MAY_DA_TARGET": 855390104.245965,
+    "FY_DUES_TARGET": 10334860910.807632,
+    "FY_ADV_TARGET": 2761187578.2592382,
+    "FY_DA_TARGET": 13096048489.06687
+  }
+}

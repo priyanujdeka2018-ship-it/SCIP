@@ -1,0 +1,159 @@
+--- /mnt/data/data_loader.py	2026-05-09 06:09:43.307574321 +0000
++++ /mnt/data/scip_batch1_ingestion_foundation/data_loader.py	2026-05-09 06:56:54.972617580 +0000
+@@ -1,7 +1,7 @@
+ """
+ SOBHA COLLECTIONS INTELLIGENCE PLATFORM
+ data_loader.py — R-Series Data Pipeline
+-Version: v6
++Version: v8 Batch 1
+ Authority: FINAL_ARCHITECTURE.md
+ 
+ Responsibilities:
+@@ -41,6 +41,7 @@
+ import constants as C
+ import utils as U
+ import file_resolver
++import source_adapters
+ 
+ # ---------------------------------------------------------------------------
+ # LOGGING
+@@ -67,6 +68,45 @@
+         return json.load(f)
+ 
+ 
++def _load_source_with_adapter(source_id: str, file_path: Path, source_cfg: dict) -> dict:
++    """
++    Load complex R-series sources through source-specific adapters.
++
++    Batch 1 implements R18 as the first production adapter because R18 is
++    positional/matrix based and cannot be trusted through the generic flat
++    header-reader.
++    """
++    try:
++        adapter_result = source_adapters.run_adapter(source_id, file_path).to_dict()
++    except Exception as exc:
++        logger.exception("Adapter load failed for %s", source_id)
++        return {
++            "id": source_id,
++            "status": "error",
++            "rows": [],
++            "aggs": {},
++            "lineage": {},
++            "validations": {},
++            "errors": [str(exc)],
++            "data_date": source_cfg.get("data_date"),
++        }
++
++    status_map = {"ok": "ok", "warning": "ok", "unavailable": "missing", "error": "error"}
++    metrics = adapter_result.get("metrics", {}) or {}
++    return {
++        "id": source_id,
++        "status": status_map.get(adapter_result.get("status"), "error"),
++        "adapter_status": adapter_result.get("status"),
++        "rows": adapter_result.get("rows", []),
++        "aggs": metrics,
++        "lineage": adapter_result.get("lineage", {}),
++        "validations": adapter_result.get("validations", {}),
++        "warnings": adapter_result.get("warnings", []),
++        "errors": adapter_result.get("errors", []),
++        "data_date": metrics.get("SNAPSHOT_DATE") or source_cfg.get("data_date"),
++    }
++
++
+ # ---------------------------------------------------------------------------
+ # SECTION 2 — OPENPYXL SHEET READER
+ # ---------------------------------------------------------------------------
+@@ -372,6 +412,9 @@
+         fname = source_cfg["file"]
+         candidates = [data_dir / fname, data_dir / fname.lower(), data_dir / fname.upper()]
+         file_path = next((p for p in candidates if p.exists()), data_dir / fname)
++    if source_id.upper() == "R18" or source_cfg.get("adapter_class") == "R18OverdueAdapter":
++        return _load_source_with_adapter(source_id.upper(), file_path, source_cfg)
++
+     sheet_name = source_cfg.get("sheet_name", 0)
+     col_map = source_cfg.get("column_map", {})
+     col_types = source_cfg.get("column_types", {})
+@@ -471,25 +514,34 @@
+     r18 = sources.get("R18", {})
+     r18_aggs = r18.get("aggs", {})
+ 
+-    computed["OD_TODAY"]  = r18_aggs.get("OD_TODAY")
+-    computed["OD_SOBHA"]  = r18_aggs.get("OD_SOBHA")
++    # Batch 1 hierarchy: Group -> Sobha(Sobha Dubai, Sobha AUH) + UAQ(Siniya, Downtown UAQ)
++    computed["OD_SOBHA_DUBAI"] = r18_aggs.get("OD_SOBHA_DUBAI")
++    computed["OD_SOBHA_AUH"] = r18_aggs.get("OD_SOBHA_AUH")
++    computed["OD_SOBHA"] = r18_aggs.get("OD_SOBHA")
+     computed["OD_SINIYA"] = r18_aggs.get("OD_SINIYA")
+-    computed["OD_DT"]     = r18_aggs.get("OD_DT")
++    computed["OD_DOWNTOWN_UAQ"] = r18_aggs.get("OD_DOWNTOWN_UAQ")
++    computed["OD_DT"] = r18_aggs.get("OD_DT") or computed.get("OD_DOWNTOWN_UAQ")  # backward-compatible alias
++    computed["OD_UAQ"] = r18_aggs.get("OD_UAQ")
++    computed["OD_GROUP"] = r18_aggs.get("OD_GROUP")
++    computed["OD_TODAY"] = r18_aggs.get("OD_TODAY")
+ 
+-    # Fallback to known reference values if R18 unavailable
++    # No silent fallback for Board/CXO trust layer. If R18 is missing, expose unavailable state.
+     if computed["OD_TODAY"] is None:
+-        computed["OD_TODAY"]  = C.OD_AGEING_REF_AED and sum(C.OD_AGEING_REF_AED.values())
+-        computed["OD_SOBHA"]  = 1_472_700_000
+-        computed["OD_SINIYA"] = 166_400_000
+-        computed["OD_DT"]     = 11_000_000
+-        computed["OD_SOURCE"] = "fallback_reference"
+-        logger.warning("R18 unavailable — OD constants using reference fallback values")
++        computed["OD_SOURCE"] = "unavailable"
++        computed["OD_CONFIDENCE"] = "unavailable"
++        computed["OD_FALLBACK_POLICY"] = "no_silent_fallback"
++        logger.warning("R18 unavailable — OD metrics marked unavailable; no silent fallback applied")
+     else:
+         computed["OD_SOURCE"] = "R18_live"
++        adapter_status = r18.get("adapter_status")
++        computed["OD_CONFIDENCE"] = "live_validated" if adapter_status == "ok" else "live_warning"
++        computed["OD_FALLBACK_POLICY"] = "live_or_labelled_unavailable"
++
++    computed["OD_LINEAGE"] = r18.get("lineage", {})
++    computed["OD_VALIDATIONS"] = r18.get("validations", {})
+ 
+     # SNAPSHOT_DATE
+-    snap_meta = r18_aggs.get("SNAPSHOT_DATE")
+-    computed["SNAPSHOT_DATE"] = r18.get("data_date") or "2026-03-15"
++    computed["SNAPSHOT_DATE"] = r18_aggs.get("SNAPSHOT_DATE") or r18.get("data_date")
+ 
+     # OD ageing buckets
+     computed["OD_AGEING"] = {
+@@ -500,13 +552,8 @@
+         "121-180d": r18_aggs.get("ageing_121_180"),
+         "180+d":    r18_aggs.get("ageing_180plus"),
+     }
+-    # Fill ageing fallback
+-    for band, ref_key in [
+-        ("0-30d", "0–30d"), ("31-60d", "31–60d"), ("61-90d", "61–90d"),
+-        ("91-120d", "91–120d"), ("121-180d", "121–180d"), ("180+d", "180d+")
+-    ]:
+-        if computed["OD_AGEING"][band] is None:
+-            computed["OD_AGEING"][band] = C.OD_AGEING_REF_AED.get(ref_key)
++    # No silent ageing fallback in Batch 1. Missing ageing buckets remain None and are
++    # explained through OD_VALIDATIONS / OD_LINEAGE in the trust layer.
+ 
+     # ── R36: Pipeline constants ────────────────────────────────────────────
+     r36 = sources.get("R36", {})
+@@ -659,11 +706,20 @@
+                 computed.get("GROUP_SALE_VALUE_ITD") or 1
+             ) * 100,
+             "od_today":  computed.get("OD_TODAY"),
++            "od_group":  computed.get("OD_GROUP"),
+             "od_sobha":  computed.get("OD_SOBHA"),
++            "od_sobha_dubai": computed.get("OD_SOBHA_DUBAI"),
++            "od_sobha_auh":   computed.get("OD_SOBHA_AUH"),
++            "od_uaq":    computed.get("OD_UAQ"),
+             "od_siniya": computed.get("OD_SINIYA"),
++            "od_downtown_uaq": computed.get("OD_DOWNTOWN_UAQ"),
+             "od_dt":     computed.get("OD_DT"),
+             "od_source": computed.get("OD_SOURCE"),
++            "od_confidence": computed.get("OD_CONFIDENCE"),
++            "od_fallback_policy": computed.get("OD_FALLBACK_POLICY"),
+             "od_ageing": computed.get("OD_AGEING"),
++            "od_validations": computed.get("OD_VALIDATIONS"),
++            "od_lineage": computed.get("OD_LINEAGE"),
+             "pipeline_gross":      computed.get("PIPELINE_GROSS"),
+             "pipeline_gross_label": computed.get("PIPELINE_GROSS_LABEL"),
+             "pipeline_adv_denom":      computed.get("PIPELINE_ADV_DENOM"),

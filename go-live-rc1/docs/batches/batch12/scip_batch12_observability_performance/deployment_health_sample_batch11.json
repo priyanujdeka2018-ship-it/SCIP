@@ -1,0 +1,44 @@
+{
+  "contract_version": "deployment_hardening.v1.batch11",
+  "status": "ok",
+  "generated_at": "2026-05-09T16:52:59.290806Z",
+  "environment_config": {
+    "environment": "local",
+    "frontend_url": "http://localhost:5173",
+    "backend_url": "http://localhost:8000",
+    "audit_db": "/mnt/data/scip_batch11_rbac_hardening/scip_batch11_smoke.sqlite",
+    "backup_dir": "/mnt/data/scip_batch11_rbac_hardening/backups",
+    "cors_allowed_origins": [
+      "http://localhost:5173"
+    ],
+    "auth_mode": "header-dev",
+    "secrets_expected": [
+      "SCIP_AUDIT_DB"
+    ],
+    "secrets_present": [
+      "SCIP_AUDIT_DB"
+    ],
+    "secrets_missing": [],
+    "debug_enabled": false
+  },
+  "checks": {
+    "environment_named": true,
+    "cors_origins_configured": true,
+    "no_wildcard_cors_in_nonlocal": true,
+    "auth_mode_declared": true,
+    "required_secrets_present": true,
+    "debug_disabled_for_nonlocal": true,
+    "migrations_ok": true,
+    "security_tables_exist": true,
+    "denial_audit_accessible": true,
+    "backup_dir_configured": true
+  },
+  "migration_status": "ok",
+  "table_count": 14,
+  "denial_count": 3,
+  "hardening_notes": [
+    "Header identity is acceptable for this patch pack; production should switch SCIP_AUTH_MODE to SSO/JWT validation.",
+    "CORS is environment-driven and must not use wildcard origins outside local development.",
+    "Secrets are checked by name only and are never returned in payloads."
+  ]
+}

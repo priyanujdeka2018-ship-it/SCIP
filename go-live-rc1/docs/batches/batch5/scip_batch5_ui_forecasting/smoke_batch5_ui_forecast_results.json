@@ -1,0 +1,190 @@
+{
+  "batch": "Batch 5",
+  "overall_passed": true,
+  "checks": [
+    {
+      "name": "critical_sources_loaded",
+      "passed": true,
+      "detail": {
+        "R18": "ok",
+        "R04": "ok",
+        "R02": "ok",
+        "R08": "ok",
+        "R36": "ok"
+      }
+    },
+    {
+      "name": "every_card_has_reporting_basis_and_lineage",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_has_reporting_basis",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_has_basis_disclosure",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_has_assumptions",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_has_lineage_refs",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_has_working_days",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_has_outputs",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_outputs_complete",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_critical_inputs_lineaged",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_assumption_mentions_straight-line",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_assumption_mentions_Working days",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_assumption_mentions_R04 Finance",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_assumption_mentions_R02 MDO",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "forecast_assumption_mentions_No silent fallback",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_DataConfidenceTrustBar",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_LineageDrawer",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_BlockedAnswerWarning",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_ForecastPanel",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_/command-centres",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_/forecast/month-end",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_/quickball/explain",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_Reporting basis",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_contains_Forecast assumptions",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "name": "frontend_role_model_without_entity_head",
+      "passed": true,
+      "detail": "ok"
+    }
+  ],
+  "forecast_summary": {
+    "status": "ok",
+    "reporting_basis": "R04 Finance actuals vs R02 MDO target",
+    "mtd_total_collections": "AED 330.9M",
+    "may_total_collections_target": "AED 1.005B",
+    "projected_month_end_landing": "AED 1.125B",
+    "projected_achievement_pct": "111.9%",
+    "working_days": {
+      "status": "inferred_from_r04_prorata",
+      "elapsed_working_days": 5,
+      "total_working_days": 17,
+      "remaining_working_days": 12,
+      "source": "R04 mtd_prorata_total_target / month_target_total",
+      "ratio": 0.29411764705882354,
+      "fraction_error": 0.0,
+      "basis": "Elapsed and total working days inferred from visible R04 MTD pro-rata target row.",
+      "lineage_refs": [
+        {
+          "metric_key": "MONTH_TARGET_TOTAL",
+          "lineage_bucket": "R04_LINEAGE",
+          "lineage_key": "month_target_total",
+          "has_lineage": true,
+          "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+          "sheet": "daily",
+          "cell_or_range": "E5",
+          "validation_status": "passed",
+          "confidence_state": "live_validated",
+          "reporting_basis": "Finance",
+          "value": 1424054189.9099998
+        },
+        {
+          "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+          "lineage_bucket": "R04_LINEAGE",
+          "lineage_key": "mtd_prorata_total_target",
+          "has_lineage": true,
+          "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+          "sheet": "daily",
+          "cell_or_range": "E6",
+          "validation_status": "passed",
+          "confidence_state": "live_validated",
+          "reporting_basis": "Finance",
+          "value": 418839467.6205882
+        }
+      ]
+    }
+  },
+  "role_card_counts": {
+    "board_cxo": 5,
+    "cco_gm_agm": 5,
+    "finance": 4,
+    "mis_qcg_admin": 2,
+    "collector_rm": 2
+  }
+}

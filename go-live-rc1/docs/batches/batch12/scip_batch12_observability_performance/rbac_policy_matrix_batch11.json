@@ -1,0 +1,88 @@
+{
+  "contract_version": "rbac.v1.batch11",
+  "role_model": [
+    "board_cxo",
+    "cco_gm_agm",
+    "finance",
+    "mis_qcg_admin",
+    "collector_rm"
+  ],
+  "removed_roles": [
+    "entity head",
+    "entity-head",
+    "entity_head",
+    "entity_head_user"
+  ],
+  "permissions": {
+    "board_cxo": [
+      "read:audit_summary",
+      "read:command_centres",
+      "read:forecast",
+      "read:health",
+      "read:notifications_digest",
+      "read:quickball"
+    ],
+    "cco_gm_agm": [
+      "read:action_queues",
+      "read:audit_export_management",
+      "read:audit_summary",
+      "read:command_centres",
+      "read:forecast",
+      "read:health",
+      "read:notifications",
+      "read:notifications_digest",
+      "read:quickball",
+      "read:workflows",
+      "write:workflows_assign",
+      "write:workflows_update"
+    ],
+    "finance": [
+      "read:action_queues",
+      "read:audit_export_finance",
+      "read:audit_summary",
+      "read:command_centres",
+      "read:forecast",
+      "read:health",
+      "read:notifications",
+      "read:notifications_digest",
+      "read:quickball",
+      "read:workflows",
+      "write:workflows_assign_finance",
+      "write:workflows_update_finance"
+    ],
+    "mis_qcg_admin": [
+      "read:action_queues",
+      "read:audit_export_all",
+      "read:audit_summary",
+      "read:command_centres",
+      "read:deployment_health",
+      "read:forecast",
+      "read:health",
+      "read:notifications",
+      "read:notifications_digest",
+      "read:quickball",
+      "read:security_audit",
+      "read:workflows",
+      "run:backup_restore_check",
+      "run:migrations",
+      "write:workflows_assign",
+      "write:workflows_update"
+    ],
+    "collector_rm": [
+      "read:action_queues_own",
+      "read:command_centres",
+      "read:health",
+      "read:notifications_digest",
+      "read:notifications_own",
+      "read:quickball",
+      "read:workflows_own",
+      "write:workflows_update_own"
+    ]
+  },
+  "row_level_rules": {
+    "entity_scope": "Rows are visible only when actor scope contains Group or the row entity.",
+    "role_visibility": "Rows are visible only when actor role is included in row role_visibility.",
+    "collector_rm_own": "Collector/RM rows require owner match to actor_id or collector_id.",
+    "audit_export": "Audit export is all for MIS/QCG/Admin, management-only for CCO/GM/AGM, finance-only for Finance, denied for Collector/RM and Board/CXO."
+  }
+}

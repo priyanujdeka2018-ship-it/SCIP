@@ -1,0 +1,68 @@
+{
+  "contract_version": "observability_performance.v1.batch12",
+  "generated_at": "2026-05-09T17:00:27.820471Z",
+  "dashboards": [
+    {
+      "dashboard_id": "executive_reliability_overview",
+      "title": "SCIP Reliability Overview",
+      "surface": "L5 governance output",
+      "panels": [
+        "API p95 latency and error rate",
+        "Critical source freshness and lineage coverage",
+        "Quickball blocked answer trend",
+        "Notification emission/suppression trend",
+        "RBAC denial trend"
+      ]
+    },
+    {
+      "dashboard_id": "data_pipeline_health",
+      "title": "Data Pipeline Health",
+      "surface": "solid evidence",
+      "panels": [
+        "Ingestion latency by R-code",
+        "Adapter success/failure by source",
+        "Lineage coverage by metric group",
+        "Cache hit/miss/invalidation by snapshot date"
+      ]
+    },
+    {
+      "dashboard_id": "workflow_automation_health",
+      "title": "Workflow & Notification Automation",
+      "surface": "solid evidence",
+      "panels": [
+        "Workflow transition volume",
+        "Escalation rule coverage",
+        "Suppression/deduplication counts",
+        "Audit export volume and failures"
+      ]
+    },
+    {
+      "dashboard_id": "security_and_deployment",
+      "title": "Security & Deployment Hardening",
+      "surface": "solid evidence",
+      "panels": [
+        "RBAC denied attempts by role/path",
+        "Migration status",
+        "Backup/restore status",
+        "CORS/auth mode/secrets status"
+      ]
+    }
+  ],
+  "alert_thresholds": {
+    "stale_critical_source_hours": 24,
+    "missing_critical_lineage_count": 0,
+    "migration_failure_count": 0,
+    "backup_failure_count": 0,
+    "rbac_denials_per_15m_high": 25,
+    "slow_endpoint_p95_ms": 1500,
+    "failed_export_count": 0,
+    "api_error_rate_pct_high": 3.0,
+    "adapter_failure_count_high": 1,
+    "quickball_blocked_answers_per_hour_high": 20
+  },
+  "liquid_glass_placement": {
+    "entry_model": "unchanged: Live Pulse and Narratives only",
+    "observability_visibility": "L5 governance output and MIS/QCG/Admin evidence",
+    "financial_truth_surfaces": "solid; no blur over audit/log tables"
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "overall_passed": true,
+  "checks_passed": 38,
+  "checks_total": 38,
+  "checks": [
+    {
+      "name": "payload_contract_version",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "no_silent_fallback_guardrail",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "tolerance_guardrail",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "r18_loaded",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "account_collector_source_disclosed_missing",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "facts_extracted",
+      "passed": true,
+      "details": {
+        "project_ageing_facts": 746,
+        "top_project_risk_cohorts": 15,
+        "eligible_account_actions": 0,
+        "project_ageing_observation_amount_aed_non_additive": 3295723411.18,
+        "amount_sum_disclosure": "Non-additive: R18 Overdue-1 contains parent project rows and child phase/tower rows. Use line-level actions, not this observation sum, for financial reconciliation."
+      }
+    },
+    {
+      "name": "top_project_risk_cohorts_exist",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "eligible_account_actions_zero_when_owner_missing",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "collector_rm_role_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "collector_rm_reporting_basis_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "collector_rm_required_fields_include_owner",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "cco_gm_agm_role_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "cco_gm_agm_reporting_basis_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "cco_gm_agm_required_fields_include_owner",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "finance_role_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "finance_reporting_basis_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "finance_required_fields_include_owner",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mis_qcg_admin_role_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mis_qcg_admin_reporting_basis_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mis_qcg_admin_required_fields_include_owner",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "collector_account_actions_blocked",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "collector_blocked_actions_have_lineage",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "collector_blocked_reason_present",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "cco_gm_agm_project_cohorts_lineaged",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "cco_gm_agm_project_cohorts_have_entity_ageing_amount",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "finance_project_cohorts_lineaged",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "finance_project_cohorts_have_entity_ageing_amount",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mis_qcg_admin_project_cohorts_lineaged",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "mis_qcg_admin_project_cohorts_have_entity_ageing_amount",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "payload_validation_passed",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "checks": {
+          "project_facts_have_lineage": true,
+          "project_actions_have_lineage": true,
+          "no_account_action_without_owner_and_lineage": true,
+          "collector_rm_queue_blocked_without_owner_source": true,
+          "source_row_reconciliation_passed": true
+        }
+      }
+    },
+    {
+      "name": "no_account_action_without_owner_and_lineage",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "collector_rm_queue_blocked_without_owner_source",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "source_row_reconciliation_passed",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "frontend_fetches_action_queues_endpoint",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "frontend_action_queue_panel_exists",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "frontend_action_panel_gated_to_risk_action",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "frontend_solid_evidence_table_used",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "frontend_no_new_business_calculation_for_action_queue",
+      "passed": true,
+      "details": null
+    }
+  ],
+  "payload_summary": {
+    "project_ageing_facts": 746,
+    "top_project_risk_cohorts": 15,
+    "eligible_account_actions": 0,
+    "project_ageing_observation_amount_aed_non_additive": 3295723411.18,
+    "amount_sum_disclosure": "Non-additive: R18 Overdue-1 contains parent project rows and child phase/tower rows. Use line-level actions, not this observation sum, for financial reconciliation."
+  },
+  "payload_status": "partial_project_grain_account_source_required",
+  "data_grain_disclosure": {
+    "current_grain": "project_ageing_bucket",
+    "true_account_level_available": false,
+    "reason": "Current attached R18 sample lacks account ID, customer ID, collector/RM owner, promise-to-pay, and escalation fields."
+  }
+}

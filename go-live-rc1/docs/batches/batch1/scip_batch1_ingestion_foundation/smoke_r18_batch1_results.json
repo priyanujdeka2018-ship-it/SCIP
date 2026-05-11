@@ -1,0 +1,127 @@
+{
+  "source_file": "/mnt/data/R18_Consolidated and Overdue 01-05-26.xlsx",
+  "tolerance_pct": 0.0005,
+  "metrics": {
+    "OD_SOBHA_DUBAI": 1582272314.7500005,
+    "OD_SOBHA_AUH": 80005049.22999997,
+    "OD_SOBHA": 1662277363.9800005,
+    "OD_SINIYA": 214282915.27,
+    "OD_DOWNTOWN_UAQ": 17219603.96,
+    "OD_DT": 17219603.96,
+    "OD_UAQ": 231502519.23000002,
+    "OD_GROUP": 1893779883.2100005,
+    "OD_TODAY": 1893779883.2100003,
+    "SNAPSHOT_DATE": "2026-05-01",
+    "ageing_0_30": 490310347.24999994,
+    "ageing_31_60": 433015178.84,
+    "ageing_61_90": 154111444.89,
+    "ageing_91_120": 121634938.66000001,
+    "ageing_121_180": 126997447.78000002,
+    "ageing_180plus": 567710525.7900001
+  },
+  "validations_from_adapter": {
+    "R18_REQUIRED_SUBTOTALS": {
+      "passed": true,
+      "missing": [],
+      "seen": [
+        "sub total (a)",
+        "sub total (b)",
+        "sub total (c)",
+        "sub total (d)",
+        "sub total (e)",
+        "sub total (f)",
+        "sub total (g)",
+        "sub total (h)"
+      ]
+    },
+    "R18_OD_SOBHA_PLUS_UAQ_EQUALS_OD_TODAY": {
+      "passed": true,
+      "left": 1893779883.2100005,
+      "right": 1893779883.2100003,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 946889.9416050002
+    },
+    "R18_OD_GROUP_EQUALS_GRAND_TOTAL": {
+      "passed": true,
+      "left": 1893779883.2100005,
+      "right": 1893779883.2100003,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 946889.9416050002
+    },
+    "R18_SOBHA_EQUALS_CHILDREN": {
+      "passed": true,
+      "left": 1662277363.9800005,
+      "right": 1662277363.9800005,
+      "diff": 0.0,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 831138.6819900003
+    },
+    "R18_UAQ_EQUALS_CHILDREN": {
+      "passed": true,
+      "left": 231502519.23000002,
+      "right": 231502519.23000002,
+      "diff": 0.0,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 115751.25961500002
+    },
+    "R18_AGEING_BUCKETS_EQUAL_TOTAL": {
+      "passed": true,
+      "left": 1893779883.21,
+      "right": 1893779883.2100003,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 946889.9416050002
+    }
+  },
+  "checks": {
+    "adapter_status_ok_or_warning": true,
+    "snapshot_date_found": true,
+    "sobha_auh_extracted": true,
+    "lineage_for_every_od_metric": true,
+    "OD_SOBHA_equals_Dubai_plus_AUH": {
+      "passed": true,
+      "left": 1662277363.9800005,
+      "right": 1662277363.9800005,
+      "diff": 0.0,
+      "tolerance_aed": 831138.6819900003,
+      "tolerance_pct": 0.0005
+    },
+    "OD_UAQ_equals_Siniya_plus_Downtown_UAQ": {
+      "passed": true,
+      "left": 231502519.23000002,
+      "right": 231502519.23000002,
+      "diff": 0.0,
+      "tolerance_aed": 115751.25961500002,
+      "tolerance_pct": 0.0005
+    },
+    "OD_SOBHA_plus_OD_UAQ_equals_OD_TODAY": {
+      "passed": true,
+      "left": 1893779883.2100005,
+      "right": 1893779883.2100003,
+      "diff": 2.384185791015625e-07,
+      "tolerance_aed": 946889.9416050002,
+      "tolerance_pct": 0.0005
+    }
+  },
+  "lineage_keys": [
+    "OD_DOWNTOWN_UAQ",
+    "OD_DT",
+    "OD_GROUP",
+    "OD_SINIYA",
+    "OD_SOBHA",
+    "OD_SOBHA_AUH",
+    "OD_SOBHA_DUBAI",
+    "OD_TODAY",
+    "OD_UAQ",
+    "ageing_0_30",
+    "ageing_121_180",
+    "ageing_180plus",
+    "ageing_31_60",
+    "ageing_61_90",
+    "ageing_91_120"
+  ],
+  "overall_status": "passed",
+  "failures": []
+}

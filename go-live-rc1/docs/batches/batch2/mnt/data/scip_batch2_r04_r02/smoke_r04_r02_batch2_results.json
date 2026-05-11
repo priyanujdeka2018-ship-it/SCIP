@@ -1,0 +1,279 @@
+{
+  "batch": "SCIP Batch 2",
+  "tolerance_pct": 0.0005,
+  "overall_passed": true,
+  "r04_summary": {
+    "snapshot_date": "2026-05-07",
+    "reporting_basis": "Finance",
+    "mtd_da_total": 285457068.02,
+    "mtd_ns_total": 45459445.280000016,
+    "mtd_total_collections": 330916513.3,
+    "daily_rows_loaded": 7,
+    "lineage_count": 12
+  },
+  "r02_summary": {
+    "snapshot_date": "2026-05-06",
+    "reporting_basis": "MDO",
+    "may_dues_target_group": 639116739.0814761,
+    "may_advance_target_group": 216273365.16448888,
+    "may_da_target_group": 855390104.245965,
+    "may_new_sales_target_group": 150000000.0,
+    "may_total_collections_target_group": 1005390104.245965,
+    "fy_dues_target_group": 10334860910.807632,
+    "fy_advance_target_group": 2761187578.2592382,
+    "fy_da_target_group": 13096048489.06687,
+    "fy_total_collections_target_group": 15065628459.209242,
+    "fact_rows_loaded": 918,
+    "lineage_count": 17
+  },
+  "checks": {
+    "R04_adapter_status_ok": {
+      "passed": true,
+      "status": "ok"
+    },
+    "R04_all_native_validations_passed": {
+      "passed": true,
+      "failed": []
+    },
+    "R04_MTD_DA_PLUS_NS_EQUALS_TOTAL": {
+      "passed": true,
+      "left": 330916513.3,
+      "right": 330916513.3,
+      "diff": 0.0,
+      "tolerance_aed": 165458.25665,
+      "tolerance_pct": 0.0005
+    },
+    "R04_lineage_present_for_mtd_da": {
+      "passed": true,
+      "lineage": {
+        "metric_key": "mtd_da_total",
+        "metric_label": "mtd_da_total",
+        "value": 285457068.02,
+        "unit": "AED",
+        "source_code": "R04",
+        "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+        "sheet": "daily",
+        "cell_or_range": "C40",
+        "snapshot_date": "2026-05-07",
+        "extraction_method": "positional_daily_sheet_scan",
+        "entity_scope": "group",
+        "business_definition": "MTD Finance D+A / collection-due collections",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T07:06:24.765886Z",
+        "reporting_basis": "Finance"
+      }
+    },
+    "R04_advance_split_explicitly_unavailable": {
+      "passed": true,
+      "status": "unavailable_in_R04_no_advance_split"
+    },
+    "R02_adapter_status_ok": {
+      "passed": true,
+      "status": "ok"
+    },
+    "R02_all_native_validations_passed": {
+      "passed": true,
+      "failed": []
+    },
+    "R02_may_dues_target_has_lineage": {
+      "passed": true,
+      "lineage": {
+        "metric_key": "may_dues_target_group",
+        "metric_label": "may_dues_target_group",
+        "value": 639116739.0814761,
+        "unit": "AED",
+        "source_code": "R02",
+        "source_file": "R02_MDO report 06-05-2026.xlsx",
+        "sheet": "MDO Dynamic",
+        "cell_or_range": "H6",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_monthly_matrix",
+        "entity_scope": "group",
+        "business_definition": "May MDO dues target for Group",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T07:06:24.827882Z",
+        "reporting_basis": "MDO"
+      }
+    },
+    "R02_fy_dues_target_has_lineage": {
+      "passed": true,
+      "lineage": {
+        "metric_key": "fy_dues_target_group",
+        "metric_label": "fy_dues_target_group",
+        "value": 10334860910.807632,
+        "unit": "AED",
+        "source_code": "R02",
+        "source_file": "R02_MDO report 06-05-2026.xlsx",
+        "sheet": "MDO Dynamic",
+        "cell_or_range": "S6",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_monthly_matrix",
+        "entity_scope": "group",
+        "business_definition": "FY MDO dues target for Group",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T07:06:24.827882Z",
+        "reporting_basis": "MDO"
+      }
+    },
+    "R02_may_fy_values_nonzero": {
+      "passed": true,
+      "values": {
+        "may_dues_target_group": 639116739.0814761,
+        "may_advance_target_group": 216273365.16448888,
+        "may_da_target_group": 855390104.245965,
+        "fy_dues_target_group": 10334860910.807632,
+        "fy_advance_target_group": 2761187578.2592382,
+        "fy_da_target_group": 13096048489.06687
+      }
+    }
+  },
+  "native_validations": {
+    "R04": {
+      "R04_REQUIRED_SHEETS_PRESENT": {
+        "passed": true,
+        "missing": []
+      },
+      "R04_DAILY_SUM_EQUALS_TOTAL_MTD_DA": {
+        "passed": true,
+        "left": 285457068.02,
+        "right": 285457068.02,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 142728.53401
+      },
+      "R04_DAILY_SUM_EQUALS_TOTAL_MTD_NEW_SALES": {
+        "passed": true,
+        "left": 45459445.280000016,
+        "right": 45459445.280000016,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 22729.722640000007
+      },
+      "R04_DAILY_SUM_EQUALS_TOTAL_MTD_TOTAL_COLLECTIONS": {
+        "passed": true,
+        "left": 330916513.3,
+        "right": 330916513.3,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 165458.25665
+      },
+      "R04_MTD_DA_PLUS_NS_EQUALS_TOTAL": {
+        "passed": true,
+        "left": 330916513.3,
+        "right": 330916513.3,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 165458.25665
+      },
+      "R04_DAILY_DA_PLUS_NS_EQUALS_TOTAL_BY_DAY": {
+        "passed": true,
+        "failures": [],
+        "failure_count": 0
+      },
+      "R04_FINANCE_TARGET_LABEL_PRESENT": {
+        "passed": true,
+        "labels": {
+          "C4": "Collection Due",
+          "D4": "New sales",
+          "E4": "Total"
+        }
+      },
+      "R04_COLLECTION_FOR_MONTH_EQUALS_TOTAL_MTD": {
+        "passed": true,
+        "left": 330916513.3,
+        "right": 330916513.3,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 165458.25665
+      }
+    },
+    "R02": {
+      "R02_REQUIRED_SECTIONS_PRESENT": {
+        "passed": true,
+        "missing": [],
+        "seen": [
+          "downtown_uaq",
+          "group",
+          "siniya",
+          "sobha_auh",
+          "sobha_dubai"
+        ]
+      },
+      "R02_MAY_DUES_TARGET_GROUP_EQUALS_LEAF_ROLLUP": {
+        "passed": true,
+        "left": 639116739.0814761,
+        "right": 639116739.0814761,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 319558.36954073806,
+        "missing_values": []
+      },
+      "R02_MAY_ADVANCE_TARGET_GROUP_EQUALS_LEAF_ROLLUP": {
+        "passed": true,
+        "left": 216273365.16448888,
+        "right": 216273365.16448888,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 108136.68258224444,
+        "missing_values": []
+      },
+      "R02_MAY_DA_TARGET_GROUP_EQUALS_LEAF_ROLLUP": {
+        "passed": true,
+        "left": 855390104.245965,
+        "right": 855390104.245965,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 427695.0521229825,
+        "missing_values": []
+      },
+      "R02_MAY_TOTAL_COLLECTIONS_TARGET_GROUP_EQUALS_LEAF_ROLLUP": {
+        "passed": true,
+        "left": 1005390104.245965,
+        "right": 1005390104.245965,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 502695.0521229825,
+        "missing_values": []
+      },
+      "R02_FY_DUES_TARGET_GROUP_EQUALS_LEAF_ROLLUP": {
+        "passed": true,
+        "left": 10334860910.807632,
+        "right": 10334860910.807632,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 5167430.455403816,
+        "missing_values": []
+      },
+      "R02_FY_ADVANCE_TARGET_GROUP_EQUALS_LEAF_ROLLUP": {
+        "passed": true,
+        "left": 2761187578.2592387,
+        "right": 2761187578.2592382,
+        "diff": 4.76837158203125e-07,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 1380593.7891296193,
+        "missing_values": []
+      },
+      "R02_FY_DA_TARGET_GROUP_EQUALS_LEAF_ROLLUP": {
+        "passed": true,
+        "left": 13096048489.066872,
+        "right": 13096048489.06687,
+        "diff": 1.9073486328125e-06,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 6548024.244533435,
+        "missing_values": []
+      },
+      "R02_FY_TOTAL_COLLECTIONS_TARGET_GROUP_EQUALS_LEAF_ROLLUP": {
+        "passed": true,
+        "left": 15065628459.209246,
+        "right": 15065628459.209242,
+        "diff": 3.814697265625e-06,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 7532814.229604621,
+        "missing_values": []
+      }
+    }
+  }
+}

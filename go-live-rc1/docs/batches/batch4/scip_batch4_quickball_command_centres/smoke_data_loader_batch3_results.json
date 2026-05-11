@@ -1,0 +1,173 @@
+{
+  "batch": "SCIP Batch 3 - data_loader integration",
+  "overall_passed": true,
+  "load_status": "partial",
+  "missing_sources": [
+    "R30",
+    "R13",
+    "R03",
+    "R05",
+    "R06",
+    "R07",
+    "R10",
+    "R12",
+    "R16",
+    "R20",
+    "R25",
+    "R26",
+    "R17",
+    "R29",
+    "R31",
+    "R32",
+    "R34",
+    "R35",
+    "R37",
+    "R38"
+  ],
+  "critical_checks": {
+    "R08_live": true,
+    "R36_live": true,
+    "R08_validated": true,
+    "R36_validated": true,
+    "R08_lineage_present": true,
+    "R36_lineage_present": true,
+    "no_silent_fallback_pipeline": true,
+    "no_silent_fallback_r08": true,
+    "r08_cy_fy_reconciles": true,
+    "r36_forward_calendar_reconciles": true
+  },
+  "computed_extract": {
+    "PIPELINE_GROSS": 49181207666.38005,
+    "PIPELINE_SOURCE": "R36_live",
+    "PIPELINE_CONFIDENCE": "live_validated",
+    "CY_ADV_MIX_YTD": 74.96468579885766,
+    "FY_ADV_MIX_YTD": 25.035314201142363,
+    "R08_SOURCE": "R08_live",
+    "R08_CONFIDENCE": "live_validated",
+    "ADVANCE_2026_TOTAL": 1104556736.0499992,
+    "ADVANCE_2026_CY": 828027486.6499994,
+    "ADVANCE_2026_FY": 276529249.40000004,
+    "YTD_2026_REBATE": 17536726.0,
+    "ADVANCE_2026_SOBHA_PARENT_TOTAL": 961029583.7999992,
+    "ADVANCE_2026_UAQ_TOTAL": 143527152.24999997
+  },
+  "summary_extract": {
+    "portfolio_pipeline_gross": 49181207666.38005,
+    "portfolio_forward_calendar": {
+      "2026": 19914115575.990047,
+      "2027": 14020562994.490017,
+      "2028": 7229214001.200004,
+      "2029": 6574618733.859983,
+      "2030": 1265808496.4599996,
+      "2031": 176218408.38,
+      "2032": 168000.0,
+      "2033": 168000.0,
+      "2034": 168000.0,
+      "beyond_2035": 165456.0
+    },
+    "advance": {
+      "cy_adv_mix_ytd": 74.96468579885766,
+      "fy_adv_mix_ytd": 25.035314201142363,
+      "advance_2026_total": 1104556736.0499992,
+      "advance_2026_cy": 828027486.6499994,
+      "advance_2026_fy": 276529249.40000004,
+      "ytd_2026_rebate": 17536726.0,
+      "source": "R08_live",
+      "confidence": "live_validated"
+    }
+  },
+  "r08_validations": {
+    "R08_REQUIRED_SHEETS_PRESENT": {
+      "passed": true,
+      "missing": []
+    },
+    "R08_CY_PLUS_FY_EQUALS_ADVANCE_2026_TOTAL": {
+      "passed": true,
+      "left": 1104556736.0499995,
+      "right": 1104556736.0499992,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 552278.3680249996
+    },
+    "R08_CYFY_TOTAL_EQUALS_SUMMARY_2026_ADVANCE": {
+      "passed": true,
+      "left": 1104556736.0499992,
+      "right": 1104556736.049999,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 552278.3680249996
+    },
+    "R08_REBATE_2026_ADVANCE_EQUALS_CYFY_TOTAL": {
+      "passed": true,
+      "left": 1104556736.049999,
+      "right": 1104556736.0499992,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 552278.3680249996
+    },
+    "R08_UAQ_PLUS_SOBHA_RESIDUAL_EQUALS_GROUP_ADVANCE": {
+      "passed": true,
+      "left": 1104556736.0499992,
+      "right": 1104556736.0499992,
+      "diff": 0.0,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 552278.3680249996
+    },
+    "R08_ENTITY_CHILD_SPLIT_DISCLOSURE": {
+      "passed": true,
+      "note": "R08 CY/FY sheets expose Group, Siniya and DT. Sobha parent is residual. Sobha Dubai/AUH CY-FY split is not separately visible in this sample; Summary exposes Abu Dhabi latest advance only."
+    }
+  },
+  "r36_validations": {
+    "R36_REQUIRED_SHEETS_PRESENT": {
+      "passed": true,
+      "missing": []
+    },
+    "R36_ACTIVE_ROW_TOTAL_EQUALS_PURCHASE_PRICE": {
+      "passed": true,
+      "left": 88335143998.01007,
+      "right": 88335143998.01033,
+      "diff": 0.0002593994140625,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 44167571.99900517
+    },
+    "R36_TOTAL_ROW_TOTAL_EQUALS_PURCHASE_PRICE": {
+      "passed": true,
+      "left": 118674249478.72,
+      "right": 118674249478.72034,
+      "diff": 0.000335693359375,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 59337124.73936017
+    },
+    "R36_ACTIVE_FORWARD_BUCKETS_EQUAL_PIPELINE_GROSS": {
+      "passed": true,
+      "left": 49181207666.38005,
+      "right": 49181207666.38005,
+      "diff": 0.0,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 24590603.833190028
+    },
+    "R36_TOTAL_FORWARD_BUCKETS_EQUAL_VISIBLE_TOTAL": {
+      "passed": true,
+      "left": 62942934560.72006,
+      "right": 62942934560.72006,
+      "diff": 0.0,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 31471467.280360032
+    },
+    "R36_ENTITY_SHEETS_ROLLUP_TO_ACTIVE_INFORMATIONAL": {
+      "passed": true,
+      "left": 87344611587.20047,
+      "right": 88335143998.01033,
+      "diff": 990532410.8098602,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 44167571.99900517,
+      "reconciled": false,
+      "note": "Informational only: attached R36 entity sheets do not fully reconcile to Active, likely due to missing AUH/other split. This is disclosed, not treated as a smoke-test failure."
+    },
+    "R36_PIPELINE_CONSTANTS_LABELLED": {
+      "passed": true,
+      "label": "Active forward collectible calendar from R36 Active sheet, collection years 2026 onwards"
+    }
+  }
+}

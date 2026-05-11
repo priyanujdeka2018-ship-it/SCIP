@@ -1,0 +1,36 @@
+--- /mnt/data/file_resolver.py	2026-05-09 06:09:43.065416558 +0000
++++ /mnt/data/scip_batch1_ingestion_foundation/file_resolver.py	2026-05-09 06:55:46.753008721 +0000
+@@ -8,7 +8,7 @@
+     R04_Total Daily Collection Report 07-05-2026.xlsx
+ 
+ Rules:
+-    - Only .xlsx files are matched (openpyxl only)
++    - .xlsx files are matched for openpyxl-backed adapters; .xlsb is detected for future adapters only
+     - One file per R-code in /data at any time (recommended)
+     - If multiple files share the same R-code prefix, picks
+       the one that sorts last alphabetically (latest date)
+@@ -28,12 +28,12 @@
+ 
+ VALID_R_CODES = {
+     "R01", "R02", "R03", "R04", "R05", "R06", "R07", "R08",
+-    "R10", "R12", "R16", "R17", "R18", "R20", "R25", "R26",
+-    "R27", "R28", "R29", "R30", "R31", "R34", "R35", "R36",
++    "R10", "R12", "R13", "R16", "R17", "R18", "R20", "R25", "R26",
++    "R27", "R28", "R29", "R30", "R31", "R32", "R34", "R35", "R36",
+     "R37", "R38"
+ }
+ 
+-R_CODE_PATTERN = re.compile(r"^(R\d+)(?:_.*)?\.xlsx$", re.IGNORECASE)
++R_CODE_PATTERN = re.compile(r"^(R\d+)(?:_.*)?\.(xlsx|xlsb)$", re.IGNORECASE)
+ 
+ 
+ def resolve_r_series(data_dir):
+@@ -45,7 +45,7 @@
+         return resolved
+ 
+     for filename in os.listdir(data_dir):
+-        if not filename.lower().endswith(".xlsx"):
++        if not filename.lower().endswith((".xlsx", ".xlsb")):
+             continue
+         if filename.startswith("~$") or filename.startswith("."):
+             continue

@@ -1,0 +1,342 @@
+{
+  "samples": [
+    {
+      "status": "answered",
+      "role": {
+        "label": "Board/CXO",
+        "purpose": "Decision clarity, strategic risk, and source trust.",
+        "tone": "executive",
+        "focus": [
+          "variance",
+          "risk",
+          "cash visibility",
+          "decision needed"
+        ]
+      },
+      "metric_key": "OD_TODAY",
+      "metric_label": "Group overdue today",
+      "value": 1893779883.2100003,
+      "display_value": "AED 1.894B",
+      "unit": "AED",
+      "reporting_basis": "R18 overdue",
+      "source_code": "R18",
+      "business_definition": "R18 Grand Total OD, used as OD_TODAY.",
+      "answer": "Group overdue today is AED 1.894B. Reporting basis: R18 overdue. Source: R18_Consolidated and Overdue 01-05-26.xlsx / sheet Overdue-1 / cell or range O204. Validation: passed; confidence: live_validated. Definition: R18 Grand Total OD, used as OD_TODAY. Board view: treat this as the current cash-risk exposure requiring entity-level review before the next executive discussion.",
+      "role_interpretation": "Board view: treat this as the current cash-risk exposure requiring entity-level review before the next executive discussion.",
+      "lineage": {
+        "metric_key": "OD_TODAY",
+        "metric_label": "Overdue - R18 Grand Total",
+        "value": 1893779883.2100003,
+        "unit": "AED",
+        "source_code": "R18",
+        "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+        "sheet": "Overdue-1",
+        "cell_or_range": "O204",
+        "snapshot_date": "2026-05-01",
+        "extraction_method": "positional_row_scan",
+        "entity_scope": "group",
+        "business_definition": "R18 Grand Total OD, used as OD_TODAY.",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:29:05.990297Z"
+      },
+      "guardrail": {
+        "critical_metric": true,
+        "no_silent_fallback": true,
+        "requires_lineage": true,
+        "lineage_gate_passed": true
+      }
+    },
+    {
+      "status": "answered",
+      "role": {
+        "label": "CCO/GM/AGM",
+        "purpose": "Daily intervention control and month-end landing.",
+        "tone": "operational leadership",
+        "focus": [
+          "shortfall",
+          "entity split",
+          "intervention",
+          "owner action"
+        ]
+      },
+      "metric_key": "MTD_TOTAL_COLLECTIONS",
+      "metric_label": "MTD total collections",
+      "value": 330916513.3,
+      "display_value": "AED 330.9M",
+      "unit": "AED",
+      "reporting_basis": "Finance",
+      "source_code": "R04",
+      "business_definition": "MTD total collections = Finance D+A plus new-sales",
+      "answer": "MTD total collections is AED 330.9M. Reporting basis: Finance. Source: R04_Total Daily Collection Report 07-05-2026.xlsx / sheet daily / cell or range E40. Validation: passed; confidence: live_validated. Definition: MTD total collections = Finance D+A plus new-sales Ops view: this is the working MTD progress signal. Current progress is about 32.9% of the comparable May MDO target basis, subject to Finance-vs-MDO labelling.",
+      "role_interpretation": "Ops view: this is the working MTD progress signal. Current progress is about 32.9% of the comparable May MDO target basis, subject to Finance-vs-MDO labelling.",
+      "lineage": {
+        "metric_key": "mtd_total_collections",
+        "metric_label": "mtd_total_collections",
+        "value": 330916513.3,
+        "unit": "AED",
+        "source_code": "R04",
+        "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+        "sheet": "daily",
+        "cell_or_range": "E40",
+        "snapshot_date": "2026-05-07",
+        "extraction_method": "positional_daily_sheet_scan",
+        "entity_scope": "group",
+        "business_definition": "MTD total collections = Finance D+A plus new-sales",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:29:06.192982Z",
+        "reporting_basis": "Finance"
+      },
+      "guardrail": {
+        "critical_metric": true,
+        "no_silent_fallback": true,
+        "requires_lineage": true,
+        "lineage_gate_passed": true
+      }
+    },
+    {
+      "status": "answered",
+      "role": {
+        "label": "Finance",
+        "purpose": "Reconciliation, reporting basis, and audit traceability.",
+        "tone": "control and reconciliation",
+        "focus": [
+          "source",
+          "basis",
+          "cell",
+          "validation",
+          "tolerance"
+        ]
+      },
+      "metric_key": "MAY_DA_TARGET",
+      "metric_label": "May MDO D+A target",
+      "value": 855390104.245965,
+      "display_value": "AED 855.4M",
+      "unit": "AED",
+      "reporting_basis": "MDO",
+      "source_code": "R02",
+      "business_definition": "May MDO D+A target for Group",
+      "answer": "May MDO D+A target is AED 855.4M. Reporting basis: MDO. Source: R02_MDO report 06-05-2026.xlsx / sheet MDO Dynamic / cell or range H11. Validation: passed; confidence: live_validated. Definition: May MDO D+A target for Group Finance view: verify reporting basis, source file, sheet, cell/range, and validation status before using this in reconciliation or official reporting.",
+      "role_interpretation": "Finance view: verify reporting basis, source file, sheet, cell/range, and validation status before using this in reconciliation or official reporting.",
+      "lineage": {
+        "metric_key": "may_da_target_group",
+        "metric_label": "may_da_target_group",
+        "value": 855390104.245965,
+        "unit": "AED",
+        "source_code": "R02",
+        "source_file": "R02_MDO report 06-05-2026.xlsx",
+        "sheet": "MDO Dynamic",
+        "cell_or_range": "H11",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_monthly_matrix",
+        "entity_scope": "group",
+        "business_definition": "May MDO D+A target for Group",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:29:06.285843Z",
+        "reporting_basis": "MDO"
+      },
+      "guardrail": {
+        "critical_metric": true,
+        "no_silent_fallback": true,
+        "requires_lineage": true,
+        "lineage_gate_passed": true
+      }
+    },
+    {
+      "status": "answered",
+      "role": {
+        "label": "Board/CXO",
+        "purpose": "Decision clarity, strategic risk, and source trust.",
+        "tone": "executive",
+        "focus": [
+          "variance",
+          "risk",
+          "cash visibility",
+          "decision needed"
+        ]
+      },
+      "metric_key": "ADVANCE_2026_TOTAL",
+      "metric_label": "2026 total advance",
+      "value": 1104556736.0499992,
+      "display_value": "AED 1.105B",
+      "unit": "AED",
+      "reporting_basis": "R08 advance summary",
+      "source_code": "R08",
+      "business_definition": "2026 advance collected total",
+      "answer": "2026 total advance is AED 1.105B. Reporting basis: R08 advance summary. Source: R08_Advance Summary 06-05-2026.xlsx / sheet Advance 2026CYFY / cell or range B18. Validation: passed; confidence: live_validated. Definition: 2026 advance collected total Board view: use this to judge advance acceleration quality and current-year versus future-year cash pull-forward.",
+      "role_interpretation": "Board view: use this to judge advance acceleration quality and current-year versus future-year cash pull-forward.",
+      "lineage": {
+        "metric_key": "ADVANCE_2026_TOTAL",
+        "metric_label": "2026 advance collected total",
+        "value": 1104556736.0499992,
+        "unit": "AED",
+        "source_code": "R08",
+        "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+        "sheet": "Advance 2026CYFY",
+        "cell_or_range": "B18",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_matrix_scan",
+        "entity_scope": "group",
+        "business_definition": "2026 advance collected total",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:29:06.521142Z",
+        "reporting_basis": "R08 advance summary"
+      },
+      "guardrail": {
+        "critical_metric": true,
+        "no_silent_fallback": true,
+        "requires_lineage": true,
+        "lineage_gate_passed": true
+      }
+    },
+    {
+      "status": "answered",
+      "role": {
+        "label": "Finance",
+        "purpose": "Reconciliation, reporting basis, and audit traceability.",
+        "tone": "control and reconciliation",
+        "focus": [
+          "source",
+          "basis",
+          "cell",
+          "validation",
+          "tolerance"
+        ]
+      },
+      "metric_key": "YTD_2026_REBATE",
+      "metric_label": "YTD 2026 rebate / NPV applied",
+      "value": 17536726.0,
+      "display_value": "AED 17.5M",
+      "unit": "AED",
+      "reporting_basis": "R08 advance summary",
+      "source_code": "R08",
+      "business_definition": "YTD 2026 NPV applied / rebate",
+      "answer": "YTD 2026 rebate / NPV applied is AED 17.5M. Reporting basis: R08 advance summary. Source: R08_Advance Summary 06-05-2026.xlsx / sheet Rebate Summary / cell or range H56. Validation: passed; confidence: live_validated. Definition: YTD 2026 NPV applied / rebate Finance view: verify reporting basis, source file, sheet, cell/range, and validation status before using this in reconciliation or official reporting.",
+      "role_interpretation": "Finance view: verify reporting basis, source file, sheet, cell/range, and validation status before using this in reconciliation or official reporting.",
+      "lineage": {
+        "metric_key": "ytd_2026_rebate",
+        "metric_label": "YTD 2026 NPV applied / rebate",
+        "value": 17536726.0,
+        "unit": "AED",
+        "source_code": "R08",
+        "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+        "sheet": "Rebate Summary",
+        "cell_or_range": "H56",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_matrix_scan",
+        "entity_scope": "group",
+        "business_definition": "YTD 2026 NPV applied / rebate",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:29:06.521142Z",
+        "reporting_basis": "R08 advance summary"
+      },
+      "guardrail": {
+        "critical_metric": true,
+        "no_silent_fallback": true,
+        "requires_lineage": true,
+        "lineage_gate_passed": true
+      }
+    },
+    {
+      "status": "answered",
+      "role": {
+        "label": "Board/CXO",
+        "purpose": "Decision clarity, strategic risk, and source trust.",
+        "tone": "executive",
+        "focus": [
+          "variance",
+          "risk",
+          "cash visibility",
+          "decision needed"
+        ]
+      },
+      "metric_key": "PIPELINE_GROSS",
+      "metric_label": "Pipeline gross / active forward collectible calendar",
+      "value": 49181207666.38005,
+      "display_value": "AED 49.181B",
+      "unit": "AED",
+      "reporting_basis": "R36 milestone cohort",
+      "source_code": "R36",
+      "business_definition": "Active forward collectible calendar, 2026 onwards",
+      "answer": "Pipeline gross / active forward collectible calendar is AED 49.181B. Reporting basis: R36 milestone cohort. Source: R36_year on year Milestone Report as on 05-05-2026.xlsx / sheet Active / cell or range N25:W25. Validation: passed; confidence: live_validated. Definition: Active forward collectible calendar, 2026 onwards Board view: this is the forward collectible base for strategic cash visibility and pipeline concentration review.",
+      "role_interpretation": "Board view: this is the forward collectible base for strategic cash visibility and pipeline concentration review.",
+      "lineage": {
+        "metric_key": "PIPELINE_GROSS",
+        "metric_label": "Active forward collectible calendar, 2026 onwards",
+        "value": 49181207666.38005,
+        "unit": "AED",
+        "source_code": "R36",
+        "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+        "sheet": "Active",
+        "cell_or_range": "N25:W25",
+        "snapshot_date": "2026-05-05",
+        "extraction_method": "cohort_matrix_visible_total_scan",
+        "entity_scope": "group",
+        "business_definition": "Active forward collectible calendar, 2026 onwards",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:29:10.950237Z",
+        "reporting_basis": "R36 milestone cohort"
+      },
+      "guardrail": {
+        "critical_metric": true,
+        "no_silent_fallback": true,
+        "requires_lineage": true,
+        "lineage_gate_passed": true
+      }
+    },
+    {
+      "status": "answered",
+      "role": {
+        "label": "MIS/QCG/Admin",
+        "purpose": "Source freshness, validation, smoke gates, and data quality.",
+        "tone": "data operations",
+        "focus": [
+          "lineage",
+          "validation",
+          "missing sources",
+          "fallback policy"
+        ]
+      },
+      "metric_key": "PIPELINE_FORWARD_2026",
+      "metric_label": "2026 forward collectible",
+      "value": 19914115575.990047,
+      "display_value": "AED 19.914B",
+      "unit": "AED",
+      "reporting_basis": "R36 milestone cohort",
+      "source_code": "R36",
+      "business_definition": "Active forward collectible 2026",
+      "answer": "2026 forward collectible is AED 19.914B. Reporting basis: R36 milestone cohort. Source: R36_year on year Milestone Report as on 05-05-2026.xlsx / sheet Active / cell or range N25. Validation: passed; confidence: live_validated. Definition: Active forward collectible 2026 MIS/QCG/Admin view: this metric passed the lineage gate; monitor source freshness, validation status, and any warnings before release.",
+      "role_interpretation": "MIS/QCG/Admin view: this metric passed the lineage gate; monitor source freshness, validation status, and any warnings before release.",
+      "lineage": {
+        "metric_key": "pipeline_forward_2026",
+        "metric_label": "Active forward collectible 2026",
+        "value": 19914115575.990047,
+        "unit": "AED",
+        "source_code": "R36",
+        "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+        "sheet": "Active",
+        "cell_or_range": "N25",
+        "snapshot_date": "2026-05-05",
+        "extraction_method": "cohort_matrix_visible_total_scan",
+        "entity_scope": "group",
+        "business_definition": "Active forward collectible 2026",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:29:10.950237Z",
+        "reporting_basis": "R36 milestone cohort"
+      },
+      "guardrail": {
+        "critical_metric": true,
+        "no_silent_fallback": true,
+        "requires_lineage": true,
+        "lineage_gate_passed": true
+      }
+    }
+  ],
+  "catalog_count": 29
+}

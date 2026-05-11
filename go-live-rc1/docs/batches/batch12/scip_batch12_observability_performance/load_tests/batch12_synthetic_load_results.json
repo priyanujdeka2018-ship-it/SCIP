@@ -1,0 +1,7 @@
+{
+  "events": 1000,
+  "elapsed_ms": 16.68,
+  "api_p95_ms": 48.0,
+  "passed": true,
+  "note": "Synthetic local telemetry ingestion only; production load testing must be run in the target deployment environment."
+}

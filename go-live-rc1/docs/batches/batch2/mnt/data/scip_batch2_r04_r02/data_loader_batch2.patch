@@ -1,0 +1,131 @@
+--- /mnt/data/scip_batch1_ingestion_foundation/data_loader.py	2026-05-09 07:00:55.181204460 +0000
++++ /mnt/data/scip_batch2_r04_r02/data_loader.py	2026-05-09 07:05:23.368543186 +0000
+@@ -1,7 +1,7 @@
+ """
+ SOBHA COLLECTIONS INTELLIGENCE PLATFORM
+ data_loader.py — R-Series Data Pipeline
+-Version: v8 Batch 1
++Version: v8.2 Batch 2
+ Authority: FINAL_ARCHITECTURE.md
+ 
+ Responsibilities:
+@@ -72,9 +72,9 @@
+     """
+     Load complex R-series sources through source-specific adapters.
+ 
+-    Batch 1 implements R18 as the first production adapter because R18 is
+-    positional/matrix based and cannot be trusted through the generic flat
+-    header-reader.
++    Batch 2 implements R18, R04, and R02 as production adapters because
++    they are positional/matrix based and cannot be trusted through the
++    generic flat header-reader.
+     """
+     try:
+         adapter_result = source_adapters.run_adapter(source_id, file_path).to_dict()
+@@ -412,7 +412,12 @@
+         fname = source_cfg["file"]
+         candidates = [data_dir / fname, data_dir / fname.lower(), data_dir / fname.upper()]
+         file_path = next((p for p in candidates if p.exists()), data_dir / fname)
+-    if source_id.upper() == "R18" or source_cfg.get("adapter_class") == "R18OverdueAdapter":
++    adapter_name = source_cfg.get("adapter_class")
++    if source_id.upper() in getattr(source_adapters, "ADAPTERS", {}) or adapter_name in {
++        "R18OverdueAdapter",
++        "R04FinanceDailyAdapter",
++        "R02MDOAdapter",
++    }:
+         return _load_source_with_adapter(source_id.upper(), file_path, source_cfg)
+ 
+     sheet_name = source_cfg.get("sheet_name", 0)
+@@ -592,11 +597,21 @@
+     r04_aggs = r04.get("aggs", {})
+ 
+     # DAILY_DAYS — single shared array, replaces 4 v5 duplicate declarations
++    # Batch 2: R04 is Finance basis. "Collection Due" is treated as Finance D+A / collection-due.
+     computed["DAILY_DAYS"] = r04_aggs.get("DAILY_DAYS") or []
++    computed["DAILY_FINANCE_DA_SERIES"] = r04_aggs.get("DAILY_FINANCE_DA_SERIES") or []
++    computed["DAILY_NEW_SALES_SERIES"] = r04_aggs.get("DAILY_NEW_SALES_SERIES") or []
++    computed["DAILY_TOTAL_COLLECTIONS_SERIES"] = r04_aggs.get("DAILY_TOTAL_COLLECTIONS_SERIES") or []
+     computed["MTD_DA_TOTAL"]    = r04_aggs.get("mtd_da_total")
+-    computed["MTD_DUES_TOTAL"]  = r04_aggs.get("mtd_dues_total")
++    computed["MTD_DUES_TOTAL"]  = r04_aggs.get("mtd_dues_total")  # compatibility alias for Finance D+A/collection-due
+     computed["MTD_ADV_TOTAL"]   = r04_aggs.get("mtd_advance_total")
++    computed["MTD_ADV_STATUS"]  = r04_aggs.get("mtd_advance_status")
+     computed["MTD_NS_TOTAL"]    = r04_aggs.get("mtd_ns_total")
++    computed["MTD_TOTAL_COLLECTIONS"] = r04_aggs.get("mtd_total_collections")
++    computed["MTD_DLD_OQOOD_TOTAL"] = r04_aggs.get("mtd_dld_oqood_total")
++    computed["R04_LINEAGE"] = r04.get("lineage", {})
++    computed["R04_VALIDATIONS"] = r04.get("validations", {})
++    computed["R04_REPORTING_BASIS"] = "Finance"
+ 
+     # ── R02: MDO targets ──────────────────────────────────────────────────
+     r02 = sources.get("R02", {})
+@@ -604,8 +619,24 @@
+ 
+     computed["FY_DUES_TARGET"]    = r02_aggs.get("fy_dues_target_group") or C.MDO_DUES_FY_2026_AED
+     computed["FY_ADV_TARGET"]     = r02_aggs.get("fy_advance_target_group") or C.MDO_ADV_FY_2026_AED
++    computed["FY_DA_TARGET"]      = r02_aggs.get("fy_da_target_group")
++    computed["FY_NEW_SALES_TARGET"] = r02_aggs.get("fy_new_sales_target_group")
++    computed["FY_TOTAL_COLLECTIONS_TARGET"] = r02_aggs.get("fy_total_collections_target_group")
++    computed["MAY_DUES_TARGET"]   = r02_aggs.get("may_dues_target_group")
++    computed["MAY_ADV_TARGET"]    = r02_aggs.get("may_advance_target_group")
++    computed["MAY_DA_TARGET"]     = r02_aggs.get("may_da_target_group")
++    computed["MAY_NEW_SALES_TARGET"] = r02_aggs.get("may_new_sales_target_group")
++    computed["MAY_TOTAL_COLLECTIONS_TARGET"] = r02_aggs.get("may_total_collections_target_group")
++    computed["MAY_DUES_ACTUAL_MDO"] = r02_aggs.get("may_dues_actual_group")
++    computed["MAY_ADV_ACTUAL_MDO"] = r02_aggs.get("may_advance_actual_group")
++    computed["MAY_DA_ACTUAL_MDO"] = r02_aggs.get("may_da_actual_group")
++    computed["MAY_NEW_SALES_ACTUAL_MDO"] = r02_aggs.get("may_new_sales_actual_group")
++    computed["MAY_TOTAL_COLLECTIONS_ACTUAL_MDO"] = r02_aggs.get("may_total_collections_actual_group")
+     computed["Q1_DUES_ACTUAL"]    = r02_aggs.get("q1_dues_actual_group")
+     computed["Q1_ADV_ACTUAL"]     = r02_aggs.get("q1_advance_actual_group")
++    computed["R02_LINEAGE"] = r02.get("lineage", {})
++    computed["R02_VALIDATIONS"] = r02.get("validations", {})
++    computed["R02_REPORTING_BASIS"] = "MDO"
+ 
+     # ── R13: ITD portfolio ────────────────────────────────────────────────
+     r13 = sources.get("R13", {})
+@@ -739,19 +770,44 @@
+ 
+         # ── MDO targets ──
+         "targets": {
++            "reporting_basis": computed.get("R02_REPORTING_BASIS"),
+             "fy_dues_target":  computed.get("FY_DUES_TARGET"),
+             "fy_adv_target":   computed.get("FY_ADV_TARGET"),
++            "fy_da_target":    computed.get("FY_DA_TARGET"),
++            "fy_new_sales_target": computed.get("FY_NEW_SALES_TARGET"),
++            "fy_total_collections_target": computed.get("FY_TOTAL_COLLECTIONS_TARGET"),
++            "may_dues_target": computed.get("MAY_DUES_TARGET"),
++            "may_adv_target":  computed.get("MAY_ADV_TARGET"),
++            "may_da_target":   computed.get("MAY_DA_TARGET"),
++            "may_new_sales_target": computed.get("MAY_NEW_SALES_TARGET"),
++            "may_total_collections_target": computed.get("MAY_TOTAL_COLLECTIONS_TARGET"),
++            "may_dues_actual_mdo": computed.get("MAY_DUES_ACTUAL_MDO"),
++            "may_adv_actual_mdo": computed.get("MAY_ADV_ACTUAL_MDO"),
++            "may_da_actual_mdo": computed.get("MAY_DA_ACTUAL_MDO"),
++            "may_new_sales_actual_mdo": computed.get("MAY_NEW_SALES_ACTUAL_MDO"),
++            "may_total_collections_actual_mdo": computed.get("MAY_TOTAL_COLLECTIONS_ACTUAL_MDO"),
+             "q1_dues_actual":  computed.get("Q1_DUES_ACTUAL"),
+             "q1_adv_actual":   computed.get("Q1_ADV_ACTUAL"),
++            "lineage": computed.get("R02_LINEAGE"),
++            "validations": computed.get("R02_VALIDATIONS"),
+         },
+ 
+         # ── Daily arrays (S03 MTD charts) ──
+         "daily": {
++            "reporting_basis": computed.get("R04_REPORTING_BASIS"),
+             "days":         computed.get("DAILY_DAYS"),
++            "finance_da_series": computed.get("DAILY_FINANCE_DA_SERIES"),
++            "new_sales_series": computed.get("DAILY_NEW_SALES_SERIES"),
++            "total_collections_series": computed.get("DAILY_TOTAL_COLLECTIONS_SERIES"),
+             "mtd_da":       computed.get("MTD_DA_TOTAL"),
+             "mtd_dues":     computed.get("MTD_DUES_TOTAL"),
+             "mtd_advance":  computed.get("MTD_ADV_TOTAL"),
++            "mtd_advance_status": computed.get("MTD_ADV_STATUS"),
+             "mtd_ns":       computed.get("MTD_NS_TOTAL"),
++            "mtd_total_collections": computed.get("MTD_TOTAL_COLLECTIONS"),
++            "mtd_dld_oqood": computed.get("MTD_DLD_OQOOD_TOTAL"),
++            "lineage": computed.get("R04_LINEAGE"),
++            "validations": computed.get("R04_VALIDATIONS"),
+         },
+ 
+         # ── Operational KPIs ──

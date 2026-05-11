@@ -1,0 +1,122 @@
+{
+  "batch": "SCIP Batch 5.1",
+  "scope": "Liquid Glass UI system alignment",
+  "overall_passed": true,
+  "checks": [
+    {
+      "name": "imports_liquid_glass_tokens",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "has_two_door_arrival",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "arrival_has_no_role_tabs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "live_pulse_three_choices_only",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "target_track_deep_link_only",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "narratives_guided_rail",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "glass_surfaces_defined",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "solid_truth_surfaces_defined",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "tokens_match_strategy",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "trust_bar_preserved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "lineage_drawer_preserved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "blocked_answer_warning_preserved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "forecast_assumptions_visible",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "reporting_basis_visible_on_cards",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "role_model_without_entity_head",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "quickball_max_two_actions_enforced",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "quickball_backend_only",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "backend_contracts_preserved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "no_frontend_financial_computation_static",
+      "passed": true,
+      "detail": "violations=[]"
+    },
+    {
+      "name": "reduced_motion_supported",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "focus_visible_supported",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "aria_labels_present",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "summary": {
+    "checks_total": 22,
+    "checks_passed": 22,
+    "checks_failed": 0
+  }
+}

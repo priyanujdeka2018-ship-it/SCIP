@@ -1,0 +1,2379 @@
+{
+  "status": "ok",
+  "contract_version": "command_centres.v2.batch5",
+  "roles": {
+    "board_cxo": {
+      "role_label": "Board/CXO",
+      "purpose": "Decision clarity, source trust, cash risk, and strategic forward visibility.",
+      "trust_bar": {
+        "snapshot_date": "2026-05-01",
+        "load_timestamp": "2026-05-09T08:40:43.822526",
+        "platform_version": "v8.4 Batch 4",
+        "sources_loaded": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36",
+          "R01"
+        ],
+        "sources_missing": [
+          "R30",
+          "R13",
+          "R03",
+          "R05",
+          "R06",
+          "R07",
+          "R10",
+          "R12",
+          "R16",
+          "R20",
+          "R25",
+          "R26",
+          "R17",
+          "R29",
+          "R31",
+          "R32",
+          "R34",
+          "R35",
+          "R37",
+          "R38"
+        ],
+        "critical_sources": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36"
+        ],
+        "critical_lineage_counts": {
+          "R18": 15,
+          "R04": 12,
+          "R02": 17,
+          "R08": 19,
+          "R36": 14
+        },
+        "critical_validation_counts": {
+          "R18": 6,
+          "R04": 8,
+          "R02": 9,
+          "R08": 6,
+          "R36": 7
+        },
+        "no_silent_fallback": true,
+        "tolerance_pct": 0.05
+      },
+      "cards": [
+        {
+          "card_id": "board_od_exposure",
+          "title": "Current OD exposure",
+          "value": 1893779883.2100003,
+          "display_value": "AED 1.894B",
+          "reporting_basis": "R18 overdue",
+          "action": "Review Sobha/UAQ split before executive action review.",
+          "severity": "risk",
+          "lineage_refs": [
+            {
+              "metric_key": "OD_TODAY",
+              "lineage_bucket": "OD_LINEAGE",
+              "lineage_key": "OD_TODAY",
+              "has_lineage": true,
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "O204",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": null
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "OD_TODAY",
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "O204",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R18 overdue",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "board_cxo_month_end_forecast",
+          "title": "May month-end landing forecast",
+          "value": 1125116145.22,
+          "display_value": "AED 1.125B",
+          "reporting_basis": "R04 Finance actuals vs R02 MDO target",
+          "action": "Use as a pacing signal only; assumptions and mixed-basis disclosure must remain visible.",
+          "severity": "forecast",
+          "lineage_refs": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_total_collections",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 330916513.3
+            },
+            {
+              "metric_key": "MTD_DA_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_da_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "C40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 285457068.02
+            },
+            {
+              "metric_key": "MTD_NS_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_ns_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "D40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 45459445.280000016
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_total_collections_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 1005390104.245965
+            },
+            {
+              "metric_key": "MAY_DA_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_da_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H11",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 855390104.245965
+            },
+            {
+              "metric_key": "MAY_NEW_SALES_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_new_sales_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H13",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 150000000.0
+            },
+            {
+              "metric_key": "MONTH_TARGET_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "month_target_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E5",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 1424054189.9099998
+            },
+            {
+              "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_prorata_total_target",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E6",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 418839467.6205882
+            }
+          ],
+          "trust_state": "lineaged",
+          "forecast": {
+            "status": "ok",
+            "contract_version": "forecast.month_end.v1.batch5",
+            "forecast_date": "2026-05-09T08:40:43Z",
+            "forecast_name": "May month-end landing forecast",
+            "reporting_basis": "R04 Finance actuals vs R02 MDO target",
+            "basis_disclosure": "Actuals are R04 Finance daily collections; targets are R02 MDO targets. This is allowed only with visible basis labelling.",
+            "tolerance_pct": 0.05,
+            "inputs": {
+              "mtd_total_collections": 330916513.3,
+              "mtd_da_total": 285457068.02,
+              "mtd_new_sales_total": 45459445.280000016,
+              "may_total_collections_target": 1005390104.245965,
+              "may_da_target": 855390104.245965,
+              "may_new_sales_target": 150000000.0
+            },
+            "working_days": {
+              "status": "inferred_from_r04_prorata",
+              "elapsed_working_days": 5,
+              "total_working_days": 17,
+              "remaining_working_days": 12,
+              "source": "R04 mtd_prorata_total_target / month_target_total",
+              "ratio": 0.29411764705882354,
+              "fraction_error": 0.0,
+              "basis": "Elapsed and total working days inferred from visible R04 MTD pro-rata target row.",
+              "lineage_refs": [
+                {
+                  "metric_key": "MONTH_TARGET_TOTAL",
+                  "lineage_bucket": "R04_LINEAGE",
+                  "lineage_key": "month_target_total",
+                  "has_lineage": true,
+                  "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                  "sheet": "daily",
+                  "cell_or_range": "E5",
+                  "validation_status": "passed",
+                  "confidence_state": "live_validated",
+                  "reporting_basis": "Finance",
+                  "value": 1424054189.9099998
+                },
+                {
+                  "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+                  "lineage_bucket": "R04_LINEAGE",
+                  "lineage_key": "mtd_prorata_total_target",
+                  "has_lineage": true,
+                  "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                  "sheet": "daily",
+                  "cell_or_range": "E6",
+                  "validation_status": "passed",
+                  "confidence_state": "live_validated",
+                  "reporting_basis": "Finance",
+                  "value": 418839467.6205882
+                }
+              ]
+            },
+            "outputs": {
+              "current_daily_run_rate": 66183302.660000004,
+              "required_daily_run_rate_remaining": 56206132.57883042,
+              "projected_month_end_landing": 1125116145.22,
+              "gap_to_may_mdo_target": 119726040.97403502,
+              "mtd_achievement_pct": 32.91424014444472,
+              "projected_achievement_pct": 111.90841649111205,
+              "mdo_prorata_target_as_of_snapshot": 295702971.83704853,
+              "mdo_prorata_gap_as_of_snapshot": 35213541.46295148,
+              "da_daily_run_rate": 57091413.603999995,
+              "new_sales_daily_run_rate": 9091889.056000004
+            },
+            "display": {
+              "mtd_total_collections": "AED 330.9M",
+              "may_total_collections_target": "AED 1.005B",
+              "current_daily_run_rate": "AED 66.2M",
+              "required_daily_run_rate_remaining": "AED 56.2M",
+              "projected_month_end_landing": "AED 1.125B",
+              "gap_to_may_mdo_target": "AED 119.7M",
+              "mtd_achievement_pct": "32.9%",
+              "projected_achievement_pct": "111.9%"
+            },
+            "assumptions": [
+              "Month-end landing uses a straight-line current run-rate projection.",
+              "Working days are inferred from the R04 pro-rata row unless an explicit calendar is later onboarded.",
+              "Actuals use R04 Finance basis while target uses R02 MDO basis; UI must show the mixed-basis disclosure.",
+              "R04 does not expose pure advance split; Batch 5 forecast therefore forecasts total collections, D+A and new-sales signals only.",
+              "No silent fallback: forecast blocks if R04 MTD total or R02 May target lineage is missing."
+            ],
+            "lineage_refs": [
+              {
+                "metric_key": "MTD_TOTAL_COLLECTIONS",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_total_collections",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 330916513.3
+              },
+              {
+                "metric_key": "MTD_DA_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_da_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "C40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 285457068.02
+              },
+              {
+                "metric_key": "MTD_NS_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_ns_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "D40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 45459445.280000016
+              },
+              {
+                "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_total_collections_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H15",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 1005390104.245965
+              },
+              {
+                "metric_key": "MAY_DA_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_da_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H11",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 855390104.245965
+              },
+              {
+                "metric_key": "MAY_NEW_SALES_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_new_sales_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H13",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 150000000.0
+              },
+              {
+                "metric_key": "MONTH_TARGET_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "month_target_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E5",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 1424054189.9099998
+              },
+              {
+                "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_prorata_total_target",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E6",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 418839467.6205882
+              }
+            ],
+            "guardrails": {
+              "no_silent_fallback": true,
+              "critical_forecasts_require_lineage": true,
+              "forecast_assumptions_required": true,
+              "finance_vs_mdo_label_required": true
+            }
+          },
+          "assumptions": [
+            "Month-end landing uses a straight-line current run-rate projection.",
+            "Working days are inferred from the R04 pro-rata row unless an explicit calendar is later onboarded.",
+            "Actuals use R04 Finance basis while target uses R02 MDO basis; UI must show the mixed-basis disclosure.",
+            "R04 does not expose pure advance split; Batch 5 forecast therefore forecasts total collections, D+A and new-sales signals only.",
+            "No silent fallback: forecast blocks if R04 MTD total or R02 May target lineage is missing."
+          ],
+          "basis_disclosure": "Actuals are R04 Finance daily collections; targets are R02 MDO targets. This is allowed only with visible basis labelling.",
+          "lineage_display": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_DA_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "C40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_NS_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "D40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_DA_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H11",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_NEW_SALES_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H13",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MONTH_TARGET_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E5",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E6",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "board_mtd_collection_progress",
+          "title": "MTD total collections",
+          "value": 330916513.3,
+          "display_value": "AED 330.9M",
+          "reporting_basis": "Finance",
+          "action": "Compare with May MDO target only with basis label visible.",
+          "severity": "monitor",
+          "lineage_refs": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_total_collections",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "board_advance_mix",
+          "title": "2026 advance mix",
+          "value": 74.96468579885766,
+          "display_value": "CY 75.0% / FY 25.0%",
+          "reporting_basis": "R08 advance summary",
+          "action": "Use to evaluate cash pull-forward quality and future-year exposure.",
+          "severity": "strategic",
+          "lineage_refs": [
+            {
+              "metric_key": "CY_ADV_MIX_YTD",
+              "lineage_bucket": "R08_LINEAGE",
+              "lineage_key": "CY_ADV_MIX_YTD",
+              "has_lineage": true,
+              "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+              "sheet": "Advance 2026CYFY",
+              "cell_or_range": "derived: C/D ratio from 2026 Total row",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R08 advance summary"
+            },
+            {
+              "metric_key": "FY_ADV_MIX_YTD",
+              "lineage_bucket": "R08_LINEAGE",
+              "lineage_key": "FY_ADV_MIX_YTD",
+              "has_lineage": true,
+              "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+              "sheet": "Advance 2026CYFY",
+              "cell_or_range": "derived: D/B ratio from 2026 Total row",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R08 advance summary"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "CY_ADV_MIX_YTD",
+              "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+              "sheet": "Advance 2026CYFY",
+              "cell_or_range": "derived: C/D ratio from 2026 Total row",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R08 advance summary",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "FY_ADV_MIX_YTD",
+              "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+              "sheet": "Advance 2026CYFY",
+              "cell_or_range": "derived: D/B ratio from 2026 Total row",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R08 advance summary",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "board_pipeline_gross",
+          "title": "Forward collectible calendar",
+          "value": 49181207666.38005,
+          "display_value": "AED 49.181B",
+          "reporting_basis": "R36 milestone cohort",
+          "action": "Use as the 2026-onwards active forward collectible base.",
+          "severity": "strategic",
+          "lineage_refs": [
+            {
+              "metric_key": "PIPELINE_GROSS",
+              "lineage_bucket": "R36_LINEAGE",
+              "lineage_key": "PIPELINE_GROSS",
+              "has_lineage": true,
+              "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+              "sheet": "Active",
+              "cell_or_range": "N25:W25",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R36 milestone cohort"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "PIPELINE_GROSS",
+              "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+              "sheet": "Active",
+              "cell_or_range": "N25:W25",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R36 milestone cohort",
+              "has_lineage": true
+            }
+          ]
+        }
+      ]
+    },
+    "cco_gm_agm": {
+      "role_label": "CCO/GM/AGM",
+      "purpose": "Daily operating review, intervention queue, and month-end pacing.",
+      "trust_bar": {
+        "snapshot_date": "2026-05-01",
+        "load_timestamp": "2026-05-09T08:40:43.822526",
+        "platform_version": "v8.4 Batch 4",
+        "sources_loaded": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36",
+          "R01"
+        ],
+        "sources_missing": [
+          "R30",
+          "R13",
+          "R03",
+          "R05",
+          "R06",
+          "R07",
+          "R10",
+          "R12",
+          "R16",
+          "R20",
+          "R25",
+          "R26",
+          "R17",
+          "R29",
+          "R31",
+          "R32",
+          "R34",
+          "R35",
+          "R37",
+          "R38"
+        ],
+        "critical_sources": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36"
+        ],
+        "critical_lineage_counts": {
+          "R18": 15,
+          "R04": 12,
+          "R02": 17,
+          "R08": 19,
+          "R36": 14
+        },
+        "critical_validation_counts": {
+          "R18": 6,
+          "R04": 8,
+          "R02": 9,
+          "R08": 6,
+          "R36": 7
+        },
+        "no_silent_fallback": true,
+        "tolerance_pct": 0.05
+      },
+      "cards": [
+        {
+          "card_id": "ops_mtd_vs_may_target",
+          "title": "MTD collections vs May MDO target",
+          "value": 32.91424014444472,
+          "display_value": "32.9%",
+          "reporting_basis": "Finance actual vs MDO target",
+          "action": "Use as directional pacing only; keep Finance/MDO basis label visible.",
+          "severity": "risk",
+          "lineage_refs": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_total_collections",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance"
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_total_collections_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "cco_gm_agm_month_end_forecast",
+          "title": "May month-end landing forecast",
+          "value": 1125116145.22,
+          "display_value": "AED 1.125B",
+          "reporting_basis": "R04 Finance actuals vs R02 MDO target",
+          "action": "Use as a pacing signal only; assumptions and mixed-basis disclosure must remain visible.",
+          "severity": "forecast",
+          "lineage_refs": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_total_collections",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 330916513.3
+            },
+            {
+              "metric_key": "MTD_DA_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_da_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "C40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 285457068.02
+            },
+            {
+              "metric_key": "MTD_NS_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_ns_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "D40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 45459445.280000016
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_total_collections_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 1005390104.245965
+            },
+            {
+              "metric_key": "MAY_DA_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_da_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H11",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 855390104.245965
+            },
+            {
+              "metric_key": "MAY_NEW_SALES_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_new_sales_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H13",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 150000000.0
+            },
+            {
+              "metric_key": "MONTH_TARGET_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "month_target_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E5",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 1424054189.9099998
+            },
+            {
+              "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_prorata_total_target",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E6",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 418839467.6205882
+            }
+          ],
+          "trust_state": "lineaged",
+          "forecast": {
+            "status": "ok",
+            "contract_version": "forecast.month_end.v1.batch5",
+            "forecast_date": "2026-05-09T08:40:43Z",
+            "forecast_name": "May month-end landing forecast",
+            "reporting_basis": "R04 Finance actuals vs R02 MDO target",
+            "basis_disclosure": "Actuals are R04 Finance daily collections; targets are R02 MDO targets. This is allowed only with visible basis labelling.",
+            "tolerance_pct": 0.05,
+            "inputs": {
+              "mtd_total_collections": 330916513.3,
+              "mtd_da_total": 285457068.02,
+              "mtd_new_sales_total": 45459445.280000016,
+              "may_total_collections_target": 1005390104.245965,
+              "may_da_target": 855390104.245965,
+              "may_new_sales_target": 150000000.0
+            },
+            "working_days": {
+              "status": "inferred_from_r04_prorata",
+              "elapsed_working_days": 5,
+              "total_working_days": 17,
+              "remaining_working_days": 12,
+              "source": "R04 mtd_prorata_total_target / month_target_total",
+              "ratio": 0.29411764705882354,
+              "fraction_error": 0.0,
+              "basis": "Elapsed and total working days inferred from visible R04 MTD pro-rata target row.",
+              "lineage_refs": [
+                {
+                  "metric_key": "MONTH_TARGET_TOTAL",
+                  "lineage_bucket": "R04_LINEAGE",
+                  "lineage_key": "month_target_total",
+                  "has_lineage": true,
+                  "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                  "sheet": "daily",
+                  "cell_or_range": "E5",
+                  "validation_status": "passed",
+                  "confidence_state": "live_validated",
+                  "reporting_basis": "Finance",
+                  "value": 1424054189.9099998
+                },
+                {
+                  "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+                  "lineage_bucket": "R04_LINEAGE",
+                  "lineage_key": "mtd_prorata_total_target",
+                  "has_lineage": true,
+                  "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                  "sheet": "daily",
+                  "cell_or_range": "E6",
+                  "validation_status": "passed",
+                  "confidence_state": "live_validated",
+                  "reporting_basis": "Finance",
+                  "value": 418839467.6205882
+                }
+              ]
+            },
+            "outputs": {
+              "current_daily_run_rate": 66183302.660000004,
+              "required_daily_run_rate_remaining": 56206132.57883042,
+              "projected_month_end_landing": 1125116145.22,
+              "gap_to_may_mdo_target": 119726040.97403502,
+              "mtd_achievement_pct": 32.91424014444472,
+              "projected_achievement_pct": 111.90841649111205,
+              "mdo_prorata_target_as_of_snapshot": 295702971.83704853,
+              "mdo_prorata_gap_as_of_snapshot": 35213541.46295148,
+              "da_daily_run_rate": 57091413.603999995,
+              "new_sales_daily_run_rate": 9091889.056000004
+            },
+            "display": {
+              "mtd_total_collections": "AED 330.9M",
+              "may_total_collections_target": "AED 1.005B",
+              "current_daily_run_rate": "AED 66.2M",
+              "required_daily_run_rate_remaining": "AED 56.2M",
+              "projected_month_end_landing": "AED 1.125B",
+              "gap_to_may_mdo_target": "AED 119.7M",
+              "mtd_achievement_pct": "32.9%",
+              "projected_achievement_pct": "111.9%"
+            },
+            "assumptions": [
+              "Month-end landing uses a straight-line current run-rate projection.",
+              "Working days are inferred from the R04 pro-rata row unless an explicit calendar is later onboarded.",
+              "Actuals use R04 Finance basis while target uses R02 MDO basis; UI must show the mixed-basis disclosure.",
+              "R04 does not expose pure advance split; Batch 5 forecast therefore forecasts total collections, D+A and new-sales signals only.",
+              "No silent fallback: forecast blocks if R04 MTD total or R02 May target lineage is missing."
+            ],
+            "lineage_refs": [
+              {
+                "metric_key": "MTD_TOTAL_COLLECTIONS",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_total_collections",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 330916513.3
+              },
+              {
+                "metric_key": "MTD_DA_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_da_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "C40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 285457068.02
+              },
+              {
+                "metric_key": "MTD_NS_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_ns_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "D40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 45459445.280000016
+              },
+              {
+                "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_total_collections_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H15",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 1005390104.245965
+              },
+              {
+                "metric_key": "MAY_DA_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_da_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H11",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 855390104.245965
+              },
+              {
+                "metric_key": "MAY_NEW_SALES_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_new_sales_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H13",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 150000000.0
+              },
+              {
+                "metric_key": "MONTH_TARGET_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "month_target_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E5",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 1424054189.9099998
+              },
+              {
+                "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_prorata_total_target",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E6",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 418839467.6205882
+              }
+            ],
+            "guardrails": {
+              "no_silent_fallback": true,
+              "critical_forecasts_require_lineage": true,
+              "forecast_assumptions_required": true,
+              "finance_vs_mdo_label_required": true
+            }
+          },
+          "assumptions": [
+            "Month-end landing uses a straight-line current run-rate projection.",
+            "Working days are inferred from the R04 pro-rata row unless an explicit calendar is later onboarded.",
+            "Actuals use R04 Finance basis while target uses R02 MDO basis; UI must show the mixed-basis disclosure.",
+            "R04 does not expose pure advance split; Batch 5 forecast therefore forecasts total collections, D+A and new-sales signals only.",
+            "No silent fallback: forecast blocks if R04 MTD total or R02 May target lineage is missing."
+          ],
+          "basis_disclosure": "Actuals are R04 Finance daily collections; targets are R02 MDO targets. This is allowed only with visible basis labelling.",
+          "lineage_display": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_DA_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "C40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_NS_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "D40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_DA_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H11",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_NEW_SALES_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H13",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MONTH_TARGET_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E5",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E6",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "ops_sobha_od",
+          "title": "Sobha OD",
+          "value": 1662277363.9800005,
+          "display_value": "AED 1.662B",
+          "reporting_basis": "R18 overdue",
+          "action": "Break into Sobha Dubai and Sobha AUH recovery actions.",
+          "severity": "risk",
+          "lineage_refs": [
+            {
+              "metric_key": "OD_SOBHA",
+              "lineage_bucket": "OD_LINEAGE",
+              "lineage_key": "OD_SOBHA",
+              "has_lineage": true,
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "rollup: OD_SOBHA_DUBAI + OD_SOBHA_AUH",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": null
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "OD_SOBHA",
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "rollup: OD_SOBHA_DUBAI + OD_SOBHA_AUH",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R18 overdue",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "ops_uaq_od",
+          "title": "UAQ OD",
+          "value": 231502519.23000002,
+          "display_value": "AED 231.5M",
+          "reporting_basis": "R18 overdue",
+          "action": "Review Siniya and Downtown UAQ separately.",
+          "severity": "risk",
+          "lineage_refs": [
+            {
+              "metric_key": "OD_UAQ",
+              "lineage_bucket": "OD_LINEAGE",
+              "lineage_key": "OD_UAQ",
+              "has_lineage": true,
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "rollup: OD_SINIYA + OD_DOWNTOWN_UAQ",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": null
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "OD_UAQ",
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "rollup: OD_SINIYA + OD_DOWNTOWN_UAQ",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R18 overdue",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "ops_new_sales_collections",
+          "title": "MTD new-sales collections",
+          "value": 45459445.280000016,
+          "display_value": "AED 45.5M",
+          "reporting_basis": "Finance",
+          "action": "Escalate if new-sales conversion is below month pacing.",
+          "severity": "monitor",
+          "lineage_refs": [
+            {
+              "metric_key": "MTD_NS_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_ns_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "D40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "MTD_NS_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "D40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            }
+          ]
+        }
+      ]
+    },
+    "finance": {
+      "role_label": "Finance",
+      "purpose": "Reconciliation, reporting-basis control, and audit traceability.",
+      "trust_bar": {
+        "snapshot_date": "2026-05-01",
+        "load_timestamp": "2026-05-09T08:40:43.822526",
+        "platform_version": "v8.4 Batch 4",
+        "sources_loaded": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36",
+          "R01"
+        ],
+        "sources_missing": [
+          "R30",
+          "R13",
+          "R03",
+          "R05",
+          "R06",
+          "R07",
+          "R10",
+          "R12",
+          "R16",
+          "R20",
+          "R25",
+          "R26",
+          "R17",
+          "R29",
+          "R31",
+          "R32",
+          "R34",
+          "R35",
+          "R37",
+          "R38"
+        ],
+        "critical_sources": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36"
+        ],
+        "critical_lineage_counts": {
+          "R18": 15,
+          "R04": 12,
+          "R02": 17,
+          "R08": 19,
+          "R36": 14
+        },
+        "critical_validation_counts": {
+          "R18": 6,
+          "R04": 8,
+          "R02": 9,
+          "R08": 6,
+          "R36": 7
+        },
+        "no_silent_fallback": true,
+        "tolerance_pct": 0.05
+      },
+      "cards": [
+        {
+          "card_id": "finance_basis_control",
+          "title": "Finance actual vs MDO target basis",
+          "value": null,
+          "display_value": "Finance actuals / MDO targets",
+          "reporting_basis": "Finance + MDO",
+          "action": "Keep R04 actuals and R02 targets separated in all reporting.",
+          "severity": "control",
+          "lineage_refs": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_total_collections",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance"
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_total_collections_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "finance_month_end_forecast",
+          "title": "May month-end landing forecast",
+          "value": 1125116145.22,
+          "display_value": "AED 1.125B",
+          "reporting_basis": "R04 Finance actuals vs R02 MDO target",
+          "action": "Use as a pacing signal only; assumptions and mixed-basis disclosure must remain visible.",
+          "severity": "forecast",
+          "lineage_refs": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_total_collections",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 330916513.3
+            },
+            {
+              "metric_key": "MTD_DA_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_da_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "C40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 285457068.02
+            },
+            {
+              "metric_key": "MTD_NS_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_ns_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "D40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 45459445.280000016
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_total_collections_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 1005390104.245965
+            },
+            {
+              "metric_key": "MAY_DA_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_da_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H11",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 855390104.245965
+            },
+            {
+              "metric_key": "MAY_NEW_SALES_TARGET",
+              "lineage_bucket": "R02_LINEAGE",
+              "lineage_key": "may_new_sales_target_group",
+              "has_lineage": true,
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H13",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "value": 150000000.0
+            },
+            {
+              "metric_key": "MONTH_TARGET_TOTAL",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "month_target_total",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E5",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 1424054189.9099998
+            },
+            {
+              "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_prorata_total_target",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E6",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "value": 418839467.6205882
+            }
+          ],
+          "trust_state": "lineaged",
+          "forecast": {
+            "status": "ok",
+            "contract_version": "forecast.month_end.v1.batch5",
+            "forecast_date": "2026-05-09T08:40:43Z",
+            "forecast_name": "May month-end landing forecast",
+            "reporting_basis": "R04 Finance actuals vs R02 MDO target",
+            "basis_disclosure": "Actuals are R04 Finance daily collections; targets are R02 MDO targets. This is allowed only with visible basis labelling.",
+            "tolerance_pct": 0.05,
+            "inputs": {
+              "mtd_total_collections": 330916513.3,
+              "mtd_da_total": 285457068.02,
+              "mtd_new_sales_total": 45459445.280000016,
+              "may_total_collections_target": 1005390104.245965,
+              "may_da_target": 855390104.245965,
+              "may_new_sales_target": 150000000.0
+            },
+            "working_days": {
+              "status": "inferred_from_r04_prorata",
+              "elapsed_working_days": 5,
+              "total_working_days": 17,
+              "remaining_working_days": 12,
+              "source": "R04 mtd_prorata_total_target / month_target_total",
+              "ratio": 0.29411764705882354,
+              "fraction_error": 0.0,
+              "basis": "Elapsed and total working days inferred from visible R04 MTD pro-rata target row.",
+              "lineage_refs": [
+                {
+                  "metric_key": "MONTH_TARGET_TOTAL",
+                  "lineage_bucket": "R04_LINEAGE",
+                  "lineage_key": "month_target_total",
+                  "has_lineage": true,
+                  "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                  "sheet": "daily",
+                  "cell_or_range": "E5",
+                  "validation_status": "passed",
+                  "confidence_state": "live_validated",
+                  "reporting_basis": "Finance",
+                  "value": 1424054189.9099998
+                },
+                {
+                  "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+                  "lineage_bucket": "R04_LINEAGE",
+                  "lineage_key": "mtd_prorata_total_target",
+                  "has_lineage": true,
+                  "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                  "sheet": "daily",
+                  "cell_or_range": "E6",
+                  "validation_status": "passed",
+                  "confidence_state": "live_validated",
+                  "reporting_basis": "Finance",
+                  "value": 418839467.6205882
+                }
+              ]
+            },
+            "outputs": {
+              "current_daily_run_rate": 66183302.660000004,
+              "required_daily_run_rate_remaining": 56206132.57883042,
+              "projected_month_end_landing": 1125116145.22,
+              "gap_to_may_mdo_target": 119726040.97403502,
+              "mtd_achievement_pct": 32.91424014444472,
+              "projected_achievement_pct": 111.90841649111205,
+              "mdo_prorata_target_as_of_snapshot": 295702971.83704853,
+              "mdo_prorata_gap_as_of_snapshot": 35213541.46295148,
+              "da_daily_run_rate": 57091413.603999995,
+              "new_sales_daily_run_rate": 9091889.056000004
+            },
+            "display": {
+              "mtd_total_collections": "AED 330.9M",
+              "may_total_collections_target": "AED 1.005B",
+              "current_daily_run_rate": "AED 66.2M",
+              "required_daily_run_rate_remaining": "AED 56.2M",
+              "projected_month_end_landing": "AED 1.125B",
+              "gap_to_may_mdo_target": "AED 119.7M",
+              "mtd_achievement_pct": "32.9%",
+              "projected_achievement_pct": "111.9%"
+            },
+            "assumptions": [
+              "Month-end landing uses a straight-line current run-rate projection.",
+              "Working days are inferred from the R04 pro-rata row unless an explicit calendar is later onboarded.",
+              "Actuals use R04 Finance basis while target uses R02 MDO basis; UI must show the mixed-basis disclosure.",
+              "R04 does not expose pure advance split; Batch 5 forecast therefore forecasts total collections, D+A and new-sales signals only.",
+              "No silent fallback: forecast blocks if R04 MTD total or R02 May target lineage is missing."
+            ],
+            "lineage_refs": [
+              {
+                "metric_key": "MTD_TOTAL_COLLECTIONS",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_total_collections",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 330916513.3
+              },
+              {
+                "metric_key": "MTD_DA_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_da_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "C40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 285457068.02
+              },
+              {
+                "metric_key": "MTD_NS_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_ns_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "D40",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 45459445.280000016
+              },
+              {
+                "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_total_collections_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H15",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 1005390104.245965
+              },
+              {
+                "metric_key": "MAY_DA_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_da_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H11",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 855390104.245965
+              },
+              {
+                "metric_key": "MAY_NEW_SALES_TARGET",
+                "lineage_bucket": "R02_LINEAGE",
+                "lineage_key": "may_new_sales_target_group",
+                "has_lineage": true,
+                "source_file": "R02_MDO report 06-05-2026.xlsx",
+                "sheet": "MDO Dynamic",
+                "cell_or_range": "H13",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "MDO",
+                "value": 150000000.0
+              },
+              {
+                "metric_key": "MONTH_TARGET_TOTAL",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "month_target_total",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E5",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 1424054189.9099998
+              },
+              {
+                "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+                "lineage_bucket": "R04_LINEAGE",
+                "lineage_key": "mtd_prorata_total_target",
+                "has_lineage": true,
+                "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+                "sheet": "daily",
+                "cell_or_range": "E6",
+                "validation_status": "passed",
+                "confidence_state": "live_validated",
+                "reporting_basis": "Finance",
+                "value": 418839467.6205882
+              }
+            ],
+            "guardrails": {
+              "no_silent_fallback": true,
+              "critical_forecasts_require_lineage": true,
+              "forecast_assumptions_required": true,
+              "finance_vs_mdo_label_required": true
+            }
+          },
+          "assumptions": [
+            "Month-end landing uses a straight-line current run-rate projection.",
+            "Working days are inferred from the R04 pro-rata row unless an explicit calendar is later onboarded.",
+            "Actuals use R04 Finance basis while target uses R02 MDO basis; UI must show the mixed-basis disclosure.",
+            "R04 does not expose pure advance split; Batch 5 forecast therefore forecasts total collections, D+A and new-sales signals only.",
+            "No silent fallback: forecast blocks if R04 MTD total or R02 May target lineage is missing."
+          ],
+          "basis_disclosure": "Actuals are R04 Finance daily collections; targets are R02 MDO targets. This is allowed only with visible basis labelling.",
+          "lineage_display": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_DA_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "C40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_NS_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "D40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H15",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_DA_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H11",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MAY_NEW_SALES_TARGET",
+              "source_file": "R02_MDO report 06-05-2026.xlsx",
+              "sheet": "MDO Dynamic",
+              "cell_or_range": "H13",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "MDO",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MONTH_TARGET_TOTAL",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E5",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            },
+            {
+              "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E6",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "finance_r08_rebate",
+          "title": "YTD 2026 rebate / NPV applied",
+          "value": 17536726.0,
+          "display_value": "AED 17.5M",
+          "reporting_basis": "R08 advance summary",
+          "action": "Use the R08 rebate lineage before reporting NPV or rebate impact.",
+          "severity": "control",
+          "lineage_refs": [
+            {
+              "metric_key": "YTD_2026_REBATE",
+              "lineage_bucket": "R08_LINEAGE",
+              "lineage_key": "ytd_2026_rebate",
+              "has_lineage": true,
+              "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+              "sheet": "Rebate Summary",
+              "cell_or_range": "H56",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R08 advance summary"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "YTD_2026_REBATE",
+              "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+              "sheet": "Rebate Summary",
+              "cell_or_range": "H56",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R08 advance summary",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "finance_r36_pipeline",
+          "title": "Pipeline gross source control",
+          "value": 49181207666.38005,
+          "display_value": "AED 49.181B",
+          "reporting_basis": "R36 milestone cohort",
+          "action": "Use only with Active-sheet source and forward-year range disclosed.",
+          "severity": "control",
+          "lineage_refs": [
+            {
+              "metric_key": "PIPELINE_GROSS",
+              "lineage_bucket": "R36_LINEAGE",
+              "lineage_key": "PIPELINE_GROSS",
+              "has_lineage": true,
+              "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+              "sheet": "Active",
+              "cell_or_range": "N25:W25",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R36 milestone cohort"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "PIPELINE_GROSS",
+              "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+              "sheet": "Active",
+              "cell_or_range": "N25:W25",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R36 milestone cohort",
+              "has_lineage": true
+            }
+          ]
+        }
+      ]
+    },
+    "mis_qcg_admin": {
+      "role_label": "MIS/QCG/Admin",
+      "purpose": "Data quality, source freshness, validation, and release governance.",
+      "trust_bar": {
+        "snapshot_date": "2026-05-01",
+        "load_timestamp": "2026-05-09T08:40:43.822526",
+        "platform_version": "v8.4 Batch 4",
+        "sources_loaded": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36",
+          "R01"
+        ],
+        "sources_missing": [
+          "R30",
+          "R13",
+          "R03",
+          "R05",
+          "R06",
+          "R07",
+          "R10",
+          "R12",
+          "R16",
+          "R20",
+          "R25",
+          "R26",
+          "R17",
+          "R29",
+          "R31",
+          "R32",
+          "R34",
+          "R35",
+          "R37",
+          "R38"
+        ],
+        "critical_sources": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36"
+        ],
+        "critical_lineage_counts": {
+          "R18": 15,
+          "R04": 12,
+          "R02": 17,
+          "R08": 19,
+          "R36": 14
+        },
+        "critical_validation_counts": {
+          "R18": 6,
+          "R04": 8,
+          "R02": 9,
+          "R08": 6,
+          "R36": 7
+        },
+        "no_silent_fallback": true,
+        "tolerance_pct": 0.05
+      },
+      "cards": [
+        {
+          "card_id": "mis_lineage_coverage",
+          "title": "Critical lineage coverage",
+          "value": {
+            "R18": 15,
+            "R04": 12,
+            "R02": 17,
+            "R08": 19,
+            "R36": 14
+          },
+          "display_value": "{'R18': 15, 'R04': 12, 'R02': 17, 'R08': 19, 'R36': 14}",
+          "reporting_basis": "Data governance",
+          "action": "Release only when R18/R04/R02/R08/R36 lineage counts are non-zero.",
+          "severity": "control",
+          "lineage_refs": [
+            {
+              "metric_key": "OD_TODAY",
+              "lineage_bucket": "OD_LINEAGE",
+              "lineage_key": "OD_TODAY",
+              "has_lineage": true,
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "O204",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": null,
+              "contract_note": "Governance/control card uses platform trust lineage reference."
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "OD_TODAY",
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "O204",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Data governance",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "mis_missing_sources",
+          "title": "Missing sources",
+          "value": [
+            "R30",
+            "R13",
+            "R03",
+            "R05",
+            "R06",
+            "R07",
+            "R10",
+            "R12",
+            "R16",
+            "R20",
+            "R25",
+            "R26",
+            "R17",
+            "R29",
+            "R31",
+            "R32",
+            "R34",
+            "R35",
+            "R37",
+            "R38"
+          ],
+          "display_value": "R30, R13, R03, R05, R06, R07, R10, R12, R16, R20, R25, R26, R17, R29, R31, R32, R34, R35, R37, R38",
+          "reporting_basis": "Data governance",
+          "action": "Triage missing non-critical reports without blocking critical command centres.",
+          "severity": "monitor",
+          "lineage_refs": [
+            {
+              "metric_key": "OD_TODAY",
+              "lineage_bucket": "OD_LINEAGE",
+              "lineage_key": "OD_TODAY",
+              "has_lineage": true,
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "O204",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": null,
+              "contract_note": "Governance/control card uses platform trust lineage reference."
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "OD_TODAY",
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "O204",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Data governance",
+              "has_lineage": true
+            }
+          ]
+        }
+      ]
+    },
+    "collector_rm": {
+      "role_label": "Collector/RM",
+      "purpose": "Frontline action focus while avoiding unverified account-level claims.",
+      "trust_bar": {
+        "snapshot_date": "2026-05-01",
+        "load_timestamp": "2026-05-09T08:40:43.822526",
+        "platform_version": "v8.4 Batch 4",
+        "sources_loaded": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36",
+          "R01"
+        ],
+        "sources_missing": [
+          "R30",
+          "R13",
+          "R03",
+          "R05",
+          "R06",
+          "R07",
+          "R10",
+          "R12",
+          "R16",
+          "R20",
+          "R25",
+          "R26",
+          "R17",
+          "R29",
+          "R31",
+          "R32",
+          "R34",
+          "R35",
+          "R37",
+          "R38"
+        ],
+        "critical_sources": [
+          "R18",
+          "R04",
+          "R02",
+          "R08",
+          "R36"
+        ],
+        "critical_lineage_counts": {
+          "R18": 15,
+          "R04": 12,
+          "R02": 17,
+          "R08": 19,
+          "R36": 14
+        },
+        "critical_validation_counts": {
+          "R18": 6,
+          "R04": 8,
+          "R02": 9,
+          "R08": 6,
+          "R36": 7
+        },
+        "no_silent_fallback": true,
+        "tolerance_pct": 0.05
+      },
+      "cards": [
+        {
+          "card_id": "collector_od_priority",
+          "title": "OD follow-up pool",
+          "value": 1893779883.2100003,
+          "display_value": "AED 1.894B",
+          "reporting_basis": "R18 overdue",
+          "action": "Use as the verified pool for prioritisation; account-level tasking awaits lineaged account report onboarding.",
+          "severity": "risk",
+          "lineage_refs": [
+            {
+              "metric_key": "OD_TODAY",
+              "lineage_bucket": "OD_LINEAGE",
+              "lineage_key": "OD_TODAY",
+              "has_lineage": true,
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "O204",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": null
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "OD_TODAY",
+              "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+              "sheet": "Overdue-1",
+              "cell_or_range": "O204",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "R18 overdue",
+              "has_lineage": true
+            }
+          ]
+        },
+        {
+          "card_id": "collector_daily_progress_signal",
+          "title": "MTD collection progress signal",
+          "value": 330916513.3,
+          "display_value": "AED 330.9M",
+          "reporting_basis": "Finance",
+          "action": "Use for daily pace awareness; individual RM scorecards require R30/account-level refresh.",
+          "severity": "monitor",
+          "lineage_refs": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "lineage_bucket": "R04_LINEAGE",
+              "lineage_key": "mtd_total_collections",
+              "has_lineage": true,
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance"
+            }
+          ],
+          "trust_state": "lineaged",
+          "lineage_display": [
+            {
+              "metric_key": "MTD_TOTAL_COLLECTIONS",
+              "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+              "sheet": "daily",
+              "cell_or_range": "E40",
+              "validation_status": "passed",
+              "confidence_state": "live_validated",
+              "reporting_basis": "Finance",
+              "has_lineage": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "role_order": [
+    "board_cxo",
+    "cco_gm_agm",
+    "finance",
+    "mis_qcg_admin",
+    "collector_rm"
+  ],
+  "guardrails": {
+    "no_silent_fallback": true,
+    "critical_cards_require_lineage_refs": true,
+    "finance_vs_mdo_label_required": true,
+    "entity_head_removed": true,
+    "every_card_requires_reporting_basis": true,
+    "every_card_requires_lineage_display": true,
+    "month_end_forecast_assumptions_required": true
+  },
+  "forecast": {
+    "status": "ok",
+    "contract_version": "forecast.month_end.v1.batch5",
+    "forecast_date": "2026-05-09T08:40:43Z",
+    "forecast_name": "May month-end landing forecast",
+    "reporting_basis": "R04 Finance actuals vs R02 MDO target",
+    "basis_disclosure": "Actuals are R04 Finance daily collections; targets are R02 MDO targets. This is allowed only with visible basis labelling.",
+    "tolerance_pct": 0.05,
+    "inputs": {
+      "mtd_total_collections": 330916513.3,
+      "mtd_da_total": 285457068.02,
+      "mtd_new_sales_total": 45459445.280000016,
+      "may_total_collections_target": 1005390104.245965,
+      "may_da_target": 855390104.245965,
+      "may_new_sales_target": 150000000.0
+    },
+    "working_days": {
+      "status": "inferred_from_r04_prorata",
+      "elapsed_working_days": 5,
+      "total_working_days": 17,
+      "remaining_working_days": 12,
+      "source": "R04 mtd_prorata_total_target / month_target_total",
+      "ratio": 0.29411764705882354,
+      "fraction_error": 0.0,
+      "basis": "Elapsed and total working days inferred from visible R04 MTD pro-rata target row.",
+      "lineage_refs": [
+        {
+          "metric_key": "MONTH_TARGET_TOTAL",
+          "lineage_bucket": "R04_LINEAGE",
+          "lineage_key": "month_target_total",
+          "has_lineage": true,
+          "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+          "sheet": "daily",
+          "cell_or_range": "E5",
+          "validation_status": "passed",
+          "confidence_state": "live_validated",
+          "reporting_basis": "Finance",
+          "value": 1424054189.9099998
+        },
+        {
+          "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+          "lineage_bucket": "R04_LINEAGE",
+          "lineage_key": "mtd_prorata_total_target",
+          "has_lineage": true,
+          "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+          "sheet": "daily",
+          "cell_or_range": "E6",
+          "validation_status": "passed",
+          "confidence_state": "live_validated",
+          "reporting_basis": "Finance",
+          "value": 418839467.6205882
+        }
+      ]
+    },
+    "outputs": {
+      "current_daily_run_rate": 66183302.660000004,
+      "required_daily_run_rate_remaining": 56206132.57883042,
+      "projected_month_end_landing": 1125116145.22,
+      "gap_to_may_mdo_target": 119726040.97403502,
+      "mtd_achievement_pct": 32.91424014444472,
+      "projected_achievement_pct": 111.90841649111205,
+      "mdo_prorata_target_as_of_snapshot": 295702971.83704853,
+      "mdo_prorata_gap_as_of_snapshot": 35213541.46295148,
+      "da_daily_run_rate": 57091413.603999995,
+      "new_sales_daily_run_rate": 9091889.056000004
+    },
+    "display": {
+      "mtd_total_collections": "AED 330.9M",
+      "may_total_collections_target": "AED 1.005B",
+      "current_daily_run_rate": "AED 66.2M",
+      "required_daily_run_rate_remaining": "AED 56.2M",
+      "projected_month_end_landing": "AED 1.125B",
+      "gap_to_may_mdo_target": "AED 119.7M",
+      "mtd_achievement_pct": "32.9%",
+      "projected_achievement_pct": "111.9%"
+    },
+    "assumptions": [
+      "Month-end landing uses a straight-line current run-rate projection.",
+      "Working days are inferred from the R04 pro-rata row unless an explicit calendar is later onboarded.",
+      "Actuals use R04 Finance basis while target uses R02 MDO basis; UI must show the mixed-basis disclosure.",
+      "R04 does not expose pure advance split; Batch 5 forecast therefore forecasts total collections, D+A and new-sales signals only.",
+      "No silent fallback: forecast blocks if R04 MTD total or R02 May target lineage is missing."
+    ],
+    "lineage_refs": [
+      {
+        "metric_key": "MTD_TOTAL_COLLECTIONS",
+        "lineage_bucket": "R04_LINEAGE",
+        "lineage_key": "mtd_total_collections",
+        "has_lineage": true,
+        "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+        "sheet": "daily",
+        "cell_or_range": "E40",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "reporting_basis": "Finance",
+        "value": 330916513.3
+      },
+      {
+        "metric_key": "MTD_DA_TOTAL",
+        "lineage_bucket": "R04_LINEAGE",
+        "lineage_key": "mtd_da_total",
+        "has_lineage": true,
+        "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+        "sheet": "daily",
+        "cell_or_range": "C40",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "reporting_basis": "Finance",
+        "value": 285457068.02
+      },
+      {
+        "metric_key": "MTD_NS_TOTAL",
+        "lineage_bucket": "R04_LINEAGE",
+        "lineage_key": "mtd_ns_total",
+        "has_lineage": true,
+        "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+        "sheet": "daily",
+        "cell_or_range": "D40",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "reporting_basis": "Finance",
+        "value": 45459445.280000016
+      },
+      {
+        "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET",
+        "lineage_bucket": "R02_LINEAGE",
+        "lineage_key": "may_total_collections_target_group",
+        "has_lineage": true,
+        "source_file": "R02_MDO report 06-05-2026.xlsx",
+        "sheet": "MDO Dynamic",
+        "cell_or_range": "H15",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "reporting_basis": "MDO",
+        "value": 1005390104.245965
+      },
+      {
+        "metric_key": "MAY_DA_TARGET",
+        "lineage_bucket": "R02_LINEAGE",
+        "lineage_key": "may_da_target_group",
+        "has_lineage": true,
+        "source_file": "R02_MDO report 06-05-2026.xlsx",
+        "sheet": "MDO Dynamic",
+        "cell_or_range": "H11",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "reporting_basis": "MDO",
+        "value": 855390104.245965
+      },
+      {
+        "metric_key": "MAY_NEW_SALES_TARGET",
+        "lineage_bucket": "R02_LINEAGE",
+        "lineage_key": "may_new_sales_target_group",
+        "has_lineage": true,
+        "source_file": "R02_MDO report 06-05-2026.xlsx",
+        "sheet": "MDO Dynamic",
+        "cell_or_range": "H13",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "reporting_basis": "MDO",
+        "value": 150000000.0
+      },
+      {
+        "metric_key": "MONTH_TARGET_TOTAL",
+        "lineage_bucket": "R04_LINEAGE",
+        "lineage_key": "month_target_total",
+        "has_lineage": true,
+        "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+        "sheet": "daily",
+        "cell_or_range": "E5",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "reporting_basis": "Finance",
+        "value": 1424054189.9099998
+      },
+      {
+        "metric_key": "MTD_PRORATA_TOTAL_TARGET",
+        "lineage_bucket": "R04_LINEAGE",
+        "lineage_key": "mtd_prorata_total_target",
+        "has_lineage": true,
+        "source_file": "R04_Total Daily Collection Report 07-05-2026.xlsx",
+        "sheet": "daily",
+        "cell_or_range": "E6",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "reporting_basis": "Finance",
+        "value": 418839467.6205882
+      }
+    ],
+    "guardrails": {
+      "no_silent_fallback": true,
+      "critical_forecasts_require_lineage": true,
+      "forecast_assumptions_required": true,
+      "finance_vs_mdo_label_required": true
+    }
+  }
+}

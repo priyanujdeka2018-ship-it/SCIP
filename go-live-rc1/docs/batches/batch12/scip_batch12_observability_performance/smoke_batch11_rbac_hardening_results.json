@@ -1,0 +1,95 @@
+{
+  "contract_version": "rbac_deployment_hardening.v1.batch11",
+  "status": "ready_rbac_hardened",
+  "checks_passed": 29,
+  "checks_total": 29,
+  "overall_passed": true,
+  "checks": {
+    "batch11_modules_import": true,
+    "migrations_run": true,
+    "role_model_without_entity_head": true,
+    "five_roles_only": true,
+    "collector_cannot_assign": true,
+    "admin_can_migrate_backup": true,
+    "actor_identity_loaded": true,
+    "entity_head_blocked": true,
+    "board_cannot_read_actions": true,
+    "collector_own_read_allowed": true,
+    "collector_cannot_assign_runtime": true,
+    "finance_assign_runtime_allowed": true,
+    "admin_audit_allowed": true,
+    "collector_sees_only_own_rows": true,
+    "finance_sees_finance_rows": true,
+    "cco_sees_management_rows": true,
+    "denied_attempts_logged": true,
+    "persistence_seeded": true,
+    "admin_audit_export_all": true,
+    "finance_audit_export_filtered": true,
+    "board_audit_export_denied": true,
+    "deployment_health_generated": true,
+    "backup_restore_passed": true,
+    "cors_no_wildcard_nonlocal_rule_present": true,
+    "security_routes_registered": true,
+    "deployment_routes_registered": true,
+    "rbac_middleware_registered": true,
+    "notification_dedupe_survives_security_migration": true,
+    "rbac_policies_persisted": true
+  },
+  "details": {
+    "migration": {
+      "contract_version": "deployment_hardening.v1.batch11",
+      "db_path": "/mnt/data/scip_batch11_rbac_hardening/scip_batch11_smoke.sqlite",
+      "applied": [
+        {
+          "migration_id": "001_batch10_persistence",
+          "status": "applied",
+          "checksum": "f96957837e508368614f07bcd49bc9924a10a7344f264d6bd239826a0e1d98bb"
+        },
+        {
+          "migration_id": "002_batch11_rbac_hardening",
+          "status": "applied",
+          "checksum": "86df897bbc903dd853b4fa8b583cda89499da91f228936979d2c2c2a8f5b3185"
+        }
+      ]
+    },
+    "policy_matrix_roles": [
+      "board_cxo",
+      "cco_gm_agm",
+      "finance",
+      "mis_qcg_admin",
+      "collector_rm"
+    ],
+    "denied_attempt_count": 2,
+    "persistence_counts": {
+      "source_actions": 100,
+      "workflow_records": 100,
+      "workflow_events": 105,
+      "notification_eligibility": 137,
+      "notification_emissions": 137,
+      "suppression_state": 137,
+      "delivery_status": 137,
+      "audit_exports": 0
+    },
+    "audit_counts": {
+      "all": 168,
+      "admin": 168,
+      "finance": 25,
+      "board": 0
+    },
+    "deployment_health_status": "ok",
+    "backup_status": "passed",
+    "route_sample": [
+      "/deployment/backup-check",
+      "/deployment/health",
+      "/deployment/migrate",
+      "/security/denied-attempts",
+      "/security/me",
+      "/security/policy-matrix"
+    ],
+    "durable_counts": {
+      "suppression_state": 137,
+      "delivery_status": 137,
+      "rbac_policies": 54
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "contract_version": "access_denials.v1.batch11",
+  "items": [
+    {
+      "denial_id": "deny_f69be469da4d312d78eb",
+      "actor_id": "board1",
+      "actor_role": "board_cxo",
+      "permission": "read:audit_export",
+      "reason": "missing_audit_export_permission",
+      "path": "",
+      "method": "GET",
+      "row_context_json": "{}",
+      "created_at": "2026-05-09T16:52:24.319810Z",
+      "row_context": {}
+    },
+    {
+      "denial_id": "deny_5f88d509da0040ebe6c7",
+      "actor_id": "collector_a",
+      "actor_role": "collector_rm",
+      "permission": "write:workflows_assign",
+      "reason": "missing_permission",
+      "path": "/workflows/assign",
+      "method": "POST",
+      "row_context_json": "{}",
+      "created_at": "2026-05-09T16:52:00.154413Z",
+      "row_context": {}
+    },
+    {
+      "denial_id": "deny_af7f19658d530f0e6611",
+      "actor_id": "board1",
+      "actor_role": "board_cxo",
+      "permission": "read:action_queues",
+      "reason": "missing_permission",
+      "path": "/action-queues",
+      "method": "GET",
+      "row_context_json": "{}",
+      "created_at": "2026-05-09T16:52:00.153157Z",
+      "row_context": {}
+    }
+  ]
+}

@@ -1,0 +1,322 @@
+{
+  "overall_passed": true,
+  "passed_count": 33,
+  "total_count": 33,
+  "checks": [
+    {
+      "name": "contract version is Batch 7",
+      "passed": true,
+      "detail": "action_queues.v2.batch7"
+    },
+    {
+      "name": "overall payload ready",
+      "passed": true,
+      "detail": "ready_account_level_guarded"
+    },
+    {
+      "name": "entity head removed",
+      "passed": true,
+      "detail": [
+        "collector_rm",
+        "cco_gm_agm",
+        "finance",
+        "mis_qcg_admin"
+      ]
+    },
+    {
+      "name": "locked hierarchy preserved",
+      "passed": true,
+      "detail": {
+        "tolerance_pct": 0.05,
+        "no_silent_fallback": true,
+        "locked_hierarchy": "Group > Sobha(Sobha Dubai, Sobha AUH) + UAQ(Siniya, Downtown UAQ)",
+        "role_model": [
+          "Board/CXO",
+          "CCO/GM/AGM",
+          "Finance",
+          "MIS/QCG/Admin",
+          "Collector/RM"
+        ],
+        "removed_role": "Entity Head",
+        "account_action_gate": "account actions require account_id + unit + owner + entity + amount/status + ageing/process status + lineage",
+        "liquid_glass_gate": "action queues and collector detail remain L4/L5 evidence/action output; dense rows use solid surfaces"
+      }
+    },
+    {
+      "name": "no silent fallback enabled",
+      "passed": true,
+      "detail": {
+        "tolerance_pct": 0.05,
+        "no_silent_fallback": true,
+        "locked_hierarchy": "Group > Sobha(Sobha Dubai, Sobha AUH) + UAQ(Siniya, Downtown UAQ)",
+        "role_model": [
+          "Board/CXO",
+          "CCO/GM/AGM",
+          "Finance",
+          "MIS/QCG/Admin",
+          "Collector/RM"
+        ],
+        "removed_role": "Entity Head",
+        "account_action_gate": "account actions require account_id + unit + owner + entity + amount/status + ageing/process status + lineage",
+        "liquid_glass_gate": "action queues and collector detail remain L4/L5 evidence/action output; dense rows use solid surfaces"
+      }
+    },
+    {
+      "name": "R10 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R17 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R20 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R30 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R31 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R32 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R34 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R38 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R09 source loaded",
+      "passed": true,
+      "detail": "loaded"
+    },
+    {
+      "name": "R10 PTP facts extracted",
+      "passed": true,
+      "detail": 364
+    },
+    {
+      "name": "R34 termination facts extracted",
+      "passed": true,
+      "detail": 27890
+    },
+    {
+      "name": "R31 PR issues extracted",
+      "passed": true,
+      "detail": 1151
+    },
+    {
+      "name": "R38 risk facts extracted",
+      "passed": true,
+      "detail": 4261
+    },
+    {
+      "name": "collector account actions unlocked",
+      "passed": true,
+      "detail": 40
+    },
+    {
+      "name": "finance PR actions unlocked",
+      "passed": true,
+      "detail": 40
+    },
+    {
+      "name": "backend validations pass",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "checks": {
+          "all_visible_actions_have_lineage": true,
+          "account_actions_have_owner_entity_amount_ageing_or_process_status": true,
+          "collector_role_has_only_collector_visible_account_actions": true,
+          "finance_role_has_no_collector_call_ptp_actions": true,
+          "entity_head_removed": true,
+          "reporting_basis_present": true
+        },
+        "checked_action_count": 167,
+        "checked_account_action_count": 140
+      }
+    },
+    {
+      "name": "collector actions have required fields",
+      "passed": true,
+      "detail": 40
+    },
+    {
+      "name": "collector actions have complete lineage",
+      "passed": true,
+      "detail": {
+        "action_id": "collector_ptp::B-48054::SSH-A5601",
+        "action_type": "collector_ptp_follow_up",
+        "grain": "account_unit",
+        "role_visibility": [
+          "collector_rm",
+          "cco_gm_agm"
+        ],
+        "status": "ready",
+        "title": "Follow PTP \u00b7 B-48054 / SSH-A5601",
+        "summary": "Farheen has a PTP of AED 3.1M for SSH-A5601; ageing bucket no_overdue.",
+        "recommended_action": "Call/WhatsApp customer before PTP date, update disposition, and escalate if unpaid after date.",
+        "severity": "risk",
+        "account_id": "B-48054",
+        "unit": "SSH-A5601",
+        "customer_name": "Mr. Xavier Andre Marie Leon Julien Elie Gudefin",
+        "collector_rm_owner": "Farheen",
+        "manager_name": "Rohan Santosh Nair",
+        "entity_code": "sobha_dubai",
+        "entity_display": "Sobha Dubai",
+        "parent_entity_code": "sobha",
+        "parent_entity_display": "Sobha",
+        "project": "Sobha SeaHaven",
+        "sub_project": "Sobha SeaHaven",
+        "amount_aed": 3070190.96,
+        "display_amount": "AED 3.1M",
+        "overdue_amount_aed": 3070190.96,
+        "ageing_bucket": "no_overdue",
+        "ptp_date": "2026-05-27",
+        "ptp_amount_aed": 3070190.96,
+        "ptp_status": "PENDING",
+        "escalation_status": "TERMINATION",
+        "reporting_basis": "R10 PTP + R34 ageing/termination + R10 allocation owner evidence",
+        "confidence_state": "live_validated_account_owner_ageing_lineaged",
+        "lineage_refs": [
+          {
+            "metric_key": "PTP_B-48054_SSH-A5601",
+            "metric_label": "Promise-to-pay amount/date",
+            "has_lineage": true,
+            "source_code": "R10",
+            "source_file": "R10_Dues Coverage summary report.xlsx",
+            "sheet": "PTP Data",
+            "cell_or_range": "D21:AB21",
+            "snapshot_date": "2026-05-01",
+            "validation_status": "passed",
+            "confidence_state": "live_validated",
+            "reporting_basis": "R10 PTP account promise"
+          },
+          {
+            "metric_key": "AGEING_B-48054_SSH-A5601",
+            "metric_label": "Ageing and overdue validation",
+            "has_lineage": true,
+            "source_code": "R34",
+            "source_file": "R34_Termination Status - Report -08-05-2026.xlsx",
+            "sheet": "Data",
+            "cell_or_range": "A2035:BT2035",
+            "snapshot_date": null,
+            "validation_status": "passed",
+            "confidence_state": "live_validated",
+            "reporting_basis": "R34 termination status account evidence"
+          },
+          {
+            "metric_key": "OWNER_B-48054_SSH-A5601",
+            "metric_label": "Owner allocation validation",
+            "has_lineage": true,
+            "source_code": "R10",
+            "source_file": "R10_Dues Coverage summary report.xlsx",
+            "sheet": "Allocation",
+            "cell_or_range": "A16892:AD16892",
+            "snapshot_date": "2026-05-08 00:00:00",
+            "validation_status": "passed",
+            "confidence_state": "live_validated",
+            "reporting_basis": "R10 dues coverage allocation"
+          }
+        ]
+      }
+    },
+    {
+      "name": "collector role has no finance PR action",
+      "passed": true,
+      "detail": [
+        "collector_ptp_follow_up",
+        "collector_ptp_follow_up",
+        "collector_ptp_follow_up",
+        "collector_ptp_follow_up",
+        "collector_ptp_follow_up"
+      ]
+    },
+    {
+      "name": "finance actions are not collector PTP calls",
+      "passed": true,
+      "detail": [
+        "finance_pr_quality_exception",
+        "finance_pr_quality_exception",
+        "finance_pr_quality_exception",
+        "finance_pr_quality_exception",
+        "finance_pr_quality_exception"
+      ]
+    },
+    {
+      "name": "CCO queue has account actions",
+      "passed": true,
+      "detail": 30
+    },
+    {
+      "name": "MIS/QCG has process actions",
+      "passed": true,
+      "detail": 17
+    },
+    {
+      "name": "frontend fetches action-queues contract",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "frontend renders account action cards",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "frontend shows owner/account/unit/amount metadata",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "frontend keeps actions in risk_action focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "frontend does not introduce entity_head role key",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "CSS includes account action solid cards",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "facts_summary": {
+    "r10_allocations": 18241,
+    "r10_ptp_facts": 364,
+    "r34_termination_facts": 27890,
+    "r31_pr_issues": 1151,
+    "r32_collector_metrics": 126,
+    "r32_receipt_facts": 0,
+    "r30_collector_feedback": 26,
+    "r17_spa_project_facts": 182,
+    "r09_project_collection_facts": 186,
+    "r20_tat_facts": 60,
+    "r38_risk_facts": 4261,
+    "collector_account_actions_ready": 40,
+    "termination_review_actions_ready": 40,
+    "finance_pr_actions_ready": 40,
+    "process_actions_ready": 22
+  },
+  "payload_status": "ready_account_level_guarded"
+}

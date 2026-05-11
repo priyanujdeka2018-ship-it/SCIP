@@ -1,0 +1,85 @@
+{
+  "contract_version": "batch9.smoke.v1",
+  "overall_passed": true,
+  "passed_count": 34,
+  "total_count": 34,
+  "checks": {
+    "payload_status_ready": true,
+    "contract_version_batch9": true,
+    "has_notifications": true,
+    "overdue_due_date_rule_emitted": true,
+    "stale_workflow_rule_emitted": true,
+    "broken_ptp_rule_emitted": true,
+    "termination_risk_rule_emitted": true,
+    "pr_tat_ageing_rule_emitted": true,
+    "unassigned_high_risk_rule_emitted": true,
+    "collector_rm_reminders_present": true,
+    "manager_escalations_present": true,
+    "finance_nudges_present": true,
+    "mis_qcg_alerts_present": true,
+    "no_notification_for_bad_unlineaged_action": true,
+    "bad_unlineaged_candidate_blocked": true,
+    "all_notifications_have_source_action_lineage": true,
+    "all_notifications_have_workflow_event_lineage": true,
+    "all_notifications_have_role_visibility": true,
+    "all_notifications_have_rule_evidence": true,
+    "all_notifications_have_dedupe_keys": true,
+    "dedupe_keys_unique": true,
+    "daily_digest_present": true,
+    "weekly_digest_present": true,
+    "digests_have_dedupe_keys": true,
+    "notifications_are_l5_output": true,
+    "no_third_arrival_door": true,
+    "entity_head_removed": true,
+    "backend_includes_notifications_router": true,
+    "frontend_fetches_notifications": true,
+    "frontend_has_notification_panel": true,
+    "frontend_has_digest_cards": true,
+    "module_requires_dedupe_keys": true,
+    "module_declares_no_external_delivery": true,
+    "no_business_computation_in_frontend": true
+  },
+  "summary": {
+    "notification_count": 138,
+    "blocked_candidate_count": 1,
+    "by_role": {
+      "collector_rm": 6,
+      "cco_gm_agm": 62,
+      "mis_qcg_admin": 45,
+      "finance": 25
+    },
+    "by_rule": {
+      "overdue_due_date": 2,
+      "termination_risk": 74,
+      "stale_workflow": 1,
+      "unassigned_high_risk": 1,
+      "broken_ptp_promise": 10,
+      "pr_tat_ageing": 50
+    },
+    "by_severity": {
+      "high": 12,
+      "critical": 75,
+      "medium": 51
+    }
+  },
+  "sample_notification_ids": [
+    "notif::915ec4d602cfd453eba0398e",
+    "notif::a37a448779d594e2705005ba",
+    "notif::fbbbb3d29dff631fe550587e",
+    "notif::1fcdbf77ed0905b637c0933d",
+    "notif::9af1ffbb2e6fdb4c51848480",
+    "notif::7f61ef8e0524d2b2bc83dc95",
+    "notif::5bb6e21eafae5c16cff081f1",
+    "notif::c545bf77bf2eefd38b952d88",
+    "notif::b58f0ae396fd7751afd92f31",
+    "notif::7aa0f859f6af2982897984b3"
+  ],
+  "sample_rules": {
+    "overdue_due_date": 2,
+    "termination_risk": 74,
+    "stale_workflow": 1,
+    "unassigned_high_risk": 1,
+    "broken_ptp_promise": 10,
+    "pr_tat_ageing": 50
+  }
+}

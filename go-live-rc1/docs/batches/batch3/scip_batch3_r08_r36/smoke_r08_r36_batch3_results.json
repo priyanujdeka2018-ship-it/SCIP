@@ -1,0 +1,306 @@
+{
+  "batch": "SCIP Batch 3 - R08/R36 adapters",
+  "overall_passed": true,
+  "tolerance_pct": 0.0005,
+  "r08": {
+    "status": "ok",
+    "critical_passed": true,
+    "metrics": {
+      "ADVANCE_2026_TOTAL": 1104556736.0499992,
+      "ADVANCE_2026_CY": 828027486.6499994,
+      "ADVANCE_2026_FY": 276529249.40000004,
+      "CY_ADV_MIX_YTD": 74.96468579885766,
+      "FY_ADV_MIX_YTD": 25.035314201142363,
+      "ytd_2026_rebate": 17536726.0,
+      "advance_2025_total": 3267829312.2200003,
+      "advance_2026_sobha_parent_total": 961029583.7999992,
+      "advance_2026_siniya_total": 124890728.09999998,
+      "advance_2026_downtown_uaq_total": 18636424.150000002,
+      "advance_2026_uaq_total": 143527152.24999997
+    },
+    "validations": {
+      "R08_REQUIRED_SHEETS_PRESENT": {
+        "passed": true,
+        "missing": []
+      },
+      "R08_CY_PLUS_FY_EQUALS_ADVANCE_2026_TOTAL": {
+        "passed": true,
+        "left": 1104556736.0499995,
+        "right": 1104556736.0499992,
+        "diff": 2.384185791015625e-07,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 552278.3680249996
+      },
+      "R08_CYFY_TOTAL_EQUALS_SUMMARY_2026_ADVANCE": {
+        "passed": true,
+        "left": 1104556736.0499992,
+        "right": 1104556736.049999,
+        "diff": 2.384185791015625e-07,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 552278.3680249996
+      },
+      "R08_REBATE_2026_ADVANCE_EQUALS_CYFY_TOTAL": {
+        "passed": true,
+        "left": 1104556736.049999,
+        "right": 1104556736.0499992,
+        "diff": 2.384185791015625e-07,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 552278.3680249996
+      },
+      "R08_UAQ_PLUS_SOBHA_RESIDUAL_EQUALS_GROUP_ADVANCE": {
+        "passed": true,
+        "left": 1104556736.0499992,
+        "right": 1104556736.0499992,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 552278.3680249996
+      },
+      "R08_ENTITY_CHILD_SPLIT_DISCLOSURE": {
+        "passed": true,
+        "note": "R08 CY/FY sheets expose Group, Siniya and DT. Sobha parent is residual. Sobha Dubai/AUH CY-FY split is not separately visible in this sample; Summary exposes Abu Dhabi latest advance only."
+      }
+    },
+    "lineage_sample": {
+      "ADVANCE_2026_TOTAL": {
+        "metric_key": "ADVANCE_2026_TOTAL",
+        "metric_label": "2026 advance collected total",
+        "value": 1104556736.0499992,
+        "unit": "AED",
+        "source_code": "R08",
+        "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+        "sheet": "Advance 2026CYFY",
+        "cell_or_range": "B18",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_matrix_scan",
+        "entity_scope": "group",
+        "business_definition": "2026 advance collected total",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:22:42.037631Z",
+        "reporting_basis": "R08 advance summary"
+      },
+      "ADVANCE_2026_CY": {
+        "metric_key": "ADVANCE_2026_CY",
+        "metric_label": "2026 current-year advance",
+        "value": 828027486.6499994,
+        "unit": "AED",
+        "source_code": "R08",
+        "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+        "sheet": "Advance 2026CYFY",
+        "cell_or_range": "C18",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_matrix_scan",
+        "entity_scope": "group",
+        "business_definition": "2026 current-year advance",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:22:42.037631Z",
+        "reporting_basis": "R08 advance summary"
+      },
+      "ADVANCE_2026_FY": {
+        "metric_key": "ADVANCE_2026_FY",
+        "metric_label": "2026 future-year advance",
+        "value": 276529249.40000004,
+        "unit": "AED",
+        "source_code": "R08",
+        "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+        "sheet": "Advance 2026CYFY",
+        "cell_or_range": "D18",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_matrix_scan",
+        "entity_scope": "group",
+        "business_definition": "2026 future-year advance",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:22:42.037631Z",
+        "reporting_basis": "R08 advance summary"
+      },
+      "ytd_2026_rebate": {
+        "metric_key": "ytd_2026_rebate",
+        "metric_label": "YTD 2026 NPV applied / rebate",
+        "value": 17536726.0,
+        "unit": "AED",
+        "source_code": "R08",
+        "source_file": "R08_Advance Summary 06-05-2026.xlsx",
+        "sheet": "Rebate Summary",
+        "cell_or_range": "H56",
+        "snapshot_date": "2026-05-06",
+        "extraction_method": "positional_matrix_scan",
+        "entity_scope": "group",
+        "business_definition": "YTD 2026 NPV applied / rebate",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:22:42.037631Z",
+        "reporting_basis": "R08 advance summary"
+      }
+    },
+    "row_count": 234
+  },
+  "r36": {
+    "status": "ok",
+    "critical_passed": true,
+    "metrics": {
+      "PIPELINE_GROSS": 49181207666.38005,
+      "PIPELINE_TOTAL_FORWARD_CALENDAR": 62942934560.72006,
+      "PIPELINE_ACTIVE_TOTAL_PURCHASE_PRICE": 88335143998.01033,
+      "PIPELINE_TOTAL_PURCHASE_PRICE": 118674249478.72034,
+      "FORWARD_COLLECTIBLE_CALENDAR": {
+        "2026": 19914115575.990047,
+        "2027": 14020562994.490017,
+        "2028": 7229214001.200004,
+        "2029": 6574618733.859983,
+        "2030": 1265808496.4599996,
+        "2031": 176218408.38,
+        "2032": 168000.0,
+        "2033": 168000.0,
+        "2034": 168000.0,
+        "beyond_2035": 165456.0
+      },
+      "TOTAL_FORWARD_COLLECTIBLE_CALENDAR": {
+        "2026": 26093098491.00013,
+        "2027": 17773018295.44997,
+        "2028": 9010684278.250008,
+        "2029": 8103540825.259957,
+        "2030": 1675321256.5199995,
+        "2031": 286518422.84000003,
+        "2032": 168000.0,
+        "2033": 168000.0,
+        "2034": 168000.0,
+        "beyond_2035": 248991.4
+      },
+      "R36_ENTITY_TOTALS": {
+        "Sobha": 74854405895.29045,
+        "Siniya": 11320074889.690016,
+        "DT": 1170130802.2199984
+      },
+      "MILESTONE_COHORT_ROWS": 70
+    },
+    "validations": {
+      "R36_REQUIRED_SHEETS_PRESENT": {
+        "passed": true,
+        "missing": []
+      },
+      "R36_ACTIVE_ROW_TOTAL_EQUALS_PURCHASE_PRICE": {
+        "passed": true,
+        "left": 88335143998.01007,
+        "right": 88335143998.01033,
+        "diff": 0.0002593994140625,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 44167571.99900517
+      },
+      "R36_TOTAL_ROW_TOTAL_EQUALS_PURCHASE_PRICE": {
+        "passed": true,
+        "left": 118674249478.72,
+        "right": 118674249478.72034,
+        "diff": 0.000335693359375,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 59337124.73936017
+      },
+      "R36_ACTIVE_FORWARD_BUCKETS_EQUAL_PIPELINE_GROSS": {
+        "passed": true,
+        "left": 49181207666.38005,
+        "right": 49181207666.38005,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 24590603.833190028
+      },
+      "R36_TOTAL_FORWARD_BUCKETS_EQUAL_VISIBLE_TOTAL": {
+        "passed": true,
+        "left": 62942934560.72006,
+        "right": 62942934560.72006,
+        "diff": 0.0,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 31471467.280360032
+      },
+      "R36_ENTITY_SHEETS_ROLLUP_TO_ACTIVE_INFORMATIONAL": {
+        "passed": true,
+        "left": 87344611587.20047,
+        "right": 88335143998.01033,
+        "diff": 990532410.8098602,
+        "tolerance_pct": 0.0005,
+        "tolerance_aed": 44167571.99900517,
+        "reconciled": false,
+        "note": "Informational only: attached R36 entity sheets do not fully reconcile to Active, likely due to missing AUH/other split. This is disclosed, not treated as a smoke-test failure."
+      },
+      "R36_PIPELINE_CONSTANTS_LABELLED": {
+        "passed": true,
+        "label": "Active forward collectible calendar from R36 Active sheet, collection years 2026 onwards"
+      }
+    },
+    "lineage_sample": {
+      "PIPELINE_GROSS": {
+        "metric_key": "PIPELINE_GROSS",
+        "metric_label": "Active forward collectible calendar, 2026 onwards",
+        "value": 49181207666.38005,
+        "unit": "AED",
+        "source_code": "R36",
+        "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+        "sheet": "Active",
+        "cell_or_range": "N25:W25",
+        "snapshot_date": "2026-05-05",
+        "extraction_method": "cohort_matrix_visible_total_scan",
+        "entity_scope": "group",
+        "business_definition": "Active forward collectible calendar, 2026 onwards",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:22:46.760851Z",
+        "reporting_basis": "R36 milestone cohort"
+      },
+      "PIPELINE_TOTAL_FORWARD_CALENDAR": {
+        "metric_key": "PIPELINE_TOTAL_FORWARD_CALENDAR",
+        "metric_label": "Total forward collectible calendar, 2026 onwards",
+        "value": 62942934560.72006,
+        "unit": "AED",
+        "source_code": "R36",
+        "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+        "sheet": "Total",
+        "cell_or_range": "N25:W25",
+        "snapshot_date": "2026-05-05",
+        "extraction_method": "cohort_matrix_visible_total_scan",
+        "entity_scope": "group",
+        "business_definition": "Total forward collectible calendar, 2026 onwards",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:22:46.760851Z",
+        "reporting_basis": "R36 milestone cohort"
+      },
+      "pipeline_forward_2026": {
+        "metric_key": "pipeline_forward_2026",
+        "metric_label": "Active forward collectible 2026",
+        "value": 19914115575.990047,
+        "unit": "AED",
+        "source_code": "R36",
+        "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+        "sheet": "Active",
+        "cell_or_range": "N25",
+        "snapshot_date": "2026-05-05",
+        "extraction_method": "cohort_matrix_visible_total_scan",
+        "entity_scope": "group",
+        "business_definition": "Active forward collectible 2026",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:22:46.760851Z",
+        "reporting_basis": "R36 milestone cohort"
+      },
+      "pipeline_forward_2027": {
+        "metric_key": "pipeline_forward_2027",
+        "metric_label": "Active forward collectible 2027",
+        "value": 14020562994.490017,
+        "unit": "AED",
+        "source_code": "R36",
+        "source_file": "R36_year on year Milestone Report as on 05-05-2026.xlsx",
+        "sheet": "Active",
+        "cell_or_range": "O25",
+        "snapshot_date": "2026-05-05",
+        "extraction_method": "cohort_matrix_visible_total_scan",
+        "entity_scope": "group",
+        "business_definition": "Active forward collectible 2027",
+        "validation_status": "passed",
+        "confidence_state": "live_validated",
+        "last_loaded_at": "2026-05-09T08:22:46.760851Z",
+        "reporting_basis": "R36 milestone cohort"
+      }
+    },
+    "row_count": 70
+  }
+}

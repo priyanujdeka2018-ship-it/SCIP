@@ -1,0 +1,5 @@
+{
+  "check": "typescript_transpile_module_jsx",
+  "passed": true,
+  "diagnostics": []
+}

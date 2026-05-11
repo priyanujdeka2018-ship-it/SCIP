@@ -1,0 +1,184 @@
+--- /mnt/data/scip_batch1_ingestion_foundation/pipeline_config.json	2026-05-09 07:00:55.145771511 +0000
++++ /mnt/data/scip_batch2_r04_r02/pipeline_config.json	2026-05-09 07:05:40.815264865 +0000
+@@ -174,7 +174,7 @@
+         "R02*.xlsx"
+       ],
+       "adapter_class": "R02MDOAdapter",
+-      "read_strategy": "mixed_matrix_and_positional_sheets",
++      "read_strategy": "positional_monthly_mdo_dynamic_matrix",
+       "sheet_map": {
+         "dynamic_monthly": "MDO Dynamic",
+         "static_monthly": "Monthwise MDO",
+@@ -195,19 +195,62 @@
+       "validation_check": {
+         "rules": [
+           {
+-            "id": "R02_REQUIRED_SHEETS_PRESENT",
++            "id": "R02_REQUIRED_SECTIONS_PRESENT",
+             "severity": "critical"
+           },
+           {
+-            "id": "R02_SOBHA_AUH_SHEET_PRESENT_OR_ZERO_TARGET",
+-            "severity": "warning"
++            "id": "R02_MAY_DUES_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
++            "severity": "critical"
+           },
+           {
+-            "id": "R02_GROUP_TARGET_EQUALS_VISIBLE_ROW_TOTAL",
+-            "severity": "warning"
++            "id": "R02_MAY_ADVANCE_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
++            "severity": "critical"
++          },
++          {
++            "id": "R02_MAY_DA_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
++            "severity": "critical"
++          },
++          {
++            "id": "R02_MAY_TOTAL_COLLECTIONS_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
++            "severity": "critical"
++          },
++          {
++            "id": "R02_FY_DUES_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
++            "severity": "critical"
++          },
++          {
++            "id": "R02_FY_ADVANCE_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
++            "severity": "critical"
++          },
++          {
++            "id": "R02_FY_DA_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
++            "severity": "critical"
++          },
++          {
++            "id": "R02_FY_TOTAL_COLLECTIONS_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
++            "severity": "critical"
+           }
+         ]
+-      }
++      },
++      "reporting_basis": "MDO",
++      "metric_disambiguation": {
++        "dues_target": "MDO Dynamic row Dues Target.",
++        "dues_actual": "MDO Dynamic row Dues.",
++        "advance_target": "MDO Dynamic row Advance Target.",
++        "advance_actual": "Current Year Advance + Future Year Advance where split rows exist.",
++        "da_target": "Dues+ Advance Target.",
++        "da_actual": "Dues+ Advance.",
++        "new_sales": "New Sales Target / New Sales.",
++        "total_collections": "Total Collections Target / MTD Total Collections."
++      },
++      "entity_mapping": {
++        "Total Collections": "group",
++        "Sobha Total Collections": "sobha_dubai",
++        "Sobha AUH Total Collections": "sobha_auh",
++        "Siniya Total Collections": "siniya",
++        "Downtown UAQ Total Collections": "downtown_uaq"
++      },
++      "lineage_required": true
+     },
+     "R03": {
+       "id": "R03",
+@@ -334,19 +377,43 @@
+       "validation_check": {
+         "rules": [
+           {
+-            "id": "R04_FINANCE_TARGET_LABEL_PRESENT",
++            "id": "R04_REQUIRED_SHEETS_PRESENT",
+             "severity": "critical"
+           },
+           {
+-            "id": "R04_MTD_PRO_RATA_NOT_GREATER_THAN_MONTH_TARGET",
+-            "severity": "warning"
++            "id": "R04_DAILY_SUM_EQUALS_TOTAL_MTD_DA",
++            "severity": "critical"
++          },
++          {
++            "id": "R04_DAILY_SUM_EQUALS_TOTAL_MTD_NEW_SALES",
++            "severity": "critical"
++          },
++          {
++            "id": "R04_DAILY_SUM_EQUALS_TOTAL_MTD_TOTAL_COLLECTIONS",
++            "severity": "critical"
+           },
+           {
+-            "id": "R04_DUES_PLUS_NS_EQUALS_TOTAL_BY_DAY",
++            "id": "R04_MTD_DA_PLUS_NS_EQUALS_TOTAL",
++            "severity": "critical"
++          },
++          {
++            "id": "R04_DAILY_DA_PLUS_NS_EQUALS_TOTAL_BY_DAY",
+             "severity": "warning"
++          },
++          {
++            "id": "R04_FINANCE_TARGET_LABEL_PRESENT",
++            "severity": "critical"
+           }
+         ]
+-      }
++      },
++      "reporting_basis": "Finance",
++      "metric_disambiguation": {
++        "collection_due": "R04 column C; treated as Finance D+A / collection-due for SCIP daily collections.",
++        "new_sales": "R04 column D.",
++        "total_collections": "R04 column E = collection_due + new_sales.",
++        "advance_split": "Not exposed by R04; mtd_advance_total is unavailable in R04 lineage."
++      },
++      "lineage_required": true
+     },
+     "R05": {
+       "id": "R05",
+@@ -1644,7 +1711,11 @@
+     "PIPELINE_ADV_DENOM from R36 (PIPELINE_GROSS - 5.7B offset)",
+     "CY_ADV_MIX_YTD from R08 (weighted_avg cy/total, year=2026, entity=Group)",
+     "AVG_ADVANCE_LEAD_DAYS from R08 (mean avg_advance_lead_days)",
+-    "DAILY_DAYS from R04 (extract collection_date list)"
++    "R04 DAILY_DAYS from daily sheet rows <= as_of_date",
++    "R04 MTD_DA_TOTAL from daily!C Total MTD, labelled Finance D+A / collection-due",
++    "R04 MTD_NS_TOTAL from daily!D Total MTD",
++    "R04 MTD_TOTAL_COLLECTIONS from daily!E Total MTD",
++    "R02 FY/MAY MDO target and actual metrics from MDO Dynamic matrix with lineage"
+   ],
+   "load_priority": {
+     "1_critical": [
+@@ -1823,7 +1894,8 @@
+     ],
+     "tolerances": {
+       "aed_rounding_abs": 100000,
+-      "pct_rounding_abs": 0.05
++      "pct_rounding_abs": 0.05,
++      "general_reconciliation_pct": 0.0005
+     },
+     "failure_policy": {
+       "critical": "block_live_push_or_mark_page_unavailable",
+@@ -1841,8 +1913,8 @@
+     "default": "FlatHeaderAdapter"
+   },
+   "smoke_test_checkpoint_file": "smoke_test_checkpoints_v2.json",
+-  "version": "v8.1-batch1-ingestion-foundation",
+-  "batch": "SCIP Batch 1",
++  "version": "v8.2-batch2-r04-r02-ingestion",
++  "batch": "SCIP Batch 2",
+   "approved_decisions": {
+     "entity_hierarchy": "Group -> Sobha(Sobha Dubai, Sobha AUH) + UAQ(Siniya, Downtown UAQ)",
+     "reconciliation_tolerance_pct": 0.0005,
+@@ -1861,13 +1933,19 @@
+       "MIS/QCG/Admin",
+       "Collector/RM"
+     ],
+-    "removed_role": "Entity Head"
++    "removed_role": "Entity Head",
++    "batch2_scope": "Implement R04 Finance daily collections adapter and R02 MDO monthly target/actual adapter with lineage."
+   },
+   "governance": {
+     "reconciliation_tolerance": {
+       "type": "percent",
+       "value": 0.0005,
+       "label": "0.05% general error tolerance"
++    },
++    "finance_vs_mdo_rule": {
++      "R04": "Finance basis. Collection Due is used as Finance D+A / collection-due. R04 does not expose pure advance split.",
++      "R02": "MDO basis. Dues Target, Advance Target, Dues+Advance Target, New Sales Target and actuals are parsed from MDO Dynamic.",
++      "display_rule": "Always label R04 daily figures as Finance and R02 target/actual figures as MDO."
+     }
+   },
+   "role_model": [

@@ -1,0 +1,40 @@
+{
+  "version": "v1.1-batch1",
+  "source": "R18",
+  "required_fields": [
+    "metric_key",
+    "metric_label",
+    "value",
+    "unit",
+    "source_code",
+    "source_file",
+    "sheet",
+    "cell_or_range",
+    "snapshot_date",
+    "extraction_method",
+    "entity_scope",
+    "business_definition",
+    "validation_status",
+    "confidence_state",
+    "last_loaded_at"
+  ],
+  "required_od_metrics": [
+    "OD_SOBHA_DUBAI",
+    "OD_SOBHA_AUH",
+    "OD_SOBHA",
+    "OD_SINIYA",
+    "OD_DOWNTOWN_UAQ",
+    "OD_DT",
+    "OD_UAQ",
+    "OD_GROUP",
+    "OD_TODAY"
+  ],
+  "confidence_states": [
+    "live_validated",
+    "live_warning",
+    "unavailable",
+    "fallback_labelled"
+  ],
+  "no_silent_fallback": true,
+  "tolerance_pct": 0.0005
+}

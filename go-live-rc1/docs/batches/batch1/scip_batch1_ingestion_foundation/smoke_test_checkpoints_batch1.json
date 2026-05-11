@@ -1,0 +1,48 @@
+{
+  "version": "v2.1-batch1",
+  "tolerance_pct": 0.0005,
+  "critical_sources": [
+    "R18",
+    "R04",
+    "R02",
+    "R08",
+    "R36"
+  ],
+  "r18_checks": [
+    {
+      "id": "R18_REQUIRED_SUBTOTALS",
+      "severity": "critical",
+      "pass_condition": "Sub Total A-H found"
+    },
+    {
+      "id": "R18_OD_SOBHA_PLUS_UAQ_EQUALS_OD_TODAY",
+      "severity": "critical",
+      "pass_condition": "abs((OD_SOBHA + OD_UAQ) - OD_TODAY) <= 0.05% of OD_TODAY"
+    },
+    {
+      "id": "R18_OD_GROUP_EQUALS_GRAND_TOTAL",
+      "severity": "critical",
+      "pass_condition": "abs(OD_GROUP - OD_TODAY) <= 0.05% of OD_TODAY"
+    },
+    {
+      "id": "R18_SOBHA_EQUALS_CHILDREN",
+      "severity": "critical",
+      "pass_condition": "abs(OD_SOBHA - (OD_SOBHA_DUBAI + OD_SOBHA_AUH)) <= 0.05% of OD_SOBHA"
+    },
+    {
+      "id": "R18_UAQ_EQUALS_CHILDREN",
+      "severity": "critical",
+      "pass_condition": "abs(OD_UAQ - (OD_SINIYA + OD_DOWNTOWN_UAQ)) <= 0.05% of OD_UAQ"
+    },
+    {
+      "id": "R18_AGEING_BUCKETS_EQUAL_TOTAL",
+      "severity": "warning",
+      "pass_condition": "abs(sum(ageing_buckets) - OD_TODAY) <= 0.05% of OD_TODAY"
+    },
+    {
+      "id": "R18_LINEAGE_FOR_EVERY_OD_METRIC",
+      "severity": "critical",
+      "pass_condition": "Lineage exists for every OD metric"
+    }
+  ]
+}

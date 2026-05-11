@@ -1,0 +1,159 @@
+{
+  "payload_status": "partial",
+  "missing_sources": [
+    "R30",
+    "R13",
+    "R03",
+    "R05",
+    "R06",
+    "R07",
+    "R10",
+    "R12",
+    "R16",
+    "R20",
+    "R25",
+    "R26",
+    "R17",
+    "R29",
+    "R31",
+    "R32",
+    "R34",
+    "R35",
+    "R37",
+    "R38"
+  ],
+  "checks": {
+    "r18_loaded": true,
+    "od_today_available": true,
+    "od_sobha_plus_uaq_equals_od_today": true,
+    "od_lineage_present": true,
+    "summary_contains_new_hierarchy": true,
+    "no_silent_fallback": true
+  },
+  "computed_od": {
+    "SNAPSHOT_DATE": "2026-05-01",
+    "OD_SOURCE": "R18_live",
+    "OD_CONFIDENCE": "live_validated",
+    "OD_FALLBACK_POLICY": "live_or_labelled_unavailable",
+    "OD_TODAY": 1893779883.2100003,
+    "OD_GROUP": 1893779883.2100005,
+    "OD_SOBHA": 1662277363.9800005,
+    "OD_SOBHA_DUBAI": 1582272314.7500005,
+    "OD_SOBHA_AUH": 80005049.22999997,
+    "OD_UAQ": 231502519.23000002,
+    "OD_SINIYA": 214282915.27,
+    "OD_DOWNTOWN_UAQ": 17219603.96,
+    "OD_DT": 17219603.96
+  },
+  "r18_validations": {
+    "R18_REQUIRED_SUBTOTALS": {
+      "passed": true,
+      "missing": [],
+      "seen": [
+        "sub total (a)",
+        "sub total (b)",
+        "sub total (c)",
+        "sub total (d)",
+        "sub total (e)",
+        "sub total (f)",
+        "sub total (g)",
+        "sub total (h)"
+      ]
+    },
+    "R18_OD_SOBHA_PLUS_UAQ_EQUALS_OD_TODAY": {
+      "passed": true,
+      "left": 1893779883.2100005,
+      "right": 1893779883.2100003,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 946889.9416050002
+    },
+    "R18_OD_GROUP_EQUALS_GRAND_TOTAL": {
+      "passed": true,
+      "left": 1893779883.2100005,
+      "right": 1893779883.2100003,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 946889.9416050002
+    },
+    "R18_SOBHA_EQUALS_CHILDREN": {
+      "passed": true,
+      "left": 1662277363.9800005,
+      "right": 1662277363.9800005,
+      "diff": 0.0,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 831138.6819900003
+    },
+    "R18_UAQ_EQUALS_CHILDREN": {
+      "passed": true,
+      "left": 231502519.23000002,
+      "right": 231502519.23000002,
+      "diff": 0.0,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 115751.25961500002
+    },
+    "R18_AGEING_BUCKETS_EQUAL_TOTAL": {
+      "passed": true,
+      "left": 1893779883.21,
+      "right": 1893779883.2100003,
+      "diff": 2.384185791015625e-07,
+      "tolerance_pct": 0.0005,
+      "tolerance_aed": 946889.9416050002
+    }
+  },
+  "r18_lineage_sample": {
+    "OD_TODAY": {
+      "metric_key": "OD_TODAY",
+      "metric_label": "Overdue - R18 Grand Total",
+      "value": 1893779883.2100003,
+      "unit": "AED",
+      "source_code": "R18",
+      "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+      "sheet": "Overdue-1",
+      "cell_or_range": "O204",
+      "snapshot_date": "2026-05-01",
+      "extraction_method": "positional_row_scan",
+      "entity_scope": "group",
+      "business_definition": "R18 Grand Total OD, used as OD_TODAY.",
+      "validation_status": "passed",
+      "confidence_state": "live_validated",
+      "last_loaded_at": "2026-05-09T06:56:56.191688Z"
+    },
+    "OD_SOBHA": {
+      "metric_key": "OD_SOBHA",
+      "metric_label": "Overdue - Sobha",
+      "value": 1662277363.9800005,
+      "unit": "AED",
+      "source_code": "R18",
+      "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+      "sheet": "Overdue-1",
+      "cell_or_range": "rollup: OD_SOBHA_DUBAI + OD_SOBHA_AUH",
+      "snapshot_date": "2026-05-01",
+      "extraction_method": "positional_row_scan",
+      "entity_scope": "sobha",
+      "business_definition": "Sobha parent OD equals Sobha Dubai plus Sobha AUH.",
+      "validation_status": "passed",
+      "confidence_state": "live_validated",
+      "last_loaded_at": "2026-05-09T06:56:56.191688Z"
+    },
+    "OD_UAQ": {
+      "metric_key": "OD_UAQ",
+      "metric_label": "Overdue - UAQ",
+      "value": 231502519.23000002,
+      "unit": "AED",
+      "source_code": "R18",
+      "source_file": "R18_Consolidated and Overdue 01-05-26.xlsx",
+      "sheet": "Overdue-1",
+      "cell_or_range": "rollup: OD_SINIYA + OD_DOWNTOWN_UAQ",
+      "snapshot_date": "2026-05-01",
+      "extraction_method": "positional_row_scan",
+      "entity_scope": "uaq",
+      "business_definition": "UAQ parent OD equals Siniya plus Downtown UAQ.",
+      "validation_status": "passed",
+      "confidence_state": "live_validated",
+      "last_loaded_at": "2026-05-09T06:56:56.191688Z"
+    }
+  },
+  "overall_status": "passed",
+  "failures": []
+}
