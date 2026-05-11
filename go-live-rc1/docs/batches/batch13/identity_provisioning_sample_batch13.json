@@ -1,0 +1,151 @@
+{
+  "access_denials_count": 6,
+  "actors": {
+    "admin": {
+      "actor_id": "u-admin",
+      "actor_name": "Admin User",
+      "collector_id": null,
+      "entity_scope": [
+        "Group"
+      ],
+      "environment": "local",
+      "permissions": [
+        "read:action_queues",
+        "read:audit_export_all",
+        "read:audit_summary",
+        "read:command_centres",
+        "read:deployment_health",
+        "read:forecast",
+        "read:health",
+        "read:notifications",
+        "read:notifications_digest",
+        "read:quickball",
+        "read:security_audit",
+        "read:workflows",
+        "run:backup_restore_check",
+        "run:migrations",
+        "write:workflows_assign",
+        "write:workflows_update"
+      ],
+      "role": "mis_qcg_admin",
+      "role_label": "MIS/QCG/Admin"
+    },
+    "board": {
+      "actor_id": "u-board",
+      "actor_name": "Board User",
+      "collector_id": null,
+      "entity_scope": [
+        "Group"
+      ],
+      "environment": "local",
+      "permissions": [
+        "read:audit_summary",
+        "read:command_centres",
+        "read:forecast",
+        "read:health",
+        "read:notifications_digest",
+        "read:quickball"
+      ],
+      "role": "board_cxo",
+      "role_label": "Board/CXO"
+    },
+    "collector": {
+      "actor_id": "u-coll",
+      "actor_name": "Collector User",
+      "collector_id": "C123",
+      "entity_scope": [
+        "Sobha Dubai"
+      ],
+      "environment": "local",
+      "permissions": [
+        "read:action_queues_own",
+        "read:command_centres",
+        "read:health",
+        "read:notifications_digest",
+        "read:notifications_own",
+        "read:quickball",
+        "read:workflows_own",
+        "write:workflows_update_own"
+      ],
+      "role": "collector_rm",
+      "role_label": "Collector/RM"
+    },
+    "finance": {
+      "actor_id": "u-fin",
+      "actor_name": "Finance User",
+      "collector_id": null,
+      "entity_scope": [
+        "Group"
+      ],
+      "environment": "local",
+      "permissions": [
+        "read:action_queues",
+        "read:audit_export_finance",
+        "read:audit_summary",
+        "read:command_centres",
+        "read:forecast",
+        "read:health",
+        "read:notifications",
+        "read:notifications_digest",
+        "read:quickball",
+        "read:workflows",
+        "write:workflows_assign_finance",
+        "write:workflows_update_finance"
+      ],
+      "role": "finance",
+      "role_label": "Finance"
+    }
+  },
+  "contract_version": "identity_sso_jwt.v1.batch13",
+  "identity_denials_count": 5,
+  "provisioning_summary": {
+    "auth_mode": "jwt",
+    "contract_version": "identity_sso_jwt.v1.batch13",
+    "counts": {
+      "active_users": 3,
+      "collector_mappings": 0,
+      "entity_scope_assignments": 3,
+      "groups": 0,
+      "identity_denials": 5,
+      "role_assignments": 3,
+      "sessions": 4,
+      "users": 4
+    },
+    "local_dev_bypass_enabled": false,
+    "users": [
+      {
+        "active": 0,
+        "display_name": "Collector User",
+        "source_idp": "https://identity.sobha.example/scip",
+        "subject": "u-coll",
+        "updated_at": "2026-05-09T17:06:57.269171Z",
+        "user_id": "u-coll"
+      },
+      {
+        "active": 1,
+        "display_name": "Admin User",
+        "source_idp": "https://identity.sobha.example/scip",
+        "subject": "u-admin",
+        "updated_at": "2026-05-09T17:06:57.253218Z",
+        "user_id": "u-admin"
+      },
+      {
+        "active": 1,
+        "display_name": "Finance User",
+        "source_idp": "https://identity.sobha.example/scip",
+        "subject": "u-fin",
+        "updated_at": "2026-05-09T17:06:57.249192Z",
+        "user_id": "u-fin"
+      },
+      {
+        "active": 1,
+        "display_name": "Board User",
+        "source_idp": "https://identity.sobha.example/scip",
+        "subject": "u-board",
+        "updated_at": "2026-05-09T17:06:57.223107Z",
+        "user_id": "u-board"
+      }
+    ]
+  },
+  "status": "ready_sso_jwt_provisioning_guarded"
+}

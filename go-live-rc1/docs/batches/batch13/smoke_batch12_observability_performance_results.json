@@ -1,0 +1,155 @@
+{
+  "contract_version": "observability_performance.v1.batch12",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "observability event has correlation id",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "authorization token redacted",
+      "passed": true,
+      "details": {
+        "authorization": "[REDACTED]",
+        "safe": "ok",
+        "customer_name": "[REDACTED]"
+      }
+    },
+    {
+      "name": "customer field redacted",
+      "passed": true,
+      "details": {
+        "authorization": "[REDACTED]",
+        "safe": "ok",
+        "customer_name": "[REDACTED]"
+      }
+    },
+    {
+      "name": "required metric catalog present",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "cache returns same value for same snapshot token",
+      "passed": true,
+      "details": {
+        "first": {
+          "value": 1
+        },
+        "second": {
+          "value": 1
+        },
+        "third": {
+          "value": 2
+        },
+        "calls": 2
+      }
+    },
+    {
+      "name": "cache invalidates when source snapshot date changes",
+      "passed": true,
+      "details": {
+        "adapter_success_total": 1.0,
+        "lineage_coverage_pct": 100.0,
+        "quickball_blocked_answers_total": 1.0,
+        "cache_misses_total": 1.0,
+        "cache_hits_total": 1.0,
+        "cache_invalidations_total": 1.0,
+        "rbac_denials_total": 30.0
+      }
+    },
+    {
+      "name": "high denial alert generated",
+      "passed": true,
+      "details": [
+        {
+          "alert_key": "high_rbac_denials",
+          "severity": "medium",
+          "threshold": 25,
+          "actual": 30.0
+        }
+      ]
+    },
+    {
+      "name": "summary has api timing p95",
+      "passed": true,
+      "details": {
+        "count": 1,
+        "p50_ms": 42.0,
+        "p95_ms": 42.0,
+        "max_ms": 42.0
+      }
+    },
+    {
+      "name": "dashboard spec keeps observability as L5 governance output",
+      "passed": true,
+      "details": {
+        "entry_model": "unchanged: Live Pulse and Narratives only",
+        "observability_visibility": "L5 governance output and MIS/QCG/Admin evidence",
+        "financial_truth_surfaces": "solid; no blur over audit/log tables"
+      }
+    },
+    {
+      "name": "dashboard spec contains alert thresholds",
+      "passed": true,
+      "details": {
+        "stale_critical_source_hours": 24,
+        "missing_critical_lineage_count": 0,
+        "migration_failure_count": 0,
+        "backup_failure_count": 0,
+        "rbac_denials_per_15m_high": 25,
+        "slow_endpoint_p95_ms": 1500,
+        "failed_export_count": 0,
+        "api_error_rate_pct_high": 3.0,
+        "adapter_failure_count_high": 1,
+        "quickball_blocked_answers_per_hour_high": 20
+      }
+    },
+    {
+      "name": "observability event persists with correlation id",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "persisted metadata remains redacted",
+      "passed": true,
+      "details": "{\"authorization\": \"[REDACTED]\", \"customer_name\": \"[REDACTED]\", \"safe\": \"ok\"}"
+    },
+    {
+      "name": "frontend posts render timing only",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend contains no new observability dashboard door",
+      "passed": true,
+      "details": {
+        "note": "No new L0 door added by Batch 12."
+      }
+    },
+    {
+      "name": "frontend states no business computation moved",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "synthetic telemetry load accepted",
+      "passed": true,
+      "details": {
+        "elapsed_ms": 3.780271999858087
+      }
+    },
+    {
+      "name": "local telemetry p95 remains below slow endpoint threshold",
+      "passed": true,
+      "details": {
+        "p95_ms": 21.0
+      }
+    }
+  ],
+  "failures": [],
+  "overall_passed": true,
+  "passed_checks": 17,
+  "total_checks": 17
+}

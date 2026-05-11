@@ -1,0 +1,137 @@
+{
+  "contract_version": "batch10.smoke.v1",
+  "overall_passed": true,
+  "passed_count": 30,
+  "total_count": 30,
+  "checks": {
+    "contract_version_batch10": true,
+    "status_ready": true,
+    "source_actions_persisted": true,
+    "workflow_records_persisted": true,
+    "workflow_events_persisted": true,
+    "notification_emissions_persisted": true,
+    "suppression_state_persisted": true,
+    "delivery_status_persisted": true,
+    "notification_dedupe_survives_restart": true,
+    "second_pass_emitted_zero_duplicates": true,
+    "lineage_hashes_immutable_round_trip": true,
+    "closed_workflows_remain_auditable": true,
+    "audit_json_created": true,
+    "audit_csv_created": true,
+    "audit_exports_registered": true,
+    "audit_export_includes_source_action_lineage": true,
+    "audit_export_includes_workflow_event_lineage": true,
+    "audit_export_includes_notification_lineage": true,
+    "audit_export_includes_actor": true,
+    "audit_export_includes_timestamp": true,
+    "audit_export_includes_role": true,
+    "audit_export_includes_state": true,
+    "audit_export_includes_closure_evidence": true,
+    "audit_export_includes_escalation_rule_evidence": true,
+    "no_entity_head_role": true,
+    "schema_file_present": true,
+    "main_includes_persistence_router": true,
+    "frontend_fetches_persistence_summary": true,
+    "frontend_links_audit_exports": true,
+    "no_business_computation_in_frontend": true
+  },
+  "seed": {
+    "contract_version": "persistence_audit.v1.batch10",
+    "status": "seeded",
+    "db_path": "/mnt/data/scip_batch10_persistence_audit/scip_batch10_smoke.sqlite",
+    "runtime": {
+      "workflow_count": 100,
+      "event_count": 105,
+      "notification_count": 137
+    },
+    "workflow_counts": {
+      "source_actions": 100,
+      "workflow_records": 100,
+      "workflow_events": 105,
+      "notification_eligibility": 0,
+      "notification_emissions": 0,
+      "suppression_state": 0,
+      "delivery_status": 0,
+      "audit_exports": 0
+    },
+    "notification_counts": {
+      "inserted": 137,
+      "suppressed_duplicate": 0,
+      "table_counts": {
+        "source_actions": 100,
+        "workflow_records": 100,
+        "workflow_events": 105,
+        "notification_eligibility": 137,
+        "notification_emissions": 137,
+        "suppression_state": 137,
+        "delivery_status": 137,
+        "audit_exports": 0
+      }
+    },
+    "table_counts": {
+      "source_actions": 100,
+      "workflow_records": 100,
+      "workflow_events": 105,
+      "notification_eligibility": 137,
+      "notification_emissions": 137,
+      "suppression_state": 137,
+      "delivery_status": 137,
+      "audit_exports": 0
+    }
+  },
+  "counts": {
+    "source_actions": 100,
+    "workflow_records": 100,
+    "workflow_events": 105,
+    "notification_eligibility": 137,
+    "notification_emissions": 137,
+    "suppression_state": 137,
+    "delivery_status": 137,
+    "audit_exports": 2
+  },
+  "dedupe_restart_check": {
+    "before_notification_count": 137,
+    "after_notification_count": 137,
+    "second_pass_inserted": 0,
+    "second_pass_suppressed_duplicate": 137,
+    "dedupe_survived_restart": true
+  },
+  "validation": {
+    "passed": true,
+    "checks": {
+      "source_actions_persisted": true,
+      "workflow_records_persisted": true,
+      "workflow_events_persisted": true,
+      "notifications_persisted": true,
+      "suppression_state_persisted": true,
+      "delivery_status_persisted": true,
+      "workflow_lineage_hashes_present": true,
+      "event_lineage_hashes_present": true,
+      "notification_dedupe_keys_unique": true,
+      "lineage_triggers_block_tampering": true,
+      "closed_records_remain_auditable": true,
+      "audit_rows_have_source_action_lineage": true,
+      "audit_rows_have_workflow_event_lineage": true,
+      "audit_rows_include_actor_timestamp_role_state": true,
+      "audit_rows_include_closure_or_escalation_evidence": true,
+      "role_model_without_entity_head": true
+    },
+    "counts": {
+      "source_actions": 100,
+      "workflow_records": 100,
+      "workflow_events": 105,
+      "notification_eligibility": 137,
+      "notification_emissions": 137,
+      "suppression_state": 137,
+      "delivery_status": 137,
+      "audit_exports": 0
+    },
+    "audit_row_count": 168
+  },
+  "exports": {
+    "json_path": "/mnt/data/scip_batch10_persistence_audit/audit_exports/scip_batch10_audit_export.json",
+    "csv_path": "/mnt/data/scip_batch10_persistence_audit/audit_exports/scip_batch10_audit_export.csv",
+    "json_record_count": 168,
+    "csv_record_count": 168
+  }
+}

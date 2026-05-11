@@ -1,0 +1,7 @@
+{
+  "check": "jsx_transpile",
+  "status": "not_run_in_sandbox",
+  "reason": "npx --no-install esbuild could not run because esbuild is not installed in the sandbox package cache",
+  "deployment_gate": "Run npm install && npm run build in the target repo before deployment",
+  "static_smoke_checks_passed": true
+}

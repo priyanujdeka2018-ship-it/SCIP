@@ -1,0 +1,54 @@
+{
+  "contract_version": "persistence_audit.v1.batch10",
+  "status": "ready_persistence_audit_guarded",
+  "generated_at": "2026-05-09T16:36:52.215565Z",
+  "db_path": "/mnt/data/scip_batch10_persistence_audit/scip_batch10_smoke.sqlite",
+  "table_counts": {
+    "source_actions": 100,
+    "workflow_records": 100,
+    "workflow_events": 105,
+    "notification_eligibility": 137,
+    "notification_emissions": 137,
+    "suppression_state": 137,
+    "delivery_status": 137,
+    "audit_exports": 2
+  },
+  "validations": {
+    "passed": true,
+    "checks": {
+      "source_actions_persisted": true,
+      "workflow_records_persisted": true,
+      "workflow_events_persisted": true,
+      "notifications_persisted": true,
+      "suppression_state_persisted": true,
+      "delivery_status_persisted": true,
+      "workflow_lineage_hashes_present": true,
+      "event_lineage_hashes_present": true,
+      "notification_dedupe_keys_unique": true,
+      "lineage_triggers_block_tampering": true,
+      "closed_records_remain_auditable": true,
+      "audit_rows_have_source_action_lineage": true,
+      "audit_rows_have_workflow_event_lineage": true,
+      "audit_rows_include_actor_timestamp_role_state": true,
+      "audit_rows_include_closure_or_escalation_evidence": true,
+      "role_model_without_entity_head": true
+    },
+    "counts": {
+      "source_actions": 100,
+      "workflow_records": 100,
+      "workflow_events": 105,
+      "notification_eligibility": 137,
+      "notification_emissions": 137,
+      "suppression_state": 137,
+      "delivery_status": 137,
+      "audit_exports": 2
+    },
+    "audit_row_count": 168
+  },
+  "routes": [
+    "POST /persistence/seed",
+    "GET /persistence/summary",
+    "GET /audit/export?format=json",
+    "GET /audit/export?format=csv"
+  ]
+}

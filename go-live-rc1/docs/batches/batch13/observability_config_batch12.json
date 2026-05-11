@@ -1,0 +1,49 @@
+{
+  "contract_version": "observability_performance.v1.batch12",
+  "correlation": {
+    "header": "X-SCIP-Correlation-ID",
+    "fallback_format": "scip-<uuid4-hex>",
+    "propagate_response_header": true
+  },
+  "redaction": {
+    "strategy": "denylist-recursive",
+    "blocked_key_fragments": [
+      "password", "secret", "token", "authorization", "cookie", "api_key", "mobile", "phone", "email", "customer_name", "passport", "emirates_id", "iban", "account_number"
+    ],
+    "replacement": "[REDACTED]"
+  },
+  "metrics": {
+    "timings_ms": [
+      "ingestion_latency_ms", "forecast_generation_ms", "action_queue_generation_ms", "audit_export_generation_ms", "database_query_ms", "frontend_render_ms", "api_request_latency_ms"
+    ],
+    "counters": [
+      "adapter_success_total", "adapter_failure_total", "quickball_blocked_answers_total", "workflow_state_transitions_total", "notification_emissions_total", "notification_suppressions_total", "rbac_denials_total", "audit_export_rows_total", "cache_hits_total", "cache_misses_total", "cache_invalidations_total"
+    ],
+    "gauges": ["lineage_coverage_pct", "api_error_rate_pct"]
+  },
+  "cache_policy": {
+    "allowed": ["command_centres", "forecast", "action_queues", "notification_digests", "dashboard_specs"],
+    "disallowed": ["auth_actor", "rbac_denials", "workflow_mutations", "audit_exports", "source_lineage_raw"],
+    "freshness_key_required": true,
+    "snapshot_date_required": true,
+    "invalidate_on_snapshot_change": true,
+    "ttl_seconds_default": 300
+  },
+  "alert_thresholds": {
+    "stale_critical_source_hours": 24,
+    "missing_critical_lineage_count": 0,
+    "migration_failure_count": 0,
+    "backup_failure_count": 0,
+    "rbac_denials_per_15m_high": 25,
+    "slow_endpoint_p95_ms": 1500,
+    "failed_export_count": 0,
+    "api_error_rate_pct_high": 3.0,
+    "adapter_failure_count_high": 1,
+    "quickball_blocked_answers_per_hour_high": 20
+  },
+  "liquid_glass_placement": {
+    "entry": "unchanged two doors: Live Pulse and Narratives",
+    "visibility": "Risk & Action / governance evidence / MIS-QCG-Admin only",
+    "surface_rule": "solid evidence for logs/audit/tables; glass only for navigation and context"
+  }
+}

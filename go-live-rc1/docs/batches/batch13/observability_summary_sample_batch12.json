@@ -1,0 +1,65 @@
+{
+  "contract_version": "observability_performance.v1.batch12",
+  "generated_at": "2026-05-09T17:00:27.820454Z",
+  "event_count": 40,
+  "metrics_catalog": [
+    "ingestion_latency_ms",
+    "adapter_success_total",
+    "adapter_failure_total",
+    "lineage_coverage_pct",
+    "forecast_generation_ms",
+    "quickball_blocked_answers_total",
+    "action_queue_generation_ms",
+    "workflow_state_transitions_total",
+    "notification_emissions_total",
+    "notification_suppressions_total",
+    "rbac_denials_total",
+    "audit_export_rows_total",
+    "audit_export_generation_ms",
+    "database_query_ms",
+    "frontend_render_ms",
+    "api_error_rate_pct",
+    "api_request_latency_ms",
+    "cache_hits_total",
+    "cache_misses_total",
+    "cache_invalidations_total"
+  ],
+  "counters": {
+    "adapter_success_total": 1.0,
+    "cache_hits_total": 1.0,
+    "cache_invalidations_total": 1.0,
+    "cache_misses_total": 1.0,
+    "lineage_coverage_pct": 100.0,
+    "quickball_blocked_answers_total": 1.0,
+    "rbac_denials_total": 30.0
+  },
+  "timings": {
+    "api_request_latency_ms": {
+      "count": 1,
+      "p50_ms": 42.0,
+      "p95_ms": 42.0,
+      "max_ms": 42.0
+    },
+    "ingestion_latency_ms": {
+      "count": 1,
+      "p50_ms": 120.5,
+      "p95_ms": 120.5,
+      "max_ms": 120.5
+    },
+    "database_query_ms": {
+      "count": 1,
+      "p50_ms": 18.0,
+      "p95_ms": 18.0,
+      "max_ms": 18.0
+    },
+    "frontend_render_ms": {
+      "count": 1,
+      "p50_ms": 24.0,
+      "p95_ms": 24.0,
+      "max_ms": 24.0
+    }
+  },
+  "api_error_rate_pct": 0.0,
+  "cache_entries": 1,
+  "active_alerts": []
+}

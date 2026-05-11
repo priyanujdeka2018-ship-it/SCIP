@@ -1,0 +1,22 @@
+{
+  "alerts": [
+    {
+      "alert_key": "high_rbac_denials",
+      "severity": "medium",
+      "threshold": 25,
+      "actual": 30.0
+    }
+  ],
+  "thresholds": {
+    "stale_critical_source_hours": 24,
+    "missing_critical_lineage_count": 0,
+    "migration_failure_count": 0,
+    "backup_failure_count": 0,
+    "rbac_denials_per_15m_high": 25,
+    "slow_endpoint_p95_ms": 1500,
+    "failed_export_count": 0,
+    "api_error_rate_pct_high": 3.0,
+    "adapter_failure_count_high": 1,
+    "quickball_blocked_answers_per_hour_high": 20
+  }
+}
