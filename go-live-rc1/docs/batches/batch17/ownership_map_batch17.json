@@ -1,0 +1,39 @@
+{
+  "owners": [
+    {
+      "area": "Executive sponsorship",
+      "owner": "Board/CXO sponsor",
+      "accountability": "Approve strategic outcomes, roadmap gates, and benefit realization."
+    },
+    {
+      "area": "Collections operating rhythm",
+      "owner": "CCO/GM/AGM",
+      "accountability": "Own action queue adoption, escalation cadence, workflow closure, and intervention outcomes."
+    },
+    {
+      "area": "Financial truth and target basis",
+      "owner": "Finance",
+      "accountability": "Own Finance/MDO reconciliation, target basis approvals, PR/SOA exception process, audit exports."
+    },
+    {
+      "area": "Source governance and platform administration",
+      "owner": "MIS/QCG/Admin",
+      "accountability": "Own source freshness, adapters, lineage, RBAC provisioning checks, migrations, release governance."
+    },
+    {
+      "area": "Collector execution",
+      "owner": "Collector/RM managers",
+      "accountability": "Own action disposition quality, PTP follow-up, queue feedback, and closure evidence."
+    },
+    {
+      "area": "Identity and security",
+      "owner": "IT/Security",
+      "accountability": "Own SSO/JWT, user provisioning, RBAC policy enforcement, denied-attempt audit review."
+    },
+    {
+      "area": "Data engineering and warehouse alignment",
+      "owner": "Data Engineering",
+      "accountability": "Own DW blueprint, pipeline reconciliation, source-system parallel run, and cutover readiness."
+    }
+  ]
+}

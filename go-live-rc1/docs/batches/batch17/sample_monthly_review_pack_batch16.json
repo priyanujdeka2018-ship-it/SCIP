@@ -1,0 +1,175 @@
+{
+  "contract_version": "continuous_improvement_governance.v1.batch16",
+  "status": "ready_monthly_review_governed",
+  "review_cadence": "monthly",
+  "review_name": "SCIP Monthly Optimization Review",
+  "liquid_glass_positioning": "L5 governance/evidence output inside Live Pulse/Risk & Action or admin governance, not a third Arrival door.",
+  "required_review_sections": [
+    "adoption evidence summary",
+    "source-owner SLA review",
+    "metric-definition change log",
+    "Quickball answer review",
+    "UX simplification review",
+    "change-control board decisions",
+    "release notes and rollout gates"
+  ],
+  "improvement_items": [
+    {
+      "item_id": "CI-F7790B56F3",
+      "created_ts": "2026-05-09T17:30:49.930808Z",
+      "theme": "metric_definition",
+      "title": "Formalize Finance vs MDO target wording in all release notes",
+      "description": "Add metric-definition governance check for all cards that compare R04 Finance actuals to R02 MDO targets.",
+      "owner": "data_owner",
+      "decision": "proposed",
+      "expected_impact": "Prevent interpretation drift in executive discussions and audit exports.",
+      "rollout_gate": "dev",
+      "rollback_criteria": "Rollback if wording change causes mismatch with approved metric definitions or source lineage labels.",
+      "priority": "P0",
+      "liquid_glass_guardrail": "Do not add a third Arrival door; keep changes inside Live Pulse/Narratives progressive depth.",
+      "status": "open",
+      "evidence_hash": "bcc8ec39209d05dc11c84771",
+      "evidence_refs": [
+        {
+          "metric": "reporting_basis_label_coverage",
+          "source": "lineage"
+        },
+        {
+          "metric": "target_basis_confusion_defects",
+          "source": "uat"
+        }
+      ],
+      "score": {
+        "adoption_lift": 2,
+        "confidence": 5,
+        "effort": 1,
+        "impact": 4,
+        "method": "SCIP weighted RICE + trust/adoption/operations uplift",
+        "operational_value": 3,
+        "priority": "P0",
+        "reach": 3,
+        "score": 70.0,
+        "trust_risk_reduction": 5
+      }
+    },
+    {
+      "item_id": "CI-BA7D2F5F5A",
+      "created_ts": "2026-05-09T17:30:49.929813Z",
+      "theme": "source_sla",
+      "title": "Tighten stale-source SLA for critical R-series reports",
+      "description": "Run monthly source-owner SLA review for R18/R04/R02/R08/R36/R10/R32/R34 and block stale critical cards.",
+      "owner": "source_owner",
+      "decision": "proposed",
+      "expected_impact": "Reduce trust erosion caused by stale data and reinforce no-silent-fallback rule.",
+      "rollout_gate": "uat",
+      "rollback_criteria": "Rollback if source blocks prevent approved fallback-labelled Board/CXO cards from rendering.",
+      "priority": "P0",
+      "liquid_glass_guardrail": "Do not add a third Arrival door; keep changes inside Live Pulse/Narratives progressive depth.",
+      "status": "open",
+      "evidence_hash": "1d0ea4f631c2c63fdf5c0485",
+      "evidence_refs": [
+        {
+          "metric": "stale_source_alerts",
+          "source": "observability"
+        },
+        {
+          "metric": "stale_source_impact",
+          "source": "adoption"
+        }
+      ],
+      "score": {
+        "adoption_lift": 3,
+        "confidence": 4,
+        "effort": 3,
+        "impact": 5,
+        "method": "SCIP weighted RICE + trust/adoption/operations uplift",
+        "operational_value": 4,
+        "priority": "P0",
+        "reach": 5,
+        "score": 45.33,
+        "trust_risk_reduction": 5
+      }
+    },
+    {
+      "item_id": "CI-3738BAB0DA",
+      "created_ts": "2026-05-09T17:30:49.929270Z",
+      "theme": "quickball_trust",
+      "title": "Reduce blocked Quickball explanations for validated metrics",
+      "description": "Review top blocked-answer patterns and add missing metric synonyms only where lineage already exists.",
+      "owner": "quickball_owner",
+      "decision": "proposed",
+      "expected_impact": "Improve explain-this-number success without weakening lineage gate.",
+      "rollout_gate": "pilot",
+      "rollback_criteria": "Rollback if any Quickball answer uses a critical metric without lineage or confidence state.",
+      "priority": "P0",
+      "liquid_glass_guardrail": "Do not add a third Arrival door; keep changes inside Live Pulse/Narratives progressive depth.",
+      "status": "open",
+      "evidence_hash": "2a78915c692a9188d6427fd5",
+      "evidence_refs": [
+        {
+          "metric": "quickball_blocked_rate",
+          "source": "adoption",
+          "value": "observed in Batch 15 analytics"
+        },
+        {
+          "metric": "quickball_blocked_answers_total",
+          "source": "observability"
+        }
+      ],
+      "score": {
+        "adoption_lift": 4,
+        "confidence": 4,
+        "effort": 2,
+        "impact": 4,
+        "method": "SCIP weighted RICE + trust/adoption/operations uplift",
+        "operational_value": 3,
+        "priority": "P0",
+        "reach": 4,
+        "score": 44.0,
+        "trust_risk_reduction": 5
+      }
+    },
+    {
+      "item_id": "CI-3803879183",
+      "created_ts": "2026-05-09T17:30:49.930387Z",
+      "theme": "ux_simplification",
+      "title": "Simplify Risk & Action evidence path for managers",
+      "description": "Reduce first-click choices by grouping action queues, workflows, and notifications under one 'Act on risk' path.",
+      "owner": "ux_owner",
+      "decision": "proposed",
+      "expected_impact": "Increase action conversion while preserving two-door, three-choice Liquid Glass constraints.",
+      "rollout_gate": "staging",
+      "rollback_criteria": "Rollback if users require more than three visible choices on an L2 screen or if action discovery drops in pilot.",
+      "priority": "P1",
+      "liquid_glass_guardrail": "Do not add a third Arrival door; keep changes inside Live Pulse/Narratives progressive depth.",
+      "status": "open",
+      "evidence_hash": "d41bafcc6464f6fc5df0c01c",
+      "evidence_refs": [
+        {
+          "metric": "evidence_path_opens",
+          "source": "adoption"
+        },
+        {
+          "metric": "action_queue_conversion_rate",
+          "source": "adoption"
+        }
+      ],
+      "score": {
+        "adoption_lift": 5,
+        "confidence": 3,
+        "effort": 2,
+        "impact": 3,
+        "method": "SCIP weighted RICE + trust/adoption/operations uplift",
+        "operational_value": 4,
+        "priority": "P1",
+        "reach": 4,
+        "score": 29.0,
+        "trust_risk_reduction": 2
+      }
+    }
+  ],
+  "decision_rules": {
+    "may_release": "approved item + evidence + owner + expected impact + rollout gate + rollback criteria",
+    "must_block": "missing lineage, forbidden removed role, third Arrival door, silent fallback, or missing rollback criteria"
+  }
+}

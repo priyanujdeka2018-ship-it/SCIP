@@ -1,0 +1,20 @@
+{
+  "contract_version": "continuous_improvement_governance.v1.batch16",
+  "method": "SCIP weighted RICE + trust/adoption/operations uplift",
+  "formula": "((reach * impact * confidence) / effort) + trust_risk_reduction + adoption_lift + operational_value",
+  "priority_bands": {
+    "P0": ">=30",
+    "P1": ">=20",
+    "P2": ">=12",
+    "P3": "<12"
+  },
+  "hard_blocks": [
+    "missing evidence",
+    "missing owner",
+    "missing rollback criteria",
+    "third Arrival door",
+    "Entity Head role",
+    "silent fallback",
+    "frontend business computation"
+  ]
+}

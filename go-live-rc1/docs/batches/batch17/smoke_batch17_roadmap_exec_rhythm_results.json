@@ -1,0 +1,897 @@
+{
+  "overall_passed": true,
+  "checks_total": 178,
+  "checks_passed": 178,
+  "checks": [
+    {
+      "name": "roadmap contract",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "roadmap has 12 plus items",
+      "passed": true,
+      "detail": "13"
+    },
+    {
+      "name": "RM-01 has strategic_objective",
+      "passed": true,
+      "detail": "Make SCIP trusted for daily leadership and operations use immediately after laun"
+    },
+    {
+      "name": "RM-01 has evidence",
+      "passed": true,
+      "detail": "['Batch 14 production readiness gates', 'Batch 12 observability stale-source ale"
+    },
+    {
+      "name": "RM-01 has owner",
+      "passed": true,
+      "detail": "SCIP Product Owner + MIS/QCG/Admin"
+    },
+    {
+      "name": "RM-01 has success_metric",
+      "passed": true,
+      "detail": "95%+ critical source freshness SLA for R18/R04/R02/R08/R36 and account-action so"
+    },
+    {
+      "name": "RM-01 has rollout_gate",
+      "passed": true,
+      "detail": "UAT signoff, production smoke, identity provisioning, RBAC verification, backup/"
+    },
+    {
+      "name": "RM-01 has risk",
+      "passed": true,
+      "detail": "Users lose trust if source freshness or lineage is unclear during first month."
+    },
+    {
+      "name": "RM-01 has dependency",
+      "passed": true,
+      "detail": "Batch 14 signoff, Batch 12 alerts, production source owners."
+    },
+    {
+      "name": "RM-01 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Disable new operational action surfaces and revert to read-only executive pulse "
+    },
+    {
+      "name": "RM-01 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Expose health as L5 evidence from Live Pulse Risk & Action; do not add a health "
+    },
+    {
+      "name": "RM-01 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-01 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-02 has strategic_objective",
+      "passed": true,
+      "detail": "Ensure every explanation remains lineage-backed and board-safe."
+    },
+    {
+      "name": "RM-02 has evidence",
+      "passed": true,
+      "detail": "['Batch 4 Quickball lineage gate', 'Batch 16 Quickball answer review template', "
+    },
+    {
+      "name": "RM-02 has owner",
+      "passed": true,
+      "detail": "Product Owner + Board/CXO delegate + MIS/QCG/Admin"
+    },
+    {
+      "name": "RM-02 has success_metric",
+      "passed": true,
+      "detail": "100% sampled critical answers carry source, sheet/range, confidence, and reporti"
+    },
+    {
+      "name": "RM-02 has rollout_gate",
+      "passed": true,
+      "detail": "Monthly model/answer review pack approved by change-control board."
+    },
+    {
+      "name": "RM-02 has risk",
+      "passed": true,
+      "detail": "Quickball becomes a workaround for unclear screens or overexplains without evide"
+    },
+    {
+      "name": "RM-02 has dependency",
+      "passed": true,
+      "detail": "Lineage registry, Quickball review cadence, adoption telemetry."
+    },
+    {
+      "name": "RM-02 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Disable affected Quickball intents if any sampled answer uses unlineaged financi"
+    },
+    {
+      "name": "RM-02 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Quickball remains a contextual command capsule with max two follow-up actions."
+    },
+    {
+      "name": "RM-02 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-02 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-03 has strategic_objective",
+      "passed": true,
+      "detail": "Prevent ambiguity between Finance, MDO, R08, R36, workflow, and adoption metrics"
+    },
+    {
+      "name": "RM-03 has evidence",
+      "passed": true,
+      "detail": "['Batch 2 Finance-vs-MDO labelling', 'Batch 3 R08/R36 reporting labels', 'Batch "
+    },
+    {
+      "name": "RM-03 has owner",
+      "passed": true,
+      "detail": "Finance + MIS/QCG/Admin"
+    },
+    {
+      "name": "RM-03 has success_metric",
+      "passed": true,
+      "detail": "100% critical metrics have owner, formula, source basis, reporting basis, and ch"
+    },
+    {
+      "name": "RM-03 has rollout_gate",
+      "passed": true,
+      "detail": "Metric change-control approval before release train cut."
+    },
+    {
+      "name": "RM-03 has risk",
+      "passed": true,
+      "detail": "Leadership decisions may be challenged if target basis or formula changes are no"
+    },
+    {
+      "name": "RM-03 has dependency",
+      "passed": true,
+      "detail": "Metric catalogue, source owner SLAs, finance signoff."
+    },
+    {
+      "name": "RM-03 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Revert metric definition and publish release note if signoff is missing or user-"
+    },
+    {
+      "name": "RM-03 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Metric definitions remain L4 evidence; not visible on Arrival or L1."
+    },
+    {
+      "name": "RM-03 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-03 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-04 has strategic_objective",
+      "passed": true,
+      "detail": "Move from workbook-first ingestion toward governed enterprise source alignment w"
+    },
+    {
+      "name": "RM-04 has evidence",
+      "passed": true,
+      "detail": "['Batch 1-7 adapter lineage contracts', 'Batch 10 durable audit schema', 'System"
+    },
+    {
+      "name": "RM-04 has owner",
+      "passed": true,
+      "detail": "Data Engineering + MIS/QCG/Admin"
+    },
+    {
+      "name": "RM-04 has success_metric",
+      "passed": true,
+      "detail": "Approved canonical fact/dimension model and source-to-DW mapping for collections"
+    },
+    {
+      "name": "RM-04 has rollout_gate",
+      "passed": true,
+      "detail": "Architecture review, data owner approval, pilot reconciliation against current a"
+    },
+    {
+      "name": "RM-04 has risk",
+      "passed": true,
+      "detail": "Premature DW migration could break trusted workbook reconciliation."
+    },
+    {
+      "name": "RM-04 has dependency",
+      "passed": true,
+      "detail": "Enterprise warehouse access, source system owners, reconciliation harness."
+    },
+    {
+      "name": "RM-04 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Keep workbook adapters as source of truth until DW facts reconcile within 0.05% "
+    },
+    {
+      "name": "RM-04 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "DW alignment is backend governance; no user-facing IA change."
+    },
+    {
+      "name": "RM-04 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-04 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-05 has strategic_objective",
+      "passed": true,
+      "detail": "Convert lineaged account actions into measurable collections follow-through."
+    },
+    {
+      "name": "RM-05 has evidence",
+      "passed": true,
+      "detail": "['Batch 7 account-action gate', 'Batch 8 workflow events', 'Batch 15 action queu"
+    },
+    {
+      "name": "RM-05 has owner",
+      "passed": true,
+      "detail": "CCO/GM/AGM + Collection Operations"
+    },
+    {
+      "name": "RM-05 has success_metric",
+      "passed": true,
+      "detail": "70%+ eligible collector actions dispositioned within SLA; workflow closure rate "
+    },
+    {
+      "name": "RM-05 has rollout_gate",
+      "passed": true,
+      "detail": "Pilot results, role-level RBAC confirmation, collector training signoff."
+    },
+    {
+      "name": "RM-05 has risk",
+      "passed": true,
+      "detail": "Collectors may treat SCIP as monitoring rather than help if actions are noisy."
+    },
+    {
+      "name": "RM-05 has dependency",
+      "passed": true,
+      "detail": "R10/R32/R34 freshness, notification tuning, collector scope provisioning."
+    },
+    {
+      "name": "RM-05 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Disable noisy queue rules if false-positive action rate exceeds agreed threshold"
+    },
+    {
+      "name": "RM-05 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Action queues remain Risk & Action L5 output; no collector table on Arrival."
+    },
+    {
+      "name": "RM-05 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-05 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-06 has strategic_objective",
+      "passed": true,
+      "detail": "Create a repeatable management cadence for resolving overdue/high-risk action po"
+    },
+    {
+      "name": "RM-06 has evidence",
+      "passed": true,
+      "detail": "['Batch 8 workflow states', 'Batch 9 escalation rules', 'Batch 12 alert threshol"
+    },
+    {
+      "name": "RM-06 has owner",
+      "passed": true,
+      "detail": "CCO/GM/AGM"
+    },
+    {
+      "name": "RM-06 has success_metric",
+      "passed": true,
+      "detail": "Stale workflow rate reduced by 30%; unassigned high-risk actions remain below th"
+    },
+    {
+      "name": "RM-06 has rollout_gate",
+      "passed": true,
+      "detail": "Weekly management review evidence pack and escalation acceptance criteria."
+    },
+    {
+      "name": "RM-06 has risk",
+      "passed": true,
+      "detail": "Too many escalations create alert fatigue and reduce operational credibility."
+    },
+    {
+      "name": "RM-06 has dependency",
+      "passed": true,
+      "detail": "Notification suppression rules, owner mappings, workflow event quality."
+    },
+    {
+      "name": "RM-06 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Suppress or lower priority of escalation rule if duplicate/suppressed ratio exce"
+    },
+    {
+      "name": "RM-06 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Escalations surface through Risk & Action, not as separate escalation dashboard."
+    },
+    {
+      "name": "RM-06 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-06 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-07 has strategic_objective",
+      "passed": true,
+      "detail": "Reduce PR, SOA, TAT, and documentation leakage that blocks cash recognition or c"
+    },
+    {
+      "name": "RM-07 has evidence",
+      "passed": true,
+      "detail": "['Batch 7 R31/R20 queues', 'Batch 8 closure reasons', 'Batch 10 audit exports']"
+    },
+    {
+      "name": "RM-07 has owner",
+      "passed": true,
+      "detail": "Finance + MIS/QCG/Admin"
+    },
+    {
+      "name": "RM-07 has success_metric",
+      "passed": true,
+      "detail": "PR/TAT ageing exceptions reduced by 25%; closure reasons complete for 95%+ resol"
+    },
+    {
+      "name": "RM-07 has rollout_gate",
+      "passed": true,
+      "detail": "Finance UAT, QCG owner signoff, audit export review."
+    },
+    {
+      "name": "RM-07 has risk",
+      "passed": true,
+      "detail": "Process exceptions may be misclassified as collector issues."
+    },
+    {
+      "name": "RM-07 has dependency",
+      "passed": true,
+      "detail": "R31/R20 freshness, finance workflow roles, process ageing rules."
+    },
+    {
+      "name": "RM-07 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Reclassify queue rules and pause notifications if finance exception owner mappin"
+    },
+    {
+      "name": "RM-07 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Finance exceptions remain solid evidence/timeline surfaces."
+    },
+    {
+      "name": "RM-07 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-07 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-08 has strategic_objective",
+      "passed": true,
+      "detail": "Move beyond static action priority into risk-adjusted intervention and forecast "
+    },
+    {
+      "name": "RM-08 has evidence",
+      "passed": true,
+      "detail": "['Batch 3 R36 forward calendar', 'Batch 7 R38 risk analysis', 'Batch 5 forecast "
+    },
+    {
+      "name": "RM-08 has owner",
+      "passed": true,
+      "detail": "Analytics Lead + CCO/GM/AGM"
+    },
+    {
+      "name": "RM-08 has success_metric",
+      "passed": true,
+      "detail": "Risk score v2 explains priority drivers and improves high-risk closure conversio"
+    },
+    {
+      "name": "RM-08 has rollout_gate",
+      "passed": true,
+      "detail": "Model review, back-test evidence, Quickball explanation review, rollback rule ap"
+    },
+    {
+      "name": "RM-08 has risk",
+      "passed": true,
+      "detail": "Model opacity could reduce trust or create unfair collector prioritization."
+    },
+    {
+      "name": "RM-08 has dependency",
+      "passed": true,
+      "detail": "Historical closure data, R38 quality, workflow outcome labels."
+    },
+    {
+      "name": "RM-08 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Revert to rule-based queues if model explanations are incomplete or performance "
+    },
+    {
+      "name": "RM-08 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Model score explanations are L4 evidence, not decorative signal chips."
+    },
+    {
+      "name": "RM-08 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-08 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-09 has strategic_objective",
+      "passed": true,
+      "detail": "Reduce board-preparation effort while improving evidence-backed storytelling."
+    },
+    {
+      "name": "RM-09 has evidence",
+      "passed": true,
+      "detail": "['Batch 4 Quickball explanations', 'Batch 5.1 Narratives rail', 'Batch 10 audit "
+    },
+    {
+      "name": "RM-09 has owner",
+      "passed": true,
+      "detail": "Board/CXO delegate + Product Owner"
+    },
+    {
+      "name": "RM-09 has success_metric",
+      "passed": true,
+      "detail": "Board pack preparation time reduced by 50%; 100% board narrative claims trace to"
+    },
+    {
+      "name": "RM-09 has rollout_gate",
+      "passed": true,
+      "detail": "Executive review, legal/audit approval for export contents, presentation smoke."
+    },
+    {
+      "name": "RM-09 has risk",
+      "passed": true,
+      "detail": "Narratives may over-summarize operational complexity or omit important caveats."
+    },
+    {
+      "name": "RM-09 has dependency",
+      "passed": true,
+      "detail": "Narratives evidence templates, export controls, source freshness."
+    },
+    {
+      "name": "RM-09 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Disable auto-generated board pack export if any claim lacks lineage or approved "
+    },
+    {
+      "name": "RM-09 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Present remains an output action, never a browsing mode."
+    },
+    {
+      "name": "RM-09 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-09 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-10 has strategic_objective",
+      "passed": true,
+      "detail": "Let users verify numbers without exposing raw architecture too early."
+    },
+    {
+      "name": "RM-10 has evidence",
+      "passed": true,
+      "detail": "['Batch 4 lineage drawer', 'Batch 10 audit exports', 'Liquid Glass L4 evidence r"
+    },
+    {
+      "name": "RM-10 has owner",
+      "passed": true,
+      "detail": "MIS/QCG/Admin + Finance"
+    },
+    {
+      "name": "RM-10 has success_metric",
+      "passed": true,
+      "detail": "80%+ repeated \u201csource basis\u201d questions resolved through evidence paths rather th"
+    },
+    {
+      "name": "RM-10 has rollout_gate",
+      "passed": true,
+      "detail": "Evidence template QA, RBAC review, metric owner approval."
+    },
+    {
+      "name": "RM-10 has risk",
+      "passed": true,
+      "detail": "Evidence catalogue could become a raw data dump if not gated."
+    },
+    {
+      "name": "RM-10 has dependency",
+      "passed": true,
+      "detail": "Metric catalogue, lineage registry, RBAC evidence visibility."
+    },
+    {
+      "name": "RM-10 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Hide overly dense evidence templates until simplified if users bypass focus scre"
+    },
+    {
+      "name": "RM-10 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Evidence appears only after explicit L4 intent."
+    },
+    {
+      "name": "RM-10 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-10 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-11 has strategic_objective",
+      "passed": true,
+      "detail": "Start replacing manual R-series refresh dependency with governed enterprise pipe"
+    },
+    {
+      "name": "RM-11 has evidence",
+      "passed": true,
+      "detail": "['RM-04 DW blueprint', 'Batch 12 ingestion latency metrics', 'Batch 10 lineage/a"
+    },
+    {
+      "name": "RM-11 has owner",
+      "passed": true,
+      "detail": "Data Engineering + IT + MIS/QCG/Admin"
+    },
+    {
+      "name": "RM-11 has success_metric",
+      "passed": true,
+      "detail": "At least two critical domains run from enterprise pipeline in parallel and recon"
+    },
+    {
+      "name": "RM-11 has rollout_gate",
+      "passed": true,
+      "detail": "Parallel-run signoff, rollback plan, source owner approval, data contract accept"
+    },
+    {
+      "name": "RM-11 has risk",
+      "passed": true,
+      "detail": "New pipeline changes numbers without user-visible source-basis clarity."
+    },
+    {
+      "name": "RM-11 has dependency",
+      "passed": true,
+      "detail": "DW access, source APIs, reconciliation test harness."
+    },
+    {
+      "name": "RM-11 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Fallback to workbook adapter for any domain with failed reconciliation or missin"
+    },
+    {
+      "name": "RM-11 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "No user-facing route change; only source-basis and freshness labels change after"
+    },
+    {
+      "name": "RM-11 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-11 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-12 has strategic_objective",
+      "passed": true,
+      "detail": "Make entity/project/customer/collector mappings durable across platforms and rep"
+    },
+    {
+      "name": "RM-12 has evidence",
+      "passed": true,
+      "detail": "['Locked hierarchy from Batch 1', 'Batch 13 provisioning scopes', 'Batch 7 accou"
+    },
+    {
+      "name": "RM-12 has owner",
+      "passed": true,
+      "detail": "Data Governance + MIS/QCG/Admin"
+    },
+    {
+      "name": "RM-12 has success_metric",
+      "passed": true,
+      "detail": "100% critical action rows have entity, project, owner, and scope mapping; mappin"
+    },
+    {
+      "name": "RM-12 has rollout_gate",
+      "passed": true,
+      "detail": "Data governance board approval and mapping exception review."
+    },
+    {
+      "name": "RM-12 has risk",
+      "passed": true,
+      "detail": "Mis-mapped owner/entity scopes can break RBAC or action ownership."
+    },
+    {
+      "name": "RM-12 has dependency",
+      "passed": true,
+      "detail": "IdP groups, collector mappings, project master, customer/unit master."
+    },
+    {
+      "name": "RM-12 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Block action generation for mapping segments with unresolved ownership ambiguity"
+    },
+    {
+      "name": "RM-12 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Master data exceptions are governance evidence, not a user-facing filter-first e"
+    },
+    {
+      "name": "RM-12 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-12 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-13 has strategic_objective",
+      "passed": true,
+      "detail": "Bring focused, role-safe actions to collectors without exposing executive or aud"
+    },
+    {
+      "name": "RM-13 has evidence",
+      "passed": true,
+      "detail": "['Batch 7 Collector/RM queue', 'Batch 8 workflow disposition states', 'Batch 15 "
+    },
+    {
+      "name": "RM-13 has owner",
+      "passed": true,
+      "detail": "Collection Operations + Product Owner"
+    },
+    {
+      "name": "RM-13 has success_metric",
+      "passed": true,
+      "detail": "Collector daily active use reaches target; disposition completion time improves "
+    },
+    {
+      "name": "RM-13 has rollout_gate",
+      "passed": true,
+      "detail": "Pilot cohort signoff, security review, mobile UX test, notification policy appro"
+    },
+    {
+      "name": "RM-13 has risk",
+      "passed": true,
+      "detail": "Mobile experience can become a mini-dashboard instead of an action aid."
+    },
+    {
+      "name": "RM-13 has dependency",
+      "passed": true,
+      "detail": "SSO/session behavior, RBAC row scope, workflow API stability."
+    },
+    {
+      "name": "RM-13 has rollback_exit_criteria",
+      "passed": true,
+      "detail": "Restrict mobile to read-only action reminders if closure quality or RBAC test fa"
+    },
+    {
+      "name": "RM-13 has liquid_glass_guardrail",
+      "passed": true,
+      "detail": "Mobile is action-first; no KPI grid or operational dashboard at entry."
+    },
+    {
+      "name": "RM-13 evidence not empty",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RM-13 has rollback/exit criteria text",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "four quarters present",
+      "passed": true,
+      "detail": "4"
+    },
+    {
+      "name": "Q1 Stabilize and Trust has executive question",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Q1 Stabilize and Trust has steering decisions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Q2 Operational Workflow Adoption has executive question",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Q2 Operational Workflow Adoption has steering decisions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Q3 Intelligence Expansion has executive question",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Q3 Intelligence Expansion has steering decisions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Q4 Enterprise Scale has executive question",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Q4 Enterprise Scale has steering decisions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "OKR has objectives",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "O1 has KRs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "O2 has KRs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "O3 has KRs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "O4 has KRs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "O5 has KRs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefits present",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B1 has owner",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B1 has review frequency",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B2 has owner",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B2 has review frequency",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B3 has owner",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B3 has review frequency",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B4 has owner",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B4 has review frequency",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B5 has owner",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "benefit B5 has review frequency",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Entity Head removed from role model",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "no third Arrival door",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "roadmap marked L5 output",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "roadmap.py compiles",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "main includes roadmap router",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "frontend has no roadmap business computation",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "no new Arrival roadmap card",
+      "passed": true,
+      "detail": "Roadmap remains a Narratives/L5 governance output, not an Arrival door"
+    }
+  ]
+}

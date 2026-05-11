@@ -1,0 +1,49 @@
+{
+  "benefits": [
+    {
+      "benefit_id": "B1",
+      "benefit": "Trusted one-source operating rhythm",
+      "baseline": "Manual R-series interpretation and fragmented dashboard review",
+      "target": "Critical leadership metrics lineaged with visible source basis and no silent fallback",
+      "measure": "lineage coverage, source freshness, no-silent-fallback incidents",
+      "owner": "MIS/QCG/Admin + Finance",
+      "review_frequency": "monthly"
+    },
+    {
+      "benefit_id": "B2",
+      "benefit": "Faster management intervention",
+      "baseline": "Escalations and priorities depend on manual review",
+      "target": "High-risk/stale/unassigned items visible through governed Risk & Action outputs",
+      "measure": "stale workflows, unassigned high-risk count, escalation closure rate",
+      "owner": "CCO/GM/AGM",
+      "review_frequency": "weekly/monthly"
+    },
+    {
+      "benefit_id": "B3",
+      "benefit": "Improved collector follow-through",
+      "baseline": "Collector actions lack a unified source-backed workflow",
+      "target": "Collectors/RMs receive own lineaged actions and disposition within SLA",
+      "measure": "action conversion, disposition SLA, closure quality",
+      "owner": "Collection Operations",
+      "review_frequency": "weekly"
+    },
+    {
+      "benefit_id": "B4",
+      "benefit": "Reduced finance/QCG friction",
+      "baseline": "PR/SOA/TAT exceptions require manual extraction",
+      "target": "Finance/QCG exceptions are visible, owned, and closed with evidence",
+      "measure": "exception ageing, closure reasons, audit export completeness",
+      "owner": "Finance + MIS/QCG/Admin",
+      "review_frequency": "monthly"
+    },
+    {
+      "benefit_id": "B5",
+      "benefit": "Lower executive preparation effort",
+      "baseline": "Board material assembled manually from reports",
+      "target": "Board narrative and one-pager generated from trusted lineage and reviewed evidence",
+      "measure": "board pack prep time, narrative lineage coverage, executive adoption",
+      "owner": "Board/CXO delegate + Product Owner",
+      "review_frequency": "quarterly"
+    }
+  ]
+}

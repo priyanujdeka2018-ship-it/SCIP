@@ -1,0 +1,55 @@
+{
+  "vision": "SCIP becomes the trusted operating rhythm for collections intelligence: calm on arrival, precise in evidence, and action-oriented when depth is requested.",
+  "objectives": [
+    {
+      "objective_id": "O1",
+      "objective": "Maintain trusted financial truth",
+      "key_results": [
+        "100% critical metrics lineaged",
+        "0 silent fallback incidents",
+        "95%+ critical source freshness SLA",
+        "0 material unreconciled critical metrics beyond 0.05% tolerance"
+      ]
+    },
+    {
+      "objective_id": "O2",
+      "objective": "Improve collections operating follow-through",
+      "key_results": [
+        "70%+ eligible account actions dispositioned within SLA",
+        "30% reduction in stale workflows",
+        "month-over-month closure-rate improvement",
+        "action conversion lift from adopted cohorts"
+      ]
+    },
+    {
+      "objective_id": "O3",
+      "objective": "Accelerate executive decision-making",
+      "key_results": [
+        "50% reduction in board pack prep time",
+        "100% board narrative claims trace to lineage",
+        "quarterly steering decisions closed by next review cycle",
+        "forecast reviewed weekly in management cadence"
+      ]
+    },
+    {
+      "objective_id": "O4",
+      "objective": "Govern sustainable platform change",
+      "key_results": [
+        "100% roadmap items have evidence/owner/gate/rollback",
+        "release notes published for every release train",
+        "Quickball answer QA completed monthly",
+        "UX simplification review prevents new clutter"
+      ]
+    },
+    {
+      "objective_id": "O5",
+      "objective": "Prepare enterprise-scale integration",
+      "key_results": [
+        "canonical DW model approved",
+        "two critical domains parallel-run from enterprise source",
+        "100% owner/entity scope mapping for action rows",
+        "warehouse cutover only after lineage parity"
+      ]
+    }
+  ]
+}
