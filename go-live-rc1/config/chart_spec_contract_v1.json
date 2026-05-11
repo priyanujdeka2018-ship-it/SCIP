@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SCIP Chart Spec v1",
+  "type": "object",
+  "required": [
+    "chart_id",
+    "title",
+    "surface",
+    "chart_type",
+    "metric_ids",
+    "series",
+    "source_basis",
+    "confidence_state",
+    "validation_status",
+    "lineage_refs",
+    "role_visibility"
+  ],
+  "properties": {
+    "chart_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "surface": {
+      "type": "string"
+    },
+    "chart_type": {
+      "enum": [
+        "kpi_card",
+        "variance_card",
+        "trend_line",
+        "stacked_bar",
+        "waterfall",
+        "funnel",
+        "heatmap",
+        "scatter",
+        "ranked_table",
+        "evidence_table"
+      ]
+    },
+    "grain": {
+      "type": "string"
+    },
+    "metric_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "series": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "source_basis": {
+      "type": "string"
+    },
+    "formula": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "snapshot_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "confidence_state": {
+      "enum": [
+        "live_validated",
+        "live_warning",
+        "fallback_reference",
+        "unavailable",
+        "blocked"
+      ]
+    },
+    "validation_status": {
+      "enum": [
+        "passed",
+        "warning",
+        "failed",
+        "not_applicable",
+        "diagnostic"
+      ]
+    },
+    "lineage_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_available": {
+      "type": "boolean"
+    },
+    "role_visibility": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fallback_policy": {
+      "type": "string"
+    }
+  }
+}

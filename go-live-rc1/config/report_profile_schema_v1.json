@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SCIP Report Profile v1",
+  "type": "object",
+  "required": [
+    "report_code",
+    "source_file",
+    "sheets",
+    "profiled_at"
+  ],
+  "properties": {
+    "report_code": {
+      "type": "string"
+    },
+    "source_file": {
+      "type": "string"
+    },
+    "profiled_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "snapshot_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "detected_grains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "header_strategy": {
+      "enum": [
+        "flat",
+        "multi_row",
+        "positional",
+        "subtotal_driven",
+        "mixed",
+        "unknown"
+      ]
+    },
+    "sheets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sheet_name"
+        ],
+        "properties": {
+          "sheet_name": {
+            "type": "string"
+          },
+          "visible": {
+            "type": "boolean"
+          },
+          "dimension": {
+            "type": "string"
+          },
+          "max_row": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "max_col": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "candidate_grain": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

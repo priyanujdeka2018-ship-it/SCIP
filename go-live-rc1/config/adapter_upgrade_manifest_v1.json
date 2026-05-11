@@ -1,0 +1,181 @@
+{
+  "version": "1.0",
+  "batch": "18",
+  "reports": [
+    {
+      "report_code": "R01",
+      "adapter": "R01YearEndSnapshotAdapter",
+      "status": "new_required",
+      "priority": 4,
+      "fact_families": [
+        "fact_year_end_collections_snapshot",
+        "fact_year_end_dues_advance_split"
+      ]
+    },
+    {
+      "report_code": "R02",
+      "adapter": "R02MDOAdapter",
+      "status": "upgrade_existing",
+      "priority": 1,
+      "fact_families": [
+        "fact_targets_monthly",
+        "fact_mdo_actuals_monthly"
+      ]
+    },
+    {
+      "report_code": "R04",
+      "adapter": "R04FinanceDailyAdapter",
+      "status": "upgrade_existing",
+      "priority": 1,
+      "fact_families": [
+        "fact_collections_daily_finance",
+        "fact_finance_mtd_actuals"
+      ]
+    },
+    {
+      "report_code": "R08",
+      "adapter": "R08AdvanceAdapter",
+      "status": "upgrade_existing_richer_extraction",
+      "priority": 1,
+      "fact_families": [
+        "fact_advance_cyfy",
+        "fact_advance_rebate",
+        "fact_advance_project",
+        "fact_advance_nationality"
+      ]
+    },
+    {
+      "report_code": "R09",
+      "adapter": "R09ProjectCollectionsAdapter",
+      "status": "upgrade_queue_to_fact_source",
+      "priority": 3,
+      "fact_families": [
+        "fact_project_collections",
+        "fact_project_overdue",
+        "fact_project_future_collectibles"
+      ]
+    },
+    {
+      "report_code": "R10",
+      "adapter": "R10DuesCoverageAdapter",
+      "status": "upgrade_queue_to_fact_source",
+      "priority": 2,
+      "fact_families": [
+        "fact_account_allocation",
+        "fact_ptp_promise",
+        "fact_collector_coverage",
+        "fact_collector_productivity"
+      ]
+    },
+    {
+      "report_code": "R16",
+      "adapter": "R16CustomerNationalityPortfolioAdapter",
+      "status": "new_recommended",
+      "priority": 4,
+      "fact_families": [
+        "fact_customer_portfolio_snapshot",
+        "fact_customer_nationality_mix",
+        "fact_customer_future_collectibles"
+      ]
+    },
+    {
+      "report_code": "R17",
+      "adapter": "R17SPALegalAdapter",
+      "status": "upgrade_existing",
+      "priority": 3,
+      "fact_families": [
+        "fact_spa_status_exposure",
+        "fact_preregistration_status_exposure",
+        "fact_process_blocked_overdue"
+      ]
+    },
+    {
+      "report_code": "R18",
+      "adapter": "R18OverdueAdapter",
+      "status": "upgrade_existing_expand_tracker_sheets",
+      "priority": 1,
+      "fact_families": [
+        "fact_overdue_snapshot",
+        "fact_overdue_ageing",
+        "fact_project_overdue",
+        "fact_project_collectability_tracker"
+      ]
+    },
+    {
+      "report_code": "R20",
+      "adapter": "R20PRToSOATATAdapter",
+      "status": "upgrade_existing_add_sla_percentages",
+      "priority": 3,
+      "fact_families": [
+        "fact_pr_soa_tat_count",
+        "fact_pr_soa_tat_sla_pct"
+      ]
+    },
+    {
+      "report_code": "R30",
+      "adapter": "R30MonthlyFeedbackAdapter",
+      "status": "upgrade_existing_add_channel_efficiency",
+      "priority": 2,
+      "fact_families": [
+        "fact_collector_feedback_summary",
+        "fact_collector_payment_channel"
+      ]
+    },
+    {
+      "report_code": "R31",
+      "adapter": "R31PRQualityAdapter",
+      "status": "upgrade_existing_expand_status_and_reconciliation",
+      "priority": 2,
+      "fact_families": [
+        "fact_pr_request",
+        "fact_pr_status",
+        "fact_receipt_status",
+        "fact_pr_reconciliation"
+      ]
+    },
+    {
+      "report_code": "R32",
+      "adapter": "R32RMCollectorsAdapter",
+      "status": "upgrade_existing_fix_real_workbook_structure",
+      "priority": 2,
+      "fact_families": [
+        "fact_rm_collector_summary",
+        "fact_rm_receipt_generation",
+        "fact_rm_termination_excluded_vs_all"
+      ]
+    },
+    {
+      "report_code": "R34",
+      "adapter": "R34TerminationAdapter",
+      "status": "upgrade_existing_parse_summary_and_funnel",
+      "priority": 3,
+      "fact_families": [
+        "fact_termination_account",
+        "fact_termination_funnel",
+        "fact_termination_eligibility"
+      ]
+    },
+    {
+      "report_code": "R36",
+      "adapter": "R36MilestoneCohortAdapter",
+      "status": "upgrade_existing_add_residual_disclosure",
+      "priority": 1,
+      "fact_families": [
+        "fact_milestone_cohort",
+        "fact_forward_collectible_calendar",
+        "fact_entity_future_collectibles"
+      ]
+    },
+    {
+      "report_code": "R38",
+      "adapter": "R38RiskAnalysisAdapter",
+      "status": "upgrade_existing_expand_project_and_investment_totals",
+      "priority": 3,
+      "fact_families": [
+        "fact_risk_paid_band",
+        "fact_risk_investment_band",
+        "fact_project_risk_concentration"
+      ]
+    }
+  ]
+}

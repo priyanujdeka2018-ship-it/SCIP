@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SCIP Fact Contract v1",
+  "type": "object",
+  "required": [
+    "fact_id",
+    "fact_type",
+    "source_code",
+    "source_file",
+    "sheet",
+    "grain",
+    "measure_name",
+    "value",
+    "unit",
+    "reporting_basis",
+    "validation_status",
+    "confidence_state",
+    "lineage_hash",
+    "loaded_at"
+  ],
+  "properties": {
+    "fact_id": {
+      "type": "string"
+    },
+    "fact_type": {
+      "type": "string"
+    },
+    "source_code": {
+      "type": "string"
+    },
+    "source_file": {
+      "type": "string"
+    },
+    "sheet": {
+      "type": "string"
+    },
+    "cell_or_range": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "extraction_rule": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "snapshot_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "period_start": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "period_end": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "grain": {
+      "type": "string"
+    },
+    "entity_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "project_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "customer_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "unit_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "collector_key": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "measure_name": {
+      "type": "string"
+    },
+    "value": {
+      "type": [
+        "number",
+        "string",
+        "boolean",
+        "null"
+      ]
+    },
+    "unit": {
+      "type": "string"
+    },
+    "reporting_basis": {
+      "type": "string"
+    },
+    "validation_status": {
+      "enum": [
+        "passed",
+        "warning",
+        "failed",
+        "not_applicable",
+        "diagnostic"
+      ]
+    },
+    "confidence_state": {
+      "enum": [
+        "live_validated",
+        "live_warning",
+        "fallback_reference",
+        "unavailable",
+        "blocked"
+      ]
+    },
+    "lineage_hash": {
+      "type": "string"
+    },
+    "lineage_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "loaded_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

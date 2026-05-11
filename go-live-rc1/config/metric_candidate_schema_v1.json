@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SCIP Metric Candidate v1",
+  "type": "object",
+  "required": [
+    "candidate_id",
+    "suggested_name",
+    "formula",
+    "source_reports",
+    "business_question",
+    "role_value",
+    "lineage_completeness",
+    "approval_status"
+  ],
+  "properties": {
+    "candidate_id": {
+      "type": "string"
+    },
+    "suggested_name": {
+      "type": "string"
+    },
+    "formula": {
+      "type": "string"
+    },
+    "source_reports": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_fact_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "business_question": {
+      "type": "string"
+    },
+    "role_value": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "none",
+          "low",
+          "medium",
+          "high"
+        ]
+      }
+    },
+    "actionability": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "lineage_completeness": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "duplicate_risk": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "recommended_surface": {
+      "type": "string"
+    },
+    "scores": {
+      "type": "object"
+    },
+    "approval_status": {
+      "enum": [
+        "proposed",
+        "triaged",
+        "approved",
+        "implemented",
+        "pilot",
+        "published",
+        "retired",
+        "blocked"
+      ]
+    },
+    "governance_owner": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

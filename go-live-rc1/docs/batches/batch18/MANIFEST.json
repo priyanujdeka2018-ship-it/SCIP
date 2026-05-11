@@ -1,0 +1,199 @@
+{
+  "package": "scip_batch18_analytics_transformation_engine_runtime_patch",
+  "version": "1.0-runtime-overlay",
+  "basis": "Batch 18 spec pack + uploaded R-series profiles + Batch 13 runtime baseline",
+  "overlay_rule": "Additive. Do not overwrite Batch 13 runtime files except if a later integration PR explicitly imports this engine.",
+  "smoke_summary": {
+    "profile_count": 13,
+    "fact_count": 3322,
+    "metric_count": 26,
+    "link_count": 5,
+    "candidate_count": 7,
+    "chart_count": 3,
+    "validation_count": 12,
+    "errors": [],
+    "warnings": []
+  },
+  "files": [
+    {
+      "path": "Backend/__pycache__/analytics_api_patch.cpython-313.pyc",
+      "bytes": 1019,
+      "sha256_16": "d38a0c2abe0a7d85"
+    },
+    {
+      "path": "Backend/__pycache__/analytics_engine.cpython-313.pyc",
+      "bytes": 7903,
+      "sha256_16": "e6be399a623d9c45"
+    },
+    {
+      "path": "Backend/__pycache__/analytics_models.cpython-313.pyc",
+      "bytes": 8500,
+      "sha256_16": "413120c89584242f"
+    },
+    {
+      "path": "Backend/__pycache__/analytics_utils.cpython-313.pyc",
+      "bytes": 6045,
+      "sha256_16": "de24f605494a46ae"
+    },
+    {
+      "path": "Backend/__pycache__/analytics_validation.cpython-313.pyc",
+      "bytes": 4711,
+      "sha256_16": "1ea7fe846d21ad79"
+    },
+    {
+      "path": "Backend/__pycache__/chart_spec_factory.cpython-313.pyc",
+      "bytes": 5254,
+      "sha256_16": "cca24f46b0a34b9a"
+    },
+    {
+      "path": "Backend/__pycache__/metric_compiler.cpython-313.pyc",
+      "bytes": 14962,
+      "sha256_16": "565fa221d1783583"
+    },
+    {
+      "path": "Backend/__pycache__/metric_linker.cpython-313.pyc",
+      "bytes": 3353,
+      "sha256_16": "5585c5c973f96b52"
+    },
+    {
+      "path": "Backend/__pycache__/metric_registry.cpython-313.pyc",
+      "bytes": 3350,
+      "sha256_16": "955c8743f83ff988"
+    },
+    {
+      "path": "Backend/__pycache__/metric_suggestion_engine.cpython-313.pyc",
+      "bytes": 5737,
+      "sha256_16": "eedae201ade1279a"
+    },
+    {
+      "path": "Backend/__pycache__/report_profiler.cpython-313.pyc",
+      "bytes": 6693,
+      "sha256_16": "075aca17c0582575"
+    },
+    {
+      "path": "Backend/__pycache__/semantic_fact_builder.cpython-313.pyc",
+      "bytes": 40713,
+      "sha256_16": "04a2615acb1042a1"
+    },
+    {
+      "path": "Backend/analytics_api_patch.py",
+      "bytes": 1029,
+      "sha256_16": "bccab73117a7e486"
+    },
+    {
+      "path": "Backend/analytics_engine.py",
+      "bytes": 4667,
+      "sha256_16": "3a9b855c6edc3f18"
+    },
+    {
+      "path": "Backend/analytics_models.py",
+      "bytes": 4908,
+      "sha256_16": "ac0aa984a9325be6"
+    },
+    {
+      "path": "Backend/analytics_utils.py",
+      "bytes": 3388,
+      "sha256_16": "3521a7147b888163"
+    },
+    {
+      "path": "Backend/analytics_validation.py",
+      "bytes": 2580,
+      "sha256_16": "e39693df3e0adf92"
+    },
+    {
+      "path": "Backend/chart_spec_factory.py",
+      "bytes": 3596,
+      "sha256_16": "1e182537d480c028"
+    },
+    {
+      "path": "Backend/metric_compiler.py",
+      "bytes": 10111,
+      "sha256_16": "b05a934645283eaa"
+    },
+    {
+      "path": "Backend/metric_linker.py",
+      "bytes": 2339,
+      "sha256_16": "be55bcfc6e8979cc"
+    },
+    {
+      "path": "Backend/metric_registry.py",
+      "bytes": 1477,
+      "sha256_16": "6d4f202a7e82fee9"
+    },
+    {
+      "path": "Backend/metric_suggestion_engine.py",
+      "bytes": 3715,
+      "sha256_16": "d1f085a07de37728"
+    },
+    {
+      "path": "Backend/report_profiler.py",
+      "bytes": 5632,
+      "sha256_16": "dee7a9ac822ddaed"
+    },
+    {
+      "path": "Backend/semantic_fact_builder.py",
+      "bytes": 37462,
+      "sha256_16": "8eb2948a4fff4118"
+    },
+    {
+      "path": "README.md",
+      "bytes": 770,
+      "sha256_16": "457215c1c5b71580"
+    },
+    {
+      "path": "config/adapter_upgrade_manifest_v1.json",
+      "bytes": 4823,
+      "sha256_16": "7f22b1f81cb478c9"
+    },
+    {
+      "path": "config/chart_spec_contract_v1.json",
+      "bytes": 1891,
+      "sha256_16": "40fbc9530ab023b0"
+    },
+    {
+      "path": "config/cross_report_validation_rules_v1.json",
+      "bytes": 1975,
+      "sha256_16": "7456f809bda5e741"
+    },
+    {
+      "path": "config/fact_contract_v1.json",
+      "bytes": 2465,
+      "sha256_16": "8a2ee2e8ceafe0a9"
+    },
+    {
+      "path": "config/metric_candidate_schema_v1.json",
+      "bytes": 1664,
+      "sha256_16": "ce41be334714330e"
+    },
+    {
+      "path": "config/metric_registry_v1.json",
+      "bytes": 11298,
+      "sha256_16": "fd743264b8686475"
+    },
+    {
+      "path": "config/report_profile_schema_v1.json",
+      "bytes": 1761,
+      "sha256_16": "a95d75b549d74cb3"
+    },
+    {
+      "path": "docs/batches/batch18/README_APPLY_RUNTIME_PATCH.md",
+      "bytes": 1922,
+      "sha256_16": "302c389c392b7a4a"
+    },
+    {
+      "path": "smoke/__pycache__/smoke_batch18_analytics_engine_runtime.cpython-313.pyc",
+      "bytes": 4094,
+      "sha256_16": "2d54485d2f90e29b"
+    },
+    {
+      "path": "smoke/smoke_batch18_analytics_engine_runtime.py",
+      "bytes": 2409,
+      "sha256_16": "6b33ba8127ba59b4"
+    },
+    {
+      "path": "smoke/smoke_batch18_analytics_engine_runtime_results.json",
+      "bytes": 6654920,
+      "sha256_16": "3197ab6e8d5e6f0e"
+    }
+  ]
+}

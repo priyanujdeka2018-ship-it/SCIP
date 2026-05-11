@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "default_tolerance_pct": 0.0005,
+  "hard_reconciliation_requires": [
+    "same_snapshot_date_or_period",
+    "same_reporting_basis",
+    "same_grain",
+    "same_entity_scope",
+    "same_formula",
+    "same_unit",
+    "same_inclusion_exclusion_rules"
+  ],
+  "rules": [
+    {
+      "rule_id": "VAL_R18_HIERARCHY",
+      "severity": "critical",
+      "source_reports": [
+        "R18"
+      ],
+      "description": "Sub Total A-E + H + F + G must equal Grand Total and locked hierarchy rollups must reconcile."
+    },
+    {
+      "rule_id": "VAL_R18_AGEING",
+      "severity": "critical",
+      "source_reports": [
+        "R18"
+      ],
+      "description": "Ageing buckets must sum to OD Today."
+    },
+    {
+      "rule_id": "VAL_R02_R04_BASIS",
+      "severity": "critical",
+      "source_reports": [
+        "R02",
+        "R04"
+      ],
+      "description": "MDO and Finance actuals may be compared only with basis labels visible."
+    },
+    {
+      "rule_id": "VAL_R08_CY_FY",
+      "severity": "critical",
+      "source_reports": [
+        "R08"
+      ],
+      "description": "CY advance plus FY advance must reconcile to total advance."
+    },
+    {
+      "rule_id": "VAL_R36_RESIDUAL",
+      "severity": "warning",
+      "source_reports": [
+        "R36"
+      ],
+      "description": "Active total minus explicit entity sheets must be disclosed as residual unless source confirms mapping."
+    },
+    {
+      "rule_id": "VAL_R10_R30_TARGET_LINK",
+      "severity": "warning",
+      "source_reports": [
+        "R10",
+        "R30"
+      ],
+      "description": "Agent Productivity target and Monthly Feedback target should link when period aligns."
+    },
+    {
+      "rule_id": "VAL_R04_R31_COLLECTION_BRIDGE",
+      "severity": "warning",
+      "source_reports": [
+        "R04",
+        "R31"
+      ],
+      "description": "R04 daily collection and R31 Daily Collection deposit should reconcile only when date and basis align."
+    }
+  ]
+}

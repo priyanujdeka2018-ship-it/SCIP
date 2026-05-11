@@ -1,0 +1,404 @@
+{
+  "version": "1.0",
+  "metrics": [
+    {
+      "metric_id": "M_OD_TODAY_GROUP",
+      "family": "overdue",
+      "label": "Group OD Today",
+      "source_reports": [
+        "R18"
+      ],
+      "required_fact_types": [
+        "fact_overdue_snapshot"
+      ],
+      "formula": "R18 Overdue-1 Grand Total OD Today",
+      "grain": "entity_snapshot",
+      "unit": "AED",
+      "reporting_basis": "R18 OD / overdue / ageing source",
+      "criticality": "critical",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM",
+        "Finance",
+        "MIS/QCG/Admin"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Current Signal",
+        "Narratives / Dues"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "block_not_silent"
+    },
+    {
+      "metric_id": "M_AGEING_180PLUS_EXPOSURE",
+      "family": "overdue",
+      "label": "180+ OD Exposure",
+      "source_reports": [
+        "R18"
+      ],
+      "required_fact_types": [
+        "fact_overdue_ageing"
+      ],
+      "formula": "ageing_180plus_aed / od_today_aed * 100",
+      "grain": "entity_snapshot",
+      "unit": "pct",
+      "reporting_basis": "R18 ageing buckets",
+      "criticality": "critical",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM",
+        "Finance"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Risk & Action",
+        "Narratives / Dues"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "block_not_silent"
+    },
+    {
+      "metric_id": "M_COLLECTION_MTD_FINANCE",
+      "family": "collections",
+      "label": "MTD Collections - Finance Basis",
+      "source_reports": [
+        "R04"
+      ],
+      "required_fact_types": [
+        "fact_finance_mtd_actuals"
+      ],
+      "formula": "R04 MTD total collections",
+      "grain": "month_entity",
+      "unit": "AED",
+      "reporting_basis": "R04 Finance daily actuals",
+      "criticality": "critical",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM",
+        "Finance"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Current Signal"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "block_not_silent"
+    },
+    {
+      "metric_id": "M_MONTH_TARGET_MDO",
+      "family": "collections",
+      "label": "Month Target - MDO Basis",
+      "source_reports": [
+        "R02"
+      ],
+      "required_fact_types": [
+        "fact_targets_monthly"
+      ],
+      "formula": "R02 month total collection target",
+      "grain": "month_entity",
+      "unit": "AED",
+      "reporting_basis": "R02 MDO target basis",
+      "criticality": "critical",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM",
+        "Finance"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Current Signal"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "block_not_silent"
+    },
+    {
+      "metric_id": "M_REQUIRED_RUN_RATE",
+      "family": "forecast",
+      "label": "Required Run Rate",
+      "source_reports": [
+        "R02",
+        "R04"
+      ],
+      "required_fact_types": [
+        "fact_targets_monthly",
+        "fact_finance_mtd_actuals"
+      ],
+      "formula": "(MDO target - Finance MTD actual) / remaining working days",
+      "grain": "month_entity",
+      "unit": "AED/day",
+      "reporting_basis": "R02 target + R04 Finance actual; assumptions disclosed",
+      "criticality": "critical",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Month Movement"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "block_not_silent"
+    },
+    {
+      "metric_id": "M_FORWARD_CALENDAR_TOTAL",
+      "family": "forward_collectibles",
+      "label": "Forward Collectible Calendar",
+      "source_reports": [
+        "R36"
+      ],
+      "required_fact_types": [
+        "fact_forward_collectible_calendar"
+      ],
+      "formula": "Sum 2026 onward active collectible calendar",
+      "grain": "entity_collection_year",
+      "unit": "AED",
+      "reporting_basis": "R36 milestone cohort / forward collectible calendar",
+      "criticality": "critical",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM"
+      ],
+      "display_surfaces": [
+        "Narratives / Portfolio",
+        "Narratives / Roadmap"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "block_not_silent"
+    },
+    {
+      "metric_id": "M_ADVANCE_CY_FY_MIX",
+      "family": "advance",
+      "label": "CY/FY Advance Mix",
+      "source_reports": [
+        "R08"
+      ],
+      "required_fact_types": [
+        "fact_advance_cyfy"
+      ],
+      "formula": "CY advance and FY advance divided by total advance",
+      "grain": "snapshot_entity",
+      "unit": "pct",
+      "reporting_basis": "R08 Advance CY/FY basis",
+      "criticality": "important",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM",
+        "Finance"
+      ],
+      "display_surfaces": [
+        "Narratives / Advance"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "unavailable_not_silent"
+    },
+    {
+      "metric_id": "M_HIGH_VALUE_NO_TOUCH_POOL",
+      "family": "action_intelligence",
+      "label": "High-value No-touch Pool",
+      "source_reports": [
+        "R10"
+      ],
+      "required_fact_types": [
+        "fact_account_allocation",
+        "fact_account_communication"
+      ],
+      "formula": "Accounts above overdue threshold with communication_count = 0",
+      "grain": "account_unit_snapshot",
+      "unit": "AED/count",
+      "reporting_basis": "R10 Allocation",
+      "criticality": "important",
+      "role_visibility": [
+        "CCO/GM/AGM",
+        "Collector/RM"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Risk & Action"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "unavailable_not_silent"
+    },
+    {
+      "metric_id": "M_TRACKER_TO_RECEIPT_CONVERSION",
+      "family": "collector_productivity",
+      "label": "Tracker-to-Receipt Conversion",
+      "source_reports": [
+        "R10"
+      ],
+      "required_fact_types": [
+        "fact_account_tracker_amount",
+        "fact_account_receipt_generation"
+      ],
+      "formula": "receipt_generated_aed / amount_in_tracker_aed * 100",
+      "grain": "collector_or_group_snapshot",
+      "unit": "pct",
+      "reporting_basis": "R10 Agent Productivity / Allocation",
+      "criticality": "important",
+      "role_visibility": [
+        "CCO/GM/AGM",
+        "Finance",
+        "Collector/RM"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Risk & Action"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "unavailable_not_silent"
+    },
+    {
+      "metric_id": "M_PAYMENT_PER_CONTACT",
+      "family": "collector_productivity",
+      "label": "Payment per Contact",
+      "source_reports": [
+        "R30"
+      ],
+      "required_fact_types": [
+        "fact_collector_feedback_summary"
+      ],
+      "formula": "total_payment_aed / contacts",
+      "grain": "collector_month",
+      "unit": "AED/contact",
+      "reporting_basis": "R30 Monthly Feedback",
+      "criticality": "supporting",
+      "role_visibility": [
+        "CCO/GM/AGM",
+        "Collector/RM"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Risk & Action"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "unavailable_not_silent"
+    },
+    {
+      "metric_id": "M_PR_APPROVAL_CONVERSION",
+      "family": "finance_quality",
+      "label": "PR Approval Conversion",
+      "source_reports": [
+        "R31"
+      ],
+      "required_fact_types": [
+        "fact_pr_status"
+      ],
+      "formula": "approved_pr_amount_aed / total_pr_amount_aed * 100",
+      "grain": "period_entity",
+      "unit": "pct",
+      "reporting_basis": "R31 PR Unit Update",
+      "criticality": "important",
+      "role_visibility": [
+        "Finance",
+        "MIS/QCG/Admin"
+      ],
+      "display_surfaces": [
+        "Narratives / Dues",
+        "Evidence"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "unavailable_not_silent"
+    },
+    {
+      "metric_id": "M_PR_TO_SOA_WITHIN_2D_PCT",
+      "family": "finance_quality",
+      "label": "PR-to-SOA Within 0-2 Days",
+      "source_reports": [
+        "R20"
+      ],
+      "required_fact_types": [
+        "fact_pr_soa_tat_sla_pct"
+      ],
+      "formula": "0-2 day PR-to-SOA count / total PR-to-SOA count * 100",
+      "grain": "period_entity",
+      "unit": "pct",
+      "reporting_basis": "R20 PR to SOA TAT",
+      "criticality": "important",
+      "role_visibility": [
+        "Finance",
+        "MIS/QCG/Admin"
+      ],
+      "display_surfaces": [
+        "Narratives / Dues",
+        "Evidence"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "unavailable_not_silent"
+    },
+    {
+      "metric_id": "M_LEGAL_PROCESS_BLOCKED_OD",
+      "family": "legal_risk",
+      "label": "Legal-process Blocked OD",
+      "source_reports": [
+        "R17"
+      ],
+      "required_fact_types": [
+        "fact_spa_status_exposure",
+        "fact_preregistration_status_exposure"
+      ],
+      "formula": "SPA not sent + SPA sent not signed + SPA executed not pre-registered exposure",
+      "grain": "project_snapshot",
+      "unit": "AED",
+      "reporting_basis": "R17 SPA / pre-registration overdue bifurcation",
+      "criticality": "important",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM",
+        "Finance"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Risk & Action",
+        "Narratives / Dues"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "unavailable_not_silent"
+    },
+    {
+      "metric_id": "M_TERMINATION_ELIGIBLE_EXPOSURE",
+      "family": "termination_risk",
+      "label": "Termination Eligible Exposure",
+      "source_reports": [
+        "R34"
+      ],
+      "required_fact_types": [
+        "fact_termination_eligibility"
+      ],
+      "formula": "Sum eligible termination overdue exposure",
+      "grain": "account_unit_snapshot",
+      "unit": "AED",
+      "reporting_basis": "R34 Termination Status",
+      "criticality": "critical",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM",
+        "MIS/QCG/Admin"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Risk & Action",
+        "Narratives / Dues"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "block_not_silent"
+    },
+    {
+      "metric_id": "M_LOW_PAID_HIGH_VALUE_EXPOSURE",
+      "family": "risk",
+      "label": "Low-paid High-value Exposure",
+      "source_reports": [
+        "R38",
+        "R16"
+      ],
+      "required_fact_types": [
+        "fact_risk_paid_band",
+        "fact_customer_portfolio_snapshot"
+      ],
+      "formula": "Exposure in low paid % bands with high CIV/investment value",
+      "grain": "project_customer_or_investment_band",
+      "unit": "AED",
+      "reporting_basis": "R38 Risk Analysis + R16 Customer Portfolio when available",
+      "criticality": "important",
+      "role_visibility": [
+        "Board/CXO",
+        "CCO/GM/AGM"
+      ],
+      "display_surfaces": [
+        "Live Pulse / Risk & Action",
+        "Narratives / Portfolio"
+      ],
+      "lineage_required": true,
+      "fallback_policy": "unavailable_not_silent"
+    }
+  ]
+}
