@@ -1,0 +1,21 @@
+{
+  "platform": "Sobha Collections Intelligence Platform",
+  "release": "go-live-rc1",
+  "version": "v8.13-batch13-with-batch14-18-overlays",
+  "status": "staging-ready",
+  "runtime_baseline": "Batch 13",
+  "applied_overlays": [
+    "Batch 14 rollout/UAT",
+    "Batch 15 adoption analytics",
+    "Batch 16 governance",
+    "Batch 17 roadmap",
+    "Batch 18 analytics transformation engine"
+  ],
+  "guardrails": {
+    "liquid_glass_arrival_doors": ["Live Pulse", "Narratives"],
+    "no_third_arrival_door": true,
+    "no_silent_fallback": true,
+    "rbac_required": true,
+    "lineage_required": true
+  }
+}
