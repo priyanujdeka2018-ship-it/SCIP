@@ -90,5 +90,11 @@ CREATE INDEX IF NOT EXISTS idx_identity_collector_user ON collector_mappings(use
 CREATE INDEX IF NOT EXISTS idx_identity_sessions_user ON sso_sessions(user_id, status);
 CREATE INDEX IF NOT EXISTS idx_identity_denials_created ON identity_denials(created_at);
 
-INSERT OR IGNORE INTO migration_history(migration_id, description, applied_at, status, evidence_json)
-VALUES ('004_batch13_identity_provisioning', 'SSO/JWT identity and provisioning schema', datetime('now'), 'applied', '{"contract":"identity_sso_jwt.v1.batch13"}');
+CREATE TABLE IF NOT EXISTS migration_history (
+    migration_id TEXT PRIMARY KEY,
+    applied_at TEXT NOT NULL,
+    status TEXT NOT NULL
+);
+
+INSERT OR IGNORE INTO migration_history(migration_id, applied_at, status)
+VALUES ('004_batch13_identity_provisioning', datetime('now'), 'applied');
