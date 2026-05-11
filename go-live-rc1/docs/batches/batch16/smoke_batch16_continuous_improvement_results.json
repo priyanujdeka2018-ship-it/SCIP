@@ -1,0 +1,243 @@
+{
+  "contract_version": "continuous_improvement_governance.v1.batch16",
+  "overall_passed": true,
+  "checks_passed": 47,
+  "checks_total": 47,
+  "checks": [
+    {
+      "name": "seeded_improvement_items",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "contract_version",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-8F0F25DD35_has_evidence",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-8F0F25DD35_has_owner",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-8F0F25DD35_has_decision",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-8F0F25DD35_has_expected_impact",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-8F0F25DD35_has_rollout_gate",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-8F0F25DD35_has_rollback",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-8F0F25DD35_has_lg_guardrail",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-8F0F25DD35_has_priority",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-95BB8A84E3_has_evidence",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-95BB8A84E3_has_owner",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-95BB8A84E3_has_decision",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-95BB8A84E3_has_expected_impact",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-95BB8A84E3_has_rollout_gate",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-95BB8A84E3_has_rollback",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-95BB8A84E3_has_lg_guardrail",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-95BB8A84E3_has_priority",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-A7BA951CAA_has_evidence",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-A7BA951CAA_has_owner",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-A7BA951CAA_has_decision",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-A7BA951CAA_has_expected_impact",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-A7BA951CAA_has_rollout_gate",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-A7BA951CAA_has_rollback",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-A7BA951CAA_has_lg_guardrail",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-A7BA951CAA_has_priority",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-2C9784A4B4_has_evidence",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-2C9784A4B4_has_owner",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-2C9784A4B4_has_decision",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-2C9784A4B4_has_expected_impact",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-2C9784A4B4_has_rollout_gate",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-2C9784A4B4_has_rollback",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-2C9784A4B4_has_lg_guardrail",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "item_CI-2C9784A4B4_has_priority",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "entity_head_removed",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "backlog_scoring_model_priority",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "templates_available",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "frontend_governance_l5_panel_present",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "no_third_arrival_door_in_frontend",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "main_includes_governance_router",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "migration_has_improvement_items",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "migration_has_change_control_decisions",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "migration_has_metric_definition_change_log",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "migration_has_source_owner_sla_reviews",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "migration_has_quickball_answer_reviews",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "migration_has_ux_simplification_reviews",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "migration_has_release_notes_governance",
+      "passed": true,
+      "details": {}
+    }
+  ]
+}
