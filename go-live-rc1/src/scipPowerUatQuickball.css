@@ -136,3 +136,187 @@
     width: min(320px, calc(100vw - 24px));
   }
 }
+
+/* SCIP sleek Quickball + typography refinement v2 */
+:root {
+  --scip-sleek-text: #253041;
+  --scip-sleek-muted: #687386;
+  --scip-sleek-soft: #f7f4ee;
+  --scip-sleek-line: rgba(126, 105, 72, 0.16);
+  --scip-sleek-gold: #9b7a3f;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.arrival-title,
+.world-headline,
+.primary-answer,
+.panel-title,
+.drawer-title,
+.kpi-card h3,
+.action-cohort-card h3,
+.account-action-card h3,
+.notification-capsule h3,
+h1,
+h2,
+h3 {
+  color: var(--scip-sleek-text);
+  font-weight: 540;
+  letter-spacing: -0.025em;
+}
+
+.arrival-subtitle,
+.world-summary,
+.answer-copy,
+.panel-sub,
+.visual-caption,
+.kpi-card p,
+.action-cohort-card p,
+.account-action-card p,
+.notification-capsule p,
+.data-date-note,
+p,
+li {
+  color: var(--scip-sleek-muted);
+  font-weight: 390;
+  line-height: 1.55;
+}
+
+.kicker,
+.label,
+.basis,
+.metric-label,
+.metric-basis,
+.context-pill,
+.source-pill {
+  color: rgba(82, 91, 106, 0.82);
+  font-weight: 500;
+  letter-spacing: 0.045em;
+}
+
+.value,
+.visual-number,
+.metric-value {
+  color: var(--scip-sleek-text);
+  font-weight: 560;
+  letter-spacing: -0.018em;
+}
+
+.primary-button,
+.secondary-button,
+.ghost-button,
+.curiosity-chip,
+.rail-button,
+.choice-card,
+.door-card {
+  font-weight: 500;
+}
+
+.quickball-floating {
+  width: 62px;
+  min-height: 62px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.23);
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  box-shadow: 0 18px 46px rgba(36, 48, 65, 0.11), inset 0 1px 18px rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(22px) saturate(1.2);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
+}
+
+.quickball-floating.open {
+  width: min(336px, calc(100vw - 28px));
+  min-height: 218px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.quickball-floating.dragging {
+  transform: scale(1.04);
+  box-shadow: 0 30px 82px rgba(36, 48, 65, 0.16), inset 0 1px 20px rgba(255, 255, 255, 0.34);
+}
+
+.quickball-floating-trigger {
+  width: 62px;
+  height: 62px;
+  cursor: grab;
+}
+
+.quickball-floating-trigger:active {
+  cursor: grabbing;
+}
+
+.quickball-floating.open .quickball-floating-trigger {
+  height: 62px;
+}
+
+.quickball-orb {
+  width: 44px;
+  height: 44px;
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.33) 46%, rgba(155, 122, 63, 0.16) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 12px rgba(255, 255, 255, 0.78), 0 10px 28px rgba(36, 48, 65, 0.13);
+}
+
+.quickball-floating-title {
+  color: var(--scip-sleek-text);
+  font-size: 0.86rem;
+  font-weight: 520;
+}
+
+.quickball-floating-body {
+  padding: 0 16px 16px;
+}
+
+.quickball-input {
+  color: var(--scip-sleek-text);
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid var(--scip-sleek-line);
+}
+
+.quickball-prompt-list .ghost-button {
+  color: var(--scip-sleek-muted);
+  background: rgba(255, 255, 255, 0.48);
+  border-color: var(--scip-sleek-line);
+}
+
+.quickball-floating-answer {
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: min(320px, calc(100vw - 28px));
+  max-height: 168px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--scip-sleek-line);
+}
+
+.quickball-floating-answer strong {
+  color: var(--scip-sleek-text);
+  font-weight: 560;
+}
+
+.quickball-floating-answer p {
+  display: -webkit-box;
+  margin: 6px 0 0;
+  overflow: hidden;
+  color: var(--scip-sleek-muted);
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
+@media (max-width: 720px) {
+  .quickball-floating.open {
+    width: min(318px, calc(100vw - 20px));
+  }
+
+  .quickball-floating-answer {
+    width: min(318px, calc(100vw - 20px));
+  }
+}

@@ -74,28 +74,28 @@ const LIVE_PULSE_CHOICES = [
     key: "current_signal",
     title: "Current Signal",
     question: "Are we okay today?",
-    summary: "A calm reading of what needs attention now, anchored on OD, collections, and confidence.",
+    summary: "A quiet read of OD, collections, and confidence.",
   },
   {
     key: "month_movement",
     title: "Month Movement",
     question: "How is this month moving?",
-    summary: "MTD movement, run-rate, target gap, and the finance/MDO basis behind the month-end forecast.",
+    summary: "MTD movement, run-rate, target gap, and basis.",
   },
   {
     key: "risk_action",
     title: "Risk & Action",
     question: "Where should we act?",
-    summary: "Attention areas, OD pressure, collection gaps, and action-ready follow-up paths.",
+    summary: "Pressure points and action paths.",
   },
 ];
 
 const NARRATIVE_STEPS = [
-  { key: "story", label: "Story", question: "What is the board-level story?" },
-  { key: "portfolio", label: "Portfolio", question: "What is the portfolio position?" },
-  { key: "dues", label: "Dues", question: "Where is OD / dues risk?" },
-  { key: "advance", label: "Advance", question: "What is the advance opportunity?" },
-  { key: "roadmap", label: "Roadmap", question: "What should leadership do next?" },
+  { key: "story", label: "Story", question: "What is the story?" },
+  { key: "portfolio", label: "Portfolio", question: "Where do we stand?" },
+  { key: "dues", label: "Dues", question: "Where is dues risk?" },
+  { key: "advance", label: "Advance", question: "What is the advance view?" },
+  { key: "roadmap", label: "Roadmap", question: "What next?" },
 ];
 
 function safeArray(value) {
@@ -136,36 +136,36 @@ function pickCardsForFocus(cards, route, focus) {
 function getPrimaryCopy(route, focus, roleLabel) {
   const focusCopy = {
     current_signal: {
-      answer: "Start with the signal, then ask for evidence only when needed.",
-      copy: "The screen holds back dense tables and exposes the minimum trusted view: data confidence, the main lineaged cards, and the next curiosity path.",
+      answer: "Start with the signal.",
+      copy: "A calm view of confidence, lineaged cards, and the next path.",
     },
     month_movement: {
-      answer: "The month view stays forecast-led and basis-labelled.",
-      copy: "R04 Finance actuals and R02 MDO targets stay visibly labelled. The forecast panel discloses working-day assumptions and keeps calculations in the backend.",
+      answer: "Forecast-led. Basis-labelled.",
+      copy: "R04 Finance and R02 MDO remain visible. Assumptions stay server-disclosed.",
     },
     risk_action: {
-      answer: "Risk is treated as a prompt for action, not another chart wall.",
-      copy: "The cards remain lineaged and action-oriented. Collector/account evidence remains gated until the user asks for depth.",
+      answer: "Risk becomes action.",
+      copy: "Lineaged cards first. Account depth only on request.",
     },
     story: {
-      answer: "Narratives now feel like a guided board briefing.",
-      copy: "The rail moves Story → Portfolio → Dues → Advance → Roadmap. Executive output stays board-safe, while detailed evidence remains one click deeper.",
+      answer: "A guided briefing.",
+      copy: "Story → Portfolio → Dues → Advance → Roadmap. Evidence stays one layer deeper.",
     },
     portfolio: {
-      answer: "Portfolio is presented as position, implication, and proof on demand.",
-      copy: "The screen prioritises a single board-safe answer and only reveals target basis, entity split, and source detail through the lineage/evidence drawer.",
+      answer: "Position, implication, proof.",
+      copy: "One clear answer first; source detail on demand.",
     },
     dues: {
-      answer: "Dues and OD are solid financial truth surfaces.",
-      copy: "OD numbers never sit behind heavy blur. Glass is reserved for navigation and reveal; KPI cards remain stable and readable.",
+      answer: "Dues and OD stay solid.",
+      copy: "Numbers remain stable, readable, and evidence-ready.",
     },
     advance: {
-      answer: "Advance is framed as opportunity with CY/FY and rebate evidence.",
-      copy: "R08 labels stay visible and the Sobha/UAQ hierarchy remains locked without inventing missing child splits.",
+      answer: "Advance, CY/FY, rebate evidence.",
+      copy: "R08 labels stay visible. Missing splits are not invented.",
     },
     roadmap: {
-      answer: "Roadmap closes the loop from insight to leadership action.",
-      copy: "The interface keeps action close to context: Present, summary, export, action list, and Quickball explanation.",
+      answer: "Insight to action.",
+      copy: "Present, summary, export, action, and explanation stay close.",
     },
   };
   const item = focusCopy[focus] || focusCopy.current_signal;
@@ -314,17 +314,17 @@ function ArrivalScreen({ onEnter, dataDate }) {
       <section className="arrival-card glass-surface gold-edge">
         <div className="kicker">Sobha Collections Intelligence Platform</div>
         <h1 className="arrival-title">SCIP</h1>
-        <p className="arrival-subtitle">Begin with the signal. Follow an intelligent briefing that can go as deep as you ask.</p>
+        <p className="arrival-subtitle">Begin with the signal. Go deeper only when needed.</p>
         <div className="arrival-doors" aria-label="Primary entry choices">
           <button className="door-card glass-surface" onClick={() => onEnter("live_pulse")}>
             <span className="kicker">Live Pulse</span>
-            <h2>What needs attention now?</h2>
-            <p>Current signal, month movement, risk and action. No raw tree until you ask for depth.</p>
+            <h2>What needs attention?</h2>
+            <p>Signal, movement, risk, and action.</p>
           </button>
           <button className="door-card glass-surface" onClick={() => onEnter("narratives")}>
             <span className="kicker">Narratives</span>
-            <h2>The story behind the numbers.</h2>
-            <p>Guided executive briefing: Story, Portfolio, Dues, Advance, Roadmap, and Present-ready outputs.</p>
+            <h2>The story behind the signal.</h2>
+            <p>Story, Portfolio, Dues, Advance, Roadmap.</p>
           </button>
         </div>
         <p className="data-date-note">Data date: {dataDate || "Unavailable"}</p>
@@ -366,8 +366,8 @@ function WorldHome({ route, focus, setFocus }) {
     return (
       <section className="world-home glass-surface" aria-label="Narratives home">
         <div className="kicker">Narratives</div>
-        <h2 className="world-headline">A guided boardroom journey, not a dashboard menu.</h2>
-        <p className="world-summary">Move through Story, Portfolio, Dues, Advance and Roadmap. Evidence appears only when requested.</p>
+        <h2 className="world-headline">A guided briefing, not a dashboard.</h2>
+        <p className="world-summary">Move through the story. Open evidence when needed.</p>
         <nav className="narrative-rail" aria-label="Narrative steps">
           {NARRATIVE_STEPS.map((step) => (
             <button key={step.key} className="rail-button" aria-current={focus === step.key ? "step" : undefined} onClick={() => setFocus(step.key)}>
@@ -382,8 +382,8 @@ function WorldHome({ route, focus, setFocus }) {
   return (
     <section className="world-home glass-surface" aria-label="Live Pulse home">
       <div className="kicker">Live Pulse</div>
-      <h2 className="world-headline">Three choices only. One signal at a time.</h2>
-      <p className="world-summary">Target Track/YTD remains available as a follow-up from Month Movement, not as a fourth first-level choice.</p>
+      <h2 className="world-headline">Three choices. One signal.</h2>
+      <p className="world-summary">Target Track/YTD stays inside Month Movement.</p>
       <div className="choice-grid">
         {LIVE_PULSE_CHOICES.map((choice) => (
           <button key={choice.key} className="choice-card glass-surface" aria-pressed={focus === choice.key} onClick={() => setFocus(choice.key)}>
@@ -402,7 +402,7 @@ function FocusScreen({ route, focus, roleLabel, cards, forecast, onOpenLineage, 
   const copy = getPrimaryCopy(route, focus, roleLabel);
   const primaryCard = selectedCards[0];
   const question = route === "narratives"
-    ? (NARRATIVE_STEPS.find((item) => item.key === focus)?.question || "What is the board-level story?")
+    ? (NARRATIVE_STEPS.find((item) => item.key === focus)?.question || "What is the story?")
     : (LIVE_PULSE_CHOICES.find((item) => item.key === focus)?.question || "Are we okay today?");
 
   return (
@@ -702,6 +702,16 @@ const QUICKBALL_PROMPTS = [
   { label: "Open actions", metric: "ACTION_QUEUE" },
 ];
 
+function clampQuickballPosition(next, open = false) {
+  if (typeof window === "undefined") return next;
+  const width = open ? 360 : 64;
+  const height = open ? 268 : 64;
+  return {
+    x: Math.max(14, Math.min(Number(next.x) || 14, window.innerWidth - width - 14)),
+    y: Math.max(14, Math.min(Number(next.y) || 14, window.innerHeight - height - 14)),
+  };
+}
+
 function getStoredQuickballPosition() {
   if (typeof window === "undefined") return { x: 24, y: 24 };
   try {
@@ -709,97 +719,136 @@ function getStoredQuickballPosition() {
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Number.isFinite(parsed.x) && Number.isFinite(parsed.y)) {
-        return {
-          x: Math.max(12, Math.min(parsed.x, window.innerWidth - 76)),
-          y: Math.max(12, Math.min(parsed.y, window.innerHeight - 76)),
-        };
+        return clampQuickballPosition(parsed, false);
       }
     }
   } catch {
     window.localStorage.removeItem("scip.quickball.position");
   }
-  return { x: Math.max(16, window.innerWidth - 92), y: Math.max(16, window.innerHeight - 92) };
+  return clampQuickballPosition({ x: window.innerWidth - 86, y: window.innerHeight - 86 }, false);
 }
 
-function QuickballCommand({ role, answer, onAsk, collapsedPrompt = "Ask about this number..." }) {
+function QuickballCommand({ role, answer, onAsk, collapsedPrompt = "Ask..." }) {
   const [metric, setMetric] = useState("");
   const [open, setOpen] = useState(false);
   const [asking, setAsking] = useState(false);
   const [position, setPosition] = useState(getStoredQuickballPosition);
+  const [dragging, setDragging] = useState(false);
+  const [responsePeek, setResponsePeek] = useState(false);
   const dragRef = useRef(null);
-  const movedRef = useRef(false);
+  const holdTimerRef = useRef(null);
+  const responseTimerRef = useRef(null);
   const blocked = answer?.status === "blocked_untrusted_metric";
+
+  const persistPosition = useCallback((next, nextOpen = open) => {
+    const clamped = clampQuickballPosition(next, nextOpen);
+    setPosition(clamped);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("scip.quickball.position", JSON.stringify(clamped));
+    }
+  }, [open]);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
-    const clampPosition = () => {
-      setPosition((current) => {
-        const next = {
-          x: Math.max(12, Math.min(current.x, window.innerWidth - (open ? 356 : 76))),
-          y: Math.max(12, Math.min(current.y, window.innerHeight - (open ? 264 : 76))),
-        };
-        window.localStorage.setItem("scip.quickball.position", JSON.stringify(next));
-        return next;
-      });
-    };
-    window.addEventListener("resize", clampPosition);
-    return () => window.removeEventListener("resize", clampPosition);
-  }, [open]);
+    const clampOnResize = () => persistPosition(position, open);
+    window.addEventListener("resize", clampOnResize);
+    return () => window.removeEventListener("resize", clampOnResize);
+  }, [open, persistPosition, position]);
 
-  const persistPosition = useCallback((next) => {
-    setPosition(next);
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("scip.quickball.position", JSON.stringify(next));
+  useEffect(() => {
+    if (!answer) return undefined;
+    setResponsePeek(true);
+    window.clearTimeout(responseTimerRef.current);
+    responseTimerRef.current = window.setTimeout(() => setResponsePeek(false), 12000);
+    return () => window.clearTimeout(responseTimerRef.current);
+  }, [answer]);
+
+  const beginDrag = useCallback(() => {
+    const drag = dragRef.current;
+    if (!drag || drag.active) return;
+    drag.active = true;
+    setDragging(true);
+    navigator.vibrate?.(12);
+  }, []);
+
+  const clearHoldTimer = useCallback(() => {
+    if (holdTimerRef.current) {
+      window.clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
     }
   }, []);
 
   const onPointerDown = useCallback((event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
     dragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
       originX: position.x,
       originY: position.y,
+      active: false,
+      moved: false,
     };
-    movedRef.current = false;
     event.currentTarget.setPointerCapture?.(event.pointerId);
-  }, [position.x, position.y]);
+    clearHoldTimer();
+    holdTimerRef.current = window.setTimeout(beginDrag, 180);
+  }, [beginDrag, clearHoldTimer, position.x, position.y]);
 
   const onPointerMove = useCallback((event) => {
     const drag = dragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
     const dx = event.clientX - drag.startX;
     const dy = event.clientY - drag.startY;
-    if (Math.abs(dx) + Math.abs(dy) > 4) movedRef.current = true;
-    const width = open ? 356 : 76;
-    const height = open ? 264 : 76;
-    persistPosition({
-      x: Math.max(12, Math.min(drag.originX + dx, window.innerWidth - width)),
-      y: Math.max(12, Math.min(drag.originY + dy, window.innerHeight - height)),
-    });
-  }, [open, persistPosition]);
+    const distance = Math.abs(dx) + Math.abs(dy);
+    if (distance > 6) {
+      drag.moved = true;
+      beginDrag();
+    }
+    if (!drag.active) return;
+    persistPosition({ x: drag.originX + dx, y: drag.originY + dy }, false);
+  }, [beginDrag, persistPosition]);
 
   const onPointerUp = useCallback((event) => {
-    const wasMoved = movedRef.current;
+    const drag = dragRef.current;
+    clearHoldTimer();
     dragRef.current = null;
     event.currentTarget.releasePointerCapture?.(event.pointerId);
-    if (wasMoved) {
+    setDragging(false);
+
+    if (drag?.active || drag?.moved) {
       setOpen(false);
-      navigator.vibrate?.(12);
+      setResponsePeek(false);
+      navigator.vibrate?.([6, 18, 6]);
       return;
     }
-    setOpen((value) => !value);
+
+    setOpen((value) => {
+      const next = !value;
+      persistPosition(position, next);
+      return next;
+    });
+    setResponsePeek(false);
     navigator.vibrate?.(8);
-  }, []);
+  }, [clearHoldTimer, persistPosition, position]);
+
+  const onPointerCancel = useCallback((event) => {
+    clearHoldTimer();
+    dragRef.current = null;
+    setDragging(false);
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+  }, [clearHoldTimer]);
 
   const runAsk = useCallback(async (nextMetric) => {
     if (!onAsk || asking) return;
     const value = String(nextMetric || metric || "OD_TODAY").trim();
     setAsking(true);
+    setOpen(true);
+    setResponsePeek(false);
     try {
       await onAsk(value, role);
       setMetric("");
       setOpen(false);
+      setResponsePeek(true);
     } finally {
       setAsking(false);
     }
@@ -807,9 +856,9 @@ function QuickballCommand({ role, answer, onAsk, collapsedPrompt = "Ask about th
 
   return (
     <section
-      className={`quickball-floating glass-surface ${open ? "open" : ""} ${dragRef.current ? "dragging" : ""}`}
+      className={`quickball-floating glass-surface ${open ? "open" : ""} ${dragging ? "dragging" : ""} ${responsePeek && !open ? "has-response" : ""}`}
       style={{ left: position.x, top: position.y }}
-      aria-label="Quickball command capsule"
+      aria-label="Quickball command disk"
     >
       <button
         type="button"
@@ -817,10 +866,11 @@ function QuickballCommand({ role, answer, onAsk, collapsedPrompt = "Ask about th
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
         aria-expanded={open}
-        aria-label={open ? "Collapse Quickball" : "Open Quickball"}
+        aria-label={open ? "Collapse Quickball" : "Touch to open Quickball. Hold and drag to move."}
       >
-        <span className="quickball-orb" />
+        <span className="quickball-orb" aria-hidden="true" />
         {open && <span className="quickball-floating-title">Quickball</span>}
       </button>
 
@@ -838,7 +888,7 @@ function QuickballCommand({ role, answer, onAsk, collapsedPrompt = "Ask about th
               aria-label="Ask Quickball"
             />
             <button className="primary-button" disabled={asking} onClick={() => runAsk(metric)}>
-              {asking ? "Asking..." : "Ask"}
+              {asking ? "..." : "Ask"}
             </button>
           </div>
           <div className="quickball-prompt-list" aria-label="Quickball prompts">
@@ -851,10 +901,10 @@ function QuickballCommand({ role, answer, onAsk, collapsedPrompt = "Ask about th
         </div>
       )}
 
-      {answer && (
+      {answer && responsePeek && !open && (
         <div className={`quickball-answer quickball-floating-answer solid-truth ${blocked ? "blocked-warning" : ""}`} role={blocked ? "alert" : "status"}>
-          <strong>{blocked ? "Quickball blocked an untrusted answer." : (answer.metric_label || answer.metric_key || "Quickball")}</strong>
-          <p>{blocked ? (answer.reason || "A critical metric failed lineage validation.") : answer.answer}</p>
+          <strong>{blocked ? "Blocked" : (answer.metric_label || answer.metric_key || "Quickball")}</strong>
+          <p>{blocked ? (answer.reason || "Lineage gate failed.") : answer.answer}</p>
         </div>
       )}
     </section>
@@ -1245,7 +1295,7 @@ export default function App() {
         <WorkflowDrawer open={workflowDrawer.open} record={workflowDrawer.record} sourceAction={workflowDrawer.sourceAction} onClose={closeWorkflow} />
         <LineageDrawer open={drawer.open} title={drawer.title} refs={drawer.refs} onClose={closeLineage} />
       </div>
-      <QuickballCommand role={role} answer={quickballAnswer} onAsk={askQuickball} collapsedPrompt={route === "narratives" ? "Ask for board explanation..." : "Ask about today's movement..."} />
+      <QuickballCommand role={role} answer={quickballAnswer} onAsk={askQuickball} collapsedPrompt={route === "narratives" ? "Ask for explanation..." : "Ask about movement..."} />
     </main>
   );
 }
