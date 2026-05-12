@@ -27,13 +27,13 @@ import logging
 logger = logging.getLogger(__name__)
 
 VALID_R_CODES = {
-    "R01", "R02", "R03", "R04", "R05", "R06", "R07", "R08",
+    "R01", "R02", "R03", "R04", "R05", "R06", "R07", "R08", "R09",
     "R10", "R12", "R13", "R16", "R17", "R18", "R20", "R25", "R26",
     "R27", "R28", "R29", "R30", "R31", "R32", "R34", "R35", "R36",
     "R37", "R38"
 }
 
-R_CODE_PATTERN = re.compile(r"^(R\d+)(?:_.*)?\.(xlsx|xlsb)$", re.IGNORECASE)
+R_CODE_PATTERN = re.compile(r"^(R\d{1,2})(?:[_\s-].*)?\.(xlsx|xlsb)$", re.IGNORECASE)
 
 
 def resolve_r_series(data_dir):

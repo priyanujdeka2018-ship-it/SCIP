@@ -19,8 +19,9 @@
  *   - Solid surfaces are used for KPIs, charts, evidence, formulas and financial truth.
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./liquidGlassTokens.css";
+import "./scipPowerUatQuickball.css";
 
 const BACKEND_URL = import.meta?.env?.VITE_BACKEND_URL || "https://scip.onrender.com";
 const LOCAL_DEV_BYPASS = import.meta?.env?.VITE_SCIP_LOCAL_DEV_BYPASS === "true";
@@ -694,23 +695,164 @@ function LineageDrawer({ open, title, refs, onClose }) {
   );
 }
 
+const QUICKBALL_PROMPTS = [
+  { label: "Explain number", metric: "OD_TODAY" },
+  { label: "Show basis", metric: "MTD_TOTAL_COLLECTIONS" },
+  { label: "Board note", metric: "OD_TODAY" },
+  { label: "Open actions", metric: "ACTION_QUEUE" },
+];
+
+function getStoredQuickballPosition() {
+  if (typeof window === "undefined") return { x: 24, y: 24 };
+  try {
+    const saved = window.localStorage.getItem("scip.quickball.position");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Number.isFinite(parsed.x) && Number.isFinite(parsed.y)) {
+        return {
+          x: Math.max(12, Math.min(parsed.x, window.innerWidth - 76)),
+          y: Math.max(12, Math.min(parsed.y, window.innerHeight - 76)),
+        };
+      }
+    }
+  } catch {
+    window.localStorage.removeItem("scip.quickball.position");
+  }
+  return { x: Math.max(16, window.innerWidth - 92), y: Math.max(16, window.innerHeight - 92) };
+}
+
 function QuickballCommand({ role, answer, onAsk, collapsedPrompt = "Ask about this number..." }) {
   const [metric, setMetric] = useState("");
+  const [open, setOpen] = useState(false);
+  const [asking, setAsking] = useState(false);
+  const [position, setPosition] = useState(getStoredQuickballPosition);
+  const dragRef = useRef(null);
+  const movedRef = useRef(false);
   const blocked = answer?.status === "blocked_untrusted_metric";
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const clampPosition = () => {
+      setPosition((current) => {
+        const next = {
+          x: Math.max(12, Math.min(current.x, window.innerWidth - (open ? 356 : 76))),
+          y: Math.max(12, Math.min(current.y, window.innerHeight - (open ? 264 : 76))),
+        };
+        window.localStorage.setItem("scip.quickball.position", JSON.stringify(next));
+        return next;
+      });
+    };
+    window.addEventListener("resize", clampPosition);
+    return () => window.removeEventListener("resize", clampPosition);
+  }, [open]);
+
+  const persistPosition = useCallback((next) => {
+    setPosition(next);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("scip.quickball.position", JSON.stringify(next));
+    }
+  }, []);
+
+  const onPointerDown = useCallback((event) => {
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: position.x,
+      originY: position.y,
+    };
+    movedRef.current = false;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  }, [position.x, position.y]);
+
+  const onPointerMove = useCallback((event) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const dx = event.clientX - drag.startX;
+    const dy = event.clientY - drag.startY;
+    if (Math.abs(dx) + Math.abs(dy) > 4) movedRef.current = true;
+    const width = open ? 356 : 76;
+    const height = open ? 264 : 76;
+    persistPosition({
+      x: Math.max(12, Math.min(drag.originX + dx, window.innerWidth - width)),
+      y: Math.max(12, Math.min(drag.originY + dy, window.innerHeight - height)),
+    });
+  }, [open, persistPosition]);
+
+  const onPointerUp = useCallback((event) => {
+    const wasMoved = movedRef.current;
+    dragRef.current = null;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    if (wasMoved) {
+      setOpen(false);
+      navigator.vibrate?.(12);
+      return;
+    }
+    setOpen((value) => !value);
+    navigator.vibrate?.(8);
+  }, []);
+
+  const runAsk = useCallback(async (nextMetric) => {
+    if (!onAsk || asking) return;
+    const value = String(nextMetric || metric || "OD_TODAY").trim();
+    setAsking(true);
+    try {
+      await onAsk(value, role);
+      setMetric("");
+      setOpen(false);
+    } finally {
+      setAsking(false);
+    }
+  }, [asking, metric, onAsk, role]);
+
   return (
-    <section className="quickball-capsule glass-surface" aria-label="Quickball command capsule">
-      <div className="quickball-row">
-        <input
-          className="quickball-input"
-          value={metric}
-          onChange={(event) => setMetric(event.target.value)}
-          placeholder={collapsedPrompt}
-          aria-label="Ask Quickball"
-        />
-        {onAsk ? <button className="primary-button" onClick={() => onAsk(metric, role)}>Ask</button> : null}
-      </div>
+    <section
+      className={`quickball-floating glass-surface ${open ? "open" : ""} ${dragRef.current ? "dragging" : ""}`}
+      style={{ left: position.x, top: position.y }}
+      aria-label="Quickball command capsule"
+    >
+      <button
+        type="button"
+        className="quickball-floating-trigger"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        aria-expanded={open}
+        aria-label={open ? "Collapse Quickball" : "Open Quickball"}
+      >
+        <span className="quickball-orb" />
+        {open && <span className="quickball-floating-title">Quickball</span>}
+      </button>
+
+      {open && (
+        <div className="quickball-floating-body">
+          <div className="quickball-row compact">
+            <input
+              className="quickball-input"
+              value={metric}
+              onChange={(event) => setMetric(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") runAsk(metric);
+              }}
+              placeholder={collapsedPrompt}
+              aria-label="Ask Quickball"
+            />
+            <button className="primary-button" disabled={asking} onClick={() => runAsk(metric)}>
+              {asking ? "Asking..." : "Ask"}
+            </button>
+          </div>
+          <div className="quickball-prompt-list" aria-label="Quickball prompts">
+            {QUICKBALL_PROMPTS.map((prompt) => (
+              <button key={prompt.label} type="button" className="ghost-button" disabled={asking} onClick={() => runAsk(prompt.metric)}>
+                {prompt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {answer && (
-        <div className={`quickball-answer solid-truth ${blocked ? "blocked-warning" : ""}`} role={blocked ? "alert" : "status"}>
+        <div className={`quickball-answer quickball-floating-answer solid-truth ${blocked ? "blocked-warning" : ""}`} role={blocked ? "alert" : "status"}>
           <strong>{blocked ? "Quickball blocked an untrusted answer." : (answer.metric_label || answer.metric_key || "Quickball")}</strong>
           <p>{blocked ? (answer.reason || "A critical metric failed lineage validation.") : answer.answer}</p>
         </div>
@@ -923,51 +1065,66 @@ export default function App() {
   const [drawer, setDrawer] = useState({ open: false, title: "", refs: [] });
   const [workflowDrawer, setWorkflowDrawer] = useState({ open: false, record: null, sourceAction: null });
   const [quickballAnswer, setQuickballAnswer] = useState(null);
+  const [roleRefreshing, setRoleRefreshing] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
+
+    const fetchJson = async (path, headers, fallback = null) => {
+      try {
+        const res = await fetch(`${BACKEND_URL}${path}`, { headers });
+        if (!res.ok) {
+          if (fallback !== null) return fallback;
+          throw new Error(`${path} ${res.status}`);
+        }
+        return await res.json();
+      } catch (err) {
+        if (fallback !== null) return { ...fallback, error: err.message };
+        throw err;
+      }
+    };
+
     async function load() {
-      setLoading(true);
+      const initialLoad = !payload;
+      if (initialLoad) setLoading(true);
+      if (!initialLoad) setRoleRefreshing(true);
       setError(null);
+
       try {
         const headers = authHeaders(role);
-        const [centresRes, forecastRes, actionQueuesRes, workflowsRes, notificationsRes, auditRes, securityRes, identityRes, deploymentRes, observabilityRes, observabilityDashboardsRes, observabilityAlertsRes] = await Promise.all([
-          fetch(`${BACKEND_URL}/command-centres`, { headers }),
-          fetch(`${BACKEND_URL}/forecast/month-end`, { headers }),
-          fetch(`${BACKEND_URL}/action-queues`, { headers }),
-          fetch(`${BACKEND_URL}/workflows`, { headers }),
-          fetch(`${BACKEND_URL}/notifications`, { headers }),
-          fetch(`${BACKEND_URL}/persistence/summary`, { headers }),
-          fetch(`${BACKEND_URL}/security/me`, { headers }),
-          fetch(`${BACKEND_URL}/identity/me`, { headers }),
-          fetch(`${BACKEND_URL}/deployment/health`, { headers }),
-          fetch(`${BACKEND_URL}/observability/summary`, { headers }),
-          fetch(`${BACKEND_URL}/observability/dashboards`, { headers }),
-          fetch(`${BACKEND_URL}/observability/alerts`, { headers }),
+
+        // Product UAT blocking set only. Optional governance/security surfaces
+        // refresh below and must not freeze role switch or Quickball.
+        const [centresJson, forecastJson, actionQueuesJson, workflowsJson] = await Promise.all([
+          fetchJson("/command-centres", headers),
+          fetchJson("/forecast/month-end", headers),
+          fetchJson("/action-queues", headers),
+          fetchJson("/workflows", headers),
         ]);
-        if (!centresRes.ok) throw new Error(`Command centres ${centresRes.status}`);
-        if (!forecastRes.ok) throw new Error(`Forecast ${forecastRes.status}`);
-        if (!actionQueuesRes.ok) throw new Error(`Action queues ${actionQueuesRes.status}`);
-        if (!workflowsRes.ok) throw new Error(`Workflows ${workflowsRes.status}`);
-        if (!notificationsRes.ok) throw new Error(`Notifications ${notificationsRes.status}`);
-        if (!auditRes.ok) throw new Error(`Persistence ${auditRes.status}`);
-        if (!securityRes.ok) throw new Error(`Security ${securityRes.status}`);
-        const centresJson = await centresRes.json();
-        const forecastJson = await forecastRes.json();
-        const actionQueuesJson = await actionQueuesRes.json();
-        const workflowsJson = await workflowsRes.json();
-        const notificationsJson = await notificationsRes.json();
-        const auditJson = await auditRes.json();
-        const securityJson = await securityRes.json();
-        const deploymentJson = deploymentRes.ok ? await deploymentRes.json() : { status: "unavailable" };
-        const observabilityJson = observabilityRes.ok ? await observabilityRes.json() : { status: "unavailable" };
-        const observabilityDashboardsJson = observabilityDashboardsRes.ok ? await observabilityDashboardsRes.json() : { dashboards: [] };
-        const observabilityAlertsJson = observabilityAlertsRes.ok ? await observabilityAlertsRes.json() : { alerts: [] };
+
         if (!cancelled) {
           setPayload(centresJson);
           setForecast(forecastJson);
           setActionQueues(actionQueuesJson);
           setWorkflows(workflowsJson);
+          setLoading(false);
+          setRoleRefreshing(false);
+        }
+
+        // UAT-only optional surfaces. They are useful diagnostics, but should
+        // never block Arrival, Live Pulse, role switch, or Quickball.
+        const [notificationsJson, auditJson, securityJson, identityJson, deploymentJson, observabilityJson, observabilityDashboardsJson, observabilityAlertsJson] = await Promise.all([
+          fetchJson("/notifications", headers, { notifications: [], status: "unavailable" }),
+          fetchJson("/persistence/summary", headers, { status: "unavailable" }),
+          fetchJson("/security/me", headers, { status: "unavailable", actor: { role } }),
+          fetchJson("/identity/me", headers, { status: "unavailable" }),
+          fetchJson("/deployment/health", headers, { status: "unavailable" }),
+          fetchJson("/observability/summary", headers, { status: "unavailable" }),
+          fetchJson("/observability/dashboards", headers, { dashboards: [] }),
+          fetchJson("/observability/alerts", headers, { alerts: [] }),
+        ]);
+
+        if (!cancelled) {
           setNotifications(notificationsJson);
           setAuditSummary(auditJson);
           setSecurity(securityJson);
@@ -980,9 +1137,13 @@ export default function App() {
       } catch (err) {
         if (!cancelled) setError(err.message);
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          setRoleRefreshing(false);
+        }
       }
     }
+
     load();
     return () => { cancelled = true; };
   }, [role]);
@@ -1023,7 +1184,7 @@ export default function App() {
   const askQuickball = useCallback(async (metric, roleKey) => {
     try {
       const params = new URLSearchParams({ metric: metric || "OD_TODAY", role: roleKey || role });
-      const res = await fetch(`${BACKEND_URL}/quickball/explain?${params.toString()}`);
+      const res = await fetch(`${BACKEND_URL}/quickball/explain?${params.toString()}`, { headers: authHeaders(roleKey || role) });
       if (!res.ok) throw new Error(`Quickball ${res.status}`);
       const json = await res.json();
       const actions = safeArray(json.follow_up_actions).slice(0, 2);
@@ -1070,6 +1231,7 @@ export default function App() {
         </header>
 
         <ContextIsland route={route} focus={focus} depth={depth} role={role} setRole={setRole} payload={payload} />
+        {roleRefreshing && <div className="context-refresh glass-surface" role="status">Refreshing role lens...</div>}
         <SecurityPostureBar security={security} role={role} />
         <IdentityPostureBar identity={identity} />
         <DataConfidenceTrustBar trustBar={trustBar} guardrails={payload?.guardrails} />

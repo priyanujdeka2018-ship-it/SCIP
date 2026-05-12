@@ -387,8 +387,10 @@ def build_sample_answers(payload: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def load_payload(data_dir: Optional[str] = None) -> Dict[str, Any]:
+def load_payload(data_dir: Optional[str] = None, *, force_refresh: bool = False) -> Dict[str, Any]:
     path = Path(data_dir) if data_dir else None
+    if hasattr(data_loader, "get_cached_payload"):
+        return data_loader.get_cached_payload(data_dir=path, force_refresh=force_refresh)
     return data_loader.load_all(data_dir=path)
 
 
@@ -418,6 +420,10 @@ if APIRouter is not None:
         metric: str = Query(..., description="Metric name or natural-language alias, e.g. OD_TODAY or pipeline gross"),
         role: str = Query("board_cxo", description="board_cxo, cco_gm_agm, finance, mis_qcg_admin, collector_rm"),
     ) -> Dict[str, Any]:
+        # Unknown metric requests should return immediately and must not trigger
+        # a full workbook parse. Known metrics use the cached trusted payload.
+        if not normalize_metric_key(metric):
+            return explain_metric({"computed": {}}, metric, role)
         payload = load_payload()
         return explain_metric(payload, metric, role)
 

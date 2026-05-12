@@ -257,8 +257,10 @@ def build_month_end_forecast(payload: Dict[str, Any]) -> Dict[str, Any]:
     return forecast
 
 
-def load_payload(data_dir: Optional[str] = None) -> Dict[str, Any]:
+def load_payload(data_dir: Optional[str] = None, *, force_refresh: bool = False) -> Dict[str, Any]:
     path = Path(data_dir) if data_dir else None
+    if hasattr(data_loader, "get_cached_payload"):
+        return data_loader.get_cached_payload(data_dir=path, force_refresh=force_refresh)
     return data_loader.load_all(data_dir=path)
 
 

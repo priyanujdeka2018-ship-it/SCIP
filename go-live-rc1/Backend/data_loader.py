@@ -29,9 +29,12 @@ Architecture rules (never violate):
 
 from __future__ import annotations
 
+import copy
 import json
 import logging
 import os
+import threading
+import time
 from datetime import datetime, date
 from pathlib import Path
 from typing import Any, Optional
@@ -66,6 +69,38 @@ DATA_DIR = Path(
     or DEFAULT_DATA_DIR
 ).resolve()
 PIPELINE_CONFIG_PATH = (_HERE / "pipeline_config.json").resolve()
+logger.info("SCIP data source directory resolved to: %s", DATA_DIR)
+
+# ---------------------------------------------------------------------------
+# STAGING/UAT CACHE
+# ---------------------------------------------------------------------------
+# Render Free + Google Drive bootstrap + Excel parsing can make every request
+# expensive if endpoints call load_all() directly. The cache below keeps the
+# lineage-bearing server payload in memory for a short TTL. It does not compute
+# or fabricate business numbers; it only reuses the last trusted loader output.
+_DATA_CACHE_LOCK = threading.RLock()
+_DATA_CACHE_PAYLOAD: Optional[dict] = None
+_DATA_CACHE_LOADED_AT: Optional[float] = None
+_DATA_CACHE_DIR: Optional[str] = None
+_DATA_CACHE_HITS = 0
+_DATA_CACHE_MISSES = 0
+
+
+def _cache_ttl_seconds() -> int:
+    try:
+        return int(os.environ.get("SCIP_DATA_CACHE_TTL_SECONDS", "900"))
+    except ValueError:
+        return 900
+
+
+def _resolve_active_data_dir(data_dir: Optional[Path | str] = None) -> Path:
+    if data_dir:
+        return Path(data_dir).resolve()
+    return Path(
+        os.environ.get("SCIP_SOURCE_ROOT")
+        or os.environ.get("DATA_DIR")
+        or DATA_DIR
+    ).resolve()
 
 logger.info("SCIP data source directory resolved to: %s", DATA_DIR)
 
@@ -1005,6 +1040,93 @@ def load_all(data_dir: Optional[Path] = None) -> dict:
         "summary":    summary,
         "status":     status,
         "missing_sources": missing,
+    }
+
+
+def get_cached_payload(
+    data_dir: Optional[Path | str] = None,
+    *,
+    force_refresh: bool = False,
+    ttl_seconds: Optional[int] = None,
+    copy_payload: bool = False,
+) -> dict:
+    """Return the trusted data loader payload using a short in-memory cache.
+
+    This is the performance-critical entry point for FastAPI endpoints. It keeps
+    Quickball, command centres, and forecast from reparsing every Excel workbook
+    on each click or role change. The payload still contains the original
+    lineage, validation status, confidence state and missing-source disclosure.
+
+    Set SCIP_DATA_CACHE_TTL_SECONDS=0 to disable caching. Use force_refresh=True
+    only for an explicit source-refresh action, not for role switch or Quickball.
+    """
+    global _DATA_CACHE_PAYLOAD, _DATA_CACHE_LOADED_AT, _DATA_CACHE_DIR
+    global _DATA_CACHE_HITS, _DATA_CACHE_MISSES
+
+    active_dir = _resolve_active_data_dir(data_dir)
+    cache_dir = str(active_dir)
+    ttl = _cache_ttl_seconds() if ttl_seconds is None else int(ttl_seconds)
+    now = time.time()
+
+    if ttl > 0 and not force_refresh:
+        with _DATA_CACHE_LOCK:
+            is_valid = (
+                _DATA_CACHE_PAYLOAD is not None
+                and _DATA_CACHE_LOADED_AT is not None
+                and _DATA_CACHE_DIR == cache_dir
+                and now - _DATA_CACHE_LOADED_AT <= ttl
+            )
+            if is_valid:
+                _DATA_CACHE_HITS += 1
+                logger.debug("SCIP data cache hit: dir=%s age=%.2fs", cache_dir, now - _DATA_CACHE_LOADED_AT)
+                return copy.deepcopy(_DATA_CACHE_PAYLOAD) if copy_payload else _DATA_CACHE_PAYLOAD
+
+    with _DATA_CACHE_LOCK:
+        now = time.time()
+        if ttl > 0 and not force_refresh:
+            is_valid = (
+                _DATA_CACHE_PAYLOAD is not None
+                and _DATA_CACHE_LOADED_AT is not None
+                and _DATA_CACHE_DIR == cache_dir
+                and now - _DATA_CACHE_LOADED_AT <= ttl
+            )
+            if is_valid:
+                _DATA_CACHE_HITS += 1
+                logger.debug("SCIP data cache hit after lock: dir=%s", cache_dir)
+                return copy.deepcopy(_DATA_CACHE_PAYLOAD) if copy_payload else _DATA_CACHE_PAYLOAD
+
+        _DATA_CACHE_MISSES += 1
+        logger.info("SCIP data cache miss; loading source payload: dir=%s force_refresh=%s", cache_dir, force_refresh)
+        payload = load_all(data_dir=active_dir)
+        if ttl > 0:
+            _DATA_CACHE_PAYLOAD = payload
+            _DATA_CACHE_LOADED_AT = time.time()
+            _DATA_CACHE_DIR = cache_dir
+        return copy.deepcopy(payload) if copy_payload else payload
+
+
+def invalidate_cache() -> None:
+    """Clear the in-memory data payload cache."""
+    global _DATA_CACHE_PAYLOAD, _DATA_CACHE_LOADED_AT, _DATA_CACHE_DIR
+    with _DATA_CACHE_LOCK:
+        _DATA_CACHE_PAYLOAD = None
+        _DATA_CACHE_LOADED_AT = None
+        _DATA_CACHE_DIR = None
+
+
+def get_cache_status() -> dict:
+    now = time.time()
+    age = None if _DATA_CACHE_LOADED_AT is None else round(now - _DATA_CACHE_LOADED_AT, 3)
+    return {
+        "status": "warm" if _DATA_CACHE_PAYLOAD is not None else "cold",
+        "data_dir": _DATA_CACHE_DIR,
+        "loaded_at_epoch": _DATA_CACHE_LOADED_AT,
+        "age_seconds": age,
+        "ttl_seconds": _cache_ttl_seconds(),
+        "hits": _DATA_CACHE_HITS,
+        "misses": _DATA_CACHE_MISSES,
+        "lineage_preserved": True,
+        "no_silent_fallback": True,
     }
 
 

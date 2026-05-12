@@ -20,6 +20,10 @@ owner, entity mapping, amount, ageing bucket/status, and source lineage.
 
 from __future__ import annotations
 
+import copy
+import os
+import threading
+import time
 from dataclasses import dataclass, asdict
 from datetime import date, datetime
 from pathlib import Path
@@ -934,10 +938,63 @@ def _top(items: List[Dict[str, Any]], limit: int) -> List[Dict[str, Any]]:
     return sorted(items, key=lambda x: (x.get("severity") == "risk", float(x.get("amount_aed") or 0)), reverse=True)[:limit]
 
 
-def build_action_queue_payload(data_dir: Optional[Path | str] = None, role: Optional[str] = None) -> Dict[str, Any]:
-    base = Path(data_dir or Path(__file__).resolve().parent)
+_ACTION_QUEUE_CACHE_LOCK = threading.RLock()
+_ACTION_QUEUE_CACHE: Dict[Tuple[str, str], Tuple[float, Dict[str, Any]]] = {}
+_ACTION_QUEUE_CACHE_HITS = 0
+_ACTION_QUEUE_CACHE_MISSES = 0
+
+
+def _action_cache_ttl_seconds() -> int:
+    try:
+        return int(os.environ.get("SCIP_ACTION_QUEUE_CACHE_TTL_SECONDS", os.environ.get("SCIP_DATA_CACHE_TTL_SECONDS", "900")))
+    except ValueError:
+        return 900
+
+
+def _resolve_action_data_dir(data_dir: Optional[Path | str] = None) -> Path:
+    base = Path(
+        data_dir
+        or os.environ.get("SCIP_SOURCE_ROOT")
+        or os.environ.get("DATA_DIR")
+        or Path(__file__).resolve().parent
+    ).resolve()
     if not any(base.glob("R10*.xlsx")) and Path("/mnt/data").exists():
-        base = Path("/mnt/data")
+        fallback = Path("/mnt/data").resolve()
+        if any(fallback.glob("R10*.xlsx")):
+            base = fallback
+    return base
+
+
+def invalidate_action_queue_cache() -> None:
+    global _ACTION_QUEUE_CACHE
+    with _ACTION_QUEUE_CACHE_LOCK:
+        _ACTION_QUEUE_CACHE = {}
+
+
+def get_action_queue_cache_status() -> Dict[str, Any]:
+    now = time.time()
+    with _ACTION_QUEUE_CACHE_LOCK:
+        entries = []
+        for (data_dir, role), (loaded_at, payload) in _ACTION_QUEUE_CACHE.items():
+            entries.append({
+                "data_dir": data_dir,
+                "role": role,
+                "age_seconds": round(now - loaded_at, 3),
+                "status": payload.get("status"),
+            })
+        return {
+            "status": "warm" if entries else "cold",
+            "ttl_seconds": _action_cache_ttl_seconds(),
+            "entries": entries,
+            "hits": _ACTION_QUEUE_CACHE_HITS,
+            "misses": _ACTION_QUEUE_CACHE_MISSES,
+            "lineage_preserved": True,
+            "no_silent_fallback": True,
+        }
+
+
+def _build_action_queue_payload_uncached(data_dir: Optional[Path | str] = None, role: Optional[str] = None) -> Dict[str, Any]:
+    base = _resolve_action_data_dir(data_dir)
     extracted = _extract_all(base)
     lookups = _build_lookups(extracted)
     term_by_key = lookups["termination"]
@@ -1063,6 +1120,48 @@ def build_action_queue_payload(data_dir: Optional[Path | str] = None, role: Opti
             "R30_R32": "Collector performance/receipt context; R10/R34 provide the account-action join gate.",
         },
     }
+
+
+def build_action_queue_payload(
+    data_dir: Optional[Path | str] = None,
+    role: Optional[str] = None,
+    *,
+    force_refresh: bool = False,
+) -> Dict[str, Any]:
+    """Return role-scoped action queues using a short in-memory cache.
+
+    This keeps role switch and Risk & Action navigation from reparsing the
+    account/action workbooks on every click. RBAC filtering still runs after this
+    function in the route layer, so a deep copy is returned to avoid mutating the
+    shared cached payload.
+    """
+    global _ACTION_QUEUE_CACHE_HITS, _ACTION_QUEUE_CACHE_MISSES
+    base = _resolve_action_data_dir(data_dir)
+    role_key = role or "__all__"
+    cache_key = (str(base), role_key)
+    ttl = _action_cache_ttl_seconds()
+    now = time.time()
+
+    if ttl > 0 and not force_refresh:
+        with _ACTION_QUEUE_CACHE_LOCK:
+            cached = _ACTION_QUEUE_CACHE.get(cache_key)
+            if cached and now - cached[0] <= ttl:
+                _ACTION_QUEUE_CACHE_HITS += 1
+                return copy.deepcopy(cached[1])
+
+    with _ACTION_QUEUE_CACHE_LOCK:
+        now = time.time()
+        if ttl > 0 and not force_refresh:
+            cached = _ACTION_QUEUE_CACHE.get(cache_key)
+            if cached and now - cached[0] <= ttl:
+                _ACTION_QUEUE_CACHE_HITS += 1
+                return copy.deepcopy(cached[1])
+
+        _ACTION_QUEUE_CACHE_MISSES += 1
+        payload = _build_action_queue_payload_uncached(data_dir=base, role=role)
+        if ttl > 0:
+            _ACTION_QUEUE_CACHE[cache_key] = (time.time(), payload)
+        return copy.deepcopy(payload)
 
 
 def _sample_lineage_refs(roles: Dict[str, Any]) -> List[Dict[str, Any]]:

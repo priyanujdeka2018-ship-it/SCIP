@@ -1,0 +1,138 @@
+/*
+ * SCIP Power UAT Quickball refinement overlay.
+ * Safe UI-only enhancement: floating, draggable, quiet Quickball shell.
+ * No frontend business computation, no fallback figures, no metric derivation.
+ */
+
+.quickball-floating {
+  position: fixed;
+  z-index: 60;
+  width: 64px;
+  min-height: 64px;
+  border-radius: 999px;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+  transition:
+    width 180ms ease,
+    min-height 180ms ease,
+    border-radius 180ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.quickball-floating.open {
+  width: min(340px, calc(100vw - 32px));
+  min-height: 232px;
+  border-radius: 28px;
+}
+
+.quickball-floating.dragging {
+  transform: scale(1.035);
+  box-shadow: 0 28px 80px rgba(31, 41, 55, 0.15);
+}
+
+.quickball-floating-trigger {
+  position: relative;
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  cursor: grab;
+}
+
+.quickball-floating-trigger:active {
+  cursor: grabbing;
+}
+
+.quickball-floating.open .quickball-floating-trigger {
+  width: 100%;
+  height: 68px;
+  grid-template-columns: 64px 1fr;
+  justify-items: start;
+}
+
+.quickball-orb {
+  display: block;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.42) 46%, rgba(47, 69, 95, 0.18) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    inset 0 1px 10px rgba(255, 255, 255, 0.7),
+    0 12px 30px rgba(47, 69, 95, 0.14);
+}
+
+.quickball-floating-title {
+  color: var(--text-muted, #657083);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.quickball-floating-body {
+  display: grid;
+  gap: 12px;
+  padding: 0 18px 18px;
+}
+
+.quickball-row.compact {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.quickball-prompt-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.quickball-prompt-list .ghost-button {
+  min-height: 36px;
+  text-align: left;
+  white-space: normal;
+}
+
+.quickball-floating-answer {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: min(340px, calc(100vw - 32px));
+  max-height: 260px;
+  overflow: auto;
+  box-shadow: 0 24px 60px rgba(31, 41, 55, 0.16);
+}
+
+.quickball-floating.open .quickball-floating-answer {
+  position: static;
+  width: auto;
+  margin: 0 18px 18px;
+}
+
+.quickball-floating .primary-button:disabled,
+.quickball-floating .ghost-button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+@media (max-width: 720px) {
+  .quickball-floating.open {
+    width: min(320px, calc(100vw - 24px));
+  }
+
+  .quickball-prompt-list {
+    grid-template-columns: 1fr;
+  }
+
+  .quickball-floating-answer {
+    width: min(320px, calc(100vw - 24px));
+  }
+}
