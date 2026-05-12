@@ -52,9 +52,8 @@ def main() -> None:
 
     print(f"[SCIP bootstrap] Downloading Google Drive folder: {folder_ref}")
     subprocess.run(
-        ["gdown", "--folder", folder_ref, "-O", str(download_dir), "--remaining-ok"],
-        check=True,
-    )
+    ["gdown", "--folder", folder_ref, "-O", str(download_dir)],
+    check=True,)
 
     copied = []
 
