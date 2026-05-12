@@ -384,3 +384,396 @@ button:focus-visible, input:focus-visible, summary:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Batch 6 action queues: solid evidence, gated behind Risk & Action depth. */
+.action-queue-panel {
+  margin-top: 24px;
+  padding: 24px;
+  border-radius: var(--radius-xl, 28px);
+}
+.queue-status-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  max-width: 360px;
+}
+.queue-status {
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(255,255,255,0.16);
+}
+.queue-status.ready {
+  color: var(--status-good);
+  background: rgba(34,197,94,0.08);
+}
+.queue-status.blocked {
+  color: var(--status-attention);
+  background: rgba(245,158,11,0.08);
+}
+.queue-basis {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  text-align: right;
+}
+.blocked-source-banner {
+  margin: 18px 0;
+  padding: 14px 16px;
+  border-radius: 18px;
+  color: var(--text-soft);
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.28);
+}
+.action-cohort-grid,
+.blocked-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.action-cohort-card,
+.blocked-action-card {
+  padding: 18px;
+  border-radius: 20px;
+  background: #0f1623;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+}
+.action-cohort-card h3,
+.blocked-action-card h3 {
+  margin: 10px 0 8px;
+  color: var(--text-bright);
+  font-size: 1rem;
+}
+.action-cohort-card p,
+.blocked-action-card p {
+  margin: 0 0 14px;
+  color: var(--text-soft);
+  line-height: 1.45;
+}
+.queue-card-topline,
+.queue-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+.severity-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  display: inline-block;
+  background: var(--status-good);
+}
+.severity-dot.attention { background: var(--status-attention); }
+.severity-dot.risk { background: var(--status-risk); }
+.queue-severity {
+  color: var(--status-attention);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+}
+.solid-evidence-table {
+  margin-top: 20px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #0f1623;
+}
+.evidence-table-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 2fr) minmax(100px, 1fr) minmax(80px, 0.8fr) minmax(110px, 1fr) minmax(180px, 1.4fr);
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-soft);
+  font-size: 0.86rem;
+}
+.evidence-table-row:last-child { border-bottom: none; }
+.evidence-table-head {
+  color: var(--text-bright);
+  background: #172232;
+  font-weight: 700;
+}
+@media (max-width: 760px) {
+  .evidence-table-row {
+    grid-template-columns: 1fr;
+  }
+  .queue-status-stack {
+    align-items: flex-start;
+  }
+}
+
+/* Batch 7 account action queues: solid truth surfaces inside Liquid Glass flow. */
+.account-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+.account-action-card {
+  background: rgba(15, 22, 35, 0.94);
+  border: 1px solid rgba(226, 199, 108, 0.22);
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: 0 20px 48px rgba(0,0,0,0.28);
+}
+.account-action-card h3 {
+  margin: 10px 0 8px;
+  color: var(--text-primary);
+}
+.account-action-card p {
+  color: var(--text-secondary);
+}
+.account-action-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+.account-action-meta div {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 10px;
+  background: rgba(255,255,255,0.035);
+}
+.account-action-meta dt {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.account-action-meta dd {
+  margin: 4px 0 0;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+.queue-note {
+  font-size: 0.85rem;
+  color: var(--gold-bright);
+}
+
+/* Batch 8 workflow assignment and closure tracking. */
+.workflow-drawer {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  bottom: 24px;
+  width: min(1040px, calc(100vw - 48px));
+  z-index: 70;
+  overflow: auto;
+  padding: 24px;
+  border-radius: 28px;
+  box-shadow: 0 32px 90px rgba(0,0,0,0.52);
+}
+.workflow-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+  gap: 18px;
+  margin-top: 18px;
+}
+.workflow-summary,
+.workflow-actions {
+  padding: 18px;
+  border-radius: 22px;
+}
+.workflow-state-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(226,199,108,0.34);
+  color: var(--gold-bright);
+  background: rgba(226,199,108,0.08);
+  padding: 8px 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+.workflow-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.workflow-timeline {
+  margin-top: 18px;
+}
+.workflow-timeline .evidence-table-row {
+  grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) minmax(90px, 0.8fr) minmax(90px, 0.8fr) minmax(120px, 1fr) minmax(160px, 1.2fr);
+}
+@media (max-width: 900px) {
+  .workflow-grid { grid-template-columns: 1fr; }
+  .workflow-drawer { left: 12px; right: 12px; top: 12px; bottom: 12px; width: auto; }
+}
+
+/* Batch 9 notification and escalation automation */
+.notification-capsule {
+  margin: 20px 0;
+  padding: 18px 20px;
+  border-radius: var(--lg-radius-xl, 28px);
+}
+
+.notification-panel {
+  margin: 28px 0;
+  padding: 24px;
+  border-radius: var(--lg-radius-2xl, 34px);
+}
+
+.notification-digest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.digest-card {
+  padding: 18px;
+  border-radius: var(--lg-radius-lg, 22px);
+}
+
+.solid-evidence-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.notification-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  border-radius: var(--lg-radius-lg, 22px);
+}
+
+.row-kicker,
+.basis-line {
+  color: var(--lg-text-muted, #8f98a6);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Batch 10 durable persistence / audit output surfaces */
+.audit-export-panel,
+.audit-export-capsule {
+  margin-top: 18px;
+  padding: 20px;
+  border-radius: var(--radius-xl, 28px);
+}
+.audit-export-panel .row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* Batch 11 security posture */
+.security-posture {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.15rem;
+  border: 1px solid rgba(226, 199, 108, 0.22);
+}
+.security-posture h2 {
+  margin: 0.15rem 0;
+  font-size: 1rem;
+  color: var(--text-warm);
+}
+.security-posture p {
+  margin: 0;
+  color: var(--text-muted);
+}
+.security-chip-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Batch 12 observability and performance layer */
+.observability-panel {
+  margin-top: 24px;
+  border: 1px solid rgba(226, 199, 108, 0.18);
+}
+.observability-panel .metric-grid.compact {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.evidence-grid.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.solid-mini-card {
+  background: rgba(15, 22, 35, 0.96);
+  border: 1px solid rgba(244, 239, 229, 0.10);
+  border-radius: 18px;
+  padding: 14px 16px;
+  color: var(--lg-text-primary, #F4EFE5);
+}
+.solid-mini-card span {
+  display: block;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lg-text-muted, #8F98A6);
+  margin-bottom: 8px;
+}
+.solid-mini-card strong {
+  font-size: 1.2rem;
+  color: var(--lg-gold-bright, #E2C76C);
+}
+.evidence-list {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(244, 239, 229, 0.08);
+}
+.evidence-list h3 {
+  margin: 0 0 8px;
+  color: var(--lg-text-primary, #F4EFE5);
+}
+@media (max-width: 900px) {
+  .observability-panel .metric-grid.compact,
+  .evidence-grid.two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Batch 13 - SSO/JWT identity posture. Glass is used for identity context, not financial truth. */
+.identity-posture {
+  margin: var(--space-md) 0;
+  padding: var(--space-md);
+  border: 1px solid rgba(226, 199, 108, 0.28);
+  box-shadow: var(--shadow-glass), 0 0 34px rgba(226, 199, 108, 0.08);
+}
+.identity-posture strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+.identity-posture .basis-line {
+  margin: 0.3rem 0 0.6rem;
+}
+.identity-status-denied {
+  border-color: rgba(239, 68, 68, 0.42);
+  background: rgba(239, 68, 68, 0.08);
+}
