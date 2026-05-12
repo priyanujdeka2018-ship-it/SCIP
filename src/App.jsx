@@ -29,7 +29,13 @@ const BACKEND_URL = (
   import.meta?.env?.VITE_API_BASE_URL ||
   "https://scip.onrender.com"
 ).replace(/\/$/, "");
-const LOCAL_DEV_BYPASS = import.meta?.env?.VITE_SCIP_LOCAL_DEV_BYPASS === "true";
+// Permanent hardening: accept the canonical staging bypass flag plus legacy aliases.
+// Production must set all bypass flags false/unset and use real JWT/SSO.
+const LOCAL_DEV_BYPASS = [
+  import.meta?.env?.VITE_SCIP_LOCAL_DEV_BYPASS,
+  import.meta?.env?.VITE_LOCAL_DEV_BYPASS,
+  import.meta?.env?.VITE_AUTH_BYPASS,
+].some((value) => String(value || "").toLowerCase() === "true");
 
 const ROLE_ORDER = ["board_cxo", "cco_gm_agm", "finance", "mis_qcg_admin", "collector_rm"];
 const ACTOR_IDS = {
@@ -931,7 +937,7 @@ function StagingDiagnosticsPanel({ diagnostic, role }) {
         <span>Correlation</span><strong>{diagnostic.correlationId || "per-request"}</strong>
       </div>
       <p className="basis-line">
-        UAT purpose: optional operational surfaces may be unavailable without showing fallback figures. Permanent rule: core financial/product endpoints remain blocking and must be live, server-computed, and lineaged.
+        UAT purpose: optional operational surfaces, including persistence/audit summary, may be unavailable without showing fallback figures. Permanent rule: core financial/product endpoints remain blocking and persistence/audit must pass before production signoff.
       </p>
     </div>
   );
@@ -971,8 +977,8 @@ export default function App() {
 
       /*
        * Staging UAT hardening:
-       * - Optional operational surfaces (notifications, identity/security posture, deployment health,
-       *   observability) are allowed to render as unavailable during product-only UAT.
+       * - Optional operational surfaces (notifications, persistence/audit summary,
+       *   identity/security posture, deployment health, observability) are allowed to render as unavailable during product-only UAT.
        * Permanent rule:
        * - Core product/financial endpoints still block startup; no fallback figures or frontend
        *   business computation are introduced here.
@@ -1082,7 +1088,19 @@ export default function App() {
             reason: "Notifications are unavailable or blocked for this role in staging.",
           },
         });
-        const auditJson = await fetchJson("/persistence/summary");
+        // UAT-only: persistence/audit summary is a go-live gate and L5 governance/audit surface,
+        // not a first-paint product blocker for Arrival, Live Pulse, Forecast, Action Queues, or Workflows.
+        // Permanent rule: before production signoff, /persistence/summary must return live durable records
+        // and audit export checks must pass; this fallback must not be used as production readiness evidence.
+        const auditJson = await fetchJson("/persistence/summary", {
+          required: false,
+          fallback: {
+            status: "unavailable",
+            table_counts: {},
+            validations: { checks: {} },
+            reason: "Persistence/audit summary is unavailable in staging UAT. Backend durable records must be seeded before production signoff.",
+          },
+        });
 
         const securityJson = await fetchJson("/security/me", {
           required: false,
