@@ -7,3 +7,4 @@ openpyxl
 pandas
 psycopg[binary]
 pytest
+gdown
