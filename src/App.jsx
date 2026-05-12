@@ -22,7 +22,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./liquidGlassTokens.css";
 
-const BACKEND_URL = import.meta?.env?.VITE_BACKEND_URL || "https://scip.onrender.com";
+// Permanent: accept all known Vite backend URL env names, then normalize to avoid double slashes.
+const BACKEND_URL = (
+  import.meta?.env?.VITE_BACKEND_URL ||
+  import.meta?.env?.VITE_SCIP_API_BASE_URL ||
+  import.meta?.env?.VITE_API_BASE_URL ||
+  "https://scip.onrender.com"
+).replace(/\/$/, "");
 const LOCAL_DEV_BYPASS = import.meta?.env?.VITE_SCIP_LOCAL_DEV_BYPASS === "true";
 
 const ROLE_ORDER = ["board_cxo", "cco_gm_agm", "finance", "mis_qcg_admin", "collector_rm"];
@@ -101,6 +107,13 @@ function safeArray(value) {
   return Array.isArray(value) ? value : [];
 }
 
+// Permanent defensive renderer: backend contracts may return scope as array or string.
+function formatEntityScope(scope) {
+  if (Array.isArray(scope)) return scope.filter(Boolean).join(", ") || "none";
+  if (typeof scope === "string" && scope.trim()) return scope;
+  return "none";
+}
+
 function formatCardValue(card) {
   return card?.display_value || card?.display || "Unavailable";
 }
@@ -174,7 +187,7 @@ function getPrimaryCopy(route, focus, roleLabel) {
 
 function SecurityPostureBar({ security, role }) {
   const actor = security?.actor || {};
-  const permissions = actor.permissions || [];
+  const permissions = safeArray(actor.permissions);
   return (
     <section className="security-posture glass-surface" aria-label="Security and RBAC posture">
       <div>
@@ -196,7 +209,8 @@ function DataConfidenceTrustBar({ trustBar, guardrails }) {
   const loaded = safeArray(trustBar?.sources_loaded);
   const missing = safeArray(trustBar?.sources_missing);
   const lineageCounts = trustBar?.critical_lineage_counts || {};
-  const criticalSources = trustBar?.critical_sources || ["R18", "R04", "R02", "R08", "R36"];
+  const providedCriticalSources = safeArray(trustBar?.critical_sources);
+  const criticalSources = providedCriticalSources.length ? providedCriticalSources : ["R18", "R04", "R02", "R08", "R36"];
   const allCriticalLineaged = criticalSources.every((source) => Number(lineageCounts[source] || 0) > 0);
 
   return (
@@ -832,7 +846,7 @@ function IdentityPostureBar({ identity }) {
       <p className="basis-line">SSO/JWT actor identity · mode {mode} · local-dev bypass only when explicitly enabled.</p>
       <div className="security-chip-row">
         <span className="glass-chip">Role: {actor.role_label || actor.role || "unverified"}</span>
-        <span className="glass-chip">Scope: {(actor.entity_scope || []).join(", ") || "none"}</span>
+        <span className="glass-chip">Scope: {formatEntityScope(actor.entity_scope)}</span>
         <span className="glass-chip">Collector: {actor.collector_id || "not scoped"}</span>
       </div>
     </section>
@@ -843,8 +857,8 @@ function ObservabilityPanel({ observability, dashboards, alerts, focus }) {
   if (focus !== "risk_action") return null;
   const counters = observability?.counters || {};
   const timings = observability?.timings || {};
-  const activeAlerts = alerts?.alerts || observability?.active_alerts || [];
-  const dashboardList = dashboards?.dashboards || [];
+  const activeAlerts = safeArray(alerts?.alerts || observability?.active_alerts);
+  const dashboardList = safeArray(dashboards?.dashboards);
   return (
     <section className="solid-evidence-card observability-panel" aria-label="Production observability">
       <div className="section-heading-row">
@@ -901,6 +915,28 @@ function ObservabilityPanel({ observability, dashboards, alerts, focus }) {
   );
 }
 
+
+function StagingDiagnosticsPanel({ diagnostic, role }) {
+  if (!diagnostic) return null;
+  return (
+    <div className="lineage-block solid-truth" aria-label="Staging diagnostic details">
+      <div className="lineage-metric">Staging UAT diagnostic</div>
+      <div className="lineage-grid">
+        <span>Classification</span><strong>{diagnostic.classification || "uat-diagnostic"}</strong>
+        <span>Backend URL</span><strong>{diagnostic.backendUrl || BACKEND_URL}</strong>
+        <span>Endpoint</span><strong>{diagnostic.endpoint || "not captured"}</strong>
+        <span>Status</span><strong>{diagnostic.status || "unknown"}</strong>
+        <span>Role</span><strong>{diagnostic.role || role}</strong>
+        <span>Bypass headers</span><strong>{LOCAL_DEV_BYPASS ? "enabled for staging UAT" : "disabled"}</strong>
+        <span>Correlation</span><strong>{diagnostic.correlationId || "per-request"}</strong>
+      </div>
+      <p className="basis-line">
+        UAT purpose: optional operational surfaces may be unavailable without showing fallback figures. Permanent rule: core financial/product endpoints remain blocking and must be live, server-computed, and lineaged.
+      </p>
+    </div>
+  );
+}
+
 export default function App() {
   const [payload, setPayload] = useState(null);
   const [forecast, setForecast] = useState(null);
@@ -923,6 +959,7 @@ export default function App() {
   const [drawer, setDrawer] = useState({ open: false, title: "", refs: [] });
   const [workflowDrawer, setWorkflowDrawer] = useState({ open: false, record: null, sourceAction: null });
   const [quickballAnswer, setQuickballAnswer] = useState(null);
+  const [diagnostic, setDiagnostic] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -930,8 +967,18 @@ export default function App() {
     async function load() {
       setLoading(true);
       setError(null);
+      setDiagnostic(null);
 
+      /*
+       * Staging UAT hardening:
+       * - Optional operational surfaces (notifications, identity/security posture, deployment health,
+       *   observability) are allowed to render as unavailable during product-only UAT.
+       * Permanent rule:
+       * - Core product/financial endpoints still block startup; no fallback figures or frontend
+       *   business computation are introduced here.
+       */
       const headers = authHeaders(role);
+      const correlationId = headers["X-SCIP-Correlation-ID"];
 
       async function fetchJson(path, options = {}) {
         const {
@@ -942,6 +989,16 @@ export default function App() {
         let res;
 
         try {
+          if (!cancelled) {
+            setDiagnostic({
+              classification: required ? "required-core-endpoint" : "optional-uat-surface",
+              endpoint: path,
+              status: "requesting",
+              role,
+              backendUrl: BACKEND_URL,
+              correlationId,
+            });
+          }
           res = await fetch(`${BACKEND_URL}${path}`, {
             method: "GET",
             mode: "cors",
@@ -950,6 +1007,16 @@ export default function App() {
           });
         } catch (err) {
           const message = `${path} network/CORS: ${err?.message || "Load failed"}`;
+          if (!cancelled) {
+            setDiagnostic({
+              classification: required ? "required-core-endpoint" : "optional-uat-surface",
+              endpoint: path,
+              status: message,
+              role,
+              backendUrl: BACKEND_URL,
+              correlationId,
+            });
+          }
           if (required) throw new Error(message);
           return { ...fallback, error: message };
         }
@@ -964,6 +1031,16 @@ export default function App() {
           }
 
           const message = `${path} ${res.status}${detail}`;
+          if (!cancelled) {
+            setDiagnostic({
+              classification: required ? "required-core-endpoint" : "optional-uat-surface",
+              endpoint: path,
+              status: message,
+              role,
+              backendUrl: BACKEND_URL,
+              correlationId,
+            });
+          }
           if (required) throw new Error(message);
           return { ...fallback, error: message };
         }
@@ -972,6 +1049,16 @@ export default function App() {
           return await res.json();
         } catch (err) {
           const message = `${path} invalid JSON: ${err?.message || "Parse failed"}`;
+          if (!cancelled) {
+            setDiagnostic({
+              classification: required ? "required-core-endpoint" : "optional-uat-surface",
+              endpoint: path,
+              status: message,
+              role,
+              backendUrl: BACKEND_URL,
+              correlationId,
+            });
+          }
           if (required) throw new Error(message);
           return { ...fallback, error: message };
         }
@@ -982,7 +1069,19 @@ export default function App() {
         const forecastJson = await fetchJson("/forecast/month-end");
         const actionQueuesJson = await fetchJson("/action-queues");
         const workflowsJson = await fetchJson("/workflows");
-        const notificationsJson = await fetchJson("/notifications");
+        // Notifications are an L5 Risk & Action output, not a startup blocker.
+        // Board/CXO has digest-level notification permission in the RBAC model;
+        // full notification rows are role-filtered for CCO/GM/AGM, Finance, MIS/QCG/Admin and Collector/RM.
+        const notificationsPath = role === "board_cxo" ? "/notifications/digests" : "/notifications";
+        const notificationsJson = await fetchJson(notificationsPath, {
+          required: false,
+          fallback: {
+            status: "unavailable",
+            notifications: [],
+            digests: {},
+            reason: "Notifications are unavailable or blocked for this role in staging.",
+          },
+        });
         const auditJson = await fetchJson("/persistence/summary");
 
         const securityJson = await fetchJson("/security/me", {
@@ -1084,8 +1183,15 @@ export default function App() {
 
   const askQuickball = useCallback(async (metric, roleKey) => {
     try {
-      const params = new URLSearchParams({ metric: metric || "OD_TODAY", role: roleKey || role });
-      const res = await fetch(`${BACKEND_URL}/quickball/explain?${params.toString()}`);
+      const activeRoleKey = roleKey || role;
+      const params = new URLSearchParams({ metric: metric || "OD_TODAY", role: activeRoleKey });
+      // Permanent: Quickball uses the same auth/bypass headers as the rest of the UI.
+      const res = await fetch(`${BACKEND_URL}/quickball/explain?${params.toString()}`, {
+        method: "GET",
+        mode: "cors",
+        cache: "no-store",
+        headers: authHeaders(activeRoleKey),
+      });
       if (!res.ok) throw new Error(`Quickball ${res.status}`);
       const json = await res.json();
       const actions = safeArray(json.follow_up_actions).slice(0, 2);
@@ -1106,6 +1212,7 @@ export default function App() {
           <h1>SCIP unavailable</h1>
           <p>{error}</p>
           <p>No fallback figures are shown. Backend data must be live and lineaged.</p>
+          <StagingDiagnosticsPanel diagnostic={diagnostic} role={role} />
         </section>
       </main>
     );
