@@ -926,50 +926,101 @@ export default function App() {
 
   useEffect(() => {
     let cancelled = false;
+
     async function load() {
       setLoading(true);
       setError(null);
+
+      const headers = authHeaders(role);
+
+      async function fetchJson(path, options = {}) {
+        const {
+          required = true,
+          fallback = { status: "unavailable" },
+        } = options;
+
+        let res;
+
+        try {
+          res = await fetch(`${BACKEND_URL}${path}`, {
+            method: "GET",
+            mode: "cors",
+            cache: "no-store",
+            headers,
+          });
+        } catch (err) {
+          const message = `${path} network/CORS: ${err?.message || "Load failed"}`;
+          if (required) throw new Error(message);
+          return { ...fallback, error: message };
+        }
+
+        if (!res.ok) {
+          let detail = "";
+          try {
+            const body = await res.text();
+            detail = body ? ` · ${body.slice(0, 220)}` : "";
+          } catch (_) {
+            detail = "";
+          }
+
+          const message = `${path} ${res.status}${detail}`;
+          if (required) throw new Error(message);
+          return { ...fallback, error: message };
+        }
+
+        try {
+          return await res.json();
+        } catch (err) {
+          const message = `${path} invalid JSON: ${err?.message || "Parse failed"}`;
+          if (required) throw new Error(message);
+          return { ...fallback, error: message };
+        }
+      }
+
       try {
-        const headers = authHeaders(role);
-        const [centresRes, forecastRes, actionQueuesRes, workflowsRes, notificationsRes, auditRes, securityRes, identityRes, deploymentRes, observabilityRes, observabilityDashboardsRes, observabilityAlertsRes] = await Promise.all([
-          fetch(`${BACKEND_URL}/command-centres`, { headers }),
-          fetch(`${BACKEND_URL}/forecast/month-end`, { headers }),
-          fetch(`${BACKEND_URL}/action-queues`, { headers }),
-          fetch(`${BACKEND_URL}/workflows`, { headers }),
-          fetch(`${BACKEND_URL}/notifications`, { headers }),
-          fetch(`${BACKEND_URL}/persistence/summary`, { headers }),
-          fetch(`${BACKEND_URL}/security/me`, { headers }),
-          fetch(`${BACKEND_URL}/identity/me`, { headers }),
-          fetch(`${BACKEND_URL}/deployment/health`, { headers }),
-          fetch(`${BACKEND_URL}/observability/summary`, { headers }),
-          fetch(`${BACKEND_URL}/observability/dashboards`, { headers }),
-          fetch(`${BACKEND_URL}/observability/alerts`, { headers }),
-        ]);
-        if (!centresRes.ok) throw new Error(`Command centres ${centresRes.status}`);
-        if (!forecastRes.ok) throw new Error(`Forecast ${forecastRes.status}`);
-        if (!actionQueuesRes.ok) throw new Error(`Action queues ${actionQueuesRes.status}`);
-        if (!workflowsRes.ok) throw new Error(`Workflows ${workflowsRes.status}`);
-        if (!notificationsRes.ok) throw new Error(`Notifications ${notificationsRes.status}`);
-        if (!auditRes.ok) throw new Error(`Persistence ${auditRes.status}`);
-        // Security posture is displayed when available, but does not block staging Product UAT.
-        const centresJson = await centresRes.json();
-        const forecastJson = await forecastRes.json();
-        const actionQueuesJson = await actionQueuesRes.json();
-        const workflowsJson = await workflowsRes.json();
-        const notificationsJson = await notificationsRes.json();
-        const auditJson = await auditRes.json();
-        const securityJson = securityRes.ok
-          ? await securityRes.json()
-          : { status: "unavailable", actor: { role, role_label: ROLE_LABELS[role] } };
+        const centresJson = await fetchJson("/command-centres");
+        const forecastJson = await fetchJson("/forecast/month-end");
+        const actionQueuesJson = await fetchJson("/action-queues");
+        const workflowsJson = await fetchJson("/workflows");
+        const notificationsJson = await fetchJson("/notifications");
+        const auditJson = await fetchJson("/persistence/summary");
 
-        const identityJson = identityRes.ok
-          ? await identityRes.json()
-          : { status: "unavailable", actor: { role, role_label: ROLE_LABELS[role] } };
+        const securityJson = await fetchJson("/security/me", {
+          required: false,
+          fallback: {
+            status: "unavailable",
+            actor: { role, role_label: ROLE_LABELS[role] },
+          },
+        });
 
-        const deploymentJson = deploymentRes.ok ? await deploymentRes.json() : { status: "unavailable" };
-        const observabilityJson = observabilityRes.ok ? await observabilityRes.json() : { status: "unavailable" };
-        const observabilityDashboardsJson = observabilityDashboardsRes.ok ? await observabilityDashboardsRes.json() : { dashboards: [] };
-        const observabilityAlertsJson = observabilityAlertsRes.ok ? await observabilityAlertsRes.json() : { alerts: [] };
+        const identityJson = await fetchJson("/identity/me", {
+          required: false,
+          fallback: {
+            status: "unavailable",
+            actor: { role, role_label: ROLE_LABELS[role] },
+          },
+        });
+
+        const deploymentJson = await fetchJson("/deployment/health", {
+          required: false,
+          fallback: { status: "unavailable" },
+        });
+
+        const observabilityJson = await fetchJson("/observability/summary", {
+          required: false,
+          fallback: { status: "unavailable" },
+        });
+
+        const observabilityDashboardsJson = await fetchJson("/observability/dashboards", {
+          required: false,
+          fallback: { dashboards: [] },
+        });
+
+        const observabilityAlertsJson = await fetchJson("/observability/alerts", {
+          required: false,
+          fallback: { alerts: [] },
+        });
+
         if (!cancelled) {
           setPayload(centresJson);
           setForecast(forecastJson);
@@ -985,13 +1036,17 @@ export default function App() {
           setObservabilityAlerts(observabilityAlertsJson);
         }
       } catch (err) {
-        if (!cancelled) setError(err.message);
+        if (!cancelled) setError(err?.message || "Load failed");
       } finally {
         if (!cancelled) setLoading(false);
       }
     }
+
     load();
-    return () => { cancelled = true; };
+
+    return () => {
+      cancelled = true;
+    };
   }, [role]);
 
   useEffect(() => {
