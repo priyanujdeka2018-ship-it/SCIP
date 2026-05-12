@@ -51,11 +51,23 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # PATHS
 # ---------------------------------------------------------------------------
-# Resolve /data directory relative to this file's location.
-# In deployment: backend/ sits next to data/ at repo root.
+# UAT/staging can override the source workbook directory through SCIP_SOURCE_ROOT.
+# This is required on Render Free because R-series files are bootstrapped from
+# Google Drive into /tmp/scip/r-series on every deploy/cold start.
+#
+# Permanent production note:
+# - Production should use durable private storage or mounted/object storage.
+# - Source workbooks must remain outside GitHub.
 _HERE = Path(__file__).parent
-DATA_DIR = (_HERE.parent / "data").resolve()
+DEFAULT_DATA_DIR = (_HERE.parent / "data").resolve()
+DATA_DIR = Path(
+    os.environ.get("SCIP_SOURCE_ROOT")
+    or os.environ.get("DATA_DIR")
+    or DEFAULT_DATA_DIR
+).resolve()
 PIPELINE_CONFIG_PATH = (_HERE / "pipeline_config.json").resolve()
+
+logger.info("SCIP data source directory resolved to: %s", DATA_DIR)
 
 
 # ---------------------------------------------------------------------------
