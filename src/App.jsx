@@ -951,14 +951,21 @@ export default function App() {
         if (!workflowsRes.ok) throw new Error(`Workflows ${workflowsRes.status}`);
         if (!notificationsRes.ok) throw new Error(`Notifications ${notificationsRes.status}`);
         if (!auditRes.ok) throw new Error(`Persistence ${auditRes.status}`);
-        if (!securityRes.ok) throw new Error(`Security ${securityRes.status}`);
+        // Security posture is displayed when available, but does not block staging Product UAT.
         const centresJson = await centresRes.json();
         const forecastJson = await forecastRes.json();
         const actionQueuesJson = await actionQueuesRes.json();
         const workflowsJson = await workflowsRes.json();
         const notificationsJson = await notificationsRes.json();
         const auditJson = await auditRes.json();
-        const securityJson = await securityRes.json();
+        const securityJson = securityRes.ok
+          ? await securityRes.json()
+          : { status: "unavailable", actor: { role, role_label: ROLE_LABELS[role] } };
+
+        const identityJson = identityRes.ok
+          ? await identityRes.json()
+          : { status: "unavailable", actor: { role, role_label: ROLE_LABELS[role] } };
+
         const deploymentJson = deploymentRes.ok ? await deploymentRes.json() : { status: "unavailable" };
         const observabilityJson = observabilityRes.ok ? await observabilityRes.json() : { status: "unavailable" };
         const observabilityDashboardsJson = observabilityDashboardsRes.ok ? await observabilityDashboardsRes.json() : { dashboards: [] };
