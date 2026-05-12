@@ -24,6 +24,7 @@ import "./liquidGlassTokens.css";
 import "./scipPowerUatQuickball.css";
 
 const BACKEND_URL = import.meta?.env?.VITE_BACKEND_URL || "https://scip.onrender.com";
+const SCIP_UI_REFINEMENT_V3 = true;
 const LOCAL_DEV_BYPASS = import.meta?.env?.VITE_SCIP_LOCAL_DEV_BYPASS === "true";
 
 const ROLE_ORDER = ["board_cxo", "cco_gm_agm", "finance", "mis_qcg_admin", "collector_rm"];
@@ -329,7 +330,7 @@ function ArrivalScreen({ onEnter, dataDate }) {
         </div>
         <p className="data-date-note">Data date: {dataDate || "Unavailable"}</p>
       </section>
-      <QuickballCommand collapsedPrompt="Ask Quickball..." />
+      <QuickballCommand collapsedPrompt="Ask..." />
     </main>
   );
 }
@@ -702,13 +703,17 @@ const QUICKBALL_PROMPTS = [
   { label: "Open actions", metric: "ACTION_QUEUE" },
 ];
 
+
+
+
+
 function clampQuickballPosition(next, open = false) {
   if (typeof window === "undefined") return next;
-  const width = open ? 360 : 64;
-  const height = open ? 268 : 64;
+  const width = open ? 348 : 58;
+  const height = open ? 246 : 58;
   return {
-    x: Math.max(14, Math.min(Number(next.x) || 14, window.innerWidth - width - 14)),
-    y: Math.max(14, Math.min(Number(next.y) || 14, window.innerHeight - height - 14)),
+    x: Math.max(12, Math.min(Number(next.x) || 12, window.innerWidth - width - 12)),
+    y: Math.max(12, Math.min(Number(next.y) || 12, window.innerHeight - height - 12)),
   };
 }
 
@@ -725,10 +730,198 @@ function getStoredQuickballPosition() {
   } catch {
     window.localStorage.removeItem("scip.quickball.position");
   }
-  return clampQuickballPosition({ x: window.innerWidth - 86, y: window.innerHeight - 86 }, false);
+  return clampQuickballPosition({ x: window.innerWidth - 82, y: window.innerHeight - 82 }, false);
 }
 
 function QuickballCommand({ role, answer, onAsk, collapsedPrompt = "Ask..." }) {
+  const [metric, setMetric] = useState("");
+  const [open, setOpen] = useState(false);
+  const [asking, setAsking] = useState(false);
+  const [position, setPosition] = useState(getStoredQuickballPosition);
+  const [dragging, setDragging] = useState(false);
+  const [responsePeek, setResponsePeek] = useState(false);
+  const dragRef = useRef(null);
+  const holdTimerRef = useRef(null);
+  const responseTimerRef = useRef(null);
+  const blocked = answer?.status === "blocked_untrusted_metric";
+
+  const persistPosition = useCallback((next, nextOpen = open) => {
+    const clamped = clampQuickballPosition(next, nextOpen);
+    setPosition(clamped);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("scip.quickball.position", JSON.stringify(clamped));
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const onResize = () => persistPosition(position, open);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [open, persistPosition, position]);
+
+  useEffect(() => {
+    if (!answer) return undefined;
+    setResponsePeek(true);
+    window.clearTimeout(responseTimerRef.current);
+    responseTimerRef.current = window.setTimeout(() => setResponsePeek(false), 9000);
+    return () => window.clearTimeout(responseTimerRef.current);
+  }, [answer]);
+
+  const clearHoldTimer = useCallback(() => {
+    if (holdTimerRef.current) {
+      window.clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+  }, []);
+
+  const beginDrag = useCallback(() => {
+    const drag = dragRef.current;
+    if (!drag || drag.active) return;
+    drag.active = true;
+    setDragging(true);
+    navigator.vibrate?.(12);
+  }, []);
+
+  const onPointerDown = useCallback((event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      originX: position.x,
+      originY: position.y,
+      active: false,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    clearHoldTimer();
+    holdTimerRef.current = window.setTimeout(beginDrag, 150);
+  }, [beginDrag, clearHoldTimer, position.x, position.y]);
+
+  const onPointerMove = useCallback((event) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const dx = event.clientX - drag.startX;
+    const dy = event.clientY - drag.startY;
+    if (Math.abs(dx) + Math.abs(dy) > 5) {
+      drag.moved = true;
+      beginDrag();
+    }
+    if (drag.active) {
+      persistPosition({ x: drag.originX + dx, y: drag.originY + dy }, false);
+    }
+  }, [beginDrag, persistPosition]);
+
+  const onPointerUp = useCallback((event) => {
+    const drag = dragRef.current;
+    clearHoldTimer();
+    dragRef.current = null;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    setDragging(false);
+
+    if (drag?.active || drag?.moved) {
+      setOpen(false);
+      setResponsePeek(false);
+      navigator.vibrate?.([6, 18, 6]);
+      return;
+    }
+
+    setOpen((current) => {
+      const next = !current;
+      persistPosition(position, next);
+      return next;
+    });
+    setResponsePeek(false);
+    navigator.vibrate?.(8);
+  }, [clearHoldTimer, persistPosition, position]);
+
+  const onPointerCancel = useCallback((event) => {
+    clearHoldTimer();
+    dragRef.current = null;
+    setDragging(false);
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+  }, [clearHoldTimer]);
+
+  const runAsk = useCallback(async (nextMetric) => {
+    if (!onAsk || asking) return;
+    const value = String(nextMetric || metric || "OD_TODAY").trim();
+    setAsking(true);
+    setOpen(true);
+    setResponsePeek(false);
+    try {
+      await onAsk(value, role);
+      setMetric("");
+      setOpen(false);
+      setResponsePeek(true);
+    } finally {
+      setAsking(false);
+    }
+  }, [asking, metric, onAsk, role]);
+
+  const prompts = Array.isArray(QUICKBALL_PROMPTS) ? QUICKBALL_PROMPTS : [
+    { label: "Explain OD", metric: "OD_TODAY" },
+    { label: "MTD", metric: "MTD_TOTAL_COLLECTIONS" },
+  ];
+
+  return (
+    <section
+      className={`quickball-floating quickball-disk-v3 ${open ? "open" : ""} ${dragging ? "dragging" : ""} ${responsePeek && !open ? "has-response" : ""}`}
+      style={{ left: position.x, top: position.y }}
+      aria-label="Quickball command disk"
+      data-scip-ui-refinement="quickball-disk-v3"
+    >
+      <button
+        type="button"
+        className="quickball-floating-trigger"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
+        aria-expanded={open}
+        aria-label={open ? "Collapse Quickball" : "Touch to open Quickball. Hold and drag to move."}
+      >
+        <span className="quickball-orb" aria-hidden="true" />
+        {open && <span className="quickball-floating-title">Quickball</span>}
+      </button>
+
+      {open && (
+        <div className="quickball-floating-body">
+          <div className="quickball-row compact">
+            <input
+              className="quickball-input"
+              value={metric}
+              onChange={(event) => setMetric(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") runAsk(metric);
+              }}
+              placeholder={collapsedPrompt}
+              aria-label="Ask Quickball"
+            />
+            <button className="primary-button" disabled={asking} onClick={() => runAsk(metric)}>
+              {asking ? "..." : "Ask"}
+            </button>
+          </div>
+          <div className="quickball-prompt-list" aria-label="Quickball prompts">
+            {prompts.slice(0, 4).map((prompt) => (
+              <button key={prompt.label} type="button" className="ghost-button" disabled={asking} onClick={() => runAsk(prompt.metric)}>
+                {prompt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {answer && responsePeek && !open && (
+        <div className={`quickball-answer quickball-floating-answer solid-truth ${blocked ? "blocked-warning" : ""}`} role={blocked ? "alert" : "status"}>
+          <strong>{blocked ? "Blocked" : (answer.metric_label || answer.metric_key || "Quickball")}</strong>
+          <p>{blocked ? (answer.reason || "Lineage gate failed.") : answer.answer}</p>
+        </div>
+      )}
+    </section>
+  );
+}
+) {
   const [metric, setMetric] = useState("");
   const [open, setOpen] = useState(false);
   const [asking, setAsking] = useState(false);
