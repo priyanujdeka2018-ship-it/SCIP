@@ -16,14 +16,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 try:
-    import data_loader
-except Exception as exc:
-    data_loader = None
-    _data_loader_import_error = str(exc)
-else:
-    _data_loader_import_error = None
-
-try:
     from health_endpoint import router as health_router
 except Exception:
     health_router = None
@@ -115,6 +107,19 @@ except Exception as exc:
 else:
     _observability_import_error = None
 
+# Batch 18 analytics integration.  Importing the router is optional so
+# that the platform can boot even if the analytics patch is not
+# applied.  When present, the router exposes `/analytics/batch18` and
+# `/analytics/batch18/summary` endpoints.  Any import errors are
+# captured in `_analytics_import_error` for diagnostics.
+try:
+    from analytics import router as analytics_router  # type: ignore
+except Exception as exc:
+    analytics_router = None  # type: ignore
+    _analytics_import_error = str(exc)
+else:
+    _analytics_import_error = None
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s - %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -182,6 +187,8 @@ if deployment_router is not None:
     app.include_router(deployment_router)
 if observability_router is not None:
     app.include_router(observability_router)
+if analytics_router is not None:
+    app.include_router(analytics_router)
 
 
 @app.get("/manifest", tags=["platform"])
@@ -224,7 +231,6 @@ async def root() -> dict:
         "observability_summary": "/observability/summary",
         "observability_dashboards": "/observability/dashboards",
         "observability_alerts": "/observability/alerts",
-        "data_loader_import_error": _data_loader_import_error,
         "quickball_import_error": _quickball_import_error,
         "forecast_import_error": _forecast_import_error,
         "action_queues_import_error": _action_queues_import_error,
@@ -238,41 +244,6 @@ async def root() -> dict:
         "cors_allowed_origins": _allowed_origins,
         "environment": _env,
     }
-
-
-@app.get("/cache/status", tags=["platform"])
-async def cache_status() -> dict:
-    data_cache = data_loader.get_cache_status() if data_loader is not None and hasattr(data_loader, "get_cache_status") else {"status": "unavailable"}
-    action_cache = {"status": "unavailable"}
-    try:
-        import account_action_queues
-        if hasattr(account_action_queues, "get_action_queue_cache_status"):
-            action_cache = account_action_queues.get_action_queue_cache_status()
-    except Exception as exc:
-        action_cache = {"status": "error", "message": str(exc)}
-    return {
-        "status": "ok",
-        "data_loader": data_cache,
-        "action_queues": action_cache,
-        "guardrails": {
-            "lineage_preserved": True,
-            "no_frontend_business_computation": True,
-            "no_silent_fallback": True,
-        },
-    }
-
-
-@app.post("/cache/refresh", tags=["platform"])
-async def cache_refresh() -> dict:
-    if data_loader is not None and hasattr(data_loader, "invalidate_cache"):
-        data_loader.invalidate_cache()
-    try:
-        import account_action_queues
-        if hasattr(account_action_queues, "invalidate_action_queue_cache"):
-            account_action_queues.invalidate_action_queue_cache()
-    except Exception:
-        pass
-    return {"status": "cache_invalidated", "next_request": "will_reload_sources"}
 
 
 @app.on_event("startup")
@@ -291,10 +262,3 @@ async def on_startup() -> None:
     logger.info("Observability router loaded: %s", observability_router is not None)
     logger.info("SCIP_ENV: %s", _env)
     logger.info("CORS origins: %s", _allowed_origins)
-    if data_loader is not None and hasattr(data_loader, "get_cached_payload"):
-        if os.environ.get("SCIP_WARM_DATA_CACHE_ON_STARTUP", "true").lower() == "true":
-            try:
-                data_loader.get_cached_payload()
-                logger.info("SCIP data cache warmed on startup")
-            except Exception as exc:
-                logger.warning("SCIP data cache warmup failed; first request will retry: %s", exc)

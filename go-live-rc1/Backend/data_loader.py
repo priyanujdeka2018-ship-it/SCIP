@@ -29,22 +29,43 @@ Architecture rules (never violate):
 
 from __future__ import annotations
 
-import copy
 import json
 import logging
 import os
-import threading
-import time
 from datetime import datetime, date
 from pathlib import Path
 from typing import Any, Optional
 
 import openpyxl
+try:  # package import path
+    from .excel_reader import read_sheet as _read_sheet
+    from .column_mapper import apply_column_map as _apply_column_map, coerce as _coerce
+except ImportError:  # top-level runtime import path used by uvicorn main:app
+    from excel_reader import read_sheet as _read_sheet
+    from column_mapper import apply_column_map as _apply_column_map, coerce as _coerce
 
 import constants as C
 import utils as U
 import file_resolver
 import source_adapters
+
+# Import aggregation helpers from the standalone module.  These aliases
+# ensure that existing calls within this module continue to work while
+# the underlying logic has been extracted for better modularity.
+try:  # package import path
+    from .aggregation import (
+        run_aggregations as _run_aggregations,
+        filter_rows as _filter_rows,
+        extract_year as _extract_year,
+        safe_sum as _safe_sum,
+    )
+except ImportError:  # top-level runtime import path used by uvicorn main:app
+    from aggregation import (
+        run_aggregations as _run_aggregations,
+        filter_rows as _filter_rows,
+        extract_year as _extract_year,
+        safe_sum as _safe_sum,
+    )
 
 # ---------------------------------------------------------------------------
 # LOGGING
@@ -54,13 +75,9 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # PATHS
 # ---------------------------------------------------------------------------
-# UAT/staging can override the source workbook directory through SCIP_SOURCE_ROOT.
-# This is required on Render Free because R-series files are bootstrapped from
-# Google Drive into /tmp/scip/r-series on every deploy/cold start.
-#
-# Permanent production note:
-# - Production should use durable private storage or mounted/object storage.
-# - Source workbooks must remain outside GitHub.
+# Resolve /data directory relative to this file's location.
+# In deployment: backend/ sits next to data/ at repo root.
+# Staging/Render can override using SCIP_SOURCE_ROOT or DATA_DIR.
 _HERE = Path(__file__).parent
 DEFAULT_DATA_DIR = (_HERE.parent / "data").resolve()
 DATA_DIR = Path(
@@ -69,39 +86,6 @@ DATA_DIR = Path(
     or DEFAULT_DATA_DIR
 ).resolve()
 PIPELINE_CONFIG_PATH = (_HERE / "pipeline_config.json").resolve()
-logger.info("SCIP data source directory resolved to: %s", DATA_DIR)
-
-# ---------------------------------------------------------------------------
-# STAGING/UAT CACHE
-# ---------------------------------------------------------------------------
-# Render Free + Google Drive bootstrap + Excel parsing can make every request
-# expensive if endpoints call load_all() directly. The cache below keeps the
-# lineage-bearing server payload in memory for a short TTL. It does not compute
-# or fabricate business numbers; it only reuses the last trusted loader output.
-_DATA_CACHE_LOCK = threading.RLock()
-_DATA_CACHE_PAYLOAD: Optional[dict] = None
-_DATA_CACHE_LOADED_AT: Optional[float] = None
-_DATA_CACHE_DIR: Optional[str] = None
-_DATA_CACHE_HITS = 0
-_DATA_CACHE_MISSES = 0
-
-
-def _cache_ttl_seconds() -> int:
-    try:
-        return int(os.environ.get("SCIP_DATA_CACHE_TTL_SECONDS", "900"))
-    except ValueError:
-        return 900
-
-
-def _resolve_active_data_dir(data_dir: Optional[Path | str] = None) -> Path:
-    if data_dir:
-        return Path(data_dir).resolve()
-    return Path(
-        os.environ.get("SCIP_SOURCE_ROOT")
-        or os.environ.get("DATA_DIR")
-        or DATA_DIR
-    ).resolve()
-
 logger.info("SCIP data source directory resolved to: %s", DATA_DIR)
 
 
@@ -158,7 +142,7 @@ def _load_source_with_adapter(source_id: str, file_path: Path, source_cfg: dict)
 # SECTION 2 — OPENPYXL SHEET READER
 # ---------------------------------------------------------------------------
 
-def _read_sheet(file_path: Path, sheet_name: Any) -> Optional[list[dict]]:
+def __old_read_sheet(file_path: Path, sheet_name: Any) -> Optional[list[dict]]:
     """
     Read a single xlsx sheet into a list of row dicts.
     Uses openpyxl read_only mode for performance.
@@ -209,7 +193,7 @@ def _read_sheet(file_path: Path, sheet_name: Any) -> Optional[list[dict]]:
 # SECTION 3 — COLUMN MAPPER & TYPE COERCER
 # ---------------------------------------------------------------------------
 
-def _apply_column_map(rows: list[dict], col_map: dict, col_types: dict) -> list[dict]:
+def __old_apply_column_map(rows: list[dict], col_map: dict, col_types: dict) -> list[dict]:
     """
     Rename columns per pipeline_config column_map and coerce types.
     Rows that don't have any mapped column are skipped.
@@ -226,7 +210,7 @@ def _apply_column_map(rows: list[dict], col_map: dict, col_types: dict) -> list[
     return mapped
 
 
-def _coerce(value: Any, type_str: str) -> Any:
+def __old_coerce(value: Any, type_str: str) -> Any:
     """
     Coerce a raw openpyxl cell value to the declared type.
     Returns None on conversion failure — never raises.
@@ -262,7 +246,7 @@ def _coerce(value: Any, type_str: str) -> Any:
 # SECTION 4 — AGGREGATION ENGINE
 # ---------------------------------------------------------------------------
 
-def _run_aggregations(rows: list[dict], agg_cfg: dict) -> dict:
+def __old_run_aggregations(rows: list[dict], agg_cfg: dict) -> dict:
     """
     Execute the aggregation operations declared in pipeline_config for a source.
 
@@ -351,7 +335,7 @@ def _run_aggregations(rows: list[dict], agg_cfg: dict) -> dict:
     return results
 
 
-def _filter_rows(rows: list[dict], filt: dict) -> list[dict]:
+def __old_filter_rows(rows: list[dict], filt: dict) -> list[dict]:
     """
     Apply filter conditions to rows.
     Supported filter keys:
@@ -413,7 +397,7 @@ def _filter_rows(rows: list[dict], filt: dict) -> list[dict]:
     return result
 
 
-def _extract_year(value: Any) -> Optional[int]:
+def __old_extract_year(value: Any) -> Optional[int]:
     """Extract 4-digit year from datetime, int, or string."""
     if isinstance(value, (datetime, date)):
         return value.year
@@ -430,7 +414,7 @@ def _extract_year(value: Any) -> Optional[int]:
     return None
 
 
-def _safe_sum(rows: list[dict], col: str) -> float:
+def __old_safe_sum(rows: list[dict], col: str) -> float:
     """Sum a numeric column, skipping None values."""
     return sum(r[col] for r in rows if r.get(col) is not None)
 
@@ -1040,93 +1024,6 @@ def load_all(data_dir: Optional[Path] = None) -> dict:
         "summary":    summary,
         "status":     status,
         "missing_sources": missing,
-    }
-
-
-def get_cached_payload(
-    data_dir: Optional[Path | str] = None,
-    *,
-    force_refresh: bool = False,
-    ttl_seconds: Optional[int] = None,
-    copy_payload: bool = False,
-) -> dict:
-    """Return the trusted data loader payload using a short in-memory cache.
-
-    This is the performance-critical entry point for FastAPI endpoints. It keeps
-    Quickball, command centres, and forecast from reparsing every Excel workbook
-    on each click or role change. The payload still contains the original
-    lineage, validation status, confidence state and missing-source disclosure.
-
-    Set SCIP_DATA_CACHE_TTL_SECONDS=0 to disable caching. Use force_refresh=True
-    only for an explicit source-refresh action, not for role switch or Quickball.
-    """
-    global _DATA_CACHE_PAYLOAD, _DATA_CACHE_LOADED_AT, _DATA_CACHE_DIR
-    global _DATA_CACHE_HITS, _DATA_CACHE_MISSES
-
-    active_dir = _resolve_active_data_dir(data_dir)
-    cache_dir = str(active_dir)
-    ttl = _cache_ttl_seconds() if ttl_seconds is None else int(ttl_seconds)
-    now = time.time()
-
-    if ttl > 0 and not force_refresh:
-        with _DATA_CACHE_LOCK:
-            is_valid = (
-                _DATA_CACHE_PAYLOAD is not None
-                and _DATA_CACHE_LOADED_AT is not None
-                and _DATA_CACHE_DIR == cache_dir
-                and now - _DATA_CACHE_LOADED_AT <= ttl
-            )
-            if is_valid:
-                _DATA_CACHE_HITS += 1
-                logger.debug("SCIP data cache hit: dir=%s age=%.2fs", cache_dir, now - _DATA_CACHE_LOADED_AT)
-                return copy.deepcopy(_DATA_CACHE_PAYLOAD) if copy_payload else _DATA_CACHE_PAYLOAD
-
-    with _DATA_CACHE_LOCK:
-        now = time.time()
-        if ttl > 0 and not force_refresh:
-            is_valid = (
-                _DATA_CACHE_PAYLOAD is not None
-                and _DATA_CACHE_LOADED_AT is not None
-                and _DATA_CACHE_DIR == cache_dir
-                and now - _DATA_CACHE_LOADED_AT <= ttl
-            )
-            if is_valid:
-                _DATA_CACHE_HITS += 1
-                logger.debug("SCIP data cache hit after lock: dir=%s", cache_dir)
-                return copy.deepcopy(_DATA_CACHE_PAYLOAD) if copy_payload else _DATA_CACHE_PAYLOAD
-
-        _DATA_CACHE_MISSES += 1
-        logger.info("SCIP data cache miss; loading source payload: dir=%s force_refresh=%s", cache_dir, force_refresh)
-        payload = load_all(data_dir=active_dir)
-        if ttl > 0:
-            _DATA_CACHE_PAYLOAD = payload
-            _DATA_CACHE_LOADED_AT = time.time()
-            _DATA_CACHE_DIR = cache_dir
-        return copy.deepcopy(payload) if copy_payload else payload
-
-
-def invalidate_cache() -> None:
-    """Clear the in-memory data payload cache."""
-    global _DATA_CACHE_PAYLOAD, _DATA_CACHE_LOADED_AT, _DATA_CACHE_DIR
-    with _DATA_CACHE_LOCK:
-        _DATA_CACHE_PAYLOAD = None
-        _DATA_CACHE_LOADED_AT = None
-        _DATA_CACHE_DIR = None
-
-
-def get_cache_status() -> dict:
-    now = time.time()
-    age = None if _DATA_CACHE_LOADED_AT is None else round(now - _DATA_CACHE_LOADED_AT, 3)
-    return {
-        "status": "warm" if _DATA_CACHE_PAYLOAD is not None else "cold",
-        "data_dir": _DATA_CACHE_DIR,
-        "loaded_at_epoch": _DATA_CACHE_LOADED_AT,
-        "age_seconds": age,
-        "ttl_seconds": _cache_ttl_seconds(),
-        "hits": _DATA_CACHE_HITS,
-        "misses": _DATA_CACHE_MISSES,
-        "lineage_preserved": True,
-        "no_silent_fallback": True,
     }
 
 

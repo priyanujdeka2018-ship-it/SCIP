@@ -86,7 +86,7 @@ ROLE_ALIASES = {
 
 
 # ---------------------------------------------------------------------------
-# Critical metric catalogue
+# Critical metric catalogue (loaded dynamically)
 # ---------------------------------------------------------------------------
 
 @dataclass(frozen=True)
@@ -103,45 +103,16 @@ class MetricSpec:
     business_definition: str = ""
 
 
+# Load metric definitions from the external JSON catalogue using the helper.
+try:  # package import path
+    from .metric_loader import load_metric_catalog
+except ImportError:  # top-level runtime import path used by uvicorn main:app
+    from metric_loader import load_metric_catalog
+
+_raw_metric_catalog = load_metric_catalog()
+
 METRIC_CATALOG: Dict[str, MetricSpec] = {
-    # R18 OD
-    "OD_TODAY": MetricSpec("OD_TODAY", "Group overdue today", "OD_TODAY", "OD_LINEAGE", "OD_TODAY", "R18 overdue", "R18", business_definition="Group OD from R18 Grand Total."),
-    "OD_GROUP": MetricSpec("OD_GROUP", "Group overdue roll-up", "OD_GROUP", "OD_LINEAGE", "OD_GROUP", "R18 overdue", "R18", business_definition="Sobha plus UAQ OD roll-up."),
-    "OD_SOBHA": MetricSpec("OD_SOBHA", "Sobha overdue", "OD_SOBHA", "OD_LINEAGE", "OD_SOBHA", "R18 overdue", "R18"),
-    "OD_UAQ": MetricSpec("OD_UAQ", "UAQ overdue", "OD_UAQ", "OD_LINEAGE", "OD_UAQ", "R18 overdue", "R18"),
-    "OD_SOBHA_DUBAI": MetricSpec("OD_SOBHA_DUBAI", "Sobha Dubai overdue", "OD_SOBHA_DUBAI", "OD_LINEAGE", "OD_SOBHA_DUBAI", "R18 overdue", "R18"),
-    "OD_SOBHA_AUH": MetricSpec("OD_SOBHA_AUH", "Sobha AUH overdue", "OD_SOBHA_AUH", "OD_LINEAGE", "OD_SOBHA_AUH", "R18 overdue", "R18"),
-    "OD_SINIYA": MetricSpec("OD_SINIYA", "Siniya overdue", "OD_SINIYA", "OD_LINEAGE", "OD_SINIYA", "R18 overdue", "R18"),
-    "OD_DOWNTOWN_UAQ": MetricSpec("OD_DOWNTOWN_UAQ", "Downtown UAQ overdue", "OD_DOWNTOWN_UAQ", "OD_LINEAGE", "OD_DOWNTOWN_UAQ", "R18 overdue", "R18"),
-
-    # R04 Finance daily
-    "MTD_TOTAL_COLLECTIONS": MetricSpec("MTD_TOTAL_COLLECTIONS", "MTD total collections", "MTD_TOTAL_COLLECTIONS", "R04_LINEAGE", "mtd_total_collections", "Finance", "R04", business_definition="Finance MTD total = Finance D+A/collection-due plus new sales."),
-    "MTD_DA_TOTAL": MetricSpec("MTD_DA_TOTAL", "MTD Finance D+A", "MTD_DA_TOTAL", "R04_LINEAGE", "mtd_da_total", "Finance", "R04", business_definition="R04 Collection Due; Finance basis D+A."),
-    "MTD_NS_TOTAL": MetricSpec("MTD_NS_TOTAL", "MTD new-sales collections", "MTD_NS_TOTAL", "R04_LINEAGE", "mtd_ns_total", "Finance", "R04"),
-    "MTD_DLD_OQOOD_TOTAL": MetricSpec("MTD_DLD_OQOOD_TOTAL", "MTD DLD/Oqood", "MTD_DLD_OQOOD_TOTAL", "R04_LINEAGE", "mtd_dld_oqood_total", "Finance", "R04"),
-
-    # R02 MDO targets and actuals
-    "MAY_DA_TARGET": MetricSpec("MAY_DA_TARGET", "May MDO D+A target", "MAY_DA_TARGET", "R02_LINEAGE", "may_da_target_group", "MDO", "R02", business_definition="May target for MDO dues plus advance."),
-    "MAY_TOTAL_COLLECTIONS_TARGET": MetricSpec("MAY_TOTAL_COLLECTIONS_TARGET", "May MDO total collections target", "MAY_TOTAL_COLLECTIONS_TARGET", "R02_LINEAGE", "may_total_collections_target_group", "MDO", "R02"),
-    "MAY_DUES_TARGET": MetricSpec("MAY_DUES_TARGET", "May MDO dues target", "MAY_DUES_TARGET", "R02_LINEAGE", "may_dues_target_group", "MDO", "R02"),
-    "MAY_ADV_TARGET": MetricSpec("MAY_ADV_TARGET", "May MDO advance target", "MAY_ADV_TARGET", "R02_LINEAGE", "may_advance_target_group", "MDO", "R02"),
-    "FY_DA_TARGET": MetricSpec("FY_DA_TARGET", "FY MDO D+A target", "FY_DA_TARGET", "R02_LINEAGE", "fy_da_target_group", "MDO", "R02"),
-    "FY_TOTAL_COLLECTIONS_TARGET": MetricSpec("FY_TOTAL_COLLECTIONS_TARGET", "FY MDO total collections target", "FY_TOTAL_COLLECTIONS_TARGET", "R02_LINEAGE", "fy_total_collections_target_group", "MDO", "R02"),
-
-    # R08 advance
-    "ADVANCE_2026_TOTAL": MetricSpec("ADVANCE_2026_TOTAL", "2026 total advance", "ADVANCE_2026_TOTAL", "R08_LINEAGE", "ADVANCE_2026_TOTAL", "R08 advance summary", "R08"),
-    "ADVANCE_2026_CY": MetricSpec("ADVANCE_2026_CY", "2026 current-year advance", "ADVANCE_2026_CY", "R08_LINEAGE", "ADVANCE_2026_CY", "R08 advance summary", "R08"),
-    "ADVANCE_2026_FY": MetricSpec("ADVANCE_2026_FY", "2026 future-year advance", "ADVANCE_2026_FY", "R08_LINEAGE", "ADVANCE_2026_FY", "R08 advance summary", "R08"),
-    "CY_ADV_MIX_YTD": MetricSpec("CY_ADV_MIX_YTD", "Current-year advance mix", "CY_ADV_MIX_YTD", "R08_LINEAGE", "CY_ADV_MIX_YTD", "R08 advance summary", "R08", unit="pct"),
-    "FY_ADV_MIX_YTD": MetricSpec("FY_ADV_MIX_YTD", "Future-year advance mix", "FY_ADV_MIX_YTD", "R08_LINEAGE", "FY_ADV_MIX_YTD", "R08 advance summary", "R08", unit="pct"),
-    "YTD_2026_REBATE": MetricSpec("YTD_2026_REBATE", "YTD 2026 rebate / NPV applied", "YTD_2026_REBATE", "R08_LINEAGE", "ytd_2026_rebate", "R08 advance summary", "R08"),
-
-    # R36 milestone cohort
-    "PIPELINE_GROSS": MetricSpec("PIPELINE_GROSS", "Pipeline gross / active forward collectible calendar", "PIPELINE_GROSS", "R36_LINEAGE", "PIPELINE_GROSS", "R36 milestone cohort", "R36", business_definition="Active forward collectible calendar from 2026 onwards."),
-    "PIPELINE_ACTIVE_TOTAL_PURCHASE_PRICE": MetricSpec("PIPELINE_ACTIVE_TOTAL_PURCHASE_PRICE", "Active total purchase price", "PIPELINE_ACTIVE_TOTAL_PURCHASE_PRICE", "R36_LINEAGE", "PIPELINE_ACTIVE_TOTAL_PURCHASE_PRICE", "R36 milestone cohort", "R36"),
-    "PIPELINE_FORWARD_2026": MetricSpec("PIPELINE_FORWARD_2026", "2026 forward collectible", None, "R36_LINEAGE", "pipeline_forward_2026", "R36 milestone cohort", "R36"),
-    "PIPELINE_FORWARD_2027": MetricSpec("PIPELINE_FORWARD_2027", "2027 forward collectible", None, "R36_LINEAGE", "pipeline_forward_2027", "R36 milestone cohort", "R36"),
-    "PIPELINE_FORWARD_2028": MetricSpec("PIPELINE_FORWARD_2028", "2028 forward collectible", None, "R36_LINEAGE", "pipeline_forward_2028", "R36 milestone cohort", "R36"),
+    key: MetricSpec(**fields) for key, fields in _raw_metric_catalog.items()
 }
 
 ALIASES: Dict[str, str] = {
@@ -387,10 +358,8 @@ def build_sample_answers(payload: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def load_payload(data_dir: Optional[str] = None, *, force_refresh: bool = False) -> Dict[str, Any]:
+def load_payload(data_dir: Optional[str] = None) -> Dict[str, Any]:
     path = Path(data_dir) if data_dir else None
-    if hasattr(data_loader, "get_cached_payload"):
-        return data_loader.get_cached_payload(data_dir=path, force_refresh=force_refresh)
     return data_loader.load_all(data_dir=path)
 
 
@@ -420,10 +389,6 @@ if APIRouter is not None:
         metric: str = Query(..., description="Metric name or natural-language alias, e.g. OD_TODAY or pipeline gross"),
         role: str = Query("board_cxo", description="board_cxo, cco_gm_agm, finance, mis_qcg_admin, collector_rm"),
     ) -> Dict[str, Any]:
-        # Unknown metric requests should return immediately and must not trigger
-        # a full workbook parse. Known metrics use the cached trusted payload.
-        if not normalize_metric_key(metric):
-            return explain_metric({"computed": {}}, metric, role)
         payload = load_payload()
         return explain_metric(payload, metric, role)
 
