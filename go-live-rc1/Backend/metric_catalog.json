@@ -346,5 +346,53 @@
     "unit": "AED",
     "critical": true,
     "business_definition": ""
+  },
+  "MDO_PLANNED_NS_TARGET_Q1": {
+    "canonical_key": "MDO_PLANNED_NS_TARGET_Q1",
+    "label": "Q1 planned MDO new-sales target (Group)",
+    "computed_key": null,
+    "lineage_bucket": "R02_LINEAGE",
+    "lineage_key": "planned_ns_target_q1_group",
+    "reporting_basis": "MDO planned",
+    "source_code": "R02",
+    "unit": "AED",
+    "critical": false,
+    "business_definition": "Original planned Q1 new-sales MDO target from the Monthwise sheet (1,097.1M at 2026-05-06). The true achievement denominator - Dynamic targets are reconciled/revised."
+  },
+  "MDO_PLANNED_TOTAL_TARGET_FY": {
+    "canonical_key": "MDO_PLANNED_TOTAL_TARGET_FY",
+    "label": "FY planned MDO total collections target (Group)",
+    "computed_key": null,
+    "lineage_bucket": "R02_LINEAGE",
+    "lineage_key": "planned_total_collections_target_fy_group",
+    "reporting_basis": "MDO planned",
+    "source_code": "R02",
+    "unit": "AED",
+    "critical": false,
+    "business_definition": "Original planned FY total-collections MDO target (15,605.9M). Dynamic FY (15,065.6M) carries revised future months - divergence disclosed, never reconciled."
+  },
+  "Q1_NS_ACHIEVEMENT_PLANNED": {
+    "canonical_key": "Q1_NS_ACHIEVEMENT_PLANNED",
+    "label": "Q1 new-sales achievement vs planned MDO",
+    "computed_key": null,
+    "lineage_bucket": "R02_LINEAGE",
+    "lineage_key": "q1_achievement_planned_ns_pct_group",
+    "reporting_basis": "MDO actual vs MDO planned",
+    "source_code": "R02",
+    "unit": "pct",
+    "critical": false,
+    "business_definition": "Q1 new-sales actual / planned MDO target x 100 = 52.4%. The largest category gap. Q1 actuals disclosed (reconciled per source note)."
+  },
+  "Q1_MDO_ACHIEVEMENT_BY_CATEGORY": {
+    "canonical_key": "Q1_MDO_ACHIEVEMENT_BY_CATEGORY",
+    "label": "Q1 MDO achievement by category (planned)",
+    "computed_key": null,
+    "lineage_bucket": "R02_LINEAGE",
+    "lineage_key": "q1_mdo_achievement_by_category",
+    "reporting_basis": "MDO actual vs MDO planned",
+    "source_code": "R02",
+    "unit": "pct",
+    "critical": false,
+    "business_definition": "Worst-category Q1 achievement vs PLANNED MDO targets (binding constraint = new sales 52.4%; dues 100.0%, advance 97.9%, total 86.6%)."
   }
 }

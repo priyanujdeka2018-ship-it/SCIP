@@ -19,6 +19,8 @@ from typing import Any, Dict, List, Optional
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
+from r02_monthwise_extension import extend_r02_with_monthwise
+
 # User-approved general reconciliation tolerance: 0.05%.
 TOLERANCE_PCT = 0.0005
 
@@ -782,6 +784,11 @@ class R02MDOAdapter(BaseAdapter):
                     reporting_basis="MDO",
                     extraction_method=meta.get("extraction_method", "positional_monthly_matrix"),
                 )
+
+            # R02 Monthwise planned-basis extension (additive; never raises on
+            # data problems; refuses to overwrite existing keys). Emits planned
+            # targets + Q1 achievement-vs-planned into result.metrics/lineage.
+            extend_r02_with_monthwise(result, self.path, self.loaded_at)
 
             # Keep payload clean for app consumers; smoke script can inspect lineage instead.
             result.metrics["lineage_metric_count"] = len(result.lineage)

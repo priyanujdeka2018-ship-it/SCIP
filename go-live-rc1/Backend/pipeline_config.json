@@ -8,16 +8,16 @@
     "edit_rule": "Only Priyanuj or Claude edits this file. One entry per R-series report. Add/remove entries here when new reports are onboarded or retired. Never touch data_loader.py for a column rename.",
     "format_rule": "All source files are xlsx. openpyxl reads them. Multi-sheet files use sheet_name param. No xlsb, PDF, or Word accepted.",
     "unit_rule": "All monetary output from data_loader is in AED base units (not millions). utils.fmt_aed_millions() handles display conversion.",
-    "naming_convention": "snake_case throughout. _aed suffix = AED base units. _pct suffix = 0-100 scale. _m suffix FORBIDDEN in this config \u2014 all values are base AED.",
+    "naming_convention": "snake_case throughout. _aed suffix = AED base units. _pct suffix = 0-100 scale. _m suffix FORBIDDEN in this config — all values are base AED.",
     "changelog": {
-      "v7": "R18 entry fully rebuilt. Reflects actual file structure: multi-sheet workbook, active sheet = Overdue-1, positional column reads (not header-name reads), Grand Total row for OD_TODAY and ageing buckets, Sub Total rows (A-E/F/G) for entity OD. SNAPSHOT_DATE read from header cell. Flat column_map removed \u2014 replaced with positional_read spec.",
+      "v7": "R18 entry fully rebuilt. Reflects actual file structure: multi-sheet workbook, active sheet = Overdue-1, positional column reads (not header-name reads), Grand Total row for OD_TODAY and ageing buckets, Sub Total rows (A-E/F/G) for entity OD. SNAPSHOT_DATE read from header cell. Flat column_map removed — replaced with positional_read spec.",
       "v8": "Adds locked Group > Sobha/UAQ entity hierarchy, Sobha AUH handling, source-adapter declarations, lineage contract, quality gates, and updated R18/R02/R04/R08/R36 read profiles based on May 2026 sample files."
     }
   },
   "sources": {
     "R01": {
       "id": "R01",
-      "label": "Year-End Collections Snapshot 2021\u20132025",
+      "label": "Year-End Collections Snapshot 2021–2025",
       "file": "R01_year_end_snap.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -89,109 +89,118 @@
           }
         }
       },
-      "notes": "R01 is a PDF source \u2014 manual extraction required before first load. Once extracted to xlsx, treated identically to other R-series."
+      "notes": "R01 is a PDF source — manual extraction required before first load. Once extracted to xlsx, treated identically to other R-series."
     },
     "R02": {
       "id": "R02",
       "label": "MDO Monthly Targets vs Actuals 2026",
       "file": "R02_mdo_targets.xlsx",
-      "sheet_name": 0,
+      "file_patterns": [
+        "R02_*.xlsx",
+        "R02*.xlsx"
+      ],
       "file_type": "xlsx",
-      "granularity": "monthly",
-      "data_date_col": "month",
+      "granularity": "monthly_entity_matrix",
+      "data_date": "2026-05-06",
       "sections_used": [
         "S02",
         "S03"
       ],
       "graceful_degradation": "show_last_known",
-      "column_map": {
-        "Month": "month",
-        "Entity": "entity",
-        "Target Type": "target_type",
-        "Dues Target": "dues_target_aed",
-        "Dues Actual": "dues_actual_aed",
-        "Advance Target": "advance_target_aed",
-        "Advance Actual": "advance_actual_aed",
-        "D+A Target": "da_target_aed",
-        "D+A Actual": "da_actual_aed",
-        "Achievement%": "achievement_pct"
-      },
-      "column_types": {
-        "month": "datetime",
-        "entity": "str",
-        "target_type": "str",
-        "dues_target_aed": "float",
-        "dues_actual_aed": "float",
-        "advance_target_aed": "float",
-        "advance_actual_aed": "float",
-        "da_target_aed": "float",
-        "da_actual_aed": "float",
-        "achievement_pct": "float"
-      },
-      "aggregations": {
-        "fy_dues_target_group": {
-          "op": "filter_sum",
-          "col": "dues_target_aed",
-          "filter": {
-            "entity": "Group"
-          }
-        },
-        "fy_advance_target_group": {
-          "op": "filter_sum",
-          "col": "advance_target_aed",
-          "filter": {
-            "entity": "Group"
-          }
-        },
-        "q1_dues_actual_group": {
-          "op": "filter_sum",
-          "col": "dues_actual_aed",
-          "filter": {
-            "entity": "Group",
-            "month_in": [
-              "2026-01",
-              "2026-02",
-              "2026-03"
-            ]
-          }
-        },
-        "q1_advance_actual_group": {
-          "op": "filter_sum",
-          "col": "advance_actual_aed",
-          "filter": {
-            "entity": "Group",
-            "month_in": [
-              "2026-01",
-              "2026-02",
-              "2026-03"
-            ]
-          }
-        }
-      },
-      "disambiguation_note": "MDO Dues = Dues-only target. Finance Dues (R04) = D+A combined. Never conflate. Both must be labelled on-screen.",
-      "file_patterns": [
-        "R02_*.xlsx",
-        "R02*.xlsx"
-      ],
-      "adapter_class": "R02MDOAdapter",
-      "read_strategy": "positional_monthly_mdo_dynamic_matrix",
+      "read_strategy": "section_iterator",
+      "sheet_name": "MDO Dynamic",
       "sheet_map": {
-        "dynamic_monthly": "MDO Dynamic",
-        "static_monthly": "Monthwise MDO",
-        "group_daily": "daily",
-        "sobha_dubai_daily": "daily (2)",
-        "siniya_daily": "daily (3)",
-        "downtown_uaq_daily": "daily (4)",
-        "sobha_auh_daily": "daily (5)",
+        "mdo_dynamic": "MDO Dynamic",
+        "monthwise_planned": "Monthwise MDO",
         "siniya_units": "Siniya Units Sales",
-        "downtown_uaq_units": "Dowtown Units Sales"
+        "downtown_units": "Dowtown Units Sales"
       },
+      "section_iterator": {
+        "entity_title_map": {
+          "total collections": "group",
+          "siniya total collections": "siniya",
+          "sobha total collections": "sobha_dubai",
+          "downtown uaq total collections": "downtown_uaq",
+          "dowtown uaq total collections": "downtown_uaq",
+          "sobha auh total collections": "sobha_auh"
+        },
+        "metric_row_map": {
+          "dues target": "dues_target_aed",
+          "dues": "dues_actual_aed",
+          "advance target": "advance_target_aed",
+          "current year advance": "cy_advance_actual_aed",
+          "future year advance": "fy_advance_actual_aed",
+          "advance": "advance_actual_aed",
+          "dues+ advance target": "da_target_aed",
+          "dues+ advance": "da_actual_aed",
+          "new sales target": "new_sales_target_aed",
+          "new sales": "new_sales_actual_aed",
+          "total collections target": "total_collections_target_aed",
+          "mtd total collections": "total_collections_actual_aed"
+        },
+        "period_columns": {
+          "jan": "C",
+          "feb": "D",
+          "mar": "E",
+          "q1": "F",
+          "apr": "G",
+          "may": "H",
+          "jun": "I",
+          "q2": "J",
+          "h1": "K",
+          "jul": "L",
+          "aug": "M",
+          "sep": "N",
+          "q3": "O",
+          "oct": "P",
+          "nov": "Q",
+          "dec": "R",
+          "total": "S"
+        },
+        "snapshot_cell": "S3"
+      },
+      "monthwise_extension": {
+        "module": "r02_monthwise_extension",
+        "sheet": "Monthwise MDO",
+        "basis": "MDO planned",
+        "emits": [
+          "planned_{dues|advance|da|ns|total_collections}_target_{q1|may|fy}_group",
+          "q1_{dues|advance|da|ns|total_collections}_actual_monthwise_group",
+          "q1_achievement_planned_{dues|advance|ns|total_collections}_pct_group",
+          "q1_mdo_achievement_by_category"
+        ],
+        "rule": "Achievement % for elapsed months MUST use the planned (Monthwise) denominator. MDO Dynamic targets are reconciled to actuals for elapsed months AND carry revised future-month targets; achievement computed from Dynamic reads ~100% by construction."
+      },
+      "aggregations_note": "Group May/FY/Q1 promotions are produced by R02MDOAdapter (Dynamic basis) and r02_monthwise_extension (planned basis); no generic flat-table aggregation applies to this source.",
+      "disambiguation_note": "MDO Dues = dues-only target; Finance Dues (R04) = D+A combined. 'MDO Dynamic' = reconciled + revised basis; 'Monthwise MDO' = original planned basis — use planned for achievement %. Never conflate. Both basis labels on-screen.",
+      "notes": "Companion sheets: unit-sales (project pipeline, not yet promoted) and daily* (duplicative of R04; formula references missing sheet 'gcdump' — cached values only, do NOT extract live). Q1 figures carry source note B73: adjusted against actuals, subject to reconciliation on clearing of unidentifieds.",
+      "adapter_class": "R02MDOAdapter",
       "produces_tables": [
-        "fact_targets_monthly",
-        "fact_collections_daily_mdo",
-        "fact_entity_units_sales",
+        "fact_mdo_target",
+        "fact_mdo_actual",
+        "fact_mdo_planned_target",
         "dim_source_lineage"
       ],
+      "lineage_required": true,
+      "reconciliation_tolerance_pct": 0.0005,
+      "reporting_basis": "MDO",
+      "entity_mapping": {
+        "Total Collections": "group",
+        "Sobha Total Collections": "sobha_dubai",
+        "Sobha AUH Total Collections": "sobha_auh",
+        "Siniya Total Collections": "siniya",
+        "Downtown UAQ Total Collections": "downtown_uaq"
+      },
+      "metric_disambiguation": {
+        "dues_target": "MDO Dynamic row Dues Target.",
+        "dues_actual": "MDO Dynamic row Dues.",
+        "advance_target": "MDO Dynamic row Advance Target.",
+        "advance_actual": "Current Year Advance + Future Year Advance where split rows exist.",
+        "da_target": "Dues+ Advance Target.",
+        "da_actual": "Dues+ Advance.",
+        "new_sales": "New Sales Target / New Sales.",
+        "total_collections": "Total Collections Target / MTD Total Collections."
+      },
       "validation_check": {
         "rules": [
           {
@@ -229,32 +238,34 @@
           {
             "id": "R02_FY_TOTAL_COLLECTIONS_TARGET_GROUP_EQUALS_LEAF_ROLLUP",
             "severity": "critical"
+          },
+          {
+            "id": "R02_MONTHWISE_SHEET_PRESENT",
+            "severity": "warning"
+          },
+          {
+            "id": "R02_MONTHWISE_GROUP_BLOCK_PRESENT",
+            "severity": "warning"
+          },
+          {
+            "id": "R02_MONTHWISE_Q1_INTERNAL_CONSISTENCY",
+            "severity": "warning"
+          },
+          {
+            "id": "R02_PLANNED_VS_DYNAMIC_FY_PARITY",
+            "severity": "warning"
+          },
+          {
+            "id": "R02_PLANNED_BASIS_GAP_DISCLOSED",
+            "severity": "info"
           }
         ]
       },
-      "reporting_basis": "MDO",
-      "metric_disambiguation": {
-        "dues_target": "MDO Dynamic row Dues Target.",
-        "dues_actual": "MDO Dynamic row Dues.",
-        "advance_target": "MDO Dynamic row Advance Target.",
-        "advance_actual": "Current Year Advance + Future Year Advance where split rows exist.",
-        "da_target": "Dues+ Advance Target.",
-        "da_actual": "Dues+ Advance.",
-        "new_sales": "New Sales Target / New Sales.",
-        "total_collections": "Total Collections Target / MTD Total Collections."
-      },
-      "entity_mapping": {
-        "Total Collections": "group",
-        "Sobha Total Collections": "sobha_dubai",
-        "Sobha AUH Total Collections": "sobha_auh",
-        "Siniya Total Collections": "siniya",
-        "Downtown UAQ Total Collections": "downtown_uaq"
-      },
-      "lineage_required": true
+      "validation_note": "Executable validations live in R02MDOAdapter + r02_monthwise_extension; this validation_check block is the declarative governance register (one authority per concern)."
     },
     "R03": {
       "id": "R03",
-      "label": "Entity Portfolio Snapshot \u2014 Qualified Units",
+      "label": "Entity Portfolio Snapshot — Qualified Units",
       "file": "R03_entity_portfolio_snapshot.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -298,7 +309,7 @@
     },
     "R04": {
       "id": "R04",
-      "label": "Total Daily Collections \u2014 All Entities (Finance Target = D+A)",
+      "label": "Total Daily Collections — All Entities (Finance Target = D+A)",
       "file": "R04_total_daily.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -417,7 +428,7 @@
     },
     "R05": {
       "id": "R05",
-      "label": "Sobha Daily Collections \u2014 March 2026",
+      "label": "Sobha Daily Collections — March 2026",
       "file": "R05_sobha_daily.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -450,7 +461,7 @@
     },
     "R06": {
       "id": "R06",
-      "label": "Siniya Daily Collections \u2014 March 2026",
+      "label": "Siniya Daily Collections — March 2026",
       "file": "R06_siniya_daily.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -483,7 +494,7 @@
     },
     "R07": {
       "id": "R07",
-      "label": "Downtown UAQ Daily Collections \u2014 March 2026",
+      "label": "Downtown UAQ Daily Collections — March 2026",
       "file": "R07_dt_daily.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -516,7 +527,7 @@
     },
     "R08": {
       "id": "R08",
-      "label": "Advance Collections Summary \u2014 CY/FY Splits, Rebate, NPV",
+      "label": "Advance Collections Summary — CY/FY Splits, Rebate, NPV",
       "file": "R08_advance_summary.xlsx",
       "sheet_name": "Summary",
       "file_type": "xlsx",
@@ -598,7 +609,7 @@
           }
         }
       },
-      "cy_fy_rule": "CY = advance on milestones due in current calendar year. FY = advance on future-year milestones. Jan 2025 CY = 70.1% (FY = 29.9%). Prior error swapped these \u2014 corrected v4+.",
+      "cy_fy_rule": "CY = advance on milestones due in current calendar year. FY = advance on future-year milestones. Jan 2025 CY = 70.1% (FY = 29.9%). Prior error swapped these — corrected v4+.",
       "npv_label_rule": "NPV scenario figures (652M / 21M / 31M) are PROJECTED. Always label [PROJECTED]. Never label Actual.",
       "file_patterns": [
         "R08_*.xlsx",
@@ -661,7 +672,7 @@
     },
     "R10": {
       "id": "R10",
-      "label": "Agent Coverage Report \u2014 Bucket \u00d7 Unit \u00d7 Contact Status",
+      "label": "Agent Coverage Report — Bucket × Unit × Contact Status",
       "file": "R10_coverage.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -698,7 +709,7 @@
     },
     "R12": {
       "id": "R12",
-      "label": "Monthly Trend \u2014 Booksize BOM & 30-Day Collection Efficiency",
+      "label": "Monthly Trend — Booksize BOM & 30-Day Collection Efficiency",
       "file": "R12_trend_monthly.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -722,11 +733,11 @@
         "dues_collected_aed": "float",
         "efficiency_30d_pct": "float"
       },
-      "formula_note": "efficiency_30d_pct = dues_collected_aed / booksize_bom_aed * 100. 2025 avg = 34.8%. Deprecated value of 18% from v3 is WRONG \u2014 never use."
+      "formula_note": "efficiency_30d_pct = dues_collected_aed / booksize_bom_aed * 100. 2025 avg = 34.8%. Deprecated value of 18% from v3 is WRONG — never use."
     },
     "R13": {
       "id": "R13",
-      "label": "Portfolio ITD Summary \u2014 Sale Value, Collected ITD by Entity",
+      "label": "Portfolio ITD Summary — Sale Value, Collected ITD by Entity",
       "file": "R13_portfolio_itd.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -829,7 +840,7 @@
     },
     "R18": {
       "id": "R18",
-      "label": "R18 Consolidated & Overdue \u2014 Master OD Report with Sobha/UAQ hierarchy",
+      "label": "R18 Consolidated & Overdue — Master OD Report with Sobha/UAQ hierarchy",
       "file": "R18_consolidated_overdue.xlsx",
       "sheet_name": "Overdue-1",
       "file_type": "xlsx",
@@ -846,7 +857,7 @@
         "active_sheet": "Overdue-1",
         "total_sheets_in_workbook": 27,
         "read_mode": "positional_row_scan",
-        "header_date_cell": "Read snapshot date from a header cell (row 0 or 1) \u2014 exact cell confirmed on first file inspection. Store as SNAPSHOT_DATE. Never hardcode.",
+        "header_date_cell": "Read snapshot date from a header cell (row 0 or 1) — exact cell confirmed on first file inspection. Store as SNAPSHOT_DATE. Never hardcode.",
         "col_index_note": "Column indices are 0-based as returned by openpyxl iter_rows(values_only=True)."
       },
       "positional_columns": {
@@ -1190,7 +1201,7 @@
     },
     "R25": {
       "id": "R25",
-      "label": "Payment Channel Mix \u2014 COUNT Basis (NOT AED value)",
+      "label": "Payment Channel Mix — COUNT Basis (NOT AED value)",
       "file": "R25_payment_channels.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -1230,7 +1241,7 @@
     },
     "R26": {
       "id": "R26",
-      "label": "Other Charges \u2014 LP, DLD Forfeiture, IC Forfeiture, NOC & Admin",
+      "label": "Other Charges — LP, DLD Forfeiture, IC Forfeiture, NOC & Admin",
       "file": "R26_other_charges.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -1285,7 +1296,7 @@
     },
     "R29": {
       "id": "R29",
-      "label": "Helpdesk Monthly Cases \u2014 Volume & TAT Compliance",
+      "label": "Helpdesk Monthly Cases — Volume & TAT Compliance",
       "file": "R29_helpdesk.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -1324,7 +1335,7 @@
     },
     "R30": {
       "id": "R30",
-      "label": "Collector Performance \u2014 24 Collectors (Mar 2026 MTD Snapshot)",
+      "label": "Collector Performance — 24 Collectors (Mar 2026 MTD Snapshot)",
       "file": "R30_collector_performance.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -1444,7 +1455,7 @@
     },
     "R34": {
       "id": "R34",
-      "label": "Termination Status Report \u2014 Eligible, In-System, Gap",
+      "label": "Termination Status Report — Eligible, In-System, Gap",
       "file": "R34_termination_status.xlsx",
       "sheet_name": 0,
       "file_type": "xlsx",
@@ -1489,7 +1500,7 @@
     },
     "R35": {
       "id": "R35",
-      "label": "YoY Receipt Cohort \u2014 Booking Year \u00d7 Collection Year Matrix",
+      "label": "YoY Receipt Cohort — Booking Year × Collection Year Matrix",
       "file": "R35_yoy_receipt_cohort.xlsx",
       "sheet_name": "Dues",
       "file_type": "xlsx",
@@ -1521,7 +1532,7 @@
     },
     "R36": {
       "id": "R36",
-      "label": "YoY Milestone Cohort \u2014 Forward Obligation (PIPELINE_GROSS source)",
+      "label": "YoY Milestone Cohort — Forward Obligation (PIPELINE_GROSS source)",
       "file": "R36_yoy_milestone_cohort.xlsx",
       "sheet_name": "Active",
       "file_type": "xlsx",
@@ -1557,7 +1568,7 @@
         "PIPELINE_ADV_DENOM": {
           "op": "derived",
           "formula": "PIPELINE_GROSS - 5_700_000_000",
-          "note": "= 37.8B = 43.5B \u2212 5.7B prior advances. Label: '2026 Advance Penetration Denominator'. Used in S05 and S08 ONLY."
+          "note": "= 37.8B = 43.5B − 5.7B prior advances. Label: '2026 Advance Penetration Denominator'. Used in S05 and S08 ONLY."
         }
       },
       "pipeline_rule": "PIPELINE_GROSS is live Active forward collectible calendar from R36 Active!N25:W25. PIPELINE_ADV_DENOM is derived by subtracting approved advance denominator offset. Always display labels and lineage.",
@@ -1620,7 +1631,7 @@
     },
     "R37": {
       "id": "R37",
-      "label": "Milestone ACD Report \u2014 Construction Schedule by Month/Year",
+      "label": "Milestone ACD Report — Construction Schedule by Month/Year",
       "file": "R37_milestone_acd.xlsx",
       "sheet_name": "Total_Milestone",
       "file_type": "xlsx",
@@ -1667,7 +1678,7 @@
     },
     "R38": {
       "id": "R38",
-      "label": "Risk Analysis \u2014 Portfolio by Paid% Band \u00d7 CIV Investment Tier",
+      "label": "Risk Analysis — Portfolio by Paid% Band × CIV Investment Tier",
       "file": "R38_risk_analysis.xlsx",
       "sheet_name": "projectwise_total",
       "file_type": "xlsx",
@@ -1722,7 +1733,7 @@
           "filter": {
             "paid_band": "0-10%"
           },
-          "note": "= 251 units / 907.7M exposure. IC threshold policy decision is a standalone business case \u2014 not made in platform."
+          "note": "= 251 units / 907.7M exposure. IC threshold policy decision is a standalone business case — not made in platform."
         },
         "ic_band_0_10_exposure": {
           "op": "filter_sum",
@@ -1796,18 +1807,18 @@
     "note": "Batch 1: R18/R04/R02/R08/R36 are critical. Critical metrics do not silently fallback in Board/CXO trust layer."
   },
   "excluded_sources": {
-    "R09": "Project-level collections detail \u2014 loaded on-demand by S04 endpoint only, not pre-aggregated.",
-    "R11": "Receipt status summary \u2014 on-demand only.",
-    "R14": "Monthwise milestone by project \u2014 on-demand only.",
-    "R15": "Overdue constraints \u2014 on-demand only.",
-    "R17": "SPA status \u2014 on-demand for S04 chart only.",
+    "R09": "Project-level collections detail — loaded on-demand by S04 endpoint only, not pre-aggregated.",
+    "R11": "Receipt status summary — on-demand only.",
+    "R14": "Monthwise milestone by project — on-demand only.",
+    "R15": "Overdue constraints — on-demand only.",
+    "R17": "SPA status — on-demand for S04 chart only.",
     "R19": "Not in active use in v7.",
     "R21": "Not in active use in v7.",
     "R22": "Not in active use in v7.",
-    "R23": "Net OD ex-booking \u2014 on-demand only.",
+    "R23": "Net OD ex-booking — on-demand only.",
     "R24": "Not in active use in v7.",
-    "R27": "Sobha Dec 2025 summary \u2014 on-demand only.",
-    "R28": "Siniya Dec 2025 summary \u2014 on-demand only.",
+    "R27": "Sobha Dec 2025 summary — on-demand only.",
+    "R28": "Siniya Dec 2025 summary — on-demand only.",
     "R33": "Not in active use in v7."
   },
   "entity_hierarchy": {
