@@ -677,8 +677,8 @@ def _build_computed(sources: dict) -> dict:
     r02 = sources.get("R02", {})
     r02_aggs = r02.get("aggs", {})
 
-    computed["FY_DUES_TARGET"]    = r02_aggs.get("fy_dues_target_group") or C.MDO_DUES_FY_2026_AED
-    computed["FY_ADV_TARGET"]     = r02_aggs.get("fy_advance_target_group") or C.MDO_ADV_FY_2026_AED
+    computed["FY_DUES_TARGET"]    = r02_aggs.get("fy_dues_target_group")
+    computed["FY_ADV_TARGET"]     = r02_aggs.get("fy_advance_target_group")
     computed["FY_DA_TARGET"]      = r02_aggs.get("fy_da_target_group")
     computed["FY_NEW_SALES_TARGET"] = r02_aggs.get("fy_new_sales_target_group")
     computed["FY_TOTAL_COLLECTIONS_TARGET"] = r02_aggs.get("fy_total_collections_target_group")
