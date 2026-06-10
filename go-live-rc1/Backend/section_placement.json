@@ -1,0 +1,2076 @@
+{
+  "generated_from": [
+    "FINAL_section_mapping.json:submodules[].kpis",
+    "FINAL_metrics.json:metrics[].used_in"
+  ],
+  "note": "Registry-shaped placement migrated from kpis/used_in. Targets normalized; boundary violations quarantined as rejected_boundary. After cutover these fields are deprecated reference, not authority.",
+  "entries": [
+    {
+      "insight_id": "s01_sm1__m010",
+      "m_code": "M010",
+      "metric_name": "da_cagr",
+      "target": "S01_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM1",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm1__m011",
+      "m_code": "M011",
+      "metric_name": "da_growth_multiple",
+      "target": "S01_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM1",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm1__m009",
+      "m_code": "M009",
+      "metric_name": "total_collections",
+      "target": "S01_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM1",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm1__m058",
+      "m_code": "M058",
+      "metric_name": "lp_growth_multiple",
+      "target": "S01_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM1",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm2__m012",
+      "m_code": "M012",
+      "metric_name": "mix_pct_dues",
+      "target": "S01_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM2",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm2__m013",
+      "m_code": "M013",
+      "metric_name": "mix_pct_advance",
+      "target": "S01_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM2",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm2__m014",
+      "m_code": "M014",
+      "metric_name": "mix_pct_new_sales",
+      "target": "S01_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM2",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm2__m045",
+      "m_code": "M045",
+      "metric_name": "units_by_year",
+      "target": "S01_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM2",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm3__m033",
+      "m_code": "M033",
+      "metric_name": "cy_advance_mix_pct",
+      "target": "S01_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM3",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm3__m034",
+      "m_code": "M034",
+      "metric_name": "fy_advance_mix_pct",
+      "target": "S01_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM3",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm3__m036",
+      "m_code": "M036",
+      "metric_name": "advance_lead_time_days",
+      "target": "S01_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM3",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm3__m037",
+      "m_code": "M037",
+      "metric_name": "npv_rebate_rate_pct",
+      "target": "S01_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM3",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm3__m038",
+      "m_code": "M038",
+      "metric_name": "npv_incremental_inflow",
+      "target": "S01_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM3",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm4__m056",
+      "m_code": "M056",
+      "metric_name": "nationality_od_pct",
+      "target": "S01_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM4",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm4__m057",
+      "m_code": "M057",
+      "metric_name": "civ_od_pct",
+      "target": "S01_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM4",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s01_sm4__m007",
+      "m_code": "M007",
+      "metric_name": "cancellation_rate_pct",
+      "target": "S01_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM4",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm1__m001",
+      "m_code": "M001",
+      "metric_name": "sale_value_itd",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm1__m003",
+      "m_code": "M003",
+      "metric_name": "collected_itd",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm1__m004",
+      "m_code": "M004",
+      "metric_name": "collected_itd_pct",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm1__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm1__m021",
+      "m_code": "M021",
+      "metric_name": "od_today",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm2__m015",
+      "m_code": "M015",
+      "metric_name": "mdo_fy_dues_target",
+      "target": "S02_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM2",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm2__m019",
+      "m_code": "M019",
+      "metric_name": "mdo_advance_target_fy",
+      "target": "S02_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM2",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm2__m020",
+      "m_code": "M020",
+      "metric_name": "q1_achievement_summary",
+      "target": "S02_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM2",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm2__m016",
+      "m_code": "M016",
+      "metric_name": "achievement_pct",
+      "target": "S02_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM2",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm3__m018",
+      "m_code": "M018",
+      "metric_name": "finance_dues_target_monthly",
+      "target": "S02_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM3",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm3__m043",
+      "m_code": "M043",
+      "metric_name": "siniya_finance_performance",
+      "target": "S02_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM3",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm3__m044",
+      "m_code": "M044",
+      "metric_name": "ns_target_gap",
+      "target": "S02_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM3",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm4__m020",
+      "m_code": "M020",
+      "metric_name": "q1_achievement_summary",
+      "target": "S02_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM4",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm4__m044",
+      "m_code": "M044",
+      "metric_name": "ns_target_gap",
+      "target": "S02_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM4",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm1__m016",
+      "m_code": "M016",
+      "metric_name": "achievement_pct",
+      "target": "S03_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM1",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm1__m030",
+      "m_code": "M030",
+      "metric_name": "daily_mdo_avg",
+      "target": "S03_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM1",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm1__m044",
+      "m_code": "M044",
+      "metric_name": "ns_target_gap",
+      "target": "S03_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM1",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm3__m020",
+      "m_code": "M020",
+      "metric_name": "q1_achievement_summary",
+      "target": "S03_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM3",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm3__m033",
+      "m_code": "M033",
+      "metric_name": "cy_advance_mix_pct",
+      "target": "S03_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM3",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm5__m031",
+      "m_code": "M031",
+      "metric_name": "collector_achievement_pct",
+      "target": "S03_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM5",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm6__m027",
+      "m_code": "M027",
+      "metric_name": "coverage_pct_by_bucket",
+      "target": "S03_SM6",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM6",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm6__m028",
+      "m_code": "M028",
+      "metric_name": "siniya_coverage_gap",
+      "target": "S03_SM6",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM6",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm6__m029",
+      "m_code": "M029",
+      "metric_name": "bucket_productivity_pct",
+      "target": "S03_SM6",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM6",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s03_sm6__m051",
+      "m_code": "M051",
+      "metric_name": "app_payment_share_pct",
+      "target": "S03_SM6",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM6",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm1__m021",
+      "m_code": "M021",
+      "metric_name": "od_today",
+      "target": "S04_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM1",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm1__m022",
+      "m_code": "M022",
+      "metric_name": "od_pct",
+      "target": "S04_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM1",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm1__m025",
+      "m_code": "M025",
+      "metric_name": "march_collectible_window",
+      "target": "S04_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM1",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm1__m026",
+      "m_code": "M026",
+      "metric_name": "eom_od_projection",
+      "target": "S04_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM1",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm1__m024",
+      "m_code": "M024",
+      "metric_name": "efficiency_30d_pct",
+      "target": "S04_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM1",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm2__m023",
+      "m_code": "M023",
+      "metric_name": "od_ageing_distribution",
+      "target": "S04_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM2",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm2__m039",
+      "m_code": "M039",
+      "metric_name": "ic_threshold_exposure",
+      "target": "S04_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM2",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm2__m041",
+      "m_code": "M041",
+      "metric_name": "paid_band_distribution",
+      "target": "S04_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM2",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm4__m024",
+      "m_code": "M024",
+      "metric_name": "efficiency_30d_pct",
+      "target": "S04_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM4",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s04_sm4__m032",
+      "m_code": "M032",
+      "metric_name": "termination_gap_exposure",
+      "target": "S04_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM4",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s05_sm1__m008",
+      "m_code": "M008",
+      "metric_name": "dues_advance_total",
+      "target": "S05_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM1",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s05_sm1__m033",
+      "m_code": "M033",
+      "metric_name": "cy_advance_mix_pct",
+      "target": "S05_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM1",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s05_sm3__m033",
+      "m_code": "M033",
+      "metric_name": "cy_advance_mix_pct",
+      "target": "S05_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM3",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s05_sm3__m016",
+      "m_code": "M016",
+      "metric_name": "achievement_pct",
+      "target": "S05_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM3",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s05_sm5__m035",
+      "m_code": "M035",
+      "metric_name": "book_penetration_pct",
+      "target": "S05_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM5",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s05_sm5__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S05_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM5",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm1__m046",
+      "m_code": "M046",
+      "metric_name": "pr_approval_rate_pct",
+      "target": "S06_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM1",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm1__m047",
+      "m_code": "M047",
+      "metric_name": "pr_doc_gap_rate_pct",
+      "target": "S06_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM1",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm1__m048",
+      "m_code": "M048",
+      "metric_name": "pr_manual_error_rate_pct",
+      "target": "S06_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM1",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm1__m053",
+      "m_code": "M053",
+      "metric_name": "call_audit_coverage_pct",
+      "target": "S06_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM1",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm1__m054",
+      "m_code": "M054",
+      "metric_name": "sla_tat_compliance_pct",
+      "target": "S06_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM1",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm3__m049",
+      "m_code": "M049",
+      "metric_name": "pcc_tat_days",
+      "target": "S06_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM3",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm3__m050",
+      "m_code": "M050",
+      "metric_name": "pr_to_soa_tat_0_2d_pct",
+      "target": "S06_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM3",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm5__m051",
+      "m_code": "M051",
+      "metric_name": "app_payment_share_pct",
+      "target": "S06_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM5",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm5__m050",
+      "m_code": "M050",
+      "metric_name": "pr_to_soa_tat_0_2d_pct",
+      "target": "S06_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM5",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm6__m055",
+      "m_code": "M055",
+      "metric_name": "dld_forfeiture_ytd",
+      "target": "S06_SM6",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM6",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm6__m052",
+      "m_code": "M052",
+      "metric_name": "helpdesk_within_tat_pct",
+      "target": "S06_SM6",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM6",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm6__m058",
+      "m_code": "M058",
+      "metric_name": "lp_growth_multiple",
+      "target": "S06_SM6",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM6",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm7__m055",
+      "m_code": "M055",
+      "metric_name": "dld_forfeiture_ytd",
+      "target": "S06_SM7",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM7",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s06_sm7__m052",
+      "m_code": "M052",
+      "metric_name": "helpdesk_within_tat_pct",
+      "target": "S06_SM7",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM7",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s08_sm1__m039",
+      "m_code": "M039",
+      "metric_name": "ic_threshold_exposure",
+      "target": "S08_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "roadmap",
+        "submodule": "S08_SM1",
+        "section": "S08",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s08_sm1__m040",
+      "m_code": "M040",
+      "metric_name": "skyvue_concentration_risk",
+      "target": "S08_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "roadmap",
+        "submodule": "S08_SM1",
+        "section": "S08",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s08_sm1__m032",
+      "m_code": "M032",
+      "metric_name": "termination_gap_exposure",
+      "target": "S08_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "roadmap",
+        "submodule": "S08_SM1",
+        "section": "S08",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "section_kpis"
+    },
+    {
+      "insight_id": "s02_sm1__m002",
+      "m_code": "M002",
+      "metric_name": "active_sale_value_itd",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s01__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S01",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": null,
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S02",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": null,
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s04__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S04",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": null,
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s05__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S05",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": null,
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s05_sm3__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S05_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM3",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s08__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S08",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "roadmap",
+        "submodule": null,
+        "section": "S08",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s08_sm3__m005",
+      "m_code": "M005",
+      "metric_name": "future_milestone_pipeline",
+      "target": "S08_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "roadmap",
+        "submodule": "S08_SM3",
+        "section": "S08",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s01_sm2__m006",
+      "m_code": "M006",
+      "metric_name": "qualified_units",
+      "target": "S01_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM2",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02_sm1__m006",
+      "m_code": "M006",
+      "metric_name": "qualified_units",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s01_sm1__m008",
+      "m_code": "M008",
+      "metric_name": "dues_advance_total",
+      "target": "S01_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM1",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02_sm2__m008",
+      "m_code": "M008",
+      "metric_name": "dues_advance_total",
+      "target": "S02_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM2",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02_sm3__m008",
+      "m_code": "M008",
+      "metric_name": "dues_advance_total",
+      "target": "S02_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM3",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02_sm1__m009",
+      "m_code": "M009",
+      "metric_name": "total_collections",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm2__m015",
+      "m_code": "M015",
+      "metric_name": "mdo_fy_dues_target",
+      "target": "S03_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM2",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02_sm3__m016",
+      "m_code": "M016",
+      "metric_name": "achievement_pct",
+      "target": "S02_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM3",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm2__m016",
+      "m_code": "M016",
+      "metric_name": "achievement_pct",
+      "target": "S03_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM2",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm3__m016",
+      "m_code": "M016",
+      "metric_name": "achievement_pct",
+      "target": "S03_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM3",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02_sm2__m017",
+      "m_code": "M017",
+      "metric_name": "mdo_dues_target_monthly",
+      "target": "S02_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM2",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm1__m017",
+      "m_code": "M017",
+      "metric_name": "mdo_dues_target_monthly",
+      "target": "S03_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM1",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm1__m018",
+      "m_code": "M018",
+      "metric_name": "finance_dues_target_monthly",
+      "target": "S03_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM1",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm2__m019",
+      "m_code": "M019",
+      "metric_name": "mdo_advance_target_fy",
+      "target": "S03_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM2",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm2__m020",
+      "m_code": "M020",
+      "metric_name": "q1_achievement_summary",
+      "target": "S03_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM2",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s08_sm1__m021",
+      "m_code": "M021",
+      "metric_name": "od_today",
+      "target": "S08_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "roadmap",
+        "submodule": "S08_SM1",
+        "section": "S08",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s01_sm4__m022",
+      "m_code": "M022",
+      "metric_name": "od_pct",
+      "target": "S01_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "story",
+        "submodule": "S01_SM4",
+        "section": "S01",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s04_sm3__m024",
+      "m_code": "M024",
+      "metric_name": "efficiency_30d_pct",
+      "target": "S04_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM3",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm4__m027",
+      "m_code": "M027",
+      "metric_name": "coverage_pct_by_bucket",
+      "target": "S03_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM4",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm5__m028",
+      "m_code": "M028",
+      "metric_name": "siniya_coverage_gap",
+      "target": "S03_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM5",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm4__m029",
+      "m_code": "M029",
+      "metric_name": "bucket_productivity_pct",
+      "target": "S03_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM4",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm3__m031",
+      "m_code": "M031",
+      "metric_name": "collector_achievement_pct",
+      "target": "S03_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM3",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s04_sm3__m032",
+      "m_code": "M032",
+      "metric_name": "termination_gap_exposure",
+      "target": "S04_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S04_SM3",
+        "section": "S04",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm2__m033",
+      "m_code": "M033",
+      "metric_name": "cy_advance_mix_pct",
+      "target": "S03_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM2",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s05_sm2__m033",
+      "m_code": "M033",
+      "metric_name": "cy_advance_mix_pct",
+      "target": "S05_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM2",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s05_sm3__m035",
+      "m_code": "M035",
+      "metric_name": "book_penetration_pct",
+      "target": "S05_SM3",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM3",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02_sm1__m036",
+      "m_code": "M036",
+      "metric_name": "advance_lead_time_days",
+      "target": "S02_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM1",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s05_sm4__m036",
+      "m_code": "M036",
+      "metric_name": "advance_lead_time_days",
+      "target": "S05_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM4",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s05_sm4__m037",
+      "m_code": "M037",
+      "metric_name": "npv_rebate_rate_pct",
+      "target": "S05_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "advance",
+        "submodule": "S05_SM4",
+        "section": "S05",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "rejected_boundary",
+      "violations": [
+        "Containment: ['M037', 'NPV_REBATE_RATE_PCT'] (npv_kpis) placed in S05, forbidden by boundary_rules: 'NPV KPIs 652M/21M/31M' lives_in S01, not_in S05 (advisory reference only - no re-display)."
+      ],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s08_sm1__m041",
+      "m_code": "M041",
+      "metric_name": "paid_band_distribution",
+      "target": "S08_SM1",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": "roadmap",
+        "submodule": "S08_SM1",
+        "section": "S08",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s02_sm2__m042",
+      "m_code": "M042",
+      "metric_name": "entity_monthly_collection",
+      "target": "S02_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S02_SM2",
+        "section": "S02",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm2__m042",
+      "m_code": "M042",
+      "metric_name": "entity_monthly_collection",
+      "target": "S03_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM2",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm5__m044",
+      "m_code": "M044",
+      "metric_name": "ns_target_gap",
+      "target": "S03_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM5",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s06_sm2__m049",
+      "m_code": "M049",
+      "metric_name": "pcc_tat_days",
+      "target": "S06_SM2",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM2",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s06_sm4__m050",
+      "m_code": "M050",
+      "metric_name": "pr_to_soa_tat_0_2d_pct",
+      "target": "S06_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM4",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s03_sm4__m051",
+      "m_code": "M051",
+      "metric_name": "app_payment_share_pct",
+      "target": "S03_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S03_SM4",
+        "section": "S03",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s06_sm4__m051",
+      "m_code": "M051",
+      "metric_name": "app_payment_share_pct",
+      "target": "S06_SM4",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM4",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s06_sm5__m052",
+      "m_code": "M052",
+      "metric_name": "helpdesk_within_tat_pct",
+      "target": "S06_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM5",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s06_sm5__m055",
+      "m_code": "M055",
+      "metric_name": "dld_forfeiture_ytd",
+      "target": "S06_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM5",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    },
+    {
+      "insight_id": "s06_sm5__m058",
+      "m_code": "M058",
+      "metric_name": "lp_growth_multiple",
+      "target": "S06_SM5",
+      "surface_binding": {
+        "route": "narratives",
+        "focus": null,
+        "submodule": "S06_SM5",
+        "section": "S06",
+        "slot": null,
+        "priority": null
+      },
+      "governance_state": "governed",
+      "violations": [],
+      "origin": "metric_used_in"
+    }
+  ],
+  "count": 121,
+  "by_state": {
+    "governed": 120,
+    "rejected_boundary": 1
+  },
+  "quarantined": [
+    "s05_sm4__m037"
+  ]
+}

@@ -398,7 +398,89 @@ function WorldHome({ route, focus, setFocus }) {
   );
 }
 
-function FocusScreen({ route, focus, roleLabel, cards, forecast, onOpenLineage, onExplain, setFocus }) {
+/* Wave B — Live Pulse deterministic frames (renders only when the backend marks
+   insights render_mode="live", i.e. SCIP_INSIGHT_CUTOVER=live_pulse; inert in shadow). */
+function liveInsightsForFocus(resolvedInsights, role, route, focus) {
+  if (route !== "live_pulse" || !resolvedInsights || !resolvedInsights.roles) return [];
+  const all = resolvedInsights.roles[role] || [];
+  return all.filter(
+    (i) => i.render_mode === "live" && i.surface_placement && i.surface_placement.focus === focus
+  );
+}
+
+function SeverityPill({ severity }) {
+  const cls =
+    severity === "risk" || severity === "blocked"
+      ? "severity-pill severity-risk"
+      : severity === "strategic"
+      ? "severity-pill severity-strategic"
+      : "severity-pill severity-monitor";
+  const label = severity === "blocked" ? "unavailable" : severity;
+  return <span className={cls}>{label}</span>;
+}
+
+function LiveInsightCard({ insight, onOpenLineage, onExplain }) {
+  const blocked = insight.status === "blocked_untrusted_metric";
+  const metricKey =
+    (insight.lineage_refs && insight.lineage_refs[0] && insight.lineage_refs[0].metric_key) || null;
+  return (
+    <article className="insight-card glass-surface" aria-label={insight.title}>
+      <div className="insight-head">
+        <span className="kicker">{insight.reporting_basis}</span>
+        <SeverityPill severity={insight.severity} />
+      </div>
+      <p className="insight-headline">{insight.headline}</p>
+      {blocked ? (
+        <div className="solid-evidence-card insight-blocked" role="status">
+          <span className="insight-value insight-value-unavailable">Unavailable</span>
+          <span className="insight-blocked-reason">{insight.blocked_reason}</span>
+        </div>
+      ) : (
+        <div className="solid-evidence-card">
+          <span className="insight-value">{insight.value_display}</span>
+        </div>
+      )}
+      <div className="curiosity-row" aria-label="Curiosity paths">
+        <button
+          className="curiosity-chip"
+          onClick={() => onOpenLineage(insight.lineage_refs || [], insight.title)}
+        >
+          Show evidence
+        </button>
+        {metricKey && !blocked && (
+          <button className="curiosity-chip" onClick={() => onExplain(metricKey)}>
+            Ask about this number
+          </button>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function FocusScreen({ route, focus, role, roleLabel, cards, resolvedInsights, forecast, onOpenLineage, onExplain, setFocus }) {
+  const live = liveInsightsForFocus(resolvedInsights, role, route, focus);
+
+  // Wave B live path: backend resolved insights (only when cutover flips to live_pulse)
+  if (live.length > 0) {
+    const question = LIVE_PULSE_CHOICES.find((item) => item.key === focus)?.question || "Are we okay today?";
+    return (
+      <section className="focus-screen glass-surface" aria-label="Focus screen">
+        <p className="screen-question">{question}</p>
+        <div className="insight-grid">
+          {live.map((insight) => (
+            <LiveInsightCard key={insight.card_id} insight={insight} onOpenLineage={onOpenLineage} onExplain={onExplain} />
+          ))}
+        </div>
+        {route === "live_pulse" && focus === "month_movement" && (
+          <div className="curiosity-row">
+            <button className="curiosity-chip" onClick={() => setFocus("target_track")}>Open Target Track/YTD lens</button>
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  // Static path: unchanged original render (and the Wave B rollback target)
   const selectedCards = pickCardsForFocus(cards, route, focus);
   const copy = getPrimaryCopy(route, focus, roleLabel);
   const primaryCard = selectedCards[0];
@@ -1297,7 +1379,7 @@ export default function App() {
         <IdentityPostureBar identity={identity} />
         <DataConfidenceTrustBar trustBar={trustBar} guardrails={payload?.guardrails} />
         <WorldHome route={route} focus={focus} setFocus={setFocus} />
-        <FocusScreen route={route} focus={focus} roleLabel={roleLabel} cards={cards} forecast={forecast || payload?.forecast} onOpenLineage={openLineage} onExplain={(metric) => askQuickball(metric, role)} setFocus={setFocus} />
+        <FocusScreen route={route} focus={focus} role={role} roleLabel={roleLabel} cards={cards} resolvedInsights={payload?.resolved_insights} forecast={forecast || payload?.forecast} onOpenLineage={openLineage} onExplain={(metric) => askQuickball(metric, role)} setFocus={setFocus} />
         {route === "live_pulse" && (focus === "month_movement" || focus === "target_track") && <ForecastPanel forecast={forecast || payload?.forecast} onOpenLineage={openLineage} />}
         {route === "live_pulse" && <ActionQueuePanel actionQueues={actionQueues} workflows={workflows} role={role} focus={focus} depth={depth} onOpenLineage={openLineage} onOpenWorkflow={openWorkflow} />}
         <NotificationEscalationPanel notifications={notifications} role={role} focus={focus} onOpenLineage={openLineage} />

@@ -1,0 +1,327 @@
+{
+  "$schema": "scip.insight_registry.v1",
+  "registry_version": "wave_b_livepulse_2026_06_04",
+  "intent": "Wave B evolves the Live Pulse critical insights from single-outcome static frames to data-state-keyed deterministic frames, and degrades them to blocked/unavailable instead of an ungated number when the lineage gate fails. Only the three Live Pulse surfaces (current_signal, month_movement, risk_action) are in scope. All other insights remain Wave A faithful (static) until Wave C/D. Numbers still originate ONLY from governed values; frames never originate a number.",
+
+  "cutover": {
+    "wave": "B",
+    "default_mode": "shadow",
+    "live_surfaces": [
+      { "route": "live_pulse", "focus": "current_signal" },
+      { "route": "live_pulse", "focus": "month_movement" },
+      { "route": "live_pulse", "focus": "risk_action" }
+    ],
+    "gate_note": "Frontend renders live frames for these surfaces only when SCIP_INSIGHT_CUTOVER=live_pulse AND live shadow parity (Wave A) was confirmed green on Render. Default is shadow: dropping the files in changes nothing until the env is flipped."
+  },
+
+  "frame_sets": {
+    "exposure_level": {
+      "rising":  "{subject} has risen to {value} ({basis}).",
+      "falling": "{subject} has eased to {value} ({basis}).",
+      "flat":    "{subject} holds at {value} ({basis}).",
+      "level":   "{subject} stands at {value} ({basis}).",
+      "blocked": "{subject} unavailable — trusted lineage gate failed ({source}). No fallback figure published."
+    },
+    "collection_level": {
+      "rising":  "{subject} up to {value} ({basis}).",
+      "falling": "{subject} at {value}, below the prior snapshot ({basis}).",
+      "flat":    "{subject} steady at {value} ({basis}).",
+      "level":   "{subject} at {value} ({basis}).",
+      "blocked": "{subject} unavailable — Finance lineage gate failed ({source}). No fallback figure published."
+    },
+    "pacing_ratio": {
+      "breach":  "Pacing risk: {subject} at {value} ({basis}).",
+      "ok":      "Pacing on track: {subject} at {value} ({basis}).",
+      "level":   "{subject}: {value} ({basis}).",
+      "blocked": "{subject} unavailable — target or actual lineage missing ({source})."
+    }
+  },
+
+  "insights": [
+
+    {
+      "insight_id": "board_od_exposure",
+      "role_visibility": ["board_cxo"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "language_strategy": "deterministic_frame",
+      "frame_set": "exposure_level",
+      "subject": "Current OD exposure",
+      "data_state": {
+        "trigger": [ { "predicate": "delta_sign", "args": { "metric": "OD_TODAY", "window": "prior" } } ],
+        "suppress": [ { "predicate": "suppress_if_unchanged", "args": { "eps": 0 } } ]
+      },
+      "value": { "source": "metric", "metric": "OD_TODAY" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "R18 overdue",
+      "severity": { "kind": "static", "value": "risk" },
+      "headline_frame": { "default": "Current OD exposure" },
+      "editorial_frame": { "default": "Review Sobha/UAQ split before executive action review." },
+      "lineage": [ { "metric_key": "OD_TODAY", "bucket": "OD_LINEAGE", "key": "OD_TODAY" } ],
+      "surface_binding": { "route": "live_pulse", "focus": "current_signal", "submodule": null, "slot": 0, "priority": 100 }
+    },
+    {
+      "insight_id": "board_mtd_collection_progress",
+      "role_visibility": ["board_cxo"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "language_strategy": "deterministic_frame",
+      "frame_set": "collection_level",
+      "subject": "MTD total collections",
+      "data_state": {
+        "trigger": [ { "predicate": "delta_sign", "args": { "metric": "MTD_TOTAL_COLLECTIONS", "window": "prior" } } ],
+        "suppress": [ { "predicate": "suppress_if_unchanged", "args": { "eps": 0 } } ]
+      },
+      "value": { "source": "metric", "metric": "MTD_TOTAL_COLLECTIONS" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "Finance",
+      "severity": { "kind": "static", "value": "monitor" },
+      "headline_frame": { "default": "MTD total collections" },
+      "editorial_frame": { "default": "Compare with May MDO target only with basis label visible." },
+      "lineage": [ { "metric_key": "MTD_TOTAL_COLLECTIONS", "bucket": "R04_LINEAGE", "key": "mtd_total_collections" } ],
+      "surface_binding": { "route": "live_pulse", "focus": "month_movement", "submodule": null, "slot": 1, "priority": 90 }
+    },
+    {
+      "insight_id": "board_advance_mix",
+      "role_visibility": ["board_cxo"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "value": { "source": "metric", "metric": "CY_ADV_MIX_YTD" },
+      "display": {
+        "kind": "composite",
+        "template": "CY {0} / FY {1}",
+        "parts": [ { "metric": "CY_ADV_MIX_YTD", "fmt": "pct" }, { "metric": "FY_ADV_MIX_YTD", "fmt": "pct" } ]
+      },
+      "reporting_basis": "R08 advance summary",
+      "severity": { "kind": "static", "value": "strategic" },
+      "headline_frame": { "default": "2026 advance mix" },
+      "editorial_frame": { "default": "Use to evaluate cash pull-forward quality and future-year exposure." },
+      "lineage": [
+        { "metric_key": "CY_ADV_MIX_YTD", "bucket": "R08_LINEAGE", "key": "CY_ADV_MIX_YTD" },
+        { "metric_key": "FY_ADV_MIX_YTD", "bucket": "R08_LINEAGE", "key": "FY_ADV_MIX_YTD" }
+      ],
+      "surface_binding": { "route": "narratives", "focus": "advance", "submodule": "S05_SM2", "slot": 1, "priority": 60 }
+    },
+    {
+      "insight_id": "board_pipeline_gross",
+      "role_visibility": ["board_cxo"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "value": { "source": "metric", "metric": "PIPELINE_GROSS" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "R36 milestone cohort",
+      "severity": { "kind": "static", "value": "strategic" },
+      "headline_frame": { "default": "Forward collectible calendar" },
+      "editorial_frame": { "default": "Use as the 2026-onwards active forward collectible base." },
+      "lineage": [ { "metric_key": "PIPELINE_GROSS", "bucket": "R36_LINEAGE", "key": "PIPELINE_GROSS" } ],
+      "surface_binding": { "route": "narratives", "focus": "roadmap", "submodule": "S08_SM3", "slot": 0, "priority": 55 }
+    },
+
+    {
+      "insight_id": "ops_mtd_vs_may_target",
+      "role_visibility": ["cco_gm_agm"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "language_strategy": "deterministic_frame",
+      "frame_set": "pacing_ratio",
+      "subject": "MTD vs May MDO target",
+      "data_state": {
+        "trigger": [ { "predicate": "threshold_cross", "args": { "op": "lt", "value": 50, "true": "breach", "false": "ok" } } ],
+        "suppress": []
+      },
+      "value": { "source": "ratio_pct", "numerator": "MTD_TOTAL_COLLECTIONS", "denominator": "MAY_TOTAL_COLLECTIONS_TARGET" },
+      "display": { "kind": "pct" },
+      "reporting_basis": "Finance actual vs MDO target",
+      "severity": { "kind": "threshold", "lt": 50, "below": "risk", "else": "monitor" },
+      "headline_frame": { "default": "MTD collections vs May MDO target" },
+      "editorial_frame": { "default": "Use as directional pacing only; keep Finance/MDO basis label visible." },
+      "lineage": [
+        { "metric_key": "MTD_TOTAL_COLLECTIONS", "bucket": "R04_LINEAGE", "key": "mtd_total_collections" },
+        { "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET", "bucket": "R02_LINEAGE", "key": "may_total_collections_target_group" }
+      ],
+      "surface_binding": { "route": "live_pulse", "focus": "risk_action", "submodule": null, "slot": 0, "priority": 95 }
+    },
+    {
+      "insight_id": "ops_sobha_od",
+      "role_visibility": ["cco_gm_agm"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "language_strategy": "deterministic_frame",
+      "frame_set": "exposure_level",
+      "subject": "Sobha OD",
+      "data_state": {
+        "trigger": [ { "predicate": "delta_sign", "args": { "metric": "OD_SOBHA", "window": "prior" } } ],
+        "suppress": [ { "predicate": "suppress_if_unchanged", "args": { "eps": 0 } } ]
+      },
+      "value": { "source": "metric", "metric": "OD_SOBHA" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "R18 overdue",
+      "severity": { "kind": "static", "value": "risk" },
+      "headline_frame": { "default": "Sobha OD" },
+      "editorial_frame": { "default": "Break into Sobha Dubai and Sobha AUH recovery actions." },
+      "lineage": [ { "metric_key": "OD_SOBHA", "bucket": "OD_LINEAGE", "key": "OD_SOBHA" } ],
+      "surface_binding": { "route": "live_pulse", "focus": "risk_action", "submodule": null, "slot": 1, "priority": 80 }
+    },
+    {
+      "insight_id": "ops_uaq_od",
+      "role_visibility": ["cco_gm_agm"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "language_strategy": "deterministic_frame",
+      "frame_set": "exposure_level",
+      "subject": "UAQ OD",
+      "data_state": {
+        "trigger": [ { "predicate": "delta_sign", "args": { "metric": "OD_UAQ", "window": "prior" } } ],
+        "suppress": [ { "predicate": "suppress_if_unchanged", "args": { "eps": 0 } } ]
+      },
+      "value": { "source": "metric", "metric": "OD_UAQ" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "R18 overdue",
+      "severity": { "kind": "static", "value": "risk" },
+      "headline_frame": { "default": "UAQ OD" },
+      "editorial_frame": { "default": "Review Siniya and Downtown UAQ separately." },
+      "lineage": [ { "metric_key": "OD_UAQ", "bucket": "OD_LINEAGE", "key": "OD_UAQ" } ],
+      "surface_binding": { "route": "live_pulse", "focus": "risk_action", "submodule": null, "slot": 2, "priority": 79 }
+    },
+    {
+      "insight_id": "ops_new_sales_collections",
+      "role_visibility": ["cco_gm_agm"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "language_strategy": "deterministic_frame",
+      "frame_set": "collection_level",
+      "subject": "MTD new-sales collections",
+      "data_state": {
+        "trigger": [ { "predicate": "delta_sign", "args": { "metric": "MTD_NS_TOTAL", "window": "prior" } } ],
+        "suppress": [ { "predicate": "suppress_if_unchanged", "args": { "eps": 0 } } ]
+      },
+      "value": { "source": "metric", "metric": "MTD_NS_TOTAL" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "Finance",
+      "severity": { "kind": "static", "value": "monitor" },
+      "headline_frame": { "default": "MTD new-sales collections" },
+      "editorial_frame": { "default": "Escalate if new-sales conversion is below month pacing." },
+      "lineage": [ { "metric_key": "MTD_NS_TOTAL", "bucket": "R04_LINEAGE", "key": "mtd_ns_total" } ],
+      "surface_binding": { "route": "live_pulse", "focus": "month_movement", "submodule": null, "slot": 2, "priority": 70 }
+    },
+
+    {
+      "insight_id": "finance_basis_control",
+      "role_visibility": ["finance"],
+      "criticality": "standard",
+      "governance_state": "governed",
+      "value": { "source": "literal_none" },
+      "display": { "kind": "literal", "literal": "Finance actuals / MDO targets" },
+      "reporting_basis": "Finance + MDO",
+      "severity": { "kind": "static", "value": "control" },
+      "headline_frame": { "default": "Finance actual vs MDO target basis" },
+      "editorial_frame": { "default": "Keep R04 actuals and R02 targets separated in all reporting." },
+      "lineage": [
+        { "metric_key": "MTD_TOTAL_COLLECTIONS", "bucket": "R04_LINEAGE", "key": "mtd_total_collections" },
+        { "metric_key": "MAY_TOTAL_COLLECTIONS_TARGET", "bucket": "R02_LINEAGE", "key": "may_total_collections_target_group" }
+      ],
+      "surface_binding": { "route": "narratives", "focus": "story", "submodule": null, "slot": 0, "priority": 50 }
+    },
+    {
+      "insight_id": "finance_r08_rebate",
+      "role_visibility": ["finance"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "value": { "source": "metric", "metric": "YTD_2026_REBATE" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "R08 advance summary",
+      "severity": { "kind": "static", "value": "control" },
+      "headline_frame": { "default": "YTD 2026 rebate / NPV applied" },
+      "editorial_frame": { "default": "Use the R08 rebate lineage before reporting NPV or rebate impact." },
+      "lineage": [ { "metric_key": "YTD_2026_REBATE", "bucket": "R08_LINEAGE", "key": "ytd_2026_rebate" } ],
+      "surface_binding": { "route": "narratives", "focus": "advance", "submodule": "S05_SM3", "slot": 2, "priority": 45 }
+    },
+    {
+      "insight_id": "finance_r36_pipeline",
+      "role_visibility": ["finance"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "value": { "source": "metric", "metric": "PIPELINE_GROSS" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "R36 milestone cohort",
+      "severity": { "kind": "static", "value": "control" },
+      "headline_frame": { "default": "Pipeline gross source control" },
+      "editorial_frame": { "default": "Use only with Active-sheet source and forward-year range disclosed." },
+      "lineage": [ { "metric_key": "PIPELINE_GROSS", "bucket": "R36_LINEAGE", "key": "PIPELINE_GROSS" } ],
+      "surface_binding": { "route": "narratives", "focus": "roadmap", "submodule": "S08_SM3", "slot": 1, "priority": 44 }
+    },
+
+    {
+      "insight_id": "mis_lineage_coverage",
+      "role_visibility": ["mis_qcg_admin"],
+      "criticality": "standard",
+      "governance_state": "governed",
+      "value": { "source": "trust_field", "field": "critical_lineage_counts" },
+      "display": { "kind": "raw_count" },
+      "reporting_basis": "Data governance",
+      "severity": { "kind": "static", "value": "control" },
+      "headline_frame": { "default": "Critical lineage coverage" },
+      "editorial_frame": { "default": "Release only when R18/R04/R02/R08/R36 lineage counts are non-zero." },
+      "lineage": [],
+      "surface_binding": { "route": "live_pulse", "focus": "current_signal", "submodule": null, "slot": 9, "priority": 10 }
+    },
+    {
+      "insight_id": "mis_missing_sources",
+      "role_visibility": ["mis_qcg_admin"],
+      "criticality": "standard",
+      "governance_state": "governed",
+      "value": { "source": "trust_field", "field": "sources_missing" },
+      "display": { "kind": "missing_list", "empty_text": "None for loaded critical layer" },
+      "reporting_basis": "Data governance",
+      "severity": { "kind": "static", "value": "monitor" },
+      "headline_frame": { "default": "Missing sources" },
+      "editorial_frame": { "default": "Triage missing non-critical reports without blocking critical command centres." },
+      "lineage": [],
+      "surface_binding": { "route": "live_pulse", "focus": "current_signal", "submodule": null, "slot": 10, "priority": 9 }
+    },
+
+    {
+      "insight_id": "collector_od_priority",
+      "role_visibility": ["collector_rm"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "language_strategy": "deterministic_frame",
+      "frame_set": "exposure_level",
+      "subject": "OD follow-up pool",
+      "data_state": {
+        "trigger": [ { "predicate": "delta_sign", "args": { "metric": "OD_TODAY", "window": "prior" } } ],
+        "suppress": [ { "predicate": "suppress_if_unchanged", "args": { "eps": 0 } } ]
+      },
+      "value": { "source": "metric", "metric": "OD_TODAY" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "R18 overdue",
+      "severity": { "kind": "static", "value": "risk" },
+      "headline_frame": { "default": "OD follow-up pool" },
+      "editorial_frame": { "default": "Use as the verified pool for prioritisation; account-level tasking awaits lineaged account report onboarding." },
+      "lineage": [ { "metric_key": "OD_TODAY", "bucket": "OD_LINEAGE", "key": "OD_TODAY" } ],
+      "surface_binding": { "route": "live_pulse", "focus": "risk_action", "submodule": null, "slot": 0, "priority": 85 }
+    },
+    {
+      "insight_id": "collector_daily_progress_signal",
+      "role_visibility": ["collector_rm"],
+      "criticality": "critical",
+      "governance_state": "governed",
+      "language_strategy": "deterministic_frame",
+      "frame_set": "collection_level",
+      "subject": "MTD collection progress",
+      "data_state": {
+        "trigger": [ { "predicate": "delta_sign", "args": { "metric": "MTD_TOTAL_COLLECTIONS", "window": "prior" } } ],
+        "suppress": [ { "predicate": "suppress_if_unchanged", "args": { "eps": 0 } } ]
+      },
+      "value": { "source": "metric", "metric": "MTD_TOTAL_COLLECTIONS" },
+      "display": { "kind": "aed" },
+      "reporting_basis": "Finance",
+      "severity": { "kind": "static", "value": "monitor" },
+      "headline_frame": { "default": "MTD collection progress signal" },
+      "editorial_frame": { "default": "Use for daily pace awareness; individual RM scorecards require R30/account-level refresh." },
+      "lineage": [ { "metric_key": "MTD_TOTAL_COLLECTIONS", "bucket": "R04_LINEAGE", "key": "mtd_total_collections" } ],
+      "surface_binding": { "route": "live_pulse", "focus": "month_movement", "submodule": null, "slot": 1, "priority": 65 }
+    }
+
+  ]
+}

@@ -9,7 +9,11 @@ Purpose
 
 from __future__ import annotations
 
+import os
 from typing import Any, Dict, List, Optional
+
+from command_centres_shadow_patch import attach_shadow_insights
+from placement_shadow_patch import attach_placement_shadow
 
 
 ROLE_ORDER = ["board_cxo", "cco_gm_agm", "finance", "mis_qcg_admin", "collector_rm"]
@@ -302,38 +306,44 @@ def _collector_cards(payload: Dict[str, Any]) -> List[Dict[str, Any]]:
 
 def build_command_centres(payload: Dict[str, Any]) -> Dict[str, Any]:
     trust_bar = _build_trust_bar(payload)
-    roles = {
-        "board_cxo": {
-            "role_label": ROLE_LABELS["board_cxo"],
-            "purpose": "Decision clarity, source trust, cash risk, and strategic forward visibility.",
-            "trust_bar": trust_bar,
-            "cards": _board_cards(payload),
-        },
-        "cco_gm_agm": {
-            "role_label": ROLE_LABELS["cco_gm_agm"],
-            "purpose": "Daily operating review, intervention queue, and month-end pacing.",
-            "trust_bar": trust_bar,
-            "cards": _ops_cards(payload),
-        },
-        "finance": {
-            "role_label": ROLE_LABELS["finance"],
-            "purpose": "Reconciliation, reporting-basis control, and audit traceability.",
-            "trust_bar": trust_bar,
-            "cards": _finance_cards(payload),
-        },
-        "mis_qcg_admin": {
-            "role_label": ROLE_LABELS["mis_qcg_admin"],
-            "purpose": "Data quality, source freshness, validation, and release governance.",
-            "trust_bar": trust_bar,
-            "cards": _mis_cards(payload),
-        },
-        "collector_rm": {
-            "role_label": ROLE_LABELS["collector_rm"],
-            "purpose": "Frontline action focus while avoiding unverified account-level claims.",
-            "trust_bar": trust_bar,
-            "cards": _collector_cards(payload),
-        },
-    }
+    if os.environ.get("SCIP_PLACEMENT_RENDER", "static") == "binder":
+        # Wave D-2 cutover: Placement Binder is the render source (default off).
+        from command_centres_v2 import build_role_cards_from_binder
+        roles = build_role_cards_from_binder(payload, trust_bar)
+    else:
+        # Legacy static render — retained for rollback until WAVE_D2_DELETIONS.
+        roles = {
+            "board_cxo": {
+                "role_label": ROLE_LABELS["board_cxo"],
+                "purpose": "Decision clarity, source trust, cash risk, and strategic forward visibility.",
+                "trust_bar": trust_bar,
+                "cards": _board_cards(payload),
+            },
+            "cco_gm_agm": {
+                "role_label": ROLE_LABELS["cco_gm_agm"],
+                "purpose": "Daily operating review, intervention queue, and month-end pacing.",
+                "trust_bar": trust_bar,
+                "cards": _ops_cards(payload),
+            },
+            "finance": {
+                "role_label": ROLE_LABELS["finance"],
+                "purpose": "Reconciliation, reporting-basis control, and audit traceability.",
+                "trust_bar": trust_bar,
+                "cards": _finance_cards(payload),
+            },
+            "mis_qcg_admin": {
+                "role_label": ROLE_LABELS["mis_qcg_admin"],
+                "purpose": "Data quality, source freshness, validation, and release governance.",
+                "trust_bar": trust_bar,
+                "cards": _mis_cards(payload),
+            },
+            "collector_rm": {
+                "role_label": ROLE_LABELS["collector_rm"],
+                "purpose": "Frontline action focus while avoiding unverified account-level claims.",
+                "trust_bar": trust_bar,
+                "cards": _collector_cards(payload),
+            },
+        }
     return {
         "status": "ok",
         "contract_version": "command_centres.v1.batch4",
@@ -439,4 +449,6 @@ def build_command_centres(payload: Dict[str, Any]) -> Dict[str, Any]:
                 if fc:
                     role_payload.setdefault("cards", []).insert(1, fc)
 
-    return _ensure_batch5_card_contract(result, payload)
+    result = _ensure_batch5_card_contract(result, payload)
+    result = attach_shadow_insights(result, payload)   # Wave A–C shadow hook (env: SCIP_INSIGHT_SHADOW)
+    return attach_placement_shadow(result, payload)    # Wave D-1 shadow hook (env: SCIP_PLACEMENT_SHADOW)

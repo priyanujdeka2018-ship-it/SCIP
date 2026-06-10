@@ -777,3 +777,82 @@ button:focus-visible, input:focus-visible, summary:focus-visible {
   border-color: rgba(239, 68, 68, 0.42);
   background: rgba(239, 68, 68, 0.08);
 }
+/* ============================================================================
+ * SCIP Wave B - insight card styles (ADDITIVE)
+ * Append to liquidGlassTokens.css. Reuses existing Liquid Slate token variables
+ * with safe fallbacks so nothing breaks if a token name differs. Glass for the
+ * framed headline (context/movement), solid for the governed figure (truth).
+ * No new fonts, palette, or aesthetic - this only styles the new sub-elements
+ * used by the FocusScreen Wave B patch.
+ * ========================================================================== */
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4, 1rem);
+  margin-top: var(--space-4, 1rem);
+}
+
+.insight-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+  padding: var(--space-4, 1rem);
+  border-radius: var(--radius-lg, 16px);
+}
+
+.insight-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2, 0.5rem);
+}
+
+.insight-headline {
+  font-size: var(--text-base, 1rem);
+  line-height: 1.4;
+  color: var(--ink, #1c2230);
+  margin: 0;
+}
+
+/* solid-evidence-card is the existing trust surface; these style its contents */
+.insight-card .solid-evidence-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 0.25rem);
+  padding: var(--space-3, 0.75rem);
+}
+
+.insight-value {
+  font-size: var(--text-2xl, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-strong, #0f1420);
+}
+
+.insight-value-unavailable {
+  color: var(--ink-muted, #6b7280);
+  font-weight: 500;
+}
+
+.insight-blocked-reason {
+  font-size: var(--text-sm, 0.85rem);
+  color: var(--ink-muted, #6b7280);
+}
+
+.insight-blocked {
+  border-left: 3px solid var(--risk, #b4474e);
+}
+
+.severity-pill {
+  font-size: var(--text-xs, 0.7rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.severity-risk { background: var(--risk-bg, #f7e3e4); color: var(--risk, #b4474e); }
+.severity-monitor { background: var(--monitor-bg, #e7eef7); color: var(--monitor, #3a5a7a); }
+.severity-strategic { background: var(--strategic-bg, #eae6f5); color: var(--strategic, #5b4a86); }

@@ -1,0 +1,1172 @@
+{
+  "generated_from": [
+    "FINAL_metrics.json",
+    "FINAL_section_mapping.json"
+  ],
+  "fabrication_guard": "every non-null m_code validated against FINAL_metrics.json",
+  "by_command_key": {
+    "OD_TODAY": {
+      "bucket": "OD_LINEAGE",
+      "key": "OD_TODAY",
+      "m_code": null,
+      "status": "constant",
+      "note": "R18 global constant (cross_section_feeds OD_TODAY)"
+    },
+    "OD_SOBHA": {
+      "bucket": "OD_LINEAGE",
+      "key": "OD_SOBHA",
+      "m_code": null,
+      "status": "constant",
+      "note": "R18 OD entity split (Sobha)"
+    },
+    "OD_UAQ": {
+      "bucket": "OD_LINEAGE",
+      "key": "OD_UAQ",
+      "m_code": null,
+      "status": "constant",
+      "note": "R18 OD entity split (UAQ)"
+    },
+    "MTD_TOTAL_COLLECTIONS": {
+      "bucket": "R04_LINEAGE",
+      "key": "mtd_total_collections",
+      "m_code": "M009",
+      "status": "governed",
+      "note": "total_collections at MTD grain (R04 Finance)"
+    },
+    "MTD_NS_TOTAL": {
+      "bucket": "R04_LINEAGE",
+      "key": "mtd_ns_total",
+      "m_code": null,
+      "status": "candidate",
+      "note": "MTD new-sales component (R04 Finance)"
+    },
+    "MAY_TOTAL_COLLECTIONS_TARGET": {
+      "bucket": "R02_LINEAGE",
+      "key": "may_total_collections_target_group",
+      "m_code": null,
+      "status": "candidate",
+      "note": "R02 MDO May target"
+    },
+    "CY_ADV_MIX_YTD": {
+      "bucket": "R08_LINEAGE",
+      "key": "CY_ADV_MIX_YTD",
+      "m_code": "M033",
+      "status": "governed",
+      "note": "cy_advance_mix_pct global constant"
+    },
+    "FY_ADV_MIX_YTD": {
+      "bucket": "R08_LINEAGE",
+      "key": "FY_ADV_MIX_YTD",
+      "m_code": "M034",
+      "status": "governed",
+      "note": "fy_advance_mix_pct"
+    },
+    "PIPELINE_GROSS": {
+      "bucket": "R36_LINEAGE",
+      "key": "PIPELINE_GROSS",
+      "m_code": "M005",
+      "status": "governed",
+      "note": "future_milestone_pipeline variant PIPELINE_GROSS (43.5B)"
+    },
+    "YTD_2026_REBATE": {
+      "bucket": "R08_LINEAGE",
+      "key": "ytd_2026_rebate",
+      "m_code": null,
+      "status": "candidate",
+      "note": "R08 YTD rebate AED (no single M-code yet)"
+    }
+  },
+  "by_mcode": {
+    "M001": {
+      "name": "sale_value_itd",
+      "label": "Group Sale Value ITD",
+      "sources": [
+        "R13",
+        "R16",
+        "R36"
+      ],
+      "used_in": [
+        "S02_SM1"
+      ]
+    },
+    "M002": {
+      "name": "active_sale_value_itd",
+      "label": "Active Portfolio Sale Value ITD",
+      "sources": [
+        "R35",
+        "R36"
+      ],
+      "used_in": [
+        "S02_SM1"
+      ]
+    },
+    "M003": {
+      "name": "collected_itd",
+      "label": "Collected ITD",
+      "sources": [
+        "R13",
+        "R08"
+      ],
+      "used_in": [
+        "S02_SM1"
+      ]
+    },
+    "M004": {
+      "name": "collected_itd_pct",
+      "label": "% Collected ITD",
+      "sources": [
+        "R13"
+      ],
+      "used_in": [
+        "S02_SM1"
+      ]
+    },
+    "M005": {
+      "name": "future_milestone_pipeline",
+      "label": "Future Milestone Pipeline",
+      "sources": [
+        "R36",
+        "R37"
+      ],
+      "used_in": [
+        "S01",
+        "S02",
+        "S02_SM1",
+        "S04",
+        "S05",
+        "S05_SM3",
+        "S08",
+        "S08_SM3"
+      ]
+    },
+    "M006": {
+      "name": "qualified_units",
+      "label": "Qualified Units",
+      "sources": [
+        "R03",
+        "R25"
+      ],
+      "used_in": [
+        "S01_SM2",
+        "S02_SM1"
+      ]
+    },
+    "M007": {
+      "name": "cancellation_rate_pct",
+      "label": "Cancellation Rate",
+      "sources": [
+        "R35"
+      ],
+      "used_in": [
+        "S01_SM4"
+      ]
+    },
+    "M008": {
+      "name": "dues_advance_total",
+      "label": "Dues + Advance (D+A)",
+      "sources": [
+        "R01",
+        "R04",
+        "R08"
+      ],
+      "used_in": [
+        "S01_SM1",
+        "S02_SM2",
+        "S02_SM3"
+      ]
+    },
+    "M009": {
+      "name": "total_collections",
+      "label": "Total Collections",
+      "sources": [
+        "R01",
+        "R04"
+      ],
+      "used_in": [
+        "S01_SM1",
+        "S02_SM1"
+      ]
+    },
+    "M010": {
+      "name": "da_cagr",
+      "label": "D+A Collections CAGR 2021\u20132025",
+      "sources": [
+        "R01"
+      ],
+      "used_in": [
+        "S01_SM1"
+      ]
+    },
+    "M011": {
+      "name": "da_growth_multiple",
+      "label": "D+A Growth Multiple",
+      "sources": [
+        "R01"
+      ],
+      "used_in": [
+        "S01_SM1"
+      ]
+    },
+    "M012": {
+      "name": "mix_pct_dues",
+      "label": "Dues Mix % of Total Collections",
+      "sources": [
+        "R01",
+        "R08"
+      ],
+      "used_in": [
+        "S01_SM2"
+      ]
+    },
+    "M013": {
+      "name": "mix_pct_advance",
+      "label": "Advance Mix % of Total Collections",
+      "sources": [
+        "R01",
+        "R08"
+      ],
+      "used_in": [
+        "S01_SM2"
+      ]
+    },
+    "M014": {
+      "name": "mix_pct_new_sales",
+      "label": "New Sales Mix % of Total Collections",
+      "sources": [
+        "R01"
+      ],
+      "used_in": [
+        "S01_SM2"
+      ]
+    },
+    "M015": {
+      "name": "mdo_fy_dues_target",
+      "label": "MDO FY Dues Target",
+      "sources": [
+        "R02"
+      ],
+      "used_in": [
+        "S02_SM2",
+        "S03_SM2"
+      ]
+    },
+    "M016": {
+      "name": "achievement_pct",
+      "label": "Achievement % (Actual \u00f7 Target)",
+      "sources": [
+        "R02",
+        "R04",
+        "R30"
+      ],
+      "used_in": [
+        "S02_SM2",
+        "S02_SM3",
+        "S03_SM2",
+        "S03_SM3"
+      ]
+    },
+    "M017": {
+      "name": "mdo_dues_target_monthly",
+      "label": "MDO Monthly Dues Target",
+      "sources": [
+        "R02"
+      ],
+      "used_in": [
+        "S02_SM2",
+        "S03_SM1"
+      ]
+    },
+    "M018": {
+      "name": "finance_dues_target_monthly",
+      "label": "Finance Monthly Dues Target (D+A Combined)",
+      "sources": [
+        "R04"
+      ],
+      "used_in": [
+        "S02_SM3",
+        "S03_SM1"
+      ]
+    },
+    "M019": {
+      "name": "mdo_advance_target_fy",
+      "label": "MDO FY Advance Target",
+      "sources": [
+        "R02"
+      ],
+      "used_in": [
+        "S02_SM2",
+        "S03_SM2"
+      ]
+    },
+    "M020": {
+      "name": "q1_achievement_summary",
+      "label": "Q1 2026 Achievement vs MDO",
+      "sources": [
+        "R02",
+        "R04"
+      ],
+      "used_in": [
+        "S02_SM2 (strategic)",
+        "S03_SM2 (operational)"
+      ]
+    },
+    "M021": {
+      "name": "od_today",
+      "label": "OD Today",
+      "sources": [
+        "R18"
+      ],
+      "used_in": [
+        "S02_SM1",
+        "S04_SM1",
+        "S08_SM1"
+      ]
+    },
+    "M022": {
+      "name": "od_pct",
+      "label": "OD Rate (Delinquency %)",
+      "sources": [
+        "R16",
+        "R18"
+      ],
+      "used_in": [
+        "S01_SM4",
+        "S04_SM1"
+      ]
+    },
+    "M023": {
+      "name": "od_ageing_distribution",
+      "label": "OD Ageing Band Distribution",
+      "sources": [
+        "R18"
+      ],
+      "used_in": [
+        "S04_SM2"
+      ]
+    },
+    "M024": {
+      "name": "efficiency_30d_pct",
+      "label": "30-Day Collection Efficiency",
+      "sources": [
+        "R12"
+      ],
+      "used_in": [
+        "S04_SM3"
+      ]
+    },
+    "M025": {
+      "name": "march_collectible_window",
+      "label": "March Collectible Window",
+      "sources": [
+        "R18",
+        "R02"
+      ],
+      "used_in": [
+        "S04_SM1"
+      ]
+    },
+    "M026": {
+      "name": "eom_od_projection",
+      "label": "End-of-Month OD Projection",
+      "sources": [
+        "R18",
+        "R02"
+      ],
+      "used_in": [
+        "S04_SM1"
+      ]
+    },
+    "M027": {
+      "name": "coverage_pct_by_bucket",
+      "label": "Agent Coverage % by Bucket",
+      "sources": [
+        "R10"
+      ],
+      "used_in": [
+        "S03_SM4"
+      ]
+    },
+    "M028": {
+      "name": "siniya_coverage_gap",
+      "label": "Siniya Coverage Gap",
+      "sources": [
+        "R10"
+      ],
+      "used_in": [
+        "S03_SM5"
+      ]
+    },
+    "M029": {
+      "name": "bucket_productivity_pct",
+      "label": "Bucket Productivity %",
+      "sources": [
+        "R12",
+        "R34"
+      ],
+      "used_in": [
+        "S03_SM4"
+      ]
+    },
+    "M030": {
+      "name": "daily_mdo_avg",
+      "label": "Daily MDO Average (Dues)",
+      "sources": [
+        "R02"
+      ],
+      "used_in": [
+        "S03_SM1"
+      ]
+    },
+    "M031": {
+      "name": "collector_achievement_pct",
+      "label": "Collector Achievement %",
+      "sources": [
+        "R30"
+      ],
+      "used_in": [
+        "S03_SM3"
+      ]
+    },
+    "M032": {
+      "name": "termination_gap_exposure",
+      "label": "Termination Unactioned Gap",
+      "sources": [
+        "R34"
+      ],
+      "used_in": [
+        "S04_SM3",
+        "S08_SM1"
+      ]
+    },
+    "M033": {
+      "name": "cy_advance_mix_pct",
+      "label": "CY Advance Mix %",
+      "sources": [
+        "R08"
+      ],
+      "used_in": [
+        "S01_SM3",
+        "S03_SM2",
+        "S05_SM2"
+      ]
+    },
+    "M034": {
+      "name": "fy_advance_mix_pct",
+      "label": "FY Advance Mix %",
+      "sources": [
+        "R08"
+      ],
+      "used_in": [
+        "S01_SM3"
+      ]
+    },
+    "M035": {
+      "name": "book_penetration_pct",
+      "label": "Advance Book Penetration %",
+      "sources": [
+        "R08",
+        "R36"
+      ],
+      "used_in": [
+        "S05_SM3"
+      ]
+    },
+    "M036": {
+      "name": "advance_lead_time_days",
+      "label": "Avg Advance Lead Time (Days)",
+      "sources": [
+        "R08"
+      ],
+      "used_in": [
+        "S01_SM3",
+        "S02_SM1",
+        "S05_SM4"
+      ]
+    },
+    "M037": {
+      "name": "npv_rebate_rate_pct",
+      "label": "NPV Rebate Rate %",
+      "sources": [
+        "R08"
+      ],
+      "used_in": [
+        "S01_SM3",
+        "S05_SM4"
+      ]
+    },
+    "M038": {
+      "name": "npv_incremental_inflow",
+      "label": "NPV Incremental Inflow [PROJECTED]",
+      "sources": [
+        "R08"
+      ],
+      "used_in": [
+        "S01_SM3"
+      ]
+    },
+    "M039": {
+      "name": "ic_threshold_exposure",
+      "label": "IC Threshold Exposure (0\u201310% Paid)",
+      "sources": [
+        "R38"
+      ],
+      "used_in": [
+        "S04_SM2",
+        "S08_SM1"
+      ]
+    },
+    "M040": {
+      "name": "skyvue_concentration_risk",
+      "label": "Skyvue Cluster Concentration Risk",
+      "sources": [
+        "R38"
+      ],
+      "used_in": [
+        "S08_SM1"
+      ]
+    },
+    "M041": {
+      "name": "paid_band_distribution",
+      "label": "Portfolio Paid Band Distribution",
+      "sources": [
+        "R38",
+        "R03"
+      ],
+      "used_in": [
+        "S04_SM2",
+        "S08_SM1"
+      ]
+    },
+    "M042": {
+      "name": "entity_monthly_collection",
+      "label": "Entity Monthly Collections vs MDO",
+      "sources": [
+        "R02"
+      ],
+      "used_in": [
+        "S02_SM2",
+        "S03_SM2"
+      ]
+    },
+    "M043": {
+      "name": "siniya_finance_performance",
+      "label": "Siniya Finance Target Performance",
+      "sources": [
+        "R04"
+      ],
+      "used_in": [
+        "S02_SM3"
+      ]
+    },
+    "M044": {
+      "name": "ns_target_gap",
+      "label": "New Sales Collection Gap",
+      "sources": [
+        "R04"
+      ],
+      "used_in": [
+        "S02_SM3",
+        "S03_SM5"
+      ]
+    },
+    "M045": {
+      "name": "units_by_year",
+      "label": "Qualified Units by Booking Year",
+      "sources": [
+        "R03"
+      ],
+      "used_in": [
+        "S01_SM2"
+      ]
+    },
+    "M046": {
+      "name": "pr_approval_rate_pct",
+      "label": "PR First-Pass Approval Rate %",
+      "sources": [
+        "R31"
+      ],
+      "used_in": [
+        "S06_SM1"
+      ]
+    },
+    "M047": {
+      "name": "pr_doc_gap_rate_pct",
+      "label": "PR Rejection Rate \u2014 Document Gaps",
+      "sources": [
+        "R31"
+      ],
+      "used_in": [
+        "S06_SM1"
+      ]
+    },
+    "M048": {
+      "name": "pr_manual_error_rate_pct",
+      "label": "PR Rejection Rate \u2014 Manual Errors",
+      "sources": [
+        "R31"
+      ],
+      "used_in": [
+        "S06_SM1"
+      ]
+    },
+    "M049": {
+      "name": "pcc_tat_days",
+      "label": "PCC Turnaround Time (TAT)",
+      "sources": [
+        "R31",
+        "R20"
+      ],
+      "used_in": [
+        "S06_SM2",
+        "S06_SM3"
+      ]
+    },
+    "M050": {
+      "name": "pr_to_soa_tat_0_2d_pct",
+      "label": "PR-to-SOA Turnaround % in 0\u20132 Days",
+      "sources": [
+        "R20"
+      ],
+      "used_in": [
+        "S06_SM4"
+      ]
+    },
+    "M051": {
+      "name": "app_payment_share_pct",
+      "label": "App Payment Channel Share %",
+      "sources": [
+        "R25"
+      ],
+      "used_in": [
+        "S03_SM4",
+        "S06_SM4"
+      ]
+    },
+    "M052": {
+      "name": "helpdesk_within_tat_pct",
+      "label": "Helpdesk Cases Resolved Within TAT %",
+      "sources": [
+        "R29"
+      ],
+      "used_in": [
+        "S06_SM5"
+      ]
+    },
+    "M053": {
+      "name": "call_audit_coverage_pct",
+      "label": "Call Audit Coverage %",
+      "sources": [
+        "strategy_doc"
+      ],
+      "used_in": [
+        "S06_SM1"
+      ]
+    },
+    "M054": {
+      "name": "sla_tat_compliance_pct",
+      "label": "SLA TAT Compliance %",
+      "sources": [
+        "strategy_doc"
+      ],
+      "used_in": [
+        "S06_SM1"
+      ]
+    },
+    "M055": {
+      "name": "dld_forfeiture_ytd",
+      "label": "2026 YTD DLD Forfeiture",
+      "sources": [
+        "R26"
+      ],
+      "used_in": [
+        "S06_SM5"
+      ]
+    },
+    "M056": {
+      "name": "nationality_od_pct",
+      "label": "OD Rate by Nationality",
+      "sources": [
+        "R16"
+      ],
+      "used_in": [
+        "S01_SM4"
+      ]
+    },
+    "M057": {
+      "name": "civ_od_pct",
+      "label": "OD Rate by CIV Band",
+      "sources": [
+        "R16",
+        "R38"
+      ],
+      "used_in": [
+        "S01_SM4"
+      ]
+    },
+    "M058": {
+      "name": "lp_growth_multiple",
+      "label": "LP Charges Growth Multiple",
+      "sources": [
+        "R26"
+      ],
+      "used_in": [
+        "S01_SM1",
+        "S06_SM5"
+      ]
+    }
+  },
+  "kpi_bindings": [
+    {
+      "submodule": "S01_SM1",
+      "section": "S01",
+      "m_code": "M010",
+      "name": "da_cagr"
+    },
+    {
+      "submodule": "S01_SM1",
+      "section": "S01",
+      "m_code": "M011",
+      "name": "da_growth_multiple"
+    },
+    {
+      "submodule": "S01_SM1",
+      "section": "S01",
+      "m_code": "M009",
+      "name": "total_collections"
+    },
+    {
+      "submodule": "S01_SM1",
+      "section": "S01",
+      "m_code": "M058",
+      "name": "lp_growth_multiple"
+    },
+    {
+      "submodule": "S01_SM2",
+      "section": "S01",
+      "m_code": "M012",
+      "name": "mix_pct_dues"
+    },
+    {
+      "submodule": "S01_SM2",
+      "section": "S01",
+      "m_code": "M013",
+      "name": "mix_pct_advance"
+    },
+    {
+      "submodule": "S01_SM2",
+      "section": "S01",
+      "m_code": "M014",
+      "name": "mix_pct_new_sales"
+    },
+    {
+      "submodule": "S01_SM2",
+      "section": "S01",
+      "m_code": "M045",
+      "name": "units_by_year"
+    },
+    {
+      "submodule": "S01_SM3",
+      "section": "S01",
+      "m_code": "M033",
+      "name": "cy_advance_mix_pct"
+    },
+    {
+      "submodule": "S01_SM3",
+      "section": "S01",
+      "m_code": "M034",
+      "name": "fy_advance_mix_pct"
+    },
+    {
+      "submodule": "S01_SM3",
+      "section": "S01",
+      "m_code": "M036",
+      "name": "advance_lead_time_days"
+    },
+    {
+      "submodule": "S01_SM3",
+      "section": "S01",
+      "m_code": "M037",
+      "name": "npv_rebate_rate_pct"
+    },
+    {
+      "submodule": "S01_SM3",
+      "section": "S01",
+      "m_code": "M038",
+      "name": "npv_incremental_inflow"
+    },
+    {
+      "submodule": "S01_SM4",
+      "section": "S01",
+      "m_code": "M056",
+      "name": "nationality_od_pct"
+    },
+    {
+      "submodule": "S01_SM4",
+      "section": "S01",
+      "m_code": "M057",
+      "name": "civ_od_pct"
+    },
+    {
+      "submodule": "S01_SM4",
+      "section": "S01",
+      "m_code": "M007",
+      "name": "cancellation_rate_pct"
+    },
+    {
+      "submodule": "S02_SM1",
+      "section": "S02",
+      "m_code": "M001",
+      "name": "sale_value_itd"
+    },
+    {
+      "submodule": "S02_SM1",
+      "section": "S02",
+      "m_code": "M003",
+      "name": "collected_itd"
+    },
+    {
+      "submodule": "S02_SM1",
+      "section": "S02",
+      "m_code": "M004",
+      "name": "collected_itd_pct"
+    },
+    {
+      "submodule": "S02_SM1",
+      "section": "S02",
+      "m_code": "M005",
+      "name": "future_milestone_pipeline"
+    },
+    {
+      "submodule": "S02_SM1",
+      "section": "S02",
+      "m_code": "M021",
+      "name": "od_today"
+    },
+    {
+      "submodule": "S02_SM2",
+      "section": "S02",
+      "m_code": "M015",
+      "name": "mdo_fy_dues_target"
+    },
+    {
+      "submodule": "S02_SM2",
+      "section": "S02",
+      "m_code": "M019",
+      "name": "mdo_advance_target_fy"
+    },
+    {
+      "submodule": "S02_SM2",
+      "section": "S02",
+      "m_code": "M020",
+      "name": "q1_achievement_summary"
+    },
+    {
+      "submodule": "S02_SM2",
+      "section": "S02",
+      "m_code": "M016",
+      "name": "achievement_pct"
+    },
+    {
+      "submodule": "S02_SM3",
+      "section": "S02",
+      "m_code": "M018",
+      "name": "finance_dues_target_monthly"
+    },
+    {
+      "submodule": "S02_SM3",
+      "section": "S02",
+      "m_code": "M043",
+      "name": "siniya_finance_performance"
+    },
+    {
+      "submodule": "S02_SM3",
+      "section": "S02",
+      "m_code": "M044",
+      "name": "ns_target_gap"
+    },
+    {
+      "submodule": "S02_SM4",
+      "section": "S02",
+      "m_code": "M020",
+      "name": "q1_achievement_summary"
+    },
+    {
+      "submodule": "S02_SM4",
+      "section": "S02",
+      "m_code": "M044",
+      "name": "ns_target_gap"
+    },
+    {
+      "submodule": "S03_SM1",
+      "section": "S03",
+      "m_code": "M016",
+      "name": "achievement_pct"
+    },
+    {
+      "submodule": "S03_SM1",
+      "section": "S03",
+      "m_code": "M030",
+      "name": "daily_mdo_avg"
+    },
+    {
+      "submodule": "S03_SM1",
+      "section": "S03",
+      "m_code": "M044",
+      "name": "ns_target_gap"
+    },
+    {
+      "submodule": "S03_SM3",
+      "section": "S03",
+      "m_code": "M020",
+      "name": "q1_achievement_summary"
+    },
+    {
+      "submodule": "S03_SM3",
+      "section": "S03",
+      "m_code": "M033",
+      "name": "cy_advance_mix_pct"
+    },
+    {
+      "submodule": "S03_SM5",
+      "section": "S03",
+      "m_code": "M031",
+      "name": "collector_achievement_pct"
+    },
+    {
+      "submodule": "S03_SM6",
+      "section": "S03",
+      "m_code": "M027",
+      "name": "coverage_pct_by_bucket"
+    },
+    {
+      "submodule": "S03_SM6",
+      "section": "S03",
+      "m_code": "M028",
+      "name": "siniya_coverage_gap"
+    },
+    {
+      "submodule": "S03_SM6",
+      "section": "S03",
+      "m_code": "M029",
+      "name": "bucket_productivity_pct"
+    },
+    {
+      "submodule": "S03_SM6",
+      "section": "S03",
+      "m_code": "M051",
+      "name": "app_payment_share_pct"
+    },
+    {
+      "submodule": "S04_SM1",
+      "section": "S04",
+      "m_code": "M021",
+      "name": "od_today"
+    },
+    {
+      "submodule": "S04_SM1",
+      "section": "S04",
+      "m_code": "M022",
+      "name": "od_pct"
+    },
+    {
+      "submodule": "S04_SM1",
+      "section": "S04",
+      "m_code": "M025",
+      "name": "march_collectible_window"
+    },
+    {
+      "submodule": "S04_SM1",
+      "section": "S04",
+      "m_code": "M026",
+      "name": "eom_od_projection"
+    },
+    {
+      "submodule": "S04_SM1",
+      "section": "S04",
+      "m_code": "M024",
+      "name": "efficiency_30d_pct"
+    },
+    {
+      "submodule": "S04_SM2",
+      "section": "S04",
+      "m_code": "M023",
+      "name": "od_ageing_distribution"
+    },
+    {
+      "submodule": "S04_SM2",
+      "section": "S04",
+      "m_code": "M039",
+      "name": "ic_threshold_exposure"
+    },
+    {
+      "submodule": "S04_SM2",
+      "section": "S04",
+      "m_code": "M041",
+      "name": "paid_band_distribution"
+    },
+    {
+      "submodule": "S04_SM4",
+      "section": "S04",
+      "m_code": "M024",
+      "name": "efficiency_30d_pct"
+    },
+    {
+      "submodule": "S04_SM4",
+      "section": "S04",
+      "m_code": "M032",
+      "name": "termination_gap_exposure"
+    },
+    {
+      "submodule": "S05_SM1",
+      "section": "S05",
+      "m_code": "M008",
+      "name": "dues_advance_total"
+    },
+    {
+      "submodule": "S05_SM1",
+      "section": "S05",
+      "m_code": "M033",
+      "name": "cy_advance_mix_pct"
+    },
+    {
+      "submodule": "S05_SM3",
+      "section": "S05",
+      "m_code": "M033",
+      "name": "cy_advance_mix_pct"
+    },
+    {
+      "submodule": "S05_SM3",
+      "section": "S05",
+      "m_code": "M016",
+      "name": "achievement_pct"
+    },
+    {
+      "submodule": "S05_SM5",
+      "section": "S05",
+      "m_code": "M035",
+      "name": "book_penetration_pct"
+    },
+    {
+      "submodule": "S05_SM5",
+      "section": "S05",
+      "m_code": "M005",
+      "name": "future_milestone_pipeline"
+    },
+    {
+      "submodule": "S06_SM1",
+      "section": "S06",
+      "m_code": "M046",
+      "name": "pr_approval_rate_pct"
+    },
+    {
+      "submodule": "S06_SM1",
+      "section": "S06",
+      "m_code": "M047",
+      "name": "pr_doc_gap_rate_pct"
+    },
+    {
+      "submodule": "S06_SM1",
+      "section": "S06",
+      "m_code": "M048",
+      "name": "pr_manual_error_rate_pct"
+    },
+    {
+      "submodule": "S06_SM1",
+      "section": "S06",
+      "m_code": "M053",
+      "name": "call_audit_coverage_pct"
+    },
+    {
+      "submodule": "S06_SM1",
+      "section": "S06",
+      "m_code": "M054",
+      "name": "sla_tat_compliance_pct"
+    },
+    {
+      "submodule": "S06_SM3",
+      "section": "S06",
+      "m_code": "M049",
+      "name": "pcc_tat_days"
+    },
+    {
+      "submodule": "S06_SM3",
+      "section": "S06",
+      "m_code": "M050",
+      "name": "pr_to_soa_tat_0_2d_pct"
+    },
+    {
+      "submodule": "S06_SM5",
+      "section": "S06",
+      "m_code": "M051",
+      "name": "app_payment_share_pct"
+    },
+    {
+      "submodule": "S06_SM5",
+      "section": "S06",
+      "m_code": "M050",
+      "name": "pr_to_soa_tat_0_2d_pct"
+    },
+    {
+      "submodule": "S06_SM6",
+      "section": "S06",
+      "m_code": "M055",
+      "name": "dld_forfeiture_ytd"
+    },
+    {
+      "submodule": "S06_SM6",
+      "section": "S06",
+      "m_code": "M052",
+      "name": "helpdesk_within_tat_pct"
+    },
+    {
+      "submodule": "S06_SM6",
+      "section": "S06",
+      "m_code": "M058",
+      "name": "lp_growth_multiple"
+    },
+    {
+      "submodule": "S06_SM7",
+      "section": "S06",
+      "m_code": "M055",
+      "name": "dld_forfeiture_ytd"
+    },
+    {
+      "submodule": "S06_SM7",
+      "section": "S06",
+      "m_code": "M052",
+      "name": "helpdesk_within_tat_pct"
+    },
+    {
+      "submodule": "S08_SM1",
+      "section": "S08",
+      "m_code": "M039",
+      "name": "ic_threshold_exposure"
+    },
+    {
+      "submodule": "S08_SM1",
+      "section": "S08",
+      "m_code": "M040",
+      "name": "skyvue_concentration_risk"
+    },
+    {
+      "submodule": "S08_SM1",
+      "section": "S08",
+      "m_code": "M032",
+      "name": "termination_gap_exposure"
+    }
+  ],
+  "command_keys_with_mcode": [
+    "CY_ADV_MIX_YTD",
+    "FY_ADV_MIX_YTD",
+    "MTD_TOTAL_COLLECTIONS",
+    "PIPELINE_GROSS"
+  ],
+  "command_keys_candidate": [
+    "MAY_TOTAL_COLLECTIONS_TARGET",
+    "MTD_NS_TOTAL",
+    "OD_SOBHA",
+    "OD_TODAY",
+    "OD_UAQ",
+    "YTD_2026_REBATE"
+  ]
+}
