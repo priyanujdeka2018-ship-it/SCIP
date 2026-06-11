@@ -42,6 +42,11 @@ try:
 except Exception:  # pragma: no cover
     auth = None
 
+try:  # W1 warming gate; flag-off behavior identical when absent or disabled.
+    import warmup_state as _warmup_state
+except Exception:  # pragma: no cover
+    _warmup_state = None
+
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
@@ -1215,6 +1220,10 @@ if APIRouter is not None:
 
     @router.get("")
     async def get_action_queues(request: Request, role: Optional[str] = None) -> Any:
+        if _warmup_state is not None:
+            _gate = _warmup_state.gate_response()
+            if _gate is not None:
+                return JSONResponse(content=_gate, status_code=200)
         actor = auth.get_actor(request) if auth is not None else None
         requested_role = actor.role if actor is not None else role
         payload = build_action_queue_payload(role=requested_role)
@@ -1224,6 +1233,10 @@ if APIRouter is not None:
 
     @router.get("/collector-drilldown")
     async def get_collector_drilldown(request: Request, collector: Optional[str] = None) -> Any:
+        if _warmup_state is not None:
+            _gate = _warmup_state.gate_response()
+            if _gate is not None:
+                return JSONResponse(content=_gate, status_code=200)
         actor = auth.get_actor(request) if auth is not None else None
         if actor is not None and actor.role not in {"collector_rm", "cco_gm_agm", "mis_qcg_admin"}:
             auth.log_denied_attempt(actor, "read:collector_drilldown", "role_not_allowed", path="/action-queues/collector-drilldown")

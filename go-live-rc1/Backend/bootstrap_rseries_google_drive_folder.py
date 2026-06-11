@@ -31,7 +31,12 @@ def r_code_for_file(path: Path) -> str | None:
     return code if code in KNOWN_R_CODES else None
 
 
-def main() -> None:
+def run_bootstrap() -> None:
+    """Importable entry point (W1). Same logic the CLI has always run.
+
+    Raises on download/copy/minimum-set failure so a concurrent-boot caller
+    can surface an explicit warmup_failed state — never partial sources.
+    """
     if not BOOTSTRAP_ENABLED:
         print("[SCIP bootstrap] R-series Google Drive bootstrap disabled.")
         return
@@ -111,6 +116,10 @@ def main() -> None:
         )
 
     _stage_log(f"bootstrap_total seconds={time.monotonic() - _t_total:.1f}")
+
+
+def main() -> None:
+    run_bootstrap()
 
 
 if __name__ == "__main__":

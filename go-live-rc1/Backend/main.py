@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import threading
 import time
 from pathlib import Path
 
@@ -28,6 +29,14 @@ except Exception as exc:  # cache endpoints disclose unavailability; platform st
     _data_loader_import_error = str(exc)
 else:
     _data_loader_import_error = None
+
+try:
+    import warmup_state
+except Exception as exc:  # W1 concurrent boot unavailable; flag-off behavior unaffected.
+    warmup_state = None
+    _warmup_state_import_error = str(exc)
+else:
+    _warmup_state_import_error = None
 
 try:
     from quickball import router as quickball_router
@@ -319,6 +328,28 @@ async def root() -> dict:
     }
 
 
+def _run_concurrent_boot() -> None:
+    """W1 background boot: bootstrap sources, warm the cache, update warmup_state.
+
+    Any failure lands in an explicit warmup_failed state with the reason; no
+    figures are served and a restart retries from a clean cold state.
+    """
+    try:
+        warmup_state.set_state(warmup_state.STATE_DOWNLOADING)
+        import bootstrap_rseries_google_drive_folder as _bootstrap
+        _bootstrap.run_bootstrap()
+        warmup_state.set_state(warmup_state.STATE_PARSING)
+        if data_loader is None or not hasattr(data_loader, "get_cached_payload"):
+            raise RuntimeError(f"data_loader cache entry point unavailable: {_data_loader_import_error}")
+        data_loader.get_cached_payload(force_refresh=True)
+        warmup_state.set_state(warmup_state.STATE_WARM)
+        logger.info("SCIP concurrent boot complete: sources warm")
+    except Exception as exc:
+        logger.exception("SCIP concurrent boot failed")
+        if warmup_state is not None:
+            warmup_state.set_state(warmup_state.STATE_FAILED, reason=str(exc))
+
+
 @app.on_event("startup")
 async def on_startup() -> None:
     logger.info("Sobha Collections Intelligence Platform v8.13 Batch 13 starting")
@@ -335,6 +366,13 @@ async def on_startup() -> None:
     logger.info("Observability router loaded: %s", observability_router is not None)
     logger.info("SCIP_ENV: %s", _env)
     logger.info("CORS origins: %s", _allowed_origins)
+    if warmup_state is not None and warmup_state.is_concurrent_boot_enabled():
+        # W1 concurrent boot: accept connections immediately; bootstrap + parse
+        # run in a daemon thread. Exactly one load path per boot — the
+        # synchronous SCIP_WARM_DATA_CACHE_ON_STARTUP warm below must not also run.
+        logger.info("SCIP concurrent boot enabled (SCIP_CONCURRENT_BOOT=true); background source load starting")
+        threading.Thread(target=_run_concurrent_boot, name="scip-concurrent-boot", daemon=True).start()
+        return
     if data_loader is not None and hasattr(data_loader, "get_cached_payload"):
         if os.environ.get("SCIP_WARM_DATA_CACHE_ON_STARTUP", "true").lower() == "true":
             try:

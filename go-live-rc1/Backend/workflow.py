@@ -35,6 +35,28 @@ try:
 except Exception:  # pragma: no cover
     auth = None
 
+try:  # W1 warming gate; flag-off behavior identical when absent or disabled.
+    import warmup_state as _warmup_state
+except Exception:  # pragma: no cover
+    _warmup_state = None
+
+
+def _warming_gate() -> Optional[Any]:
+    """W1: block every workflow route (reads and actions) until sources are warm.
+
+    The store seeds lazily from the action-queue payload on first touch; a
+    request during a cold concurrent boot would otherwise seed an empty store
+    for the rest of the process lifetime. Returns None when the flag is off.
+    """
+    if _warmup_state is None:
+        return None
+    gate = _warmup_state.gate_response()
+    if gate is None:
+        return None
+    if JSONResponse is None:
+        return gate
+    return JSONResponse(content=gate, status_code=200)
+
 WORKFLOW_STATES = [
     "queued",
     "assigned",
@@ -509,6 +531,9 @@ if APIRouter is not None:
 
     @router.get("")
     async def get_workflows(request: Request, role: Optional[str] = None) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         payload = build_workflow_payload(role=actor.role if actor is not None else role)
         if auth is not None and actor is not None:
@@ -517,6 +542,9 @@ if APIRouter is not None:
 
     @router.get("/{action_id}")
     async def get_workflow(action_id: str, request: Request) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         record = _api_guard(_get_record, action_id)
         if auth is not None and actor is not None and not auth.row_visible_to_actor(record, actor, "read:workflows"):
@@ -527,6 +555,9 @@ if APIRouter is not None:
 
     @router.post("/assign")
     async def api_assign(request: Request, payload: Dict[str, Any] = Body(...)) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         if actor is not None:
             payload["actor"] = actor.actor_id; payload["actor_role"] = actor.role
@@ -535,6 +566,9 @@ if APIRouter is not None:
 
     @router.post("/reassign")
     async def api_reassign(request: Request, payload: Dict[str, Any] = Body(...)) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         if actor is not None:
             payload["actor"] = actor.actor_id; payload["actor_role"] = actor.role
@@ -543,6 +577,9 @@ if APIRouter is not None:
 
     @router.post("/due-date")
     async def api_due_date(request: Request, payload: Dict[str, Any] = Body(...)) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         if actor is not None:
             payload["actor"] = actor.actor_id; payload["actor_role"] = actor.role
@@ -551,6 +588,9 @@ if APIRouter is not None:
 
     @router.post("/disposition")
     async def api_disposition(request: Request, payload: Dict[str, Any] = Body(...)) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         if actor is not None:
             payload["actor"] = actor.actor_id; payload["actor_role"] = actor.role
@@ -559,6 +599,9 @@ if APIRouter is not None:
 
     @router.post("/evidence")
     async def api_evidence(request: Request, payload: Dict[str, Any] = Body(...)) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         if actor is not None:
             payload["actor"] = actor.actor_id; payload["actor_role"] = actor.role
@@ -567,6 +610,9 @@ if APIRouter is not None:
 
     @router.post("/close")
     async def api_close(request: Request, payload: Dict[str, Any] = Body(...)) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         if actor is not None:
             payload["actor"] = actor.actor_id; payload["actor_role"] = actor.role
@@ -575,6 +621,9 @@ if APIRouter is not None:
 
     @router.post("/stale")
     async def api_stale(request: Request, payload: Dict[str, Any] = Body(...)) -> Any:
+        _gate = _warming_gate()
+        if _gate is not None:
+            return _gate
         actor = auth.get_actor(request) if auth is not None else None
         if actor is not None:
             payload["actor"] = actor.actor_id; payload["actor_role"] = actor.role

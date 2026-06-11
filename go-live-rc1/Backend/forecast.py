@@ -27,6 +27,11 @@ except Exception:  # pragma: no cover
 
 import data_loader
 
+try:  # W1 warming gate; flag-off behavior identical when absent or disabled.
+    import warmup_state as _warmup_state
+except Exception:  # pragma: no cover
+    _warmup_state = None
+
 TOLERANCE_PCT = 0.05
 
 
@@ -269,6 +274,10 @@ if APIRouter is not None:
 
     @router.get("/forecast/month-end")
     async def get_month_end_forecast(data_dir: Optional[str] = Query(None, description="Optional data directory override for smoke tests")) -> Dict[str, Any]:
+        if _warmup_state is not None:
+            _gate = _warmup_state.gate_response()
+            if _gate is not None:
+                return _gate
         payload = load_payload(data_dir)
         return build_month_end_forecast(payload)
 else:  # pragma: no cover
