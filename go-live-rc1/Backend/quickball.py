@@ -27,6 +27,11 @@ except Exception:  # pragma: no cover - allows pure Python smoke tests without F
 import data_loader
 import command_centres
 
+try:  # W1 warming gate; flag-off behavior identical when absent or disabled.
+    import warmup_state as _warmup_state
+except Exception:  # pragma: no cover
+    _warmup_state = None
+
 
 # ---------------------------------------------------------------------------
 # Role model - Batch 4 approved roles
@@ -391,21 +396,37 @@ if APIRouter is not None:
         metric: str = Query(..., description="Metric name or natural-language alias, e.g. OD_TODAY or pipeline gross"),
         role: str = Query("board_cxo", description="board_cxo, cco_gm_agm, finance, mis_qcg_admin, collector_rm"),
     ) -> Dict[str, Any]:
+        if _warmup_state is not None:
+            _gate = _warmup_state.gate_response()
+            if _gate is not None:
+                return _gate
         payload = load_payload()
         return explain_metric(payload, metric, role)
 
     @router.get("/quickball/sample-answers")
     async def quickball_sample_answers() -> Dict[str, Any]:
+        if _warmup_state is not None:
+            _gate = _warmup_state.gate_response()
+            if _gate is not None:
+                return _gate
         payload = load_payload()
         return build_sample_answers(payload)
 
     @router.get("/command-centres")
     async def get_command_centres() -> Dict[str, Any]:
+        if _warmup_state is not None:
+            _gate = _warmup_state.gate_response()
+            if _gate is not None:
+                return _gate
         payload = load_payload()
         return command_centres.build_command_centres(payload)
 
     @router.get("/command-centres/{role}")
     async def get_command_centre(role: str) -> Dict[str, Any]:
+        if _warmup_state is not None:
+            _gate = _warmup_state.gate_response()
+            if _gate is not None:
+                return _gate
         payload = load_payload()
         centres = command_centres.build_command_centres(payload)
         role_key = normalize_role(role)
