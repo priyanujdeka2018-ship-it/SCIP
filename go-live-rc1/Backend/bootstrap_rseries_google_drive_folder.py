@@ -2,7 +2,14 @@ import os
 import re
 import shutil
 import subprocess
+import time
+from datetime import datetime, timezone
 from pathlib import Path
+
+
+def _stage_log(message: str) -> None:
+    stamp = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    print(f"[SCIP bootstrap] {stamp} {message}")
 
 SOURCE_ROOT = Path(os.environ.get("SCIP_SOURCE_ROOT", "/tmp/scip/r-series"))
 FOLDER_ID = os.environ.get("SCIP_GOOGLE_DRIVE_FOLDER_ID", "").strip()
@@ -37,6 +44,7 @@ def main() -> None:
 
     folder_ref = FOLDER_URL or f"https://drive.google.com/drive/folders/{FOLDER_ID}"
 
+    _t_total = time.monotonic()
     download_dir = SOURCE_ROOT.parent / "_drive_folder_download"
 
     if SOURCE_ROOT.exists():
@@ -51,12 +59,17 @@ def main() -> None:
     download_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"[SCIP bootstrap] Downloading Google Drive folder: {folder_ref}")
+    _stage_log("download_start")
+    _t_download = time.monotonic()
     subprocess.run(
     ["gdown", "--folder", folder_ref, "-O", str(download_dir)],
     check=True,)
+    _stage_log(f"download_end seconds={time.monotonic() - _t_download:.1f}")
 
     copied = []
 
+    _stage_log("copy_start")
+    _t_copy = time.monotonic()
     for path in download_dir.rglob("*"):
         if not path.is_file():
             continue
@@ -79,6 +92,8 @@ def main() -> None:
         shutil.copy2(path, target)
         copied.append((code, name))
 
+    _stage_log(f"copy_end seconds={time.monotonic() - _t_copy:.1f} files_copied={len(copied)}")
+
     if not copied:
         raise RuntimeError("No R-series workbooks were copied from Google Drive.")
 
@@ -94,6 +109,8 @@ def main() -> None:
         raise RuntimeError(
             "Missing minimum UAT R-series workbooks: " + ", ".join(missing)
         )
+
+    _stage_log(f"bootstrap_total seconds={time.monotonic() - _t_total:.1f}")
 
 
 if __name__ == "__main__":

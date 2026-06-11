@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import time
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -166,6 +167,35 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=_allowed_headers,
 )
+
+# W0 instrumentation: request-duration log line per core endpoint.
+# Path + method + status + ms + role slug only — no bodies, no PII.
+_CORE_TIMING_PREFIXES = (
+    "/command-centres",
+    "/forecast",
+    "/action-queues",
+    "/workflows",
+    "/quickball",
+    "/health",
+    "/cache",
+    "/bootstrap",
+)
+
+
+@app.middleware("http")
+async def request_timing_middleware(request, call_next):
+    start = time.perf_counter()
+    response = await call_next(request)
+    path = request.url.path
+    if path.startswith(_CORE_TIMING_PREFIXES):
+        duration_ms = (time.perf_counter() - start) * 1000
+        role = request.headers.get("x-scip-role", "-")
+        logger.info(
+            "SCIP request timing: path=%s method=%s status=%s ms=%.1f role=%s",
+            path, request.method, getattr(response, "status_code", "?"), duration_ms, role,
+        )
+    return response
+
 
 if observability is not None:
     app.middleware("http")(observability.correlation_middleware)

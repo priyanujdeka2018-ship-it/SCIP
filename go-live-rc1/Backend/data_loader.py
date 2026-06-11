@@ -124,6 +124,27 @@ def _resolve_active_data_dir(data_dir: Optional[Path | str] = None) -> Path:
 
 
 # ---------------------------------------------------------------------------
+# W0 INSTRUMENTATION — load timing capture (log/status only; payload unchanged)
+# ---------------------------------------------------------------------------
+_LAST_LOAD_DURATION_SECONDS: Optional[float] = None
+_LAST_LOAD_TIMINGS: dict = {}
+
+
+def _last_load_timings_summary(top_n: int = 5) -> dict:
+    if not _LAST_LOAD_TIMINGS:
+        return {}
+    sources_ms = _LAST_LOAD_TIMINGS.get("sources_ms", {})
+    slowest = sorted(sources_ms.items(), key=lambda kv: kv[1], reverse=True)[:top_n]
+    return {
+        "total_ms": _LAST_LOAD_TIMINGS.get("total_ms"),
+        "resolve_r_series_ms": _LAST_LOAD_TIMINGS.get("resolve_r_series_ms"),
+        "build_computed_ms": _LAST_LOAD_TIMINGS.get("build_computed_ms"),
+        "build_summary_ms": _LAST_LOAD_TIMINGS.get("build_summary_ms"),
+        "slowest_sources": [{"source": rid, "ms": ms} for rid, ms in slowest],
+    }
+
+
+# ---------------------------------------------------------------------------
 # SECTION 1 — CONFIG LOADER
 # ---------------------------------------------------------------------------
 
@@ -998,9 +1019,12 @@ def load_all(data_dir: Optional[Path] = None) -> dict:
             "status":     "ok" | "partial" | "degraded"
         }
     """
-    global DATA_DIR
+    global DATA_DIR, _LAST_LOAD_DURATION_SECONDS, _LAST_LOAD_TIMINGS
     if data_dir:
         DATA_DIR = data_dir
+
+    _t_total = time.perf_counter()
+    load_timings: dict = {"sources_ms": {}}
 
     active_data_dir = data_dir if data_dir else DATA_DIR
     cfg = _load_pipeline_config()
@@ -1017,7 +1041,9 @@ def load_all(data_dir: Optional[Path] = None) -> dict:
             ordered_ids.append(rid)
 
     # Resolve R-series files by prefix matching
+    _t = time.perf_counter()
     resolved_files = file_resolver.resolve_r_series(str(active_data_dir))
+    load_timings["resolve_r_series_ms"] = round((time.perf_counter() - _t) * 1000, 1)
 
     # Load sources
     sources: dict = {}
@@ -1025,13 +1051,19 @@ def load_all(data_dir: Optional[Path] = None) -> dict:
         if rid not in sources_cfg:
             continue
         logger.debug("Loading %s ...", rid)
+        _t = time.perf_counter()
         sources[rid] = _load_source(rid, sources_cfg[rid], data_dir=active_data_dir, resolved_files=resolved_files)
+        load_timings["sources_ms"][rid] = round((time.perf_counter() - _t) * 1000, 1)
 
     # Build computed dict
+    _t = time.perf_counter()
     computed = _build_computed(sources)
+    load_timings["build_computed_ms"] = round((time.perf_counter() - _t) * 1000, 1)
 
     # Build lean summary
+    _t = time.perf_counter()
     summary = _build_summary(sources, computed)
+    load_timings["build_summary_ms"] = round((time.perf_counter() - _t) * 1000, 1)
 
     # Determine overall status
     missing = [rid for rid, s in sources.items() if s.get("status") == "missing"]
@@ -1050,6 +1082,19 @@ def load_all(data_dir: Optional[Path] = None) -> dict:
     logger.info(
         "Data load complete. Status=%s. Sources: %d ok / %d missing.",
         status, len(sources) - len(missing), len(missing)
+    )
+
+    load_timings["total_ms"] = round((time.perf_counter() - _t_total) * 1000, 1)
+    _LAST_LOAD_DURATION_SECONDS = round(load_timings["total_ms"] / 1000.0, 3)
+    _LAST_LOAD_TIMINGS = load_timings
+    slowest = sorted(load_timings["sources_ms"].items(), key=lambda kv: kv[1], reverse=True)[:5]
+    logger.info(
+        "SCIP load_all timings: total=%.0fms resolve=%.0fms computed=%.0fms summary=%.0fms slowest=[%s]",
+        load_timings["total_ms"],
+        load_timings.get("resolve_r_series_ms", 0.0),
+        load_timings.get("build_computed_ms", 0.0),
+        load_timings.get("build_summary_ms", 0.0),
+        ", ".join("%s:%.0fms" % (rid, ms) for rid, ms in slowest) or "none",
     )
 
     return {
@@ -1143,6 +1188,8 @@ def get_cache_status() -> dict:
         "ttl_seconds": _cache_ttl_seconds(),
         "hits": _DATA_CACHE_HITS,
         "misses": _DATA_CACHE_MISSES,
+        "last_load_duration_seconds": _LAST_LOAD_DURATION_SECONDS,
+        "last_load_timings": _last_load_timings_summary(),
         "lineage_preserved": True,
         "no_silent_fallback": True,
     }
