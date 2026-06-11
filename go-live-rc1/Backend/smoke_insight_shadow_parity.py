@@ -173,7 +173,21 @@ def get_static(payload):
             known.add(s["insight_id"])
         out = {}
         for role, rp in built.get("roles", {}).items():
-            out[role] = [card for card in rp.get("cards", []) if card.get("card_id") in known]
+            cards = []
+            for card in rp.get("cards", []):
+                if card.get("card_id") not in known:
+                    continue
+                card = dict(card)
+                # _ensure_batch5_card_contract injects a fallback governance ref
+                # (tagged contract_note) into cards authored with no lineage; strip
+                # it so the diff compares the authored card, like the compiler does.
+                # The contract layer applies equally to binder-rendered cards on
+                # cutover, so this does not hide a render difference.
+                card["lineage_refs"] = [
+                    ref for ref in (card.get("lineage_refs") or []) if not ref.get("contract_note")
+                ]
+                cards.append(card)
+            out[role] = cards
         return out
     return static_cards_by_role(payload)
 
