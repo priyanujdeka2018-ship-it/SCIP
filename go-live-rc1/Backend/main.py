@@ -21,6 +21,14 @@ except Exception:
     health_router = None
 
 try:
+    import data_loader
+except Exception as exc:  # cache endpoints disclose unavailability; platform stays bootable.
+    data_loader = None
+    _data_loader_import_error = str(exc)
+else:
+    _data_loader_import_error = None
+
+try:
     from quickball import router as quickball_router
 except Exception as exc:  # keep platform bootable; health will disclose missing router.
     quickball_router = None
@@ -203,6 +211,41 @@ async def get_manifest() -> JSONResponse:
         return JSONResponse(content={"status": "manifest_error", "message": str(exc), "submodules": {}, "workflows": {}}, status_code=200)
 
 
+@app.get("/cache/status", tags=["platform"])
+async def cache_status() -> dict:
+    data_cache = data_loader.get_cache_status() if data_loader is not None and hasattr(data_loader, "get_cache_status") else {"status": "unavailable"}
+    action_cache = {"status": "unavailable"}
+    try:
+        import account_action_queues
+        if hasattr(account_action_queues, "get_action_queue_cache_status"):
+            action_cache = account_action_queues.get_action_queue_cache_status()
+    except Exception as exc:
+        action_cache = {"status": "error", "message": str(exc)}
+    return {
+        "status": "ok",
+        "data_loader": data_cache,
+        "action_queues": action_cache,
+        "guardrails": {
+            "lineage_preserved": True,
+            "no_frontend_business_computation": True,
+            "no_silent_fallback": True,
+        },
+    }
+
+
+@app.post("/cache/refresh", tags=["platform"])
+async def cache_refresh() -> dict:
+    if data_loader is not None and hasattr(data_loader, "invalidate_cache"):
+        data_loader.invalidate_cache()
+    try:
+        import account_action_queues
+        if hasattr(account_action_queues, "invalidate_action_queue_cache"):
+            account_action_queues.invalidate_action_queue_cache()
+    except Exception:
+        pass
+    return {"status": "cache_invalidated", "next_request": "will_reload_sources"}
+
+
 @app.get("/", tags=["platform"])
 async def root() -> dict:
     return {
@@ -262,3 +305,10 @@ async def on_startup() -> None:
     logger.info("Observability router loaded: %s", observability_router is not None)
     logger.info("SCIP_ENV: %s", _env)
     logger.info("CORS origins: %s", _allowed_origins)
+    if data_loader is not None and hasattr(data_loader, "get_cached_payload"):
+        if os.environ.get("SCIP_WARM_DATA_CACHE_ON_STARTUP", "true").lower() == "true":
+            try:
+                data_loader.get_cached_payload()
+                logger.info("SCIP data cache warmed on startup")
+            except Exception as exc:
+                logger.warning("SCIP data cache warmup failed; first request will retry: %s", exc)
