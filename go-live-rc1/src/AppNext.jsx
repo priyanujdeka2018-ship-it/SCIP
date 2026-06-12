@@ -21,10 +21,10 @@ import FocusScreen from "./screens/livepulse/FocusScreen.jsx";
 import RunwayPanel from "./screens/livepulse/RunwayPanel.jsx";
 import ActionQueues from "./screens/livepulse/ActionQueues.jsx";
 import { NarrativesHome, NarrativeChapter } from "./screens/narratives/Narratives.jsx";
+import Quickball from "./quickball/Quickball.jsx";
 import LineageDrawer from "./drawers/LineageDrawer.jsx";
 import WorkflowDrawer from "./drawers/WorkflowDrawer.jsx";
 import { ROLE_LABELS } from "./api/client.js";
-import { getQuickballExplain } from "./api/endpoints.js";
 
 const THEME = "navy";
 const ACCENT = "gold";
@@ -93,7 +93,7 @@ function Shell() {
             setFocus={nav.setFocus}
             session={session}
             onOpenLineage={nav.openLineage}
-            onAskQuickball={(metric) => getQuickballExplain(metric, session.role)}
+            onAskQuickball={nav.askQuickball}
           />
           {nav.focus === "month_movement" && (
             <RunwayPanel forecast={session.forecast} onOpenLineage={nav.openLineage} />
@@ -126,7 +126,7 @@ function Shell() {
             setFocus={nav.setFocus}
             session={session}
             onOpenLineage={nav.openLineage}
-            onAskQuickball={(metric) => getQuickballExplain(metric, session.role)}
+            onAskQuickball={nav.askQuickball}
           />
           {nav.focus === "roadmap" && (
             <ActionQueues session={session} onOpenLineage={nav.openLineage} onOpenWorkflow={nav.openWorkflow} />
@@ -135,6 +135,8 @@ function Shell() {
       )}
 
       <TrustRail trustBar={session.trustBar} contractVersion={session.contractVersion} />
+
+      <Quickball role={session.role} visible={true} />
 
       <LineageDrawer open={nav.lineage.open} refs={nav.lineage.refs} title={nav.lineage.title} onClose={nav.closeLineage} />
       <WorkflowDrawer
