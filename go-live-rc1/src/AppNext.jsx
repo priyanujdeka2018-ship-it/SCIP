@@ -14,7 +14,14 @@ import StartupDiagnostics from "./diagnostics/StartupDiagnostics.jsx";
 import Chrome from "./components/Chrome.jsx";
 import ContextStrip from "./components/ContextStrip.jsx";
 import TrustRail from "./components/TrustRail.jsx";
+import Tile from "./components/Tile.jsx";
 import Arrival from "./screens/Arrival.jsx";
+import LivePulseHome from "./screens/livepulse/LivePulseHome.jsx";
+import FocusScreen from "./screens/livepulse/FocusScreen.jsx";
+import RunwayPanel from "./screens/livepulse/RunwayPanel.jsx";
+import ActionQueues from "./screens/livepulse/ActionQueues.jsx";
+import { ROLE_LABELS } from "./api/client.js";
+import { getQuickballExplain } from "./api/endpoints.js";
 
 const THEME = "navy";
 const ACCENT = "gold";
@@ -75,7 +82,38 @@ function Shell() {
         </div>
       )}
 
-      {/* Worlds land in Phase 3 (Live Pulse) and Phase 4 (Narratives). */}
+      {nav.route === "live_pulse" && (
+        <>
+          <LivePulseHome focus={nav.focus} setFocus={nav.setFocus} session={session} />
+          <FocusScreen
+            focus={nav.focus}
+            setFocus={nav.setFocus}
+            session={session}
+            onOpenLineage={nav.openLineage}
+            onAskQuickball={(metric) => getQuickballExplain(metric, session.role)}
+          />
+          {nav.focus === "month_movement" && (
+            <RunwayPanel forecast={session.forecast} onOpenLineage={nav.openLineage} />
+          )}
+          <section aria-label="Lineaged command tiles" style={{ marginTop: 4 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14 }}>
+              <div>
+                <span className="eyebrow">Lineaged tiles · {ROLE_LABELS[session.role] || session.role}</span>
+                <h3 className="display h3" style={{ marginTop: 6 }}>The numbers that earn their place.</h3>
+              </div>
+              <span className="chip">Tap a tile for evidence</span>
+            </div>
+            <div className="tiles">
+              {session.cards.map((card) => (
+                <Tile key={card.card_id || card.title} card={card} onOpenLineage={nav.openLineage} />
+              ))}
+            </div>
+          </section>
+          {nav.focus === "risk_action" && (
+            <ActionQueues session={session} onOpenLineage={nav.openLineage} onOpenWorkflow={nav.openWorkflow} />
+          )}
+        </>
+      )}
 
       <TrustRail trustBar={session.trustBar} contractVersion={session.contractVersion} />
     </main>
