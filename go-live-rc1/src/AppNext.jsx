@@ -22,12 +22,12 @@ import RunwayPanel from "./screens/livepulse/RunwayPanel.jsx";
 import ActionQueues from "./screens/livepulse/ActionQueues.jsx";
 import { NarrativesHome, NarrativeChapter } from "./screens/narratives/Narratives.jsx";
 import Quickball from "./quickball/Quickball.jsx";
+import PresentMode from "./present/PresentMode.jsx";
+import TweaksPanel from "./dev/TweaksPanel.jsx";
+import { loadTweaks, saveTweaks } from "./dev/tweaks.js";
 import LineageDrawer from "./drawers/LineageDrawer.jsx";
 import WorkflowDrawer from "./drawers/WorkflowDrawer.jsx";
 import { ROLE_LABELS } from "./api/client.js";
-
-const THEME = "navy";
-const ACCENT = "gold";
 
 function LoadingShell({ warming }) {
   return (
@@ -51,9 +51,10 @@ function LoadingShell({ warming }) {
   );
 }
 
-function Shell() {
+function Shell({ tweaks, setTweak }) {
   const session = useSession();
   const nav = useNav();
+  const [tweaksOpen, setTweaksOpen] = useState(false);
   const { status, warming, diagnostic, contractProblems, role, retry } = session;
 
   if (status === "loading" || status === "warming") return <LoadingShell warming={warming} />;
@@ -62,7 +63,12 @@ function Shell() {
   }
 
   if (nav.route === "arrival") {
-    return <Arrival onEnter={nav.enterWorld} trustBar={session.trustBar} contractVersion={session.contractVersion} />;
+    return (
+      <>
+        <Arrival onEnter={nav.enterWorld} trustBar={session.trustBar} contractVersion={session.contractVersion} />
+        <PresentMode open={nav.present} onClose={() => nav.setPresent(false)} session={session} />
+      </>
+    );
   }
 
   return (
@@ -96,7 +102,7 @@ function Shell() {
             onAskQuickball={nav.askQuickball}
           />
           {nav.focus === "month_movement" && (
-            <RunwayPanel forecast={session.forecast} onOpenLineage={nav.openLineage} />
+            <RunwayPanel forecast={session.forecast} onOpenLineage={nav.openLineage} layout={tweaks.forecastLayout} />
           )}
           <section aria-label="Lineaged command tiles" style={{ marginTop: 4 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14 }}>
@@ -108,7 +114,7 @@ function Shell() {
             </div>
             <div className="tiles">
               {session.cards.map((card) => (
-                <Tile key={card.card_id || card.title} card={card} onOpenLineage={nav.openLineage} />
+                <Tile key={card.card_id || card.title} card={card} onOpenLineage={nav.openLineage} autoLineage={tweaks.autoLineage} />
               ))}
             </div>
           </section>
@@ -138,6 +144,18 @@ function Shell() {
 
       <Quickball role={session.role} visible={true} />
 
+      <button
+        className="btn btn--sm btn--ghost mono"
+        style={{ position: "fixed", right: 18, bottom: 18, zIndex: 55, opacity: 0.5, fontSize: 10, letterSpacing: "0.12em" }}
+        onClick={() => setTweaksOpen((o) => !o)}
+        aria-expanded={tweaksOpen}
+        title="Presentation tweaks (local only)"
+      >
+        ✦ TWEAKS
+      </button>
+      <TweaksPanel open={tweaksOpen} tweaks={tweaks} setTweak={setTweak} onClose={() => setTweaksOpen(false)} />
+      <PresentMode open={nav.present} onClose={() => nav.setPresent(false)} session={session} />
+
       <LineageDrawer open={nav.lineage.open} refs={nav.lineage.refs} title={nav.lineage.title} onClose={nav.closeLineage} />
       <WorkflowDrawer
         open={nav.workflow.open}
@@ -153,21 +171,27 @@ function Shell() {
 }
 
 export default function AppNext() {
-  const [theme] = useState(THEME);
-  const [accent] = useState(ACCENT);
+  const [tweaks, setTweaks] = useState(loadTweaks);
+  const setTweak = (key, value) => {
+    setTweaks((prev) => {
+      const next = { ...prev, [key]: value };
+      saveTweaks(next);
+      return next;
+    });
+  };
 
   useEffect(() => {
-    document.body.className = `scip-next theme-${theme} accent-${accent}`;
+    document.body.className = `scip-next theme-${tweaks.theme} accent-${tweaks.accent}`;
     return () => {
       document.body.className = "";
     };
-  }, [theme, accent]);
+  }, [tweaks.theme, tweaks.accent]);
 
   return (
-    <div className={`scip-root theme-${theme} accent-${accent}`}>
-      <SessionProvider>
+    <div className={`scip-root theme-${tweaks.theme} accent-${tweaks.accent}`}>
+      <SessionProvider initialRole={tweaks.defaultRole}>
         <NavProvider>
-          <Shell />
+          <Shell tweaks={tweaks} setTweak={setTweak} />
         </NavProvider>
       </SessionProvider>
     </div>

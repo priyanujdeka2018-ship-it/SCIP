@@ -64,6 +64,11 @@ function visibleActionCount(session) {
   return safeArray(queueRole.account_actions).length + safeArray(queueRole.process_actions).length + safeArray(queueRole.management_actions).length;
 }
 
+/** Resolve a chapter's stat slots to verbatim server values (or null). */
+export function chapterStats(key, session) {
+  return (CHAPTER_STATS[key] || []).map((slot) => ({ label: slot.label, value: slot.resolve(session) }));
+}
+
 export function NarrativesHome({ focus, setFocus, onPresent }) {
   return (
     <section className="world-hero glass" aria-label="Narratives home">
@@ -96,7 +101,7 @@ export function NarrativeChapter({ focus, setFocus, session, onOpenLineage, onAs
   const idx = NARRATIVES.indexOf(n);
   const prev = idx > 0 ? NARRATIVES[idx - 1] : null;
   const next = idx < NARRATIVES.length - 1 ? NARRATIVES[idx + 1] : null;
-  const stats = (CHAPTER_STATS[n.key] || []).map((slot) => ({ label: slot.label, value: slot.resolve(session) }));
+  const stats = chapterStats(n.key, session);
   const heroCard = cardByMetricKey(session.cards, "OD_TODAY");
 
   return (
