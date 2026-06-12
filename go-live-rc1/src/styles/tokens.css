@@ -1,0 +1,237 @@
+/* SCIP — Cinematic Liquid Glass v2 tokens
+ * Navy base · gold trust · teal flow · brass warning · mahogany risk
+ * IBM Plex Sans (text) + IBM Plex Mono (numbers, lineage, codes)
+ *
+ * Locked rules preserved:
+ *   Glass surfaces  → navigation, context, command, drawers, reveal
+ *   Solid surfaces  → financial truth, KPIs, evidence, lineage
+ *   Calm gold       → trust markers / lineaged
+ *   Teal            → on-track / in-flow
+ *   Brass           → attention
+ *   Mahogany        → risk
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* --- backgrounds (deep navy, calm) --- */
+  --bg-deep:    #050913;
+  --bg-base:    #0a1020;
+  --bg-rise:    #101729;
+  --bg-card:    #131d35;
+  --bg-card-2:  #182645;
+  --bg-card-hi: #1d2c4f;
+
+  /* --- accents (low saturation, cinematic) --- */
+  --gold-1:     #d2b06a;
+  --gold-2:     #c9a55b;
+  --gold-3:     #a48342;
+  --gold-soft:  rgba(201, 165, 91, 0.14);
+  --gold-line:  rgba(210, 176, 106, 0.45);
+
+  --teal-1:     #7fc8bc;
+  --teal-2:     #5fb3a8;
+  --teal-3:     #3d8d83;
+  --teal-soft:  rgba(95, 179, 168, 0.14);
+  --teal-line:  rgba(127, 200, 188, 0.42);
+
+  --brass-1:    #d4a373;
+  --brass-2:    #b58c5a;
+  --brass-3:    #87633c;
+  --brass-soft: rgba(181, 140, 90, 0.16);
+  --brass-line: rgba(212, 163, 115, 0.42);
+
+  --mah-1:      #c8705e;
+  --mah-2:      #b45a4a;
+  --mah-3:      #884133;
+  --mah-soft:   rgba(180, 90, 74, 0.14);
+  --mah-line:   rgba(200, 112, 94, 0.42);
+
+  /* --- text (warm white + cool greys) --- */
+  --text-hi:    #f4efe5;
+  --text:       #c7c2b7;
+  --text-mute:  #7a8198;
+  --text-faint: #4a516a;
+
+  /* --- semantic --- */
+  --accent:        var(--gold-2);
+  --accent-soft:   var(--gold-soft);
+  --accent-line:   var(--gold-line);
+  --accent-hi:     var(--gold-1);
+  --status-ok:     var(--teal-2);
+  --status-warn:   var(--brass-2);
+  --status-risk:   var(--mah-2);
+  --status-trust:  var(--gold-2);
+
+  /* --- lines & glass --- */
+  --line:         rgba(255,255,255,0.06);
+  --line-strong:  rgba(255,255,255,0.12);
+  --line-glass:   rgba(255,255,255,0.10);
+
+  --glass-1: rgba(255,255,255,0.025);
+  --glass-2: rgba(255,255,255,0.055);
+  --glass-3: rgba(255,255,255,0.085);
+  --glass-blur: 22px;
+  --glass-sat:  1.18;
+
+  /* --- shape --- */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-xl: 36px;
+  --r-pill: 999px;
+
+  /* --- depth --- */
+  --depth-1: 0 1px 0 rgba(255,255,255,0.04) inset, 0 16px 40px rgba(0,0,0,0.32);
+  --depth-2: 0 1px 0 rgba(255,255,255,0.05) inset, 0 28px 80px rgba(0,0,0,0.40);
+  --depth-3: 0 1px 0 rgba(255,255,255,0.06) inset, 0 40px 120px rgba(0,0,0,0.50);
+  --glow-gold: 0 0 0 1px var(--gold-line), 0 24px 60px rgba(201, 165, 91, 0.10);
+
+  /* --- motion --- */
+  --t-fast:  180ms;
+  --t-med:   320ms;
+  --t-slow:  520ms;
+  --ease:    cubic-bezier(0.22, 0.85, 0.22, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* --- type --- */
+  --f-sans: "IBM Plex Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --f-display: "IBM Plex Sans", ui-sans-serif, sans-serif;
+
+  /* --- layout --- */
+  --page-w: 1240px;
+  --page-pad: 28px;
+}
+
+/* ===== accent palette variants (set on .scip-root via Tweaks) ===== */
+.accent-gold {
+  --accent:      var(--gold-2);
+  --accent-hi:   var(--gold-1);
+  --accent-soft: var(--gold-soft);
+  --accent-line: var(--gold-line);
+}
+.accent-pearl {
+  --accent:      #e7dcc4;
+  --accent-hi:   #f1e8d2;
+  --accent-soft: rgba(231, 220, 196, 0.10);
+  --accent-line: rgba(231, 220, 196, 0.42);
+}
+.accent-steel {
+  --accent:      #7ba6c7;
+  --accent-hi:   #9bbcd6;
+  --accent-soft: rgba(123, 166, 199, 0.12);
+  --accent-line: rgba(123, 166, 199, 0.42);
+}
+.accent-teal {
+  --accent:      var(--teal-2);
+  --accent-hi:   var(--teal-1);
+  --accent-soft: var(--teal-soft);
+  --accent-line: var(--teal-line);
+}
+
+/* ===== base theme variants =====
+ * navy      (default — dark navy + warm whites)
+ * midnight  (deeper black + teal-led calm)
+ * mahogany  (warm dark, brass + mahogany)
+ * porcelain (warm light, cream paper)
+ */
+.theme-navy {
+  --bg-deep:    #050913;
+  --bg-base:    #0a1020;
+  --bg-rise:    #101729;
+  --bg-card:    #131d35;
+  --bg-card-2:  #182645;
+  --bg-card-hi: #1d2c4f;
+  --text-hi:    #f4efe5;
+  --text:       #c7c2b7;
+  --text-mute:  #7a8198;
+  --text-faint: #4a516a;
+  --line:         rgba(255,255,255,0.06);
+  --line-strong:  rgba(255,255,255,0.12);
+  --line-glass:   rgba(255,255,255,0.10);
+  --glass-1: rgba(255,255,255,0.025);
+  --glass-2: rgba(255,255,255,0.055);
+  --glass-3: rgba(255,255,255,0.085);
+  --depth-1: 0 1px 0 rgba(255,255,255,0.04) inset, 0 16px 40px rgba(0,0,0,0.32);
+  --depth-2: 0 1px 0 rgba(255,255,255,0.05) inset, 0 28px 80px rgba(0,0,0,0.40);
+  --depth-3: 0 1px 0 rgba(255,255,255,0.06) inset, 0 40px 120px rgba(0,0,0,0.50);
+}
+.theme-midnight {
+  --bg-deep:    #02040a;
+  --bg-base:    #04070f;
+  --bg-rise:    #080d18;
+  --bg-card:    #0c1422;
+  --bg-card-2:  #11192a;
+  --bg-card-hi: #16213a;
+  --text-hi:    #ecf2ee;
+  --text:       #b5beb8;
+  --text-mute:  #6a7480;
+  --text-faint: #404954;
+  --line:         rgba(255,255,255,0.05);
+  --line-strong:  rgba(255,255,255,0.10);
+  --line-glass:   rgba(255,255,255,0.08);
+  --glass-1: rgba(255,255,255,0.018);
+  --glass-2: rgba(255,255,255,0.045);
+  --glass-3: rgba(255,255,255,0.07);
+  --teal-soft:  rgba(95, 179, 168, 0.18);
+}
+.theme-mahogany {
+  --bg-deep:    #0d0807;
+  --bg-base:    #1a0e0c;
+  --bg-rise:    #221311;
+  --bg-card:    #2a1816;
+  --bg-card-2:  #34201d;
+  --bg-card-hi: #3e2725;
+  --text-hi:    #f6eee2;
+  --text:       #d6c4b3;
+  --text-mute:  #998475;
+  --text-faint: #5a4a40;
+  --line:         rgba(255,220,200,0.07);
+  --line-strong:  rgba(255,220,200,0.14);
+  --line-glass:   rgba(255,220,200,0.10);
+  --glass-1: rgba(255,220,200,0.025);
+  --glass-2: rgba(255,220,200,0.05);
+  --glass-3: rgba(255,220,200,0.08);
+}
+.theme-porcelain {
+  --bg-deep:    #ece4d2;
+  --bg-base:    #f4ecd9;
+  --bg-rise:    #faf3e0;
+  --bg-card:    #fffaee;
+  --bg-card-2:  #f4ecd9;
+  --bg-card-hi: #efe5cf;
+  --text-hi:    #1d1810;
+  --text:       #3d342a;
+  --text-mute:  #7a6c5a;
+  --text-faint: #b3a48a;
+  --line:         rgba(28,20,8,0.08);
+  --line-strong:  rgba(28,20,8,0.16);
+  --line-glass:   rgba(28,20,8,0.12);
+  --glass-1: rgba(255,255,255,0.45);
+  --glass-2: rgba(255,255,255,0.60);
+  --glass-3: rgba(255,255,255,0.78);
+  --depth-1: 0 1px 0 rgba(255,255,255,0.6) inset, 0 8px 24px rgba(30,20,8,0.06);
+  --depth-2: 0 1px 0 rgba(255,255,255,0.7) inset, 0 18px 48px rgba(30,20,8,0.08);
+  --depth-3: 0 1px 0 rgba(255,255,255,0.8) inset, 0 28px 80px rgba(30,20,8,0.10);
+
+  /* warmer accents for paper theme */
+  --gold-1:     #b48a3c;
+  --gold-2:     #a47832;
+  --gold-3:     #7a5a26;
+  --gold-soft:  rgba(164, 120, 50, 0.12);
+  --gold-line:  rgba(164, 120, 50, 0.38);
+  --teal-2:     #3d8d83;
+  --teal-1:     #5fb3a8;
+  --teal-soft:  rgba(61, 141, 131, 0.12);
+  --teal-line:  rgba(61, 141, 131, 0.38);
+  --mah-2:      #984c3a;
+  --mah-1:      #b45a4a;
+  --mah-soft:   rgba(152, 76, 58, 0.12);
+  --mah-line:   rgba(152, 76, 58, 0.42);
+  --brass-2:    #87633c;
+  --brass-1:    #b58c5a;
+  --brass-soft: rgba(135, 99, 60, 0.10);
+  --brass-line: rgba(135, 99, 60, 0.38);
+}
