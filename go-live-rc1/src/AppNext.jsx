@@ -21,6 +21,8 @@ import FocusScreen from "./screens/livepulse/FocusScreen.jsx";
 import RunwayPanel from "./screens/livepulse/RunwayPanel.jsx";
 import ActionQueues from "./screens/livepulse/ActionQueues.jsx";
 import { NarrativesHome, NarrativeChapter } from "./screens/narratives/Narratives.jsx";
+import LineageDrawer from "./drawers/LineageDrawer.jsx";
+import WorkflowDrawer from "./drawers/WorkflowDrawer.jsx";
 import { ROLE_LABELS } from "./api/client.js";
 import { getQuickballExplain } from "./api/endpoints.js";
 
@@ -133,6 +135,17 @@ function Shell() {
       )}
 
       <TrustRail trustBar={session.trustBar} contractVersion={session.contractVersion} />
+
+      <LineageDrawer open={nav.lineage.open} refs={nav.lineage.refs} title={nav.lineage.title} onClose={nav.closeLineage} />
+      <WorkflowDrawer
+        open={nav.workflow.open}
+        record={nav.workflow.record}
+        sourceAction={nav.workflow.sourceAction}
+        role={session.role}
+        eventLog={session.workflows?.event_log}
+        onClose={nav.closeWorkflow}
+        onOpenLineage={nav.openLineage}
+      />
     </main>
   );
 }
