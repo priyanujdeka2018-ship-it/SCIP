@@ -20,6 +20,7 @@ import LivePulseHome from "./screens/livepulse/LivePulseHome.jsx";
 import FocusScreen from "./screens/livepulse/FocusScreen.jsx";
 import RunwayPanel from "./screens/livepulse/RunwayPanel.jsx";
 import ActionQueues from "./screens/livepulse/ActionQueues.jsx";
+import { NarrativesHome, NarrativeChapter } from "./screens/narratives/Narratives.jsx";
 import { ROLE_LABELS } from "./api/client.js";
 import { getQuickballExplain } from "./api/endpoints.js";
 
@@ -110,6 +111,22 @@ function Shell() {
             </div>
           </section>
           {nav.focus === "risk_action" && (
+            <ActionQueues session={session} onOpenLineage={nav.openLineage} onOpenWorkflow={nav.openWorkflow} />
+          )}
+        </>
+      )}
+
+      {nav.route === "narratives" && (
+        <>
+          <NarrativesHome focus={nav.focus} setFocus={nav.setFocus} onPresent={() => nav.setPresent(true)} />
+          <NarrativeChapter
+            focus={nav.focus}
+            setFocus={nav.setFocus}
+            session={session}
+            onOpenLineage={nav.openLineage}
+            onAskQuickball={(metric) => getQuickballExplain(metric, session.role)}
+          />
+          {nav.focus === "roadmap" && (
             <ActionQueues session={session} onOpenLineage={nav.openLineage} onOpenWorkflow={nav.openWorkflow} />
           )}
         </>
