@@ -13,7 +13,7 @@ import threading
 import time
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
@@ -177,6 +177,15 @@ app.add_middleware(
     allow_headers=_allowed_headers,
 )
 
+# W2 (SCIP_ENABLE_GZIP, default OFF): compress response bodies above a small
+# threshold. Standard Content-Encoding/Vary headers only — no X-SCIP-* header
+# is added, and the warming-envelope contract is unaffected (envelopes stay
+# body-only; gzip is transport-level and transparent once decompressed).
+if os.environ.get("SCIP_ENABLE_GZIP", "false").lower() == "true":
+    from fastapi.middleware.gzip import GZipMiddleware
+    app.add_middleware(GZipMiddleware, minimum_size=500)
+    logger.info("SCIP GZip response compression enabled (SCIP_ENABLE_GZIP=true)")
+
 # W0 instrumentation: request-duration log line per core endpoint.
 # Path + method + status + ms + role slug only — no bodies, no PII.
 _CORE_TIMING_PREFIXES = (
@@ -283,6 +292,76 @@ async def cache_refresh() -> dict:
     except Exception:
         pass
     return {"status": "cache_invalidated", "next_request": "will_reload_sources"}
+
+
+# ---------------------------------------------------------------------------
+# W2 aggregate bootstrap route (SCIP_ENABLE_BOOTSTRAP_ROUTE, default OFF).
+# Collapses the four startup round-trips — command-centres, month-end forecast,
+# action-queues, workflows — into one response. Each sub-payload is produced by
+# the SAME route-handler coroutine the standalone endpoint uses, so the values
+# are byte-identical; warming, actor resolution and row-level filtering all flow
+# from those handlers unchanged. The URL-level RBAC permission that the auth
+# middleware enforces on each standalone path is re-checked here so aggregation
+# can never bypass it. Nothing is fabricated: an unavailable or RBAC-denied
+# sub-payload is disclosed under "unavailable", never replaced with a default.
+# ---------------------------------------------------------------------------
+def _find_get_endpoint(router, path: str):
+    if router is None:
+        return None
+    for route in getattr(router, "routes", []):
+        if getattr(route, "path", None) == path and "GET" in (getattr(route, "methods", None) or set()):
+            return route.endpoint
+    return None
+
+
+def _response_to_dict(result):
+    if isinstance(result, JSONResponse):
+        return json.loads(result.body)
+    return result
+
+
+async def bootstrap_aggregate(request: Request) -> JSONResponse:
+    if warmup_state is not None:
+        gate = warmup_state.gate_response()
+        if gate is not None:
+            return JSONResponse(content=gate, status_code=200)
+
+    actor = None
+    if auth is not None:
+        actor = getattr(getattr(request, "state", None), "actor", None) or auth.get_actor(request)
+
+    endpoints: dict = {}
+    unavailable: dict = {}
+
+    async def _aggregate(name, path, router, invoke):
+        permission = auth.required_permission("GET", path) if auth is not None else None
+        if auth is not None and actor is not None and permission and not auth.authorize(actor, permission, path=path, method="GET"):
+            unavailable[name] = {"status": "denied", "reason": "missing_permission", "required_permission": permission}
+            return
+        endpoint = _find_get_endpoint(router, path)
+        if endpoint is None:
+            unavailable[name] = {"status": "unavailable", "reason": "endpoint_not_registered"}
+            return
+        endpoints[name] = _response_to_dict(await invoke(endpoint))
+
+    await _aggregate("command_centres", "/command-centres", quickball_router, lambda ep: ep())
+    await _aggregate("forecast_month_end", "/forecast/month-end", forecast_router, lambda ep: ep(None))
+    await _aggregate("action_queues", "/action-queues", action_queues_router, lambda ep: ep(request))
+    await _aggregate("workflows", "/workflows", workflow_router, lambda ep: ep(request))
+
+    body = {
+        "status": "partial" if unavailable else "ok",
+        "bootstrap_contract": "scip.bootstrap.v1",
+        "endpoints": endpoints,
+    }
+    if unavailable:
+        body["unavailable"] = unavailable
+    return JSONResponse(content=body, status_code=200)
+
+
+if os.environ.get("SCIP_ENABLE_BOOTSTRAP_ROUTE", "false").lower() == "true":
+    app.add_api_route("/bootstrap", bootstrap_aggregate, methods=["GET"], tags=["platform"])
+    logger.info("SCIP /bootstrap aggregate route enabled (SCIP_ENABLE_BOOTSTRAP_ROUTE=true)")
 
 
 @app.get("/", tags=["platform"])
